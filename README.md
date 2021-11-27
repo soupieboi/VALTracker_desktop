@@ -6,7 +6,7 @@ A completely free Stats Tracker/Lineup Library/Gameinfo Client for Valorant
   - Every Gamemode that has an API is supported here.
   - Click on Match provides information about the Match like Kills, Rounds etc.
 
-- Info on all Skins, Bundles, Cosmetics (Cards, Buddies, Titles, Sprays), Agents(Contracts, Abilities), Current Gamemode rotation, Stats of Gear, Maps, Seasons, Weapons
+- Info on all Skins, Bundles, Cosmetics (Cards, Buddies, Titles, Sprays), Agents(Contracts, Abilities), Current Gamemode rotation, Maps, Seasons, Weapons
 - Lineup Library (Like Blitz.gg)
 
 ## Future Features
