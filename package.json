@@ -1,6 +1,6 @@
 {
   "name": "valtracker",
-  "version": "Alpha 0.0.2",
+  "version": "0.0.2",
   "description": "VALTracker",
   "main": "main.js",
   "scripts": {
