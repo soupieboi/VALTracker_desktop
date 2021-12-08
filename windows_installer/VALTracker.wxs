@@ -1,0 +1,1476 @@
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" 
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <!-- http://wixtoolset.org/documentation/manual/v3/xsd/wix/product.html -->
+  <Product Id="210A4E60-1555-4E32-83E0-C93981AD4346" 
+           UpgradeCode="d0ec578a-5364-4155-95c8-9d857b2706f6"
+           Name = "VALTracker (Machine - MSI)"
+           Version="1.0.0.0"
+           Manufacturer="Spirit"
+           Language="1033">
+    <!-- Only run this installer on Windows 7 or up (or if it"s already installed, I guess) -->
+    <!-- <Condition Message="This application is only supported on Windows 7 or higher.">
+      <![CDATA[Installed OR (VersionNT >= 601)]]>
+    </Condition> -->
+    <!-- http://wixtoolset.org/documentation/manual/v3/xsd/wix/package.html -->
+    <Package InstallerVersion="405"
+             Compressed="yes"
+             Comments="Windows Installer Package"
+             Platform="x86"/>
+    <!-- Don't allow downgrades -->
+    <MajorUpgrade AllowSameVersionUpgrades="yes" DowngradeErrorMessage="A later version of this product is already installed. Setup will now exit."/>
+    <!-- This will hide our Uninstall entry in Apps & Features. We doing this so
+    we can write our own which we can better control. -->
+    <Property Id="ARPSYSTEMCOMPONENT" Value="1" />
+    <!-- While the MSI package is hidden in Apps & Features, it can still be queried
+    via PowerShell and other means. To differentiate we give the public entry a slightly
+    different name to make admins life easier.  -->
+    <Property Id="VisibleProductName" Value="VALTracker (Machine)" />
+    <!-- Signals Single Package Authoring. This pacakge can pe installed perMachine
+    or perUser. The mode is determined by the property below. -->
+    <Property Id="ALLUSERS" Secure="yes" Value="2" />
+    <!-- Tells the package to install perUser or perMachine. In case of perUser, all
+    files will be redirected to the user profile and all registry entries to HKCU. -->
+    <Property Id="MSIINSTALLPERUSER" Secure="yes" Value="0" />
+    <!-- Overides the default install mode. It solves a problem where
+    individual packaged files that have the same version as in previous
+    installed App version will be deleted if the files are in use during
+    this upgrade. Unfortunately this causes an ICE 40 warning during linking. -->
+    <Property Id="REINSTALLMODE" Value="emus" />
+    <!-- Overrides the default reboot behavior if files are in use during the upgrade.
+    By default, this will be set to "ReallySuppress" to make sure no unexpected reboot will happpen.-->
+    <Property Id="REBOOT" Value="ReallySuppress" />
+    <!-- Installlation level to use that determines which features are installed.
+    see guides/enduser.md to check which Install Level maps to which feature that will
+    correspondingly get installed.
+    If not set, this will default to "2" (Main Feature, Launch On Login) -->
+    <Property Id="INSTALLLEVEL" Value="2" />
+    <!-- Allows to customize the Windows user group that gets access rights on
+    the install folder in cas the auto-updater is installed. User that run the App
+    must be part of that user group to be able to auto-update. -->
+    <Property Id="UPDATERUSERGROUP" Value="Users" />
+    <!-- A property to define whether the auto-updater is enabled when the
+    feature gets installed. This way the update can be installed but also be disabled
+    by overwriting the default value.  -->
+    <Property Id="AUTOUPDATEENABLED" Value="1" />
+    <!-- Necessary registry search to find the install path which is used by the
+    PurgeOnUninstall action. Since this package can be installed perUser or perMachine,
+    we have to look in both places. First successful search wins. -->
+    <Property Id="INSTALLPATH">
+      <RegistrySearch Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{210A4E60-1555-4E32-83E0-C93981AD4346}.msq"
+                      Root="HKCU" 
+                      Type="raw"
+                      Id="INSTALLPATH_REGSEARCH_HKCU"
+                      Name="InstallPath"
+                      Win64="no"/>
+      <RegistrySearch Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{210A4E60-1555-4E32-83E0-C93981AD4346}.msq"
+                      Root="HKLM" 
+                      Type="raw"
+                      Id="INSTALLPATH_REGSEARCH_HKLM"
+                      Name="InstallPath"
+                      Win64="no"/>
+    </Property>
+    <!-- Lets change the product name depending on the perUser installMode. 
+    This way the user and admins can see in which scope the MSI was installed. -->
+    <SetProperty Action="SetVisibleProductName" Id="VisibleProductName" Sequence="both" Before="AppSearch"  Value="VALTracker (User)">
+      <![CDATA[MSIINSTALLPERUSER = "1"]]>
+    </SetProperty>
+    <!-- Again we give thee MSI generaten entry a slightly different name to help 
+    differentiate between the public one and the invisible one. -->
+    <SetProperty Action="SetProductName" Id="ProductName" Sequence="both" Before="AppSearch"  Value="VALTracker (User - MSI)">
+      <![CDATA[MSIINSTALLPERUSER = "1"]]>
+    </SetProperty>
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes"/>
+
+    <UI Id="UserInterface">
+      <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
+      <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
+      <TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />
+      <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
+      <Property Id="WixUI_Mode" Value="FeatureTree" />
+      <DialogRef Id="ErrorDlg" />
+      <DialogRef Id="FatalError" />
+      <DialogRef Id="FilesInUse" />
+      <DialogRef Id="MsiRMFilesInUse" />
+      <DialogRef Id="PrepareDlg" />
+      <DialogRef Id="ProgressDlg" />
+      <DialogRef Id="ResumeDlg" />
+      <DialogRef Id="UserExit" />
+      <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="CustomizeDlg">NOT Installed</Publish>
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">Installed AND PATCH</Publish>
+      <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="1">Installed</Publish>
+      <Publish Dialog="CustomizeDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">NOT Installed</Publish>
+      <Publish Dialog="CustomizeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="CustomizeDlg" Order="1">NOT Installed OR WixUI_InstallMode = "Change"</Publish>
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="2">Installed AND NOT PATCH</Publish>
+      <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="3">Installed AND PATCH</Publish>
+      <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
+      <Publish Dialog="MaintenanceTypeDlg" Control="ChangeButton" Event="NewDialog" Value="CustomizeDlg">1</Publish>
+      <Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+      <Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
+      <Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
+    </UI>
+    <UIRef Id="WixUI_Common" />
+
+
+    <!-- Step 2: Add files and directories -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+       <!-- Installation files to %PROGRAMFILES% -->
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="APPLICATIONROOTDIRECTORY" Name="VALTracker">
+          <Directory Id="__c1360c81_c817_43d1_8b67_6525f348260f" Name="app-1.0.0">
+            <Directory Id="_locales_742ab84f_a063_4639_9d7d_59092d0e5f08" Name="locales">
+              <Component Id="_locales_am.pak_9b744142_0166_4ab0_a0d4_d9bcc0c0c97c" Guid="3c7fbb6b-bde8-471e-a383-22b28aabf4c4" Win64="no">
+                <File Name="am.pak" Id="_locales_am.pak_9b744142_0166_4ab0_a0d4_d9bcc0c0c97c" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\am.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_ar.pak_1626d46e_1ed1_4379_8089_5c96af4b118d" Guid="5ed25d01-9be4-4a54-bc0f-de9ececf2bf3" Win64="no">
+                <File Name="ar.pak" Id="_locales_ar.pak_1626d46e_1ed1_4379_8089_5c96af4b118d" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\ar.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_bg.pak_0cc35552_7e7a_45ae_8334_667c5d9c7987" Guid="df30cae0-7e44-4d1e-8a81-a54e90a8f54a" Win64="no">
+                <File Name="bg.pak" Id="_locales_bg.pak_0cc35552_7e7a_45ae_8334_667c5d9c7987" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\bg.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_bn.pak_134f2585_4372_437e_a367_50b840ced155" Guid="527c23b1-47e8-4791-9173-333b44f7f8e9" Win64="no">
+                <File Name="bn.pak" Id="_locales_bn.pak_134f2585_4372_437e_a367_50b840ced155" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\bn.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_ca.pak_6e9753fb_2001_4e0d_8951_0878acdd9c3b" Guid="8857c05b-6ab9-4bdb-ab73-757210419212" Win64="no">
+                <File Name="ca.pak" Id="_locales_ca.pak_6e9753fb_2001_4e0d_8951_0878acdd9c3b" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\ca.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_cs.pak_fff0f7f7_6333_4140_bf9c_0f6215b53eff" Guid="59a7c31e-36dc-4ba6-bfae-bbcb8c06a386" Win64="no">
+                <File Name="cs.pak" Id="_locales_cs.pak_fff0f7f7_6333_4140_bf9c_0f6215b53eff" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\cs.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_da.pak_7d343702_2cb8_4d83_8459_02d1b35642cf" Guid="f56a034d-03e4-4189-9606-31c741f963bb" Win64="no">
+                <File Name="da.pak" Id="_locales_da.pak_7d343702_2cb8_4d83_8459_02d1b35642cf" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\da.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_de.pak_7db73dd1_d7ee_42b6_a616_95ce14ef2af7" Guid="ada03f13-a03b-4fd2-818d-1c2997861e39" Win64="no">
+                <File Name="de.pak" Id="_locales_de.pak_7db73dd1_d7ee_42b6_a616_95ce14ef2af7" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\de.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_el.pak_452f076c_b8fb_4638_a732_6b431234af89" Guid="34cc02e2-09dd-4950-a2f1-f9807eb0e8c2" Win64="no">
+                <File Name="el.pak" Id="_locales_el.pak_452f076c_b8fb_4638_a732_6b431234af89" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\el.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_en_GB.pak_b90470cc_c721_4e2b_abc2_c96ab6cc5811" Guid="57454d04-6708-47e6-888c-6953c677aef8" Win64="no">
+                <File Name="en-GB.pak" Id="_locales_en_GB.pak_b90470cc_c721_4e2b_abc2_c96ab6cc5811" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\en-GB.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_en_US.pak_e76ce292_ca05_47f9_a922_33e84ef81ae9" Guid="2e29141f-f6c0-4121-8bd0-8642a9969765" Win64="no">
+                <File Name="en-US.pak" Id="_locales_en_US.pak_e76ce292_ca05_47f9_a922_33e84ef81ae9" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\en-US.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_es_419.pak_81554004_d847_4ad1_97a7_b071dc351b0f" Guid="740d40ca-4660-408a-b4c1-b6f918fa5576" Win64="no">
+                <File Name="es-419.pak" Id="_locales_es_419.pak_81554004_d847_4ad1_97a7_b071dc351b0f" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\es-419.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_es.pak_725725f9_cc46_4806_88cb_9fdc57bff42d" Guid="d68b4595-542c-49cc-9428-29787ae40aa9" Win64="no">
+                <File Name="es.pak" Id="_locales_es.pak_725725f9_cc46_4806_88cb_9fdc57bff42d" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\es.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_et.pak_7b30c32b_249b_4b8a_95dc_1b3d74731651" Guid="fbacd654-8b33-41f2-9893-eb33e51bfde6" Win64="no">
+                <File Name="et.pak" Id="_locales_et.pak_7b30c32b_249b_4b8a_95dc_1b3d74731651" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\et.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_fa.pak_38678901_7673_4e8e_b1e3_11c40168fd53" Guid="3edc35b6-f528-49d8-8664-fd22d34463b0" Win64="no">
+                <File Name="fa.pak" Id="_locales_fa.pak_38678901_7673_4e8e_b1e3_11c40168fd53" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\fa.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_fi.pak_49976bf1_3ecd_4c1a_a8c1_8e02d0f2ae44" Guid="6f21ea8e-1bfb-4a88-8666-0480aba876ff" Win64="no">
+                <File Name="fi.pak" Id="_locales_fi.pak_49976bf1_3ecd_4c1a_a8c1_8e02d0f2ae44" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\fi.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_fil.pak_06dba274_bab9_43b0_a036_037a9bd00a8f" Guid="a74badbb-69ed-4cb1-a44b-a9bfefc83d53" Win64="no">
+                <File Name="fil.pak" Id="_locales_fil.pak_06dba274_bab9_43b0_a036_037a9bd00a8f" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\fil.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_fr.pak_be5e430b_d856_4eba_8e8f_c3fe07e24e5c" Guid="814310b5-7aa8-40b7-9249-03913df6ac7c" Win64="no">
+                <File Name="fr.pak" Id="_locales_fr.pak_be5e430b_d856_4eba_8e8f_c3fe07e24e5c" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\fr.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_gu.pak_3ea25551_bc9a_438c_af64_f6886368578a" Guid="d3a96792-2dc7-4021-98c7-d438a8f6efe5" Win64="no">
+                <File Name="gu.pak" Id="_locales_gu.pak_3ea25551_bc9a_438c_af64_f6886368578a" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\gu.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_he.pak_fe1c9717_e71b_4cf2_844e_eff67dbb690d" Guid="68e62b1a-6e9a-4637-a49b-53bbdd830651" Win64="no">
+                <File Name="he.pak" Id="_locales_he.pak_fe1c9717_e71b_4cf2_844e_eff67dbb690d" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\he.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_hi.pak_75b16ebc_28ed_460c_8818_d0e1604ceb9d" Guid="f5af800c-92f5-4d59-8174-e65405be3575" Win64="no">
+                <File Name="hi.pak" Id="_locales_hi.pak_75b16ebc_28ed_460c_8818_d0e1604ceb9d" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\hi.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_hr.pak_83dd3732_fd00_41e7_99ef_ec33384b490c" Guid="5d8cf84d-b69f-44d7-9397-c347f18c6a35" Win64="no">
+                <File Name="hr.pak" Id="_locales_hr.pak_83dd3732_fd00_41e7_99ef_ec33384b490c" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\hr.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_hu.pak_945a9487_ac7d_42a4_8f8a_afc08bf2609b" Guid="dae6f70e-e058-43b1-81df-3f7f01ea6682" Win64="no">
+                <File Name="hu.pak" Id="_locales_hu.pak_945a9487_ac7d_42a4_8f8a_afc08bf2609b" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\hu.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_id.pak_9d8500fc_1b8c_4399_b507_2853e1680b62" Guid="cbed4921-1768-466e-a9c5-336de46f460f" Win64="no">
+                <File Name="id.pak" Id="_locales_id.pak_9d8500fc_1b8c_4399_b507_2853e1680b62" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\id.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_it.pak_ac765e28_9a03_40ab_a673_06a2f64e2997" Guid="9b717a89-4a60-4c4a-8c6c-cb57bdb50780" Win64="no">
+                <File Name="it.pak" Id="_locales_it.pak_ac765e28_9a03_40ab_a673_06a2f64e2997" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\it.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_ja.pak_0539a5de_deb3_400b_a576_b368da64897f" Guid="3f576727-27b4-4ad5-832d-3ddd67d6efab" Win64="no">
+                <File Name="ja.pak" Id="_locales_ja.pak_0539a5de_deb3_400b_a576_b368da64897f" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\ja.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_kn.pak_d44a55ba_aea0_4e0b_85ff_8881fb9e24cf" Guid="dc6998e7-6d24-4718-8729-3833d908cd0c" Win64="no">
+                <File Name="kn.pak" Id="_locales_kn.pak_d44a55ba_aea0_4e0b_85ff_8881fb9e24cf" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\kn.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_ko.pak_9cf195d1_8fb6_4cac_b172_6c115fff5196" Guid="1ff11b8e-4e78-4128-86ea-b9a46752463f" Win64="no">
+                <File Name="ko.pak" Id="_locales_ko.pak_9cf195d1_8fb6_4cac_b172_6c115fff5196" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\ko.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_lt.pak_22e4ba78_29ae_4e75_ad5b_8d44b78bb273" Guid="28f2dece-870b-464d-ac67-0a39b1cdec4e" Win64="no">
+                <File Name="lt.pak" Id="_locales_lt.pak_22e4ba78_29ae_4e75_ad5b_8d44b78bb273" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\lt.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_lv.pak_5f84a3fe_7232_4f27_a4c8_9137a5a4c939" Guid="dc21c4fb-1f9b-4579-bb62-2274a809fb15" Win64="no">
+                <File Name="lv.pak" Id="_locales_lv.pak_5f84a3fe_7232_4f27_a4c8_9137a5a4c939" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\lv.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_ml.pak_c3a7c10c_4662_49ea_90c3_479a3e4fe7b1" Guid="690a4c58-6deb-4c8f-a5c5-5e371e0b62bb" Win64="no">
+                <File Name="ml.pak" Id="_locales_ml.pak_c3a7c10c_4662_49ea_90c3_479a3e4fe7b1" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\ml.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_mr.pak_dc666703_567a_4177_935d_1d4e9d835e9c" Guid="0b9673ae-800c-4478-afda-e29354c09334" Win64="no">
+                <File Name="mr.pak" Id="_locales_mr.pak_dc666703_567a_4177_935d_1d4e9d835e9c" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\mr.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_ms.pak_d75572c3_29f8_4659_af25_165287ff58db" Guid="c32f8a14-9de2-461b-8fb5-ac4b535f0075" Win64="no">
+                <File Name="ms.pak" Id="_locales_ms.pak_d75572c3_29f8_4659_af25_165287ff58db" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\ms.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_nb.pak_024ef477_c9f9_489a_8804_6082b6e8d82e" Guid="10c3d722-7bf1-4d9c-92f4-ea9345842469" Win64="no">
+                <File Name="nb.pak" Id="_locales_nb.pak_024ef477_c9f9_489a_8804_6082b6e8d82e" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\nb.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_nl.pak_848667d2_e9ef_4cf3_9a77_587cb9ef1f03" Guid="7b4ac7f1-c702-46eb-84f5-8312fe5b322a" Win64="no">
+                <File Name="nl.pak" Id="_locales_nl.pak_848667d2_e9ef_4cf3_9a77_587cb9ef1f03" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\nl.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_pl.pak_79788c91_d34d_4ee6_b6f8_d3d18a8f458a" Guid="8b43af51-c497-4386-a948-5d8a5131c0fd" Win64="no">
+                <File Name="pl.pak" Id="_locales_pl.pak_79788c91_d34d_4ee6_b6f8_d3d18a8f458a" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\pl.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_pt_BR.pak_56932efa_112c_41c9_8ce8_5f7e13f8aeb6" Guid="6162f881-8890-4b9c-b2f0-a3b04f55ce45" Win64="no">
+                <File Name="pt-BR.pak" Id="_locales_pt_BR.pak_56932efa_112c_41c9_8ce8_5f7e13f8aeb6" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\pt-BR.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_pt_PT.pak_0ca944ae_598e_4709_8fc1_082acf413ab7" Guid="f33ca34f-b044-4e3e-8f17-58d92419d031" Win64="no">
+                <File Name="pt-PT.pak" Id="_locales_pt_PT.pak_0ca944ae_598e_4709_8fc1_082acf413ab7" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\pt-PT.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_ro.pak_8c3dc5de_5719_48aa_a8af_beb7a7949f66" Guid="43be3939-8663-488b-ad0f-90b5f46e2173" Win64="no">
+                <File Name="ro.pak" Id="_locales_ro.pak_8c3dc5de_5719_48aa_a8af_beb7a7949f66" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\ro.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_ru.pak_21af2058_f4ee_4522_b305_0280a9e0e0a8" Guid="f8643cae-42a0-4485-8d31-6a57c481c98c" Win64="no">
+                <File Name="ru.pak" Id="_locales_ru.pak_21af2058_f4ee_4522_b305_0280a9e0e0a8" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\ru.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_sk.pak_54295d59_c713_4f6f_8020_9ae7c0b4af0a" Guid="08137bc7-cc19-443a-890e-a84329be8309" Win64="no">
+                <File Name="sk.pak" Id="_locales_sk.pak_54295d59_c713_4f6f_8020_9ae7c0b4af0a" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\sk.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_sl.pak_44b9a82d_8b66_42fc_9ec3_9c1c21b53069" Guid="774d1647-46ca-445e-b28a-268e6f94d83d" Win64="no">
+                <File Name="sl.pak" Id="_locales_sl.pak_44b9a82d_8b66_42fc_9ec3_9c1c21b53069" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\sl.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_sr.pak_f1dd6dbe_1fa4_468d_b769_238d16655b6a" Guid="a37df523-e6e8-4cae-bbc2-e648a16cc48d" Win64="no">
+                <File Name="sr.pak" Id="_locales_sr.pak_f1dd6dbe_1fa4_468d_b769_238d16655b6a" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\sr.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_sv.pak_e6018ca1_a800_4539_a55a_b1fff37c0299" Guid="c469fa24-301c-4a6d-bbd9-f7f272830eb2" Win64="no">
+                <File Name="sv.pak" Id="_locales_sv.pak_e6018ca1_a800_4539_a55a_b1fff37c0299" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\sv.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_sw.pak_0353c2db_7171_4d2e_809e_4cea323deb91" Guid="8a25f376-6915-46e1-a159-9cb372ffbe29" Win64="no">
+                <File Name="sw.pak" Id="_locales_sw.pak_0353c2db_7171_4d2e_809e_4cea323deb91" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\sw.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_ta.pak_de8e32a4_7a6f_4968_99c4_11d9a03d2c5c" Guid="83476144-d064-45e3-b3f7-54008c214278" Win64="no">
+                <File Name="ta.pak" Id="_locales_ta.pak_de8e32a4_7a6f_4968_99c4_11d9a03d2c5c" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\ta.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_te.pak_88379929_ef45_4064_b595_7472c1d7396b" Guid="36ad25d7-f613-45c5-8a8f-42c27d601155" Win64="no">
+                <File Name="te.pak" Id="_locales_te.pak_88379929_ef45_4064_b595_7472c1d7396b" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\te.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_th.pak_4e1a138f_ed2b_4550_be53_788e8c737c25" Guid="e79a9465-fa9a-40cd-85c7-cab68c240a4f" Win64="no">
+                <File Name="th.pak" Id="_locales_th.pak_4e1a138f_ed2b_4550_be53_788e8c737c25" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\th.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_tr.pak_e7381bba_1747_4d8c_988d_5b8c4963b376" Guid="9ae42317-a914-412c-b589-142c2f1b8848" Win64="no">
+                <File Name="tr.pak" Id="_locales_tr.pak_e7381bba_1747_4d8c_988d_5b8c4963b376" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\tr.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_uk.pak_2e738fab_99c2_4301_9d1a_79d4d5f245b7" Guid="342ddefd-3257-404e-9e7b-72162027b9ae" Win64="no">
+                <File Name="uk.pak" Id="_locales_uk.pak_2e738fab_99c2_4301_9d1a_79d4d5f245b7" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\uk.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_vi.pak_e592363e_594b_41df_a3eb_401048743fdc" Guid="69273624-80af-45ba-a964-fafa1c81584b" Win64="no">
+                <File Name="vi.pak" Id="_locales_vi.pak_e592363e_594b_41df_a3eb_401048743fdc" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\vi.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_zh_CN.pak_6b08497e_f658_4c3b_9fce_9d2560e8dfc8" Guid="64546a41-f4f0-4c49-80ca-c40566ccfdcf" Win64="no">
+                <File Name="zh-CN.pak" Id="_locales_zh_CN.pak_6b08497e_f658_4c3b_9fce_9d2560e8dfc8" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\zh-CN.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_locales_zh_TW.pak_1d94e2bb_c19a_439a_8e40_fdb54dd58f79" Guid="5b76f7f9-0588-4a6e-871b-f5640b65b0aa" Win64="no">
+                <File Name="zh-TW.pak" Id="_locales_zh_TW.pak_1d94e2bb_c19a_439a_8e40_fdb54dd58f79" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\locales\zh-TW.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+            </Directory>
+            <Directory Id="_resources_a3476703_3890_4ab3_b0f9_0cbeb14ba2bd" Name="resources">
+              <Directory Id="_resources_app_1d2f2758_09d8_48c2_8159_0d8051d4b3d9" Name="app">
+                <Directory Id="_resources_app_assets_32388321_1868_4668_90d0_8a4383155393" Name="assets">
+                  <Directory Id="_resources_app_assets_css_b775e001_5a18_4725_b57c_e483e9af10c0" Name="css">
+                    <Component Id="_resources_app_assets_css_style.css_8c14e72c_5e32_4ebe_8c76_87e1df36c298" Guid="0fe79d2d-094a-46ac-b2b8-153e04c7e70a" Win64="no">
+                      <File Name="style.css" Id="_resources_app_assets_css_style.css_8c14e72c_5e32_4ebe_8c76_87e1df36c298" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\assets\css\style.css" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                  </Directory>
+                  <Directory Id="_resources_app_assets_js_52f41fd4_7e23_429a_8951_3c31097824e9" Name="js">
+                    <Component Id="_playerSearch.js_a0174a4a_eb2b_40a6_ab47_88da597c8a2b" Guid="85b90429-c008-4a33-b0da-ba0d4ce37291" Win64="no">
+                      <File Name="playerSearch.js" Id="_playerSearch.js_a0174a4a_eb2b_40a6_ab47_88da597c8a2b" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\assets\js\playerSearch.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_testApiRequest.js_8fcb0400_26e1_4db3_a730_c6bf471d399e" Guid="3b71b86b-4def-4b3a-8803-f81bb9265496" Win64="no">
+                      <File Name="testApiRequest.js" Id="_testApiRequest.js_8fcb0400_26e1_4db3_a730_c6bf471d399e" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\assets\js\testApiRequest.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                  </Directory>
+                </Directory>
+
+                <Directory Id="_resources_app_icons_a00c1b62_1d09_4b5b_b9c5_f4549a1eaf85" Name="icons">
+                  <Component Id="_resources_app_icons_close_k_10.png_f5272dd4_cca8_4158_9792_671384668056" Guid="d063eaac-b9df-469c-9e9d-3dbfb7c2f807" Win64="no">
+                    <File Name="close-k-10.png" Id="_resources_app_icons_close_k_10.png_f5272dd4_cca8_4158_9792_671384668056" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\close-k-10.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_close_k_12.png_5a8fcf4f_0df6_4fc4_a558_d69d2352c9d6" Guid="f982df05-8def-4933-8447-b07412fa23fc" Win64="no">
+                    <File Name="close-k-12.png" Id="_resources_app_icons_close_k_12.png_5a8fcf4f_0df6_4fc4_a558_d69d2352c9d6" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\close-k-12.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_close_k_15.png_21e487af_22e9_4cd9_938c_91290a6795a8" Guid="6dae70ea-3dbb-4d56-b7ef-4ce7a893c499" Win64="no">
+                    <File Name="close-k-15.png" Id="_resources_app_icons_close_k_15.png_21e487af_22e9_4cd9_938c_91290a6795a8" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\close-k-15.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_close_k_20.png_2c8b8d24_f7c8_42eb_b2f4_2465484df5f6" Guid="67574ba2-5c38-44f4-aab5-5637302d7d89" Win64="no">
+                    <File Name="close-k-20.png" Id="_resources_app_icons_close_k_20.png_2c8b8d24_f7c8_42eb_b2f4_2465484df5f6" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\close-k-20.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_close_k_24.png_49f1bd1d_594c_4456_8989_0ead44bea47f" Guid="067293e1-6f70-4a88-818c-0dd78aa0ffa7" Win64="no">
+                    <File Name="close-k-24.png" Id="_resources_app_icons_close_k_24.png_49f1bd1d_594c_4456_8989_0ead44bea47f" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\close-k-24.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_close_k_30.png_9a3857ff_9afc_468a_9377_20da272cb59e" Guid="70e715ad-f544-4dbc-9405-bff8e71e19cc" Win64="no">
+                    <File Name="close-k-30.png" Id="_resources_app_icons_close_k_30.png_9a3857ff_9afc_468a_9377_20da272cb59e" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\close-k-30.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_close_w_10.png_a684463f_3304_4808_a78c_314b32d30bc4" Guid="b9844bd4-ed6a-42a4-96db-c2892caddefd" Win64="no">
+                    <File Name="close-w-10.png" Id="_resources_app_icons_close_w_10.png_a684463f_3304_4808_a78c_314b32d30bc4" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\close-w-10.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_close_w_12.png_43a1c34b_5aad_4c90_a49f_2f2089e8e44d" Guid="0441d38f-8b5b-41b1-a504-c245c88bed8c" Win64="no">
+                    <File Name="close-w-12.png" Id="_resources_app_icons_close_w_12.png_43a1c34b_5aad_4c90_a49f_2f2089e8e44d" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\close-w-12.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_close_w_15.png_4a8c13d2_9a14_4d36_a54d_3b2423ce01ee" Guid="9f635105-c39b-4d3b-a284-cb7f665b6171" Win64="no">
+                    <File Name="close-w-15.png" Id="_resources_app_icons_close_w_15.png_4a8c13d2_9a14_4d36_a54d_3b2423ce01ee" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\close-w-15.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_close_w_20.png_6b3836b5_8c88_409d_9827_663746a39573" Guid="098fb8b6-63b8-4b51-923c-c877b398173e" Win64="no">
+                    <File Name="close-w-20.png" Id="_resources_app_icons_close_w_20.png_6b3836b5_8c88_409d_9827_663746a39573" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\close-w-20.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_close_w_24.png_b657695a_abbb_4317_89bd_62a153b4aa17" Guid="aef0cd42-7a1a-449c-bbb9-3da430a25f1c" Win64="no">
+                    <File Name="close-w-24.png" Id="_resources_app_icons_close_w_24.png_b657695a_abbb_4317_89bd_62a153b4aa17" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\close-w-24.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_close_w_30.png_a17dda54_5278_45c0_b960_5d00033e1d15" Guid="40ef66ba-982e-4f3e-9e4d-75cf559712ca" Win64="no">
+                    <File Name="close-w-30.png" Id="_resources_app_icons_close_w_30.png_a17dda54_5278_45c0_b960_5d00033e1d15" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\close-w-30.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_max_k_10.png_575304be_8c30_49bb_8b7b_d8df14e58700" Guid="d4405530-9086-42f0-9c16-ccabd23418cf" Win64="no">
+                    <File Name="max-k-10.png" Id="_resources_app_icons_max_k_10.png_575304be_8c30_49bb_8b7b_d8df14e58700" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\max-k-10.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_max_k_12.png_d2144d4b_1d90_4516_9b2d_a68e236b4c41" Guid="a2b9d92b-71ca-4a57-984c-0aab65808336" Win64="no">
+                    <File Name="max-k-12.png" Id="_resources_app_icons_max_k_12.png_d2144d4b_1d90_4516_9b2d_a68e236b4c41" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\max-k-12.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_max_k_15.png_392ea8a1_d02b_4265_afcc_88110cd7ccc6" Guid="cdb5f846-d0f1-4bd2-bf73-8e4a7246970e" Win64="no">
+                    <File Name="max-k-15.png" Id="_resources_app_icons_max_k_15.png_392ea8a1_d02b_4265_afcc_88110cd7ccc6" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\max-k-15.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_max_k_20.png_954e4253_44c0_441b_a39c_9a094667f8b5" Guid="0450ecd1-3dc8-4687-b88e-ebaa82a3a59d" Win64="no">
+                    <File Name="max-k-20.png" Id="_resources_app_icons_max_k_20.png_954e4253_44c0_441b_a39c_9a094667f8b5" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\max-k-20.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_max_k_24.png_773e7e19_7c66_4bf7_829d_1a83387d7998" Guid="4143c865-50d6-4ac5-a2ad-d44c7d0036e2" Win64="no">
+                    <File Name="max-k-24.png" Id="_resources_app_icons_max_k_24.png_773e7e19_7c66_4bf7_829d_1a83387d7998" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\max-k-24.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_max_k_30.png_cb265479_406b_499b_8d32_925195da3691" Guid="de0346fd-dbfe-4dbc-930d-decdc4dac71e" Win64="no">
+                    <File Name="max-k-30.png" Id="_resources_app_icons_max_k_30.png_cb265479_406b_499b_8d32_925195da3691" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\max-k-30.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_max_w_10.png_56857ab5_e0cf_4735_8d69_5f8072dd139a" Guid="f1e658c4-76a4-4499-a207-5c05d1940661" Win64="no">
+                    <File Name="max-w-10.png" Id="_resources_app_icons_max_w_10.png_56857ab5_e0cf_4735_8d69_5f8072dd139a" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\max-w-10.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_max_w_12.png_2eee034f_06cf_4794_8764_e775a0aa4e9b" Guid="af7c5176-f350-428b-8d59-b2278150b150" Win64="no">
+                    <File Name="max-w-12.png" Id="_resources_app_icons_max_w_12.png_2eee034f_06cf_4794_8764_e775a0aa4e9b" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\max-w-12.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_max_w_15.png_3890aa31_7de6_4cd0_88a3_d64e76f43273" Guid="589e4483-0600-4fb2-8584-e57e0bcde89b" Win64="no">
+                    <File Name="max-w-15.png" Id="_resources_app_icons_max_w_15.png_3890aa31_7de6_4cd0_88a3_d64e76f43273" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\max-w-15.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_max_w_20.png_8b831649_e14e_4cf2_878d_d19482cd65b5" Guid="475dd94b-62a1-460c-9db7-927b50d4bf80" Win64="no">
+                    <File Name="max-w-20.png" Id="_resources_app_icons_max_w_20.png_8b831649_e14e_4cf2_878d_d19482cd65b5" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\max-w-20.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_max_w_24.png_f75546c5_a723_4f94_90ef_5b4d2b77ee78" Guid="84ba2e89-7698-4055-b70e-022c28c0e8b4" Win64="no">
+                    <File Name="max-w-24.png" Id="_resources_app_icons_max_w_24.png_f75546c5_a723_4f94_90ef_5b4d2b77ee78" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\max-w-24.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_max_w_30.png_09266750_659d_4e9f_aa28_df8d72f8c207" Guid="3c07c3f2-3cbc-4388-8d1b-d3d059bc70c0" Win64="no">
+                    <File Name="max-w-30.png" Id="_resources_app_icons_max_w_30.png_09266750_659d_4e9f_aa28_df8d72f8c207" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\max-w-30.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_min_k_10.png_08dfddaf_d5a5_4583_95ab_1020974b81b1" Guid="ea52e8af-4cdc-4c01-95be-13f81a81a2df" Win64="no">
+                    <File Name="min-k-10.png" Id="_resources_app_icons_min_k_10.png_08dfddaf_d5a5_4583_95ab_1020974b81b1" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\min-k-10.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_min_k_12.png_646c18c3_687f_4a54_b75e_8cd34e8b37d1" Guid="7afa7c1f-5047-4a61-83f1-4cac7b0176e6" Win64="no">
+                    <File Name="min-k-12.png" Id="_resources_app_icons_min_k_12.png_646c18c3_687f_4a54_b75e_8cd34e8b37d1" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\min-k-12.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_min_k_15.png_e6a304f5_4594_46e1_9cd6_d489c042801f" Guid="31415c6e-a220-4ebe-a21b-c068f508d971" Win64="no">
+                    <File Name="min-k-15.png" Id="_resources_app_icons_min_k_15.png_e6a304f5_4594_46e1_9cd6_d489c042801f" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\min-k-15.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_min_k_20.png_6e29628c_fead_45a3_b088_91f96f67c55d" Guid="750017d5-6a6d-4afe-969e-f7cc9dd4f3c4" Win64="no">
+                    <File Name="min-k-20.png" Id="_resources_app_icons_min_k_20.png_6e29628c_fead_45a3_b088_91f96f67c55d" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\min-k-20.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_min_k_24.png_d28c9cad_e2c5_4cab_8bd8_6d654aad8e38" Guid="88152144-efb8-45b5-9994-cc928e81a5ba" Win64="no">
+                    <File Name="min-k-24.png" Id="_resources_app_icons_min_k_24.png_d28c9cad_e2c5_4cab_8bd8_6d654aad8e38" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\min-k-24.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_min_k_30.png_e05018ad_7eec_4f88_ab22_fa35b0613da4" Guid="f1e4249e-841b-45c2-a892-a2a35c1411a9" Win64="no">
+                    <File Name="min-k-30.png" Id="_resources_app_icons_min_k_30.png_e05018ad_7eec_4f88_ab22_fa35b0613da4" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\min-k-30.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_min_w_10.png_8cfb594e_b6e2_4fcd_816b_5c687ded46fa" Guid="559570b6-a2c8-43fb-89fc-1c73bfbe1a93" Win64="no">
+                    <File Name="min-w-10.png" Id="_resources_app_icons_min_w_10.png_8cfb594e_b6e2_4fcd_816b_5c687ded46fa" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\min-w-10.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_min_w_12.png_e53f9857_4d5f_4d3c_825d_5d5849209448" Guid="b606ec1d-dfe1-439e-aae9-4465563df2c6" Win64="no">
+                    <File Name="min-w-12.png" Id="_resources_app_icons_min_w_12.png_e53f9857_4d5f_4d3c_825d_5d5849209448" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\min-w-12.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_min_w_15.png_a5253304_3793_41ff_b317_f7aaaf9b17c5" Guid="99406b34-0f26-44e2-9659-08a30c7922fa" Win64="no">
+                    <File Name="min-w-15.png" Id="_resources_app_icons_min_w_15.png_a5253304_3793_41ff_b317_f7aaaf9b17c5" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\min-w-15.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_min_w_20.png_79116f2a_3c47_4700_9ade_9fd3090c2447" Guid="88cdfef9-54ab-4444-b86f-007664902255" Win64="no">
+                    <File Name="min-w-20.png" Id="_resources_app_icons_min_w_20.png_79116f2a_3c47_4700_9ade_9fd3090c2447" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\min-w-20.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_min_w_24.png_6f7cbc31_c497_470b_a05c_3106ca77f560" Guid="2a8722a8-45b5-4f22-8f28-cd7323dc3576" Win64="no">
+                    <File Name="min-w-24.png" Id="_resources_app_icons_min_w_24.png_6f7cbc31_c497_470b_a05c_3106ca77f560" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\min-w-24.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_resources_app_icons_min_w_30.png_ffa28f2e_51e0_4c10_9254_2f8ac11f6417" Guid="3f9b1bb6-dbb5-46dc-ab9a-f74b024a99a0" Win64="no">
+                    <File Name="min-w-30.png" Id="_resources_app_icons_min_w_30.png_ffa28f2e_51e0_4c10_9254_2f8ac11f6417" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\min-w-30.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_restore_k_10.png_02c3efc2_c4c4_4bc4_8aea_84e061a53a89" Guid="3cd7e78f-d436-4ede-b36a-c169a7a0905a" Win64="no">
+                    <File Name="restore-k-10.png" Id="_restore_k_10.png_02c3efc2_c4c4_4bc4_8aea_84e061a53a89" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\restore-k-10.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_restore_k_12.png_1c508016_96aa_49fa_bd9f_84140a861f7a" Guid="179e5a37-3fac-4796-8f1d-bf06ba75318a" Win64="no">
+                    <File Name="restore-k-12.png" Id="_restore_k_12.png_1c508016_96aa_49fa_bd9f_84140a861f7a" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\restore-k-12.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_restore_k_15.png_0d5d5c23_9710_4623_8618_41dad2de3dfa" Guid="f10b2a14-d0bc-4e8f-bb17-7c928fa21162" Win64="no">
+                    <File Name="restore-k-15.png" Id="_restore_k_15.png_0d5d5c23_9710_4623_8618_41dad2de3dfa" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\restore-k-15.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_restore_k_20.png_20efa381_1615_48f5_8f71_705f78bc66d4" Guid="cd6771b7-8602-4ddd-b9fa-6737173c6eee" Win64="no">
+                    <File Name="restore-k-20.png" Id="_restore_k_20.png_20efa381_1615_48f5_8f71_705f78bc66d4" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\restore-k-20.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_restore_k_24.png_d21a2a2a_ec49_4ec6_80e4_4523ea2bfcfc" Guid="f8eb0645-a55a-48ea-aa1f-b1a8a2982ca0" Win64="no">
+                    <File Name="restore-k-24.png" Id="_restore_k_24.png_d21a2a2a_ec49_4ec6_80e4_4523ea2bfcfc" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\restore-k-24.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_restore_k_30.png_675fa9cd_2461_4e0b_a1fb_e0b1602a9807" Guid="659f92d6-2837-4a88-afd0-35e22ecbbba2" Win64="no">
+                    <File Name="restore-k-30.png" Id="_restore_k_30.png_675fa9cd_2461_4e0b_a1fb_e0b1602a9807" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\restore-k-30.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_restore_w_10.png_106510dc_1357_4a8c_9925_42b2be05ea9c" Guid="2842e142-9f95-42f9-8ec2-6a97e8c28215" Win64="no">
+                    <File Name="restore-w-10.png" Id="_restore_w_10.png_106510dc_1357_4a8c_9925_42b2be05ea9c" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\restore-w-10.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_restore_w_12.png_97ce22f3_c45d_4131_a262_1c9dbd3dc0e3" Guid="2d5d790f-22af-4b1d-ab8e-3d3cdedd8647" Win64="no">
+                    <File Name="restore-w-12.png" Id="_restore_w_12.png_97ce22f3_c45d_4131_a262_1c9dbd3dc0e3" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\restore-w-12.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_restore_w_15.png_f6b09877_a45a_40bc_b3d2_014e63c21ce8" Guid="f8da61fe-89ac-49fd-9917-065b9738cac1" Win64="no">
+                    <File Name="restore-w-15.png" Id="_restore_w_15.png_f6b09877_a45a_40bc_b3d2_014e63c21ce8" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\restore-w-15.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_restore_w_20.png_fdf8a964_17c0_43fa_8025_454b415181f4" Guid="029d5eee-ec3f-402b-8491-26816a979421" Win64="no">
+                    <File Name="restore-w-20.png" Id="_restore_w_20.png_fdf8a964_17c0_43fa_8025_454b415181f4" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\restore-w-20.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_restore_w_24.png_0d2d6c0a_4812_4aab_8228_91385fb1feb3" Guid="c72f8208-6c50-4cb2-b344-474a73480d7b" Win64="no">
+                    <File Name="restore-w-24.png" Id="_restore_w_24.png_0d2d6c0a_4812_4aab_8228_91385fb1feb3" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\restore-w-24.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                  <Component Id="_restore_w_30.png_8f207cc4_0747_4532_969e_df0d7a61ef3d" Guid="bd0ee02a-ac55-4b86-baeb-f4055dce23f4" Win64="no">
+                    <File Name="restore-w-30.png" Id="_restore_w_30.png_8f207cc4_0747_4532_969e_df0d7a61ef3d" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\icons\restore-w-30.png" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                </Directory>
+                <Directory Id="_resources_app_node_modules_d7762085_1afb_4ab9_bc32_dcaceb03ea42" Name="node_modules">
+                  <Directory Id="__electron_ed3b6319_a9c0_44f3_ad39_08d97b5182b9" Name="@electron">
+
+                  </Directory>
+                  <Directory Id="__sindresorhus_c39fe650_21f8_42e0_84c4_e9797fc45e8f" Name="@sindresorhus">
+
+                  </Directory>
+                  <Directory Id="__szmarczak_2e9bfc60_526e_4d6c_81e2_c8f18be7e0b8" Name="@szmarczak">
+
+                  </Directory>
+                  <Directory Id="_resources_app_node_modules__types_4ebc5299_2b13_4cdb_9e98_da7d76f820a6" Name="@types">
+
+                  </Directory>
+                  <Directory Id="_ansi_styles_70b19725_ecf9_4e72_9b17_cc7d2aae8630" Name="ansi-styles">
+                    <Component Id="_index.js_4d188404_7c57_4d86_a8ed_31119dfa7630" Guid="97cfd7f0-6cdc-4006-8020-5a24d33a0072" Win64="no">
+                      <File Name="index.js" Id="_index.js_4d188404_7c57_4d86_a8ed_31119dfa7630" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\ansi-styles\index.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_license_910bfdbb_5d63_4004_8b8f_df79ee272a83" Guid="fcffd505-1afa-4a6a-bbe6-2eb3a3cbb218" Win64="no">
+                      <File Name="license" Id="_license_910bfdbb_5d63_4004_8b8f_df79ee272a83" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\ansi-styles\license" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_package.json_6fbc5fdf_d408_4378_ae4e_ef5460f7848f" Guid="82886c4f-dbb1-4ef1-8416-b80b51e8dbbe" Win64="no">
+                      <File Name="package.json" Id="_package.json_6fbc5fdf_d408_4378_ae4e_ef5460f7848f" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\ansi-styles\package.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_readme.md_049463f5_6686_4959_9b82_af75c918b79a" Guid="98a565ee-6f01-4e89-abd9-3443dcc84b7c" Win64="no">
+                      <File Name="readme.md" Id="_readme.md_049463f5_6686_4959_9b82_af75c918b79a" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\ansi-styles\readme.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                  </Directory>
+                  <Directory Id="_resources_app_node_modules_async_4045e09a_b2d4_428e_a889_2af0e5da8b0c" Name="async">
+                    <Directory Id="_lib_10a26f0b_4b65_4adb_9411_304260824fb9" Name="lib">
+                      <Component Id="_async.js_2ab6c264_d6f7_4d70_9095_927756082c70" Guid="47c676c8-d510-4365-babb-a5844c7f01de" Win64="no">
+                        <File Name="async.js" Id="_async.js_2ab6c264_d6f7_4d70_9095_927756082c70" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\async\lib\async.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                    </Directory>
+                    <Directory Id="_support_d35dc72b_f78d_4bc0_bb93_c4e7f448b1e6" Name="support">
+                      <Component Id="_sync_package_managers.js_e177e009_d28a_428e_a50b_e7bafd39ff7a" Guid="a280c43e-2b89-4f88-9661-b4cad0326abd" Win64="no">
+                        <File Name="sync-package-managers.js" Id="_sync_package_managers.js_e177e009_d28a_428e_a50b_e7bafd39ff7a" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\async\support\sync-package-managers.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                    </Directory>                    <Component Id="_.travis.yml_d26aeeae_67a0_4cbf_b86e_69be73de30af" Guid="bfe7aac6-225f-4d1b-8066-89be9f91bdbd" Win64="no">
+                      <File Name=".travis.yml" Id="_.travis.yml_d26aeeae_67a0_4cbf_b86e_69be73de30af" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\async\.travis.yml" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_LICENSE_37724889_b729_4938_b230_b0f39069eda3" Guid="9ee3ce5a-8db3-4066-8e28-f374953976ef" Win64="no">
+                      <File Name="LICENSE" Id="_LICENSE_37724889_b729_4938_b230_b0f39069eda3" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\async\LICENSE" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_README.md_b86120d2_4c61_4519_87c7_a54d27bda12c" Guid="884651c5-4ec6-45b4-8843-cc55daf34885" Win64="no">
+                      <File Name="README.md" Id="_README.md_b86120d2_4c61_4519_87c7_a54d27bda12c" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\async\README.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_bower.json_baceaffd_e3f3_44a5_81f6_f82bb0033258" Guid="dac733e5-838f-4439-93a3-ed50d03bdde9" Win64="no">
+                      <File Name="bower.json" Id="_bower.json_baceaffd_e3f3_44a5_81f6_f82bb0033258" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\async\bower.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_component.json_8dc954f4_b929_4e17_b717_82edf09a66e8" Guid="0785b7f5-3603-4e52-a301-e7f55e14fdc8" Win64="no">
+                      <File Name="component.json" Id="_component.json_8dc954f4_b929_4e17_b717_82edf09a66e8" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\async\component.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_package.json_c0474094_b143_43f8_95f2_0b9892cf27c5" Guid="57d2e5c2-e213-4924-8b7f-e87ab166986f" Win64="no">
+                      <File Name="package.json" Id="_package.json_c0474094_b143_43f8_95f2_0b9892cf27c5" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\async\package.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                  </Directory>
+
+                  <Directory Id="_balanced_match_2487ccc6_18b6_4199_ae9e_ac71a8d04b0f" Name="balanced-match">
+                    <Directory Id="_.github_f840bf03_2275_4f95_bed5_4e9a648bdd8a" Name=".github">
+                      <Component Id="_FUNDING.yml_b42959e4_b0e0_46f9_8853_963f25aad088" Guid="0fa0b661-b990-418c-99c4-113e5dd63b26" Win64="no">
+                        <File Name="FUNDING.yml" Id="_FUNDING.yml_b42959e4_b0e0_46f9_8853_963f25aad088" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\balanced-match\.github\FUNDING.yml" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                    </Directory>                    <Component Id="_LICENSE.md_a56ffe5e_e9a6_4c1b_a149_f09dd3cc5821" Guid="b1035103-d669-49bb-a09d-18c30777c1ac" Win64="no">
+                      <File Name="LICENSE.md" Id="_LICENSE.md_a56ffe5e_e9a6_4c1b_a149_f09dd3cc5821" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\balanced-match\LICENSE.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_README.md_bbda4ded_6d7b_4f4e_af72_55e0154ad8e8" Guid="561db165-cf86-47fb-935d-b56581ec5244" Win64="no">
+                      <File Name="README.md" Id="_README.md_bbda4ded_6d7b_4f4e_af72_55e0154ad8e8" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\balanced-match\README.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_index.js_6bb20ca3_1fc4_4c5a_9c10_f97888553979" Guid="eb7c722b-0487-46f3-9c11-c5a4e0410fdf" Win64="no">
+                      <File Name="index.js" Id="_index.js_6bb20ca3_1fc4_4c5a_9c10_f97888553979" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\balanced-match\index.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_package.json_20525659_0a9e_4b25_ae18_280b8093571a" Guid="a74aa153-20b9-49fe-bc0f-c5ad58ad1073" Win64="no">
+                      <File Name="package.json" Id="_package.json_20525659_0a9e_4b25_ae18_280b8093571a" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\balanced-match\package.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                  </Directory>
+
+                  <Directory Id="_brace_expansion_343b245f_a473_44ad_87f1_595199e576ce" Name="brace-expansion">
+                    <Component Id="_LICENSE_656a4fcd_06d0_4f24_8423_4460d990a99b" Guid="01a2a0bf-bf02-43a1-a25b-7589027be1b4" Win64="no">
+                      <File Name="LICENSE" Id="_LICENSE_656a4fcd_06d0_4f24_8423_4460d990a99b" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\brace-expansion\LICENSE" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_README.md_a5b9b090_f6db_4f75_b11e_6bd7104849b8" Guid="04e87838-6b47-4e19-9825-1f8a32821229" Win64="no">
+                      <File Name="README.md" Id="_README.md_a5b9b090_f6db_4f75_b11e_6bd7104849b8" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\brace-expansion\README.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_index.js_67dd948c_5950_402e_bebc_2d610201ffc1" Guid="9419a7d5-4922-48ee-8100-bac6fc82d98f" Win64="no">
+                      <File Name="index.js" Id="_index.js_67dd948c_5950_402e_bebc_2d610201ffc1" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\brace-expansion\index.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_package.json_2081b6c2_b11b_4abd_bd8c_234379ff64a0" Guid="fec99fec-e4c2-43da-95ba-a9c2e7395091" Win64="no">
+                      <File Name="package.json" Id="_package.json_2081b6c2_b11b_4abd_bd8c_234379ff64a0" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\brace-expansion\package.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                  </Directory>
+                  <Directory Id="_resources_app_node_modules_chalk_347d2d91_9b8c_4268_b412_4fdceb3384a6" Name="chalk">
+                    <Directory Id="_types_1196a1ba_a3ec_4204_902f_277e7a800b29" Name="types">
+                      <Component Id="_index.d.ts_afe768e8_7d24_44cf_ac2d_a8b0257f5219" Guid="5f49ad0a-1bb8-4bf1-a25e-22da49d5ec5f" Win64="no">
+                        <File Name="index.d.ts" Id="_index.d.ts_afe768e8_7d24_44cf_ac2d_a8b0257f5219" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\chalk\types\index.d.ts" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                    </Directory>                    <Component Id="_index.js_78217867_b4a9_4593_a4a0_4de151008018" Guid="c375c4be-f9bd-4afa-8011-52daadd07a33" Win64="no">
+                      <File Name="index.js" Id="_index.js_78217867_b4a9_4593_a4a0_4de151008018" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\chalk\index.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_index.js.flow_e2dd2718_819f_4ecf_9bd1_03047f55c184" Guid="7fbdd8c8-c1fc-4910-b665-9ce38ba6ecec" Win64="no">
+                      <File Name="index.js.flow" Id="_index.js.flow_e2dd2718_819f_4ecf_9bd1_03047f55c184" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\chalk\index.js.flow" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_license_54b7bb1a_39c6_4fa1_aa9d_5a1facfe366e" Guid="a0039734-9249-4ef8-beb4-2c550010e408" Win64="no">
+                      <File Name="license" Id="_license_54b7bb1a_39c6_4fa1_aa9d_5a1facfe366e" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\chalk\license" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_package.json_67a540d5_29dc_430b_9bd7_ad7f680b57d7" Guid="6ab47f3c-a64f-4455-ace7-19ccef4ed100" Win64="no">
+                      <File Name="package.json" Id="_package.json_67a540d5_29dc_430b_9bd7_ad7f680b57d7" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\chalk\package.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_readme.md_a197eb59_43db_4603_82ed_8b4d3a1200ea" Guid="80ab742d-5d91-4a56-abb7-9d26b5a7faa4" Win64="no">
+                      <File Name="readme.md" Id="_readme.md_a197eb59_43db_4603_82ed_8b4d3a1200ea" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\chalk\readme.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_templates.js_0e9a3b84_f666_45fe_afdf_4adbd79f56db" Guid="9c43ad9c-eee2-4ecc-bc5b-561cefd1ee9e" Win64="no">
+                      <File Name="templates.js" Id="_templates.js_0e9a3b84_f666_45fe_afdf_4adbd79f56db" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\chalk\templates.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                  </Directory>
+
+                  <Directory Id="_color_convert_68c5bb73_16e6_458d_a36a_78cc5ecc7be8" Name="color-convert">
+                    <Component Id="_CHANGELOG.md_59f0e9b2_19c4_463e_8fd6_d76967b0b059" Guid="cbdba6b7-b4b5-4ec6-b0d0-0893c2bd376d" Win64="no">
+                      <File Name="CHANGELOG.md" Id="_CHANGELOG.md_59f0e9b2_19c4_463e_8fd6_d76967b0b059" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\color-convert\CHANGELOG.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_LICENSE_8d7307d6_fc4a_4272_b776_fa257b75a1d5" Guid="af6664ab-c58e-4dd0-b3ec-089c516d20ad" Win64="no">
+                      <File Name="LICENSE" Id="_LICENSE_8d7307d6_fc4a_4272_b776_fa257b75a1d5" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\color-convert\LICENSE" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_README.md_a75d1e12_b456_41ca_adfe_4db889780a09" Guid="0f1d4a8a-b92b-4ab5-a5cc-985499541f0f" Win64="no">
+                      <File Name="README.md" Id="_README.md_a75d1e12_b456_41ca_adfe_4db889780a09" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\color-convert\README.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_conversions.js_93cd3a08_10c1_4027_8b5c_36f6ed46fd21" Guid="aaf07c15-571a-4c2c-b01b-877146ee3366" Win64="no">
+                      <File Name="conversions.js" Id="_conversions.js_93cd3a08_10c1_4027_8b5c_36f6ed46fd21" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\color-convert\conversions.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_index.js_09811b4b_dc5a_4ecd_bbdf_fb0422249397" Guid="be5138da-4c32-45b1-853c-b01b8f3ea9d7" Win64="no">
+                      <File Name="index.js" Id="_index.js_09811b4b_dc5a_4ecd_bbdf_fb0422249397" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\color-convert\index.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_package.json_38ccd933_9e80_4d22_b186_483b0b84c396" Guid="72d3c261-96e6-4d37-80f8-504c27360210" Win64="no">
+                      <File Name="package.json" Id="_package.json_38ccd933_9e80_4d22_b186_483b0b84c396" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\color-convert\package.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_route.js_9882860d_31d9_4483_8333_e316c71bcece" Guid="c35bfa2b-5a5d-402a-98bc-8d027bcc25fc" Win64="no">
+                      <File Name="route.js" Id="_route.js_9882860d_31d9_4483_8333_e316c71bcece" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\color-convert\route.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                  </Directory>
+                  <Directory Id="_color_name_042de7bc_3f22_4afc_9e73_834263e0cd6d" Name="color-name">
+                    <Component Id="_.eslintrc.json_fa96358d_dd3b_4ab1_96d6_91804a10cfa8" Guid="2fb6deae-315d-4a4d-b74e-5ab8becab4cf" Win64="no">
+                      <File Name=".eslintrc.json" Id="_.eslintrc.json_fa96358d_dd3b_4ab1_96d6_91804a10cfa8" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\color-name\.eslintrc.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_.npmignore_316d99d0_ac9f_493a_8191_70ab8b0d7790" Guid="047917c6-b3e8-4c61-9fd0-d3bbe2cb0176" Win64="no">
+                      <File Name=".npmignore" Id="_.npmignore_316d99d0_ac9f_493a_8191_70ab8b0d7790" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\color-name\.npmignore" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_LICENSE_35d988d3_7b0a_4a80_8f56_ceb79d14e4d9" Guid="c4f4bd4c-a6b3-485f-bea1-b1eef6bcef17" Win64="no">
+                      <File Name="LICENSE" Id="_LICENSE_35d988d3_7b0a_4a80_8f56_ceb79d14e4d9" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\color-name\LICENSE" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_README.md_a589f6e9_7983_4ccb_98ec_bf67578ccc51" Guid="046e5061-2e28-407f-9fa9-441be3711ec2" Win64="no">
+                      <File Name="README.md" Id="_README.md_a589f6e9_7983_4ccb_98ec_bf67578ccc51" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\color-name\README.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_index.js_457cb71d_96bc_4254_8549_348537f88a1a" Guid="d5c50e83-7e2f-4830-8976-7e11f0996219" Win64="no">
+                      <File Name="index.js" Id="_index.js_457cb71d_96bc_4254_8549_348537f88a1a" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\color-name\index.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_package.json_4eaa50f5_287c_4ba7_a361_c03960f175f3" Guid="34749e31-8b43-487a-80ac-3ddc75d8f043" Win64="no">
+                      <File Name="package.json" Id="_package.json_4eaa50f5_287c_4ba7_a361_c03960f175f3" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\color-name\package.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_test.js_62952e05_aa9e_4e58_a1e1_7ef0248fc439" Guid="b549afc9-171d-450a-9481-d78478b42851" Win64="no">
+                      <File Name="test.js" Id="_test.js_62952e05_aa9e_4e58_a1e1_7ef0248fc439" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\color-name\test.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                  </Directory>
+                  <Directory Id="_concat_map_abe72dd7_70f0_4b5b_add4_e9b6e899950c" Name="concat-map">
+                    <Directory Id="_example_3b74842c_4572_4b72_8dec_c5c3df48c181" Name="example">
+                      <Component Id="_map.js_305b9cb0_1849_4b82_8d45_ecc685702dc2" Guid="c1de4c8a-6b19-4bec-997b-30ed976d2647" Win64="no">
+                        <File Name="map.js" Id="_map.js_305b9cb0_1849_4b82_8d45_ecc685702dc2" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\concat-map\example\map.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                    </Directory>
+                    <Directory Id="_test_223df91f_9534_4791_8b14_36b887f30c0e" Name="test">
+                      <Component Id="_map.js_9fc4513f_f454_480a_aa2e_f96bba00b1b2" Guid="544c292c-4e1b-4007-9349-43d75f899f6d" Win64="no">
+                        <File Name="map.js" Id="_map.js_9fc4513f_f454_480a_aa2e_f96bba00b1b2" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\concat-map\test\map.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                    </Directory>                    <Component Id="_.travis.yml_891e466d_8837_47ae_b86c_d197aecaf519" Guid="ad14e243-61cc-4657-9cac-5744b469457b" Win64="no">
+                      <File Name=".travis.yml" Id="_.travis.yml_891e466d_8837_47ae_b86c_d197aecaf519" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\concat-map\.travis.yml" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_LICENSE_27fea24f_b0ee_4e21_9019_ad58b98f77d0" Guid="4ea7672d-e26c-4953-8133-17eada23f8fc" Win64="no">
+                      <File Name="LICENSE" Id="_LICENSE_27fea24f_b0ee_4e21_9019_ad58b98f77d0" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\concat-map\LICENSE" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_README.markdown_908d8de1_187f_44c9_ac28_91b2183d03cf" Guid="eaf1dfee-7ba9-48d6-bc7b-c68795654e9c" Win64="no">
+                      <File Name="README.markdown" Id="_README.markdown_908d8de1_187f_44c9_ac28_91b2183d03cf" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\concat-map\README.markdown" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_index.js_20e9a777_fe38_47dc_959a_19a1e0a7647a" Guid="d90d5e3b-9a86-43ad-89ea-0f1f9faa1e63" Win64="no">
+                      <File Name="index.js" Id="_index.js_20e9a777_fe38_47dc_959a_19a1e0a7647a" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\concat-map\index.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_package.json_11094c51_b590_45fd_b6d4_d2a883ad2de4" Guid="537f0c39-0915-4001-a5f4-a21656661aeb" Win64="no">
+                      <File Name="package.json" Id="_package.json_11094c51_b590_45fd_b6d4_d2a883ad2de4" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\concat-map\package.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                  </Directory>
+
+                  <Directory Id="_resources_app_node_modules_ejs_7a4dac30_2475_410c_8743_17c897c61a58" Name="ejs">
+                    <Directory Id="_resources_app_node_modules_ejs_bin_00550b92_a458_4386_aaff_c2634677ed69" Name="bin">
+                      <Component Id="_cli.js_a8371575_d1aa_437d_8b9a_6486382062b7" Guid="e289d736-4ae4-486e-a4fe-0c342bd7d9a3" Win64="no">
+                        <File Name="cli.js" Id="_cli.js_a8371575_d1aa_437d_8b9a_6486382062b7" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\ejs\bin\cli.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                    </Directory>
+                    <Directory Id="_resources_app_node_modules_ejs_lib_00a389a2_d2e4_47f4_bca2_8e2e982a86a5" Name="lib">
+                      <Component Id="_ejs.js_c075146c_7066_48fb_9cb6_628e59d3ea12" Guid="33581dd3-45a7-4971-86ed-46ed6167d2f7" Win64="no">
+                        <File Name="ejs.js" Id="_ejs.js_c075146c_7066_48fb_9cb6_628e59d3ea12" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\ejs\lib\ejs.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                      <Component Id="_utils.js_5537efd4_3f02_4980_8667_1805a69a3132" Guid="91cdb012-ef56-403e-b249-3246cb2b47d3" Win64="no">
+                        <File Name="utils.js" Id="_utils.js_5537efd4_3f02_4980_8667_1805a69a3132" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\ejs\lib\utils.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                    </Directory>                    <Component Id="_LICENSE_5209f8be_0f25_4763_ab61_61cfc196768e" Guid="dced95c2-89a9-4510-b066-828ba80317c6" Win64="no">
+                      <File Name="LICENSE" Id="_LICENSE_5209f8be_0f25_4763_ab61_61cfc196768e" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\ejs\LICENSE" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_README.md_0735db4e_439f_400a_9004_da25086c2de3" Guid="ca790c4a-2215-449d-9ab4-4f178e193f3b" Win64="no">
+                      <File Name="README.md" Id="_README.md_0735db4e_439f_400a_9004_da25086c2de3" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\ejs\README.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_ejs.js_db8c1732_1d91_47be_a5df_b5fa201966a8" Guid="fa0eaf75-75e6-48d6-8cc6-dd6875896b26" Win64="no">
+                      <File Name="ejs.js" Id="_ejs.js_db8c1732_1d91_47be_a5df_b5fa201966a8" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\ejs\ejs.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_ejs.min.js_662690c2_470b_4d85_991e_78145e41a588" Guid="e3f951ab-d19a-471f-b0ca-298ef64d878e" Win64="no">
+                      <File Name="ejs.min.js" Id="_ejs.min.js_662690c2_470b_4d85_991e_78145e41a588" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\ejs\ejs.min.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_jakefile.js_59923ba4_263f_440d_91e8_f13449e92701" Guid="15e4d976-f498-4bb1-a466-32b459e88789" Win64="no">
+                      <File Name="jakefile.js" Id="_jakefile.js_59923ba4_263f_440d_91e8_f13449e92701" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\ejs\jakefile.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_package.json_5ffb6e48_b0b9_435f_b1e8_efdcb1f83fbc" Guid="08b3cff0-a6c6-498f-9779-18f3b21c9969" Win64="no">
+                      <File Name="package.json" Id="_package.json_5ffb6e48_b0b9_435f_b1e8_efdcb1f83fbc" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\ejs\package.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_usage.txt_f35ac508_e2c8_4af6_8793_9affecd47536" Guid="fde58d6f-ddff-4044-ab96-0f80a31f370e" Win64="no">
+                      <File Name="usage.txt" Id="_usage.txt_f35ac508_e2c8_4af6_8793_9affecd47536" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\ejs\usage.txt" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                  </Directory>
+
+                  <Directory Id="_ejs_electron_3083dea9_f6ae_4729_bcce_4da800a732b9" Name="ejs-electron">
+                    <Component Id="_LICENSE_ede5bee0_6c0a_48f8_89d3_f79b53a65699" Guid="f53a498f-2e88-4efd-beaf-e9eee667d937" Win64="no">
+                      <File Name="LICENSE" Id="_LICENSE_ede5bee0_6c0a_48f8_89d3_f79b53a65699" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\ejs-electron\LICENSE" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_README.md_1a51a1d2_47a2_4c44_a8af_e86a4ccfc224" Guid="49c75dc5-85fe-4c0d-9e22-5c4ebc41b929" Win64="no">
+                      <File Name="README.md" Id="_README.md_1a51a1d2_47a2_4c44_a8af_e86a4ccfc224" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\ejs-electron\README.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_index.js_85d69f93_5cc4_4787_b3b2_a453f6d6c678" Guid="b2ae641a-8289-47a5-be2e-fcc4432be378" Win64="no">
+                      <File Name="index.js" Id="_index.js_85d69f93_5cc4_4787_b3b2_a453f6d6c678" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\ejs-electron\index.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_package.json_8a37e665_cae3_4c46_93af_4ff0c1cfc403" Guid="4f8a3bea-67ba-47d0-980d-4dfb62b621cc" Win64="no">
+                      <File Name="package.json" Id="_package.json_8a37e665_cae3_4c46_93af_4ff0c1cfc403" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\ejs-electron\package.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                  </Directory>
+                  <Directory Id="_escape_string_regexp_227a1c81_a557_4a93_984e_899d9ae8f659" Name="escape-string-regexp">
+                    <Component Id="_index.js_c3ddcb67_a1e8_43a1_a19f_929960580019" Guid="37225b34-45c5-4b97-ae76-a3cc07c752a3" Win64="no">
+                      <File Name="index.js" Id="_index.js_c3ddcb67_a1e8_43a1_a19f_929960580019" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\escape-string-regexp\index.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_license_9aaf5ed1_18cd_4950_bd3a_7de0ed5a11d2" Guid="d7ec42c2-6b97-4971-bb3c-d50f4660a0a5" Win64="no">
+                      <File Name="license" Id="_license_9aaf5ed1_18cd_4950_bd3a_7de0ed5a11d2" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\escape-string-regexp\license" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_package.json_8a795245_2327_4882_983e_c39b7c533a51" Guid="424b434a-2af3-4e31-a6c5-ec144a2e8cc3" Win64="no">
+                      <File Name="package.json" Id="_package.json_8a795245_2327_4882_983e_c39b7c533a51" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\escape-string-regexp\package.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_readme.md_4bde2745_d550_4143_ad52_ecdbc8c1c6ba" Guid="e6d33a25-70c8-4ca6-a84a-8c9673547f8a" Win64="no">
+                      <File Name="readme.md" Id="_readme.md_4bde2745_d550_4143_ad52_ecdbc8c1c6ba" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\escape-string-regexp\readme.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                  </Directory>
+                  <Directory Id="_filelist_e6282665_22d0_4be8_a555_c4d11690820d" Name="filelist">
+                    <Component Id="_README.md_bdd7e6d1_2f55_44a1_a4e4_245684a6e19a" Guid="e66e08b8-3149-452c-91cd-bcd04ef70665" Win64="no">
+                      <File Name="README.md" Id="_README.md_bdd7e6d1_2f55_44a1_a4e4_245684a6e19a" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\filelist\README.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_index.d.ts_d93bbb5a_b106_4c64_af70_f73299359a6a" Guid="7254f6a4-bdb1-4daa-8af7-ab91bb83d76f" Win64="no">
+                      <File Name="index.d.ts" Id="_index.d.ts_d93bbb5a_b106_4c64_af70_f73299359a6a" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\filelist\index.d.ts" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_index.js_a33ec518_d6ad_4b93_a7f0_fe7f92119192" Guid="62f57843-619b-4fd2-a0b9-fdbaa0c429c0" Win64="no">
+                      <File Name="index.js" Id="_index.js_a33ec518_d6ad_4b93_a7f0_fe7f92119192" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\filelist\index.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_jakefile.js_bdc737d6_fee6_44b5_ab79_b17ac4a262a2" Guid="fc30e50a-2398-4ec0-9eda-3393e9bf5556" Win64="no">
+                      <File Name="jakefile.js" Id="_jakefile.js_bdc737d6_fee6_44b5_ab79_b17ac4a262a2" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\filelist\jakefile.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_package.json_969d52c0_6745_462d_b896_995d04e7b310" Guid="5caa4e0e-e531-488c-90ac-459dccc16885" Win64="no">
+                      <File Name="package.json" Id="_package.json_969d52c0_6745_462d_b896_995d04e7b310" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\filelist\package.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                  </Directory>
+                  <Directory Id="_has_flag_bd05b104_12f2_4512_b0a1_59943ec21d21" Name="has-flag">
+                    <Component Id="_index.js_be015826_6c57_4020_96ba_12a9047255cd" Guid="a78e4c31-224b-4190-bd4a-9a8e2b2360b2" Win64="no">
+                      <File Name="index.js" Id="_index.js_be015826_6c57_4020_96ba_12a9047255cd" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\has-flag\index.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_license_0c480876_30cd_44b8_b850_0fc28239ab42" Guid="5d5534ec-6cf4-41c1-9594-14ef648987eb" Win64="no">
+                      <File Name="license" Id="_license_0c480876_30cd_44b8_b850_0fc28239ab42" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\has-flag\license" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_package.json_295fd966_6f05_4bed_b9ec_50c6d4aa6621" Guid="c578bbf8-be3d-4bfc-8872-5b77e2e78eab" Win64="no">
+                      <File Name="package.json" Id="_package.json_295fd966_6f05_4bed_b9ec_50c6d4aa6621" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\has-flag\package.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_readme.md_84edbbd2_1989_4575_ba4c_37eed40307ee" Guid="b5ff6b6d-6ca9-4abd-bb16-23d34b3c384b" Win64="no">
+                      <File Name="readme.md" Id="_readme.md_84edbbd2_1989_4575_ba4c_37eed40307ee" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\has-flag\readme.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                  </Directory>
+                  <Directory Id="_resources_app_node_modules_jQuery_12052233_d8c0_497d_9871_14d101c3b95d" Name="jQuery">
+                    <Directory Id="_lib_f908b179_dd5a_4e6f_a391_e46efc75dd20" Name="lib">
+                      <Component Id="_node_jquery.js_46dca72e_a03a_4c30_8dca_dd37e1a7fa3b" Guid="50b7c4b2-3fc8-49f9-ba6e-48cf146aa6ba" Win64="no">
+                        <File Name="node-jquery.js" Id="_node_jquery.js_46dca72e_a03a_4c30_8dca_dd37e1a7fa3b" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jQuery\lib\node-jquery.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                    </Directory>
+                    <Directory Id="_src_ef655b7a_8713_49f2_8f60_d63d153e8136" Name="src">
+                      <Component Id="_wrapper.js_041f9d12_79f5_47ce_82a4_ee52dbf59c71" Guid="4988e469-1d74-46fb-b12e-3f0ddf6cc5b1" Win64="no">
+                        <File Name="wrapper.js" Id="_wrapper.js_041f9d12_79f5_47ce_82a4_ee52dbf59c71" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jQuery\src\wrapper.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                    </Directory>
+                    <Directory Id="_test_2b06d566_89ae_4dee_9791_2a76a1dc2028" Name="test">
+                      <Directory Id="_fixtures_7ae3d2d5_194a_43f4_a512_d0d141d646a8" Name="fixtures">
+                        <Component Id="_core.html_2e5002dd_507f_47c5_8e8d_e615d3187862" Guid="194725b0-6ae5-4e25-8b2d-513645bdfb31" Win64="no">
+                          <File Name="core.html" Id="_core.html_2e5002dd_507f_47c5_8e8d_e615d3187862" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jQuery\test\fixtures\core.html" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                        <Component Id="_css.css_bb01072a_3568_484c_9d18_8e381ddabd1e" Guid="e8b9369e-0f1e-424f-9f0b-300b48ba6ae0" Win64="no">
+                          <File Name="css.css" Id="_css.css_bb01072a_3568_484c_9d18_8e381ddabd1e" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jQuery\test\fixtures\css.css" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                        <Component Id="_css.html_0fd62c0a_3a46_413b_82e1_8c492e6d1b5c" Guid="7f5154d2-99f6-4f0b-b28c-3b14d25a1f01" Win64="no">
+                          <File Name="css.html" Id="_css.html_0fd62c0a_3a46_413b_82e1_8c492e6d1b5c" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jQuery\test\fixtures\css.html" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                      </Directory>
+                      <Directory Id="_helpers_2899aa57_a76f_40d3_8246_7b671ef0dd9f" Name="helpers">
+                        <Component Id="_helper.js_c2da770c_9b3f_45c0_8301_f23c6ddac799" Guid="1c9a035d-44c5-47f2-9f0d-706124791b5b" Win64="no">
+                          <File Name="helper.js" Id="_helper.js_c2da770c_9b3f_45c0_8301_f23c6ddac799" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jQuery\test\helpers\helper.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                      </Directory>                      <Component Id="_core.js_7e182f1f_ad1e_497d_9e34_91144c178f97" Guid="86bfd318-aa88-43fa-96fd-a9558c45207e" Win64="no">
+                        <File Name="core.js" Id="_core.js_7e182f1f_ad1e_497d_9e34_91144c178f97" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jQuery\test\core.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                      <Component Id="_css.js_aa76d541_dcef_45dc_9bbf_59e5e425d454" Guid="55b6bc56-982c-4cc2-a668-391ee9e58626" Win64="no">
+                        <File Name="css.js" Id="_css.js_aa76d541_dcef_45dc_9bbf_59e5e425d454" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jQuery\test\css.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                    </Directory>
+
+                    <Directory Id="_tmp_bac27707_2f6a_49f7_a5ee_0c22e4559fbf" Name="tmp">
+                      <Component Id="_jquery.js_d393005c_eb8b_4b65_b27a_c10c3a131635" Guid="7c6d1ea5-9012-481e-b920-adb92e102ec0" Win64="no">
+                        <File Name="jquery.js" Id="_jquery.js_d393005c_eb8b_4b65_b27a_c10c3a131635" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jQuery\tmp\jquery.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                    </Directory>                    <Component Id="_.npmignore_0e7e3da5_e70b_4bde_a8eb_b25b42485383" Guid="2242635c-f60a-4555-a5cb-d00b29cc8131" Win64="no">
+                      <File Name=".npmignore" Id="_.npmignore_0e7e3da5_e70b_4bde_a8eb_b25b42485383" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jQuery\.npmignore" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_LICENSE_MIT_27cb0ef4_7b39_4a75_91a6_ec00865b7789" Guid="c10d036f-7854-4842-bed9-cb05521602d0" Win64="no">
+                      <File Name="LICENSE-MIT" Id="_LICENSE_MIT_27cb0ef4_7b39_4a75_91a6_ec00865b7789" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jQuery\LICENSE-MIT" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_README.md_ea6d4069_b68f_4d63_8952_c6e7a70565c9" Guid="e3670ab8-bef0-4d74-a870-95b8280e74d6" Win64="no">
+                      <File Name="README.md" Id="_README.md_ea6d4069_b68f_4d63_8952_c6e7a70565c9" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jQuery\README.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_grunt.js_082905d1_287d_41ef_8cf0_aace2014088b" Guid="84233d1e-c08f-4b6f-b32e-4d815618983f" Win64="no">
+                      <File Name="grunt.js" Id="_grunt.js_082905d1_287d_41ef_8cf0_aace2014088b" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jQuery\grunt.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_package.json_c3ee0683_674c_40b1_a51d_a46edf304fbf" Guid="f069a467-0497-4dc1-9830-2954ac6a49cc" Win64="no">
+                      <File Name="package.json" Id="_package.json_c3ee0683_674c_40b1_a51d_a46edf304fbf" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jQuery\package.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                  </Directory>
+
+                  <Directory Id="_resources_app_node_modules_jake_bc6babbc_08dc_4577_84d1_dfecd5789e66" Name="jake">
+                    <Directory Id="_bin_9cc0cd40_c8f2_4932_a901_1f9b18794634" Name="bin">
+                      <Component Id="_bash_completion.sh_926e52f5_da3b_4103_94b2_57dfdc47e094" Guid="42d49aff-7e83-4a3c-9818-157ad7a0ddfc" Win64="no">
+                        <File Name="bash_completion.sh" Id="_bash_completion.sh_926e52f5_da3b_4103_94b2_57dfdc47e094" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\bin\bash_completion.sh" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                      <Component Id="_cli.js_be9e8356_02cb_49e2_ab40_88b97873775c" Guid="18fbd18e-7b29-4b29-b143-5a894244c9c5" Win64="no">
+                        <File Name="cli.js" Id="_cli.js_be9e8356_02cb_49e2_ab40_88b97873775c" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\bin\cli.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                    </Directory>
+                    <Directory Id="_lib_77ff7e8e_d609_4b2b_8acf_78a436e1775c" Name="lib">
+                      <Directory Id="_task_c095699b_1ec3_4cbd_bbe8_17d00f24c4eb" Name="task">
+                        <Component Id="_directory_task.js_781d45c6_55d2_4343_aef0_9c8f1b196095" Guid="3deb4941-967c-4b11-b664-13ad2aad08f1" Win64="no">
+                          <File Name="directory_task.js" Id="_directory_task.js_781d45c6_55d2_4343_aef0_9c8f1b196095" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\lib\task\directory_task.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                        <Component Id="_file_task.js_8b9b961a_b640_4320_acc6_96434596ffeb" Guid="1e07d315-0737-4efe-b7bd-f2f961cb3719" Win64="no">
+                          <File Name="file_task.js" Id="_file_task.js_8b9b961a_b640_4320_acc6_96434596ffeb" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\lib\task\file_task.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                        <Component Id="_index.js_afc577dd_cabc_40fe_8c8e_6add4fad4e1a" Guid="4fdccecd-6da6-4435-8d9b-bd3638fa18f1" Win64="no">
+                          <File Name="index.js" Id="_index.js_afc577dd_cabc_40fe_8c8e_6add4fad4e1a" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\lib\task\index.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                        <Component Id="_task.js_6d89aba4_3a22_44b9_8546_55d620007461" Guid="634400c6-5f83-4dfc-aa87-0a38713ec463" Win64="no">
+                          <File Name="task.js" Id="_task.js_6d89aba4_3a22_44b9_8546_55d620007461" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\lib\task\task.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                      </Directory>
+                      <Directory Id="_utils_3a1d5aec_c7a6_4239_8780_be44be45353a" Name="utils">
+                        <Component Id="_file.js_bd8f651d_1f31_4f0e_8c82_b56552459776" Guid="6ba09d9e-aca2-46e2-95da-6f1d3695520c" Win64="no">
+                          <File Name="file.js" Id="_file.js_bd8f651d_1f31_4f0e_8c82_b56552459776" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\lib\utils\file.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                        <Component Id="_index.js_a9b17a1a_ea21_47ca_bf77_be03205b2c58" Guid="df54ab3a-eeba-4c44-bfcf-237c7fb98e90" Win64="no">
+                          <File Name="index.js" Id="_index.js_a9b17a1a_ea21_47ca_bf77_be03205b2c58" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\lib\utils\index.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                        <Component Id="_logger.js_4c20bc28_fac5_4f5e_826a_b0635dabc40a" Guid="34eadc4b-b79d-49fa-96a6-846123da2665" Win64="no">
+                          <File Name="logger.js" Id="_logger.js_4c20bc28_fac5_4f5e_826a_b0635dabc40a" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\lib\utils\logger.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                      </Directory>                      <Component Id="_api.js_c3ee2b37_9f95_4f4e_b693_558f8d9c3289" Guid="c64c783c-e5a4-4949-ad00-d3e03871ed62" Win64="no">
+                        <File Name="api.js" Id="_api.js_c3ee2b37_9f95_4f4e_b693_558f8d9c3289" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\lib\api.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                      <Component Id="_jake.js_02da475e_6068_40b0_8b58_25e9166d2ad8" Guid="5bf6fdf6-1062-47c8-a0cf-8e6cb3bf5b1b" Win64="no">
+                        <File Name="jake.js" Id="_jake.js_02da475e_6068_40b0_8b58_25e9166d2ad8" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\lib\jake.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                      <Component Id="_loader.js_da40b9d2_c9b1_464b_a0d1_7080f97fa75b" Guid="327e155c-e3f1-4180-9672-b76214660dcf" Win64="no">
+                        <File Name="loader.js" Id="_loader.js_da40b9d2_c9b1_464b_a0d1_7080f97fa75b" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\lib\loader.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                      <Component Id="_namespace.js_e93e57a9_99ee_4c16_9fae_d9d776b9de71" Guid="b6818b91-effd-44da-ae4d-117a90943013" Win64="no">
+                        <File Name="namespace.js" Id="_namespace.js_e93e57a9_99ee_4c16_9fae_d9d776b9de71" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\lib\namespace.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                      <Component Id="_package_task.js_336425c0_154b_409c_a9fa_996ab9b5ce3f" Guid="dfc26347-6032-4e95-8f87-f8bf0d7d1e06" Win64="no">
+                        <File Name="package_task.js" Id="_package_task.js_336425c0_154b_409c_a9fa_996ab9b5ce3f" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\lib\package_task.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                      <Component Id="_parseargs.js_77d35f22_2685_4232_a8af_9f4a6fb5a5e6" Guid="1d343814-0004-4e73-aab4-f33eb30c481c" Win64="no">
+                        <File Name="parseargs.js" Id="_parseargs.js_77d35f22_2685_4232_a8af_9f4a6fb5a5e6" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\lib\parseargs.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                      <Component Id="_program.js_7e5f9a10_b7c8_4f64_a8ff_dcec9a84a3e1" Guid="4d076747-77be-4e98-8429-d9f6383110d4" Win64="no">
+                        <File Name="program.js" Id="_program.js_7e5f9a10_b7c8_4f64_a8ff_dcec9a84a3e1" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\lib\program.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                      <Component Id="_publish_task.js_1a942f48_bd3a_4dda_896f_e5626ae613fd" Guid="fc01deee-d149-434b-b849-559b14019a0a" Win64="no">
+                        <File Name="publish_task.js" Id="_publish_task.js_1a942f48_bd3a_4dda_896f_e5626ae613fd" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\lib\publish_task.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                      <Component Id="_rule.js_34c67df2_96ea_4832_b66c_b206d79c1bd5" Guid="1fe93f67-62a4-4075-a33f-95e4e54b2af4" Win64="no">
+                        <File Name="rule.js" Id="_rule.js_34c67df2_96ea_4832_b66c_b206d79c1bd5" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\lib\rule.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                      <Component Id="_test_task.js_b95a89cb_6adb_4cfc_a536_018a1a6f1122" Guid="f9d8902c-abbc-468b-a9fb-eeb842e3859b" Win64="no">
+                        <File Name="test_task.js" Id="_test_task.js_b95a89cb_6adb_4cfc_a536_018a1a6f1122" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\lib\test_task.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                    </Directory>
+
+                    <Directory Id="_test_a7f17bfe_3252_4206_a07c_9ae37ccc31a4" Name="test">
+                      <Directory Id="_integration_86b4df03_53ab_4771_ac5c_f831f64db4da" Name="integration">
+                        <Directory Id="_jakelib_390692cc_5fd1_4611_b4d7_4cfa789b55e3" Name="jakelib">
+                          <Component Id="_concurrent.jake.js_3dbabbf7_a40b_4e29_877b_34ba0f698fb0" Guid="82db8e7a-6627-4181-9d5a-8090adb4a5b0" Win64="no">
+                            <File Name="concurrent.jake.js" Id="_concurrent.jake.js_3dbabbf7_a40b_4e29_877b_34ba0f698fb0" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\test\integration\jakelib\concurrent.jake.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                          </Component>
+                          <Component Id="_publish.jake.js_169469eb_4795_4353_8366_27d4b7f255e6" Guid="74af6289-3a80-46e7-8539-27069ee2b305" Win64="no">
+                            <File Name="publish.jake.js" Id="_publish.jake.js_169469eb_4795_4353_8366_27d4b7f255e6" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\test\integration\jakelib\publish.jake.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                          </Component>
+                          <Component Id="_required_module.jake.js_5d48681a_5ee8_4c13_96b7_e106211f6442" Guid="f77bd50e-a985-4f43-85bf-69d42d48c193" Win64="no">
+                            <File Name="required_module.jake.js" Id="_required_module.jake.js_5d48681a_5ee8_4c13_96b7_e106211f6442" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\test\integration\jakelib\required_module.jake.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                          </Component>
+                          <Component Id="_rule.jake.js_bbae5e6d_b6c5_4df5_9fcb_f1298bb12944" Guid="8edfa729-7cd8-4890-b7c1-6e093629ed21" Win64="no">
+                            <File Name="rule.jake.js" Id="_rule.jake.js_bbae5e6d_b6c5_4df5_9fcb_f1298bb12944" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\test\integration\jakelib\rule.jake.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                          </Component>
+                        </Directory>                        <Component Id="_concurrent.js_c7ceeecb_06aa_4bb7_88da_7edaf8d12bd6" Guid="4d6e590b-75a1-4d91-9b8a-4fe2188020bc" Win64="no">
+                          <File Name="concurrent.js" Id="_concurrent.js_c7ceeecb_06aa_4bb7_88da_7edaf8d12bd6" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\test\integration\concurrent.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                        <Component Id="_file.js_5224beee_5542_409e_9b1c_aff5ddfa6db0" Guid="55647332-9fc4-490e-bf65-8162c37f6e91" Win64="no">
+                          <File Name="file.js" Id="_file.js_5224beee_5542_409e_9b1c_aff5ddfa6db0" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\test\integration\file.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                        <Component Id="_file_task.js_0e42b77b_b5d6_4e3b_b456_78557c7cc361" Guid="27e7744d-8544-46d0-9e1c-e8a49ed57129" Win64="no">
+                          <File Name="file_task.js" Id="_file_task.js_0e42b77b_b5d6_4e3b_b456_78557c7cc361" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\test\integration\file_task.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                        <Component Id="_helpers.js_0d4bb27b_2402_43dc_ae63_7d4b9bd896ed" Guid="96af6f9b-d580-48f2-9d8a-69370f1c3bba" Win64="no">
+                          <File Name="helpers.js" Id="_helpers.js_0d4bb27b_2402_43dc_ae63_7d4b9bd896ed" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\test\integration\helpers.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                        <Component Id="_jakefile.js_4dd9219f_c530_43df_a43f_be2fab813e49" Guid="1b056d17-caaf-4512-af7f-0bd4e0697119" Win64="no">
+                          <File Name="jakefile.js" Id="_jakefile.js_4dd9219f_c530_43df_a43f_be2fab813e49" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\test\integration\jakefile.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                        <Component Id="_publish_task.js_d5d81d5e_bc88_4d64_876e_b8c113f7e394" Guid="66be7ecf-9cf2-4583-bb3a-83dfb223790f" Win64="no">
+                          <File Name="publish_task.js" Id="_publish_task.js_d5d81d5e_bc88_4d64_876e_b8c113f7e394" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\test\integration\publish_task.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                        <Component Id="_rule.js_107f93d4_008a_4543_b9b2_5248b986ed09" Guid="196aac1e-9118-4c28-bf9e-5e0f6bab1c61" Win64="no">
+                          <File Name="rule.js" Id="_rule.js_107f93d4_008a_4543_b9b2_5248b986ed09" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\test\integration\rule.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                        <Component Id="_selfdep.js_16517dfe_dc6f_407d_b74f_bfaccc01b064" Guid="2e36ce9f-1e19-44dc-ad09-b04b0a2b3017" Win64="no">
+                          <File Name="selfdep.js" Id="_selfdep.js_16517dfe_dc6f_407d_b74f_bfaccc01b064" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\test\integration\selfdep.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                        <Component Id="_task_base.js_7f2e0e61_157e_4b98_89d3_d9c74dd33690" Guid="6b55d710-08d0-483c-8f28-8c6a659a3dea" Win64="no">
+                          <File Name="task_base.js" Id="_task_base.js_7f2e0e61_157e_4b98_89d3_d9c74dd33690" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\test\integration\task_base.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                      </Directory>
+
+                      <Directory Id="_unit_97085dca_0ee4_41cc_8cdc_65df9cf19210" Name="unit">
+                        <Component Id="_jakefile.js_d34eea1f_6f13_4b19_ba7e_e291d3f9f0b9" Guid="396ed55b-e1f8-4712-88d4-522326de6882" Win64="no">
+                          <File Name="jakefile.js" Id="_jakefile.js_d34eea1f_6f13_4b19_ba7e_e291d3f9f0b9" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\test\unit\jakefile.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                        <Component Id="_namespace.js_b2b535c8_d85c_460f_b13e_cc1ff02347f1" Guid="cab0ca0c-bf42-4b0f-bd94-5c5ee6ba9349" Win64="no">
+                          <File Name="namespace.js" Id="_namespace.js_b2b535c8_d85c_460f_b13e_cc1ff02347f1" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\test\unit\namespace.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                        <Component Id="_parseargs.js_e978faa7_b226_4692_8829_bbfcabf4e8c8" Guid="d6499294-abc1-4bef-a38d-0f12bd98ed93" Win64="no">
+                          <File Name="parseargs.js" Id="_parseargs.js_e978faa7_b226_4692_8829_bbfcabf4e8c8" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\test\unit\parseargs.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                        </Component>
+                      </Directory>
+                    </Directory>
+                    <Component Id="_Makefile_34795d5e_f3eb_4a63_923b_038295aac36e" Guid="ea309b5f-9f74-4956-9fde-3f82340c7fdc" Win64="no">
+                      <File Name="Makefile" Id="_Makefile_34795d5e_f3eb_4a63_923b_038295aac36e" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\Makefile" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_README.md_69495023_13e6_4315_8d7a_74400204d77b" Guid="0b760395-6834-4ea9-ab1a-d90d0f327e4d" Win64="no">
+                      <File Name="README.md" Id="_README.md_69495023_13e6_4315_8d7a_74400204d77b" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\README.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_jakefile.js_7d5a53d3_d061_40e7_adca_654f675abce2" Guid="dfadb6f3-9515-4175-8284-503740f9fd85" Win64="no">
+                      <File Name="jakefile.js" Id="_jakefile.js_7d5a53d3_d061_40e7_adca_654f675abce2" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\jakefile.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_package.json_5ca3229d_06c2_4898_917d_1a11bfdce9ec" Guid="a8afca3c-907b-47c5-a142-5a9ea94aec8b" Win64="no">
+                      <File Name="package.json" Id="_package.json_5ca3229d_06c2_4898_917d_1a11bfdce9ec" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\package.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_usage.txt_1e5ecddb_8d97_4e0e_b85c_101642a5271a" Guid="e59ed564-29dc-4eab-800b-677d2b6bba6a" Win64="no">
+                      <File Name="usage.txt" Id="_usage.txt_1e5ecddb_8d97_4e0e_b85c_101642a5271a" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\jake\usage.txt" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                  </Directory>
+
+                  <Directory Id="_resources_app_node_modules_mime_f37583fe_2a21_4684_9d7c_e325d407eb1a" Name="mime">
+                    <Directory Id="_types_a46a5459_a219_4c05_9826_acdf6fcddbf1" Name="types">
+                      <Component Id="_other.js_be4d461d_c1e0_46a2_9cb7_e9dfba2685c3" Guid="1279e885-01f4-47c8-8980-f803c23a496d" Win64="no">
+                        <File Name="other.js" Id="_other.js_be4d461d_c1e0_46a2_9cb7_e9dfba2685c3" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\mime\types\other.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                      <Component Id="_standard.js_850216a9_387f_47b9_a79b_22e079143bcc" Guid="81178620-11c3-4f06-ae4c-ba4b1022a755" Win64="no">
+                        <File Name="standard.js" Id="_standard.js_850216a9_387f_47b9_a79b_22e079143bcc" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\mime\types\standard.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                      </Component>
+                    </Directory>                    <Component Id="_CHANGELOG.md_4ec8610a_4913_4932_91d9_b44cfafbb7ec" Guid="5f68b44e-dce3-48a2-b1b5-e430a59b0510" Win64="no">
+                      <File Name="CHANGELOG.md" Id="_CHANGELOG.md_4ec8610a_4913_4932_91d9_b44cfafbb7ec" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\mime\CHANGELOG.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_LICENSE_9e3b69e8_ace0_4abf_83a2_68f6eb40c902" Guid="f4e9e663-c3aa-4eff-af38-2b67e53ab667" Win64="no">
+                      <File Name="LICENSE" Id="_LICENSE_9e3b69e8_ace0_4abf_83a2_68f6eb40c902" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\mime\LICENSE" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_Mime.js_2b9f5fc7_5cc3_4942_bbd9_7800b292584f" Guid="7c490661-973b-4ee2-88eb-a0d46ed0993d" Win64="no">
+                      <File Name="Mime.js" Id="_Mime.js_2b9f5fc7_5cc3_4942_bbd9_7800b292584f" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\mime\Mime.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_README.md_414ce096_5022_402a_9d20_916f63c39636" Guid="770f14aa-8b67-4f40-90a3-149d9949ee8a" Win64="no">
+                      <File Name="README.md" Id="_README.md_414ce096_5022_402a_9d20_916f63c39636" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\mime\README.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_cli.js_ee62d78b_5bb3_45d1_94f1_38810fff1ac5" Guid="2e92c509-d9a7-432b-bce5-736627aa7333" Win64="no">
+                      <File Name="cli.js" Id="_cli.js_ee62d78b_5bb3_45d1_94f1_38810fff1ac5" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\mime\cli.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_index.js_bf383126_7626_4c00_9a5e_73123fce7c8d" Guid="dcbb4938-571c-4b2d-b3fa-017f8f76f7a0" Win64="no">
+                      <File Name="index.js" Id="_index.js_bf383126_7626_4c00_9a5e_73123fce7c8d" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\mime\index.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_lite.js_ca85a378_7912_49c9_8fb1_602b72fbfd4e" Guid="50c00f2b-4eea-4e7d-8234-e6ba5b9d0bf9" Win64="no">
+                      <File Name="lite.js" Id="_lite.js_ca85a378_7912_49c9_8fb1_602b72fbfd4e" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\mime\lite.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_package.json_735f9eda_42ba_4564_8939_b45ee86777b4" Guid="aa891b12-635c-41cf-bc83-364ca9402ab8" Win64="no">
+                      <File Name="package.json" Id="_package.json_735f9eda_42ba_4564_8939_b45ee86777b4" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\mime\package.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                  </Directory>
+
+                  <Directory Id="_minimatch_ba8ac0bf_32c7_4380_ab1a_2a2477a9c74d" Name="minimatch">
+                    <Component Id="_LICENSE_c40bd74f_561b_42d9_ad6d_f811958ef509" Guid="387a770d-971d-4d7f-b74d-bb0ddc727120" Win64="no">
+                      <File Name="LICENSE" Id="_LICENSE_c40bd74f_561b_42d9_ad6d_f811958ef509" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\minimatch\LICENSE" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_README.md_a724830e_6557_416d_931f_299e02566cdb" Guid="a8ade447-3448-4811-a52a-e8e4c3e99cf0" Win64="no">
+                      <File Name="README.md" Id="_README.md_a724830e_6557_416d_931f_299e02566cdb" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\minimatch\README.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_minimatch.js_182de9f6_ad5a_4be5_aa23_2920fd3500bc" Guid="badc45f2-e489-4648-903f-7d449db32240" Win64="no">
+                      <File Name="minimatch.js" Id="_minimatch.js_182de9f6_ad5a_4be5_aa23_2920fd3500bc" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\minimatch\minimatch.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_package.json_9a8ebf15_6d5a_48c2_9dc4_f922a4fec29f" Guid="0a3a8057-9e91-4c1d-ba77-c227aef17a28" Win64="no">
+                      <File Name="package.json" Id="_package.json_9a8ebf15_6d5a_48c2_9dc4_f922a4fec29f" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\minimatch\package.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                  </Directory>
+                  <Directory Id="_supports_color_e9258db8_1f8b_4fd7_b448_2f5bb1f7107b" Name="supports-color">
+                    <Component Id="_browser.js_ec4934fc_b236_4685_b612_e00c4f5f287b" Guid="1f4d37f2-50b4-43a4-8362-38db1342c7c9" Win64="no">
+                      <File Name="browser.js" Id="_browser.js_ec4934fc_b236_4685_b612_e00c4f5f287b" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\supports-color\browser.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_index.js_a8058626_77d4_4852_84a8_ec26af708ec5" Guid="a5c78512-a51f-4ca7-a247-0f545c40f378" Win64="no">
+                      <File Name="index.js" Id="_index.js_a8058626_77d4_4852_84a8_ec26af708ec5" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\supports-color\index.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_license_641abc89_4411_4657_8941_8714f79f0ffe" Guid="ce1a8292-8a61-40d9-85ee-bd1e26a34135" Win64="no">
+                      <File Name="license" Id="_license_641abc89_4411_4657_8941_8714f79f0ffe" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\supports-color\license" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_package.json_8a236127_f5e4_47a9_9fed_e8361bf25dbe" Guid="49f2e50e-3a7f-42a7-b0a4-aa08883c47b8" Win64="no">
+                      <File Name="package.json" Id="_package.json_8a236127_f5e4_47a9_9fed_e8361bf25dbe" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\supports-color\package.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                    <Component Id="_readme.md_205d8c20_d2f6_42bf_b964_59c31dc0fc1e" Guid="9b5f02fb-bfd3-4b55-8173-4e01fa77c1c1" Win64="no">
+                      <File Name="readme.md" Id="_readme.md_205d8c20_d2f6_42bf_b964_59c31dc0fc1e" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\supports-color\readme.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                    </Component>
+                  </Directory>                  <Component Id="_.package_lock.json_14d75e07_1c5d_402a_805d_07b4526b4b3f" Guid="9ea47f8a-2e2c-406f-9219-be8b9479ef7a" Win64="no">
+                    <File Name=".package-lock.json" Id="_.package_lock.json_14d75e07_1c5d_402a_805d_07b4526b4b3f" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\node_modules\.package-lock.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                  </Component>
+                </Directory>
+                <Component Id="_resources_app_.gitignore_9d8fc705_6988_4296_89e5_4566876fcd33" Guid="c5956597-3909-4674-a085-ba8ca2f499c0" Win64="no">
+                  <File Name=".gitignore" Id="_resources_app_.gitignore_9d8fc705_6988_4296_89e5_4566876fcd33" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\.gitignore" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                </Component>
+                <Component Id="_resources_app_README.md_609ce4b0_068b_42bc_96a2_4c9fb21f28d1" Guid="1ad9475e-3186-48e8-914a-5de1208ca046" Win64="no">
+                  <File Name="README.md" Id="_resources_app_README.md_609ce4b0_068b_42bc_96a2_4c9fb21f28d1" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\README.md" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                </Component>
+                <Component Id="_resources_app_index.html_2a06a0ca_e0cd_47d7_9ef6_a2bd3d9bf910" Guid="91c3f199-fcb8-4f45-9f3d-7c697a1e260c" Win64="no">
+                  <File Name="index.html" Id="_resources_app_index.html_2a06a0ca_e0cd_47d7_9ef6_a2bd3d9bf910" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\index.html" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                </Component>
+                <Component Id="_resources_app_main.js_8c210752_73e7_44d2_acd8_e533a478ad39" Guid="91331a0f-19e3-4926-9c83-4afecc0c22ec" Win64="no">
+                  <File Name="main.js" Id="_resources_app_main.js_8c210752_73e7_44d2_acd8_e533a478ad39" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\main.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                </Component>
+                <Component Id="_resources_app_package.json_1089d1d3_eba2_4de1_af41_e131dab84cf2" Guid="3c7806f9-7ca7-4c23-be91-48bee52118cc" Win64="no">
+                  <File Name="package.json" Id="_resources_app_package.json_1089d1d3_eba2_4de1_af41_e131dab84cf2" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\package.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                </Component>
+                <Component Id="_resources_app_preload.js_cebfe3f4_a72e_46c6_a1cf_63a932bf1ef4" Guid="772249ba-20db-4506-8c20-bf16301b45ab" Win64="no">
+                  <File Name="preload.js" Id="_resources_app_preload.js_cebfe3f4_a72e_46c6_a1cf_63a932bf1ef4" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\preload.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                </Component>
+                <Component Id="_resources_app_renderer.js_c9dfab8c_c1d3_44fb_a140_04a65d3c1edb" Guid="17b218a4-0497-43af-a98e-7232d2b74741" Win64="no">
+                  <File Name="renderer.js" Id="_resources_app_renderer.js_c9dfab8c_c1d3_44fb_a140_04a65d3c1edb" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources\app\renderer.js" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+                </Component>
+              </Directory>
+
+            </Directory>
+
+            <Directory Id="_swiftshader_456acec7_e335_4ffb_9d29_96628d3a1621" Name="swiftshader">
+              <Component Id="_swiftshader_libEGL.dll_9488c360_898d_4a29_94d5_ce02536dfa56" Guid="2fb1b93e-eaae-45f9-8d18-e1148eef7276" Win64="no">
+                <File Name="libEGL.dll" Id="_swiftshader_libEGL.dll_9488c360_898d_4a29_94d5_ce02536dfa56" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\swiftshader\libEGL.dll" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+              <Component Id="_swiftshader_libGLESv2.dll_2faf6450_0a77_4a13_a84d_8430c85d31d8" Guid="034d7766-d84d-48ff-96ae-c7b6f075e80b" Win64="no">
+                <File Name="libGLESv2.dll" Id="_swiftshader_libGLESv2.dll_2faf6450_0a77_4a13_a84d_8430c85d31d8" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\swiftshader\libGLESv2.dll" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+              </Component>
+            </Directory>            <Component Id="_LICENSE_ced1dc9a_a684_4a36_9d6c_6116c31a2180" Guid="d779e58d-8ccb-45bb-900a-6713adc80a95" Win64="no">
+              <File Name="LICENSE" Id="_LICENSE_ced1dc9a_a684_4a36_9d6c_6116c31a2180" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\LICENSE" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+            </Component>
+            <Component Id="_LICENSES.chromium.html_e75fabfb_43a7_4c45_80e0_7180b5a7901d" Guid="984c0157-c67e-46cc-b722-e7caf1fb2b45" Win64="no">
+              <File Name="LICENSES.chromium.html" Id="_LICENSES.chromium.html_e75fabfb_43a7_4c45_80e0_7180b5a7901d" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\LICENSES.chromium.html" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+            </Component>
+            <Component Id="_VALTracker.exe_8d29ddb6_8157_47b9_adca_913ed6b09791" Guid="cf0e4c6f-abb3-4775-b060-7c7ed5a3146a" Win64="no">
+              <File Name="VALTracker.exe" Id="_VALTracker.exe_8d29ddb6_8157_47b9_adca_913ed6b09791" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\VALTracker.exe" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+            </Component>
+            <Component Id="_chrome_100_percent.pak_f97b4b8b_4330_4170_beed_223b62a77a76" Guid="d6180a14-4680-456b-92c8-ddd2aebcea57" Win64="no">
+              <File Name="chrome_100_percent.pak" Id="_chrome_100_percent.pak_f97b4b8b_4330_4170_beed_223b62a77a76" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\chrome_100_percent.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+            </Component>
+            <Component Id="_chrome_200_percent.pak_37128985_c1bb_40ee_ad26_537252ff330b" Guid="d218f9b6-c404-4238-aa68-efa7889a817f" Win64="no">
+              <File Name="chrome_200_percent.pak" Id="_chrome_200_percent.pak_37128985_c1bb_40ee_ad26_537252ff330b" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\chrome_200_percent.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+            </Component>
+            <Component Id="_d3dcompiler_47.dll_5c8376a9_657b_40ed_bccd_5cefdfb2534b" Guid="2b41a9e8-8442-4507-b307-caf24f9043a3" Win64="no">
+              <File Name="d3dcompiler_47.dll" Id="_d3dcompiler_47.dll_5c8376a9_657b_40ed_bccd_5cefdfb2534b" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\d3dcompiler_47.dll" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+            </Component>
+            <Component Id="_ffmpeg.dll_d73c4ad2_7590_4feb_b1d0_b8f03362d127" Guid="6d321518-9222-4898-a6e8-e342956d4c26" Win64="no">
+              <File Name="ffmpeg.dll" Id="_ffmpeg.dll_d73c4ad2_7590_4feb_b1d0_b8f03362d127" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\ffmpeg.dll" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+            </Component>
+            <Component Id="_icudtl.dat_f69f39d0_4b85_4465_b38c_d112b9dea426" Guid="4d802325-64a0-4dca-a927-45b6b5803f1e" Win64="no">
+              <File Name="icudtl.dat" Id="_icudtl.dat_f69f39d0_4b85_4465_b38c_d112b9dea426" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\icudtl.dat" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+            </Component>
+            <Component Id="_libEGL.dll_cba55b79_0e7d_44bc_b4c8_84a3bb8472cb" Guid="57b36984-c1ac-464e-a34c-df77f177b866" Win64="no">
+              <File Name="libEGL.dll" Id="_libEGL.dll_cba55b79_0e7d_44bc_b4c8_84a3bb8472cb" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\libEGL.dll" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+            </Component>
+            <Component Id="_libGLESv2.dll_c0d9e950_4d64_4505_89e7_6d2e4d4fd608" Guid="2d6525ab-84b9-4ece-beba-9b7dc991de17" Win64="no">
+              <File Name="libGLESv2.dll" Id="_libGLESv2.dll_c0d9e950_4d64_4505_89e7_6d2e4d4fd608" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\libGLESv2.dll" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+            </Component>
+            <Component Id="_resources.pak_dff2a634_2ac4_4d20_959b_0fadcb5f4f37" Guid="8222ccc1-2623-4b36-a276-630490dc9ea0" Win64="no">
+              <File Name="resources.pak" Id="_resources.pak_dff2a634_2ac4_4d20_959b_0fadcb5f4f37" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\resources.pak" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+            </Component>
+            <Component Id="_snapshot_blob.bin_2ff89aa3_994d_41b2_82fb_85ada931a9f7" Guid="33113c51-9adc-4874-b9e5-205fbffd7993" Win64="no">
+              <File Name="snapshot_blob.bin" Id="_snapshot_blob.bin_2ff89aa3_994d_41b2_82fb_85ada931a9f7" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\snapshot_blob.bin" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+            </Component>
+            <Component Id="_v8_context_snapshot.bin_1bc9329c_9825_456f_b6a8_bd36c9179b9a" Guid="ca5782d6-2e5b-479f-8a37-38918eea328d" Win64="no">
+              <File Name="v8_context_snapshot.bin" Id="_v8_context_snapshot.bin_1bc9329c_9825_456f_b6a8_bd36c9179b9a" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\v8_context_snapshot.bin" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+            </Component>
+            <Component Id="_version_cd223ba8_b0f4_41d8_99b0_f70b58e735db" Guid="633026af-6a68-494c-bb2e-ebd64c5366c6" Win64="no">
+              <File Name="version" Id="_version_cd223ba8_b0f4_41d8_99b0_f70b58e735db" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\version" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+            </Component>
+            <Component Id="_vk_swiftshader.dll_d2bff286_896b_43ea_b254_299615d28202" Guid="b9483204-ad76-4c4b-8465-e3c84bc94e37" Win64="no">
+              <File Name="vk_swiftshader.dll" Id="_vk_swiftshader.dll_d2bff286_896b_43ea_b254_299615d28202" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\vk_swiftshader.dll" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+            </Component>
+            <Component Id="_vk_swiftshader_icd.json_a6b7d470_f390_4d58_b444_41d56319aaa8" Guid="91da9c99-a164-41e3-9fcf-13e267eabb9b" Win64="no">
+              <File Name="vk_swiftshader_icd.json" Id="_vk_swiftshader_icd.json_a6b7d470_f390_4d58_b444_41d56319aaa8" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\vk_swiftshader_icd.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+            </Component>
+            <Component Id="_vulkan_1.dll_450683f9_8fda_4572_bc10_d40ea8f6bd21" Guid="56834a39-b2c5-4a03-b0f0-18ea0ad0d048" Win64="no">
+              <File Name="vulkan-1.dll" Id="_vulkan_1.dll_450683f9_8fda_4572_bc10_d40ea8f6bd21" Source="C:\Users\reali\Documents\GitHub\VALTracker\VALTracker-win32-x64\vulkan-1.dll" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+            </Component>
+          </Directory>
+          <Component Id="_VALTracker.exe_508f209f_8f6f_4e38_82bc_6fe6c6356ad8" Guid="81c41b10-8d70-415c-b1f4-84f96a067f86" Win64="no">
+            <File Name="VALTracker.exe" Id="_VALTracker.exe_508f209f_8f6f_4e38_82bc_6fe6c6356ad8" Source="C:\Users\reali\AppData\Local\Temp\VALTrackerSNTNJF\VALTracker.exe" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+          </Component>
+          <Component Id="_.installInfo.json_c87ec64a_3c4e_4771_8b6e_85f77d0af16e" Guid="8bc74314-86d3-4264-b142-d637e3a8a968" Win64="no">
+            <File Name=".installInfo.json" Id="_.installInfo.json_c87ec64a_3c4e_4771_8b6e_85f77d0af16e" Source="C:\Users\reali\AppData\Local\Temp\.installInfoNtZe2v\.installInfo.json" KeyPath="yes" Checksum="yes" ProcessorArchitecture="x86"/>
+          </Component>
+          <Component Id="RegistryInstallPath" Guid="87436033-a57f-454e-b4ff-ddfcfd8c5dbf" Win64="no">
+            <RegistryKey Root="HKMU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{210A4E60-1555-4E32-83E0-C93981AD4346}.msq" ForceCreateOnInstall="no" ForceDeleteOnUninstall="yes">
+              <RegistryValue Name="InstallPath" Type="string" Value="[APPLICATIONROOTDIRECTORY]" KeyPath="yes"/>
+            </RegistryKey>
+          </Component>
+          <Component Id="UninstallDisplayName" Guid="b741d5c6-fa86-419a-bb8e-c9bd13fbc4e7" Win64="no">
+            <RegistryKey Root="HKMU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{210A4E60-1555-4E32-83E0-C93981AD4346}.msq" ForceCreateOnInstall="no" ForceDeleteOnUninstall="yes">
+              <RegistryValue Name="DisplayName" Type="string" Value="[VisibleProductName]" KeyPath="yes"/>
+            </RegistryKey>
+          </Component>
+          <Component Id="UninstallPublisher" Guid="d152c1d8-46aa-4f9d-aaab-7edab5264da2" Win64="no">
+            <RegistryKey Root="HKMU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{210A4E60-1555-4E32-83E0-C93981AD4346}.msq" ForceCreateOnInstall="no" ForceDeleteOnUninstall="yes">
+              <RegistryValue Name="Publisher" Type="string" Value="Spirit" KeyPath="yes"/>
+            </RegistryKey>
+          </Component>
+          <Component Id="UninstallDisplayVersion" Guid="daeed8e7-b591-47d9-a69f-d3aa76bc70d0" Win64="no">
+            <RegistryKey Root="HKMU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{210A4E60-1555-4E32-83E0-C93981AD4346}.msq" ForceCreateOnInstall="no" ForceDeleteOnUninstall="yes">
+              <RegistryValue Name="DisplayVersion" Type="string" Value="1.0.0" KeyPath="yes"/>
+            </RegistryKey>
+          </Component>
+          <Component Id="UninstallModifyString" Guid="4c14b572-f64e-42e1-8299-f58f10e12c3f" Win64="no">
+            <RegistryKey Root="HKMU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{210A4E60-1555-4E32-83E0-C93981AD4346}.msq" ForceCreateOnInstall="no" ForceDeleteOnUninstall="yes">
+              <RegistryValue Name="ModifyPath" Type="expandable" Value="MsiExec.exe /I {210A4E60-1555-4E32-83E0-C93981AD4346}" KeyPath="yes"/>
+            </RegistryKey>
+          </Component>
+          <Component Id="UninstallString" Guid="daa869d4-419e-4243-b5b3-5066147b702d" Win64="no">
+            <RegistryKey Root="HKMU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{210A4E60-1555-4E32-83E0-C93981AD4346}.msq" ForceCreateOnInstall="no" ForceDeleteOnUninstall="yes">
+              <RegistryValue Name="UninstallString" Type="expandable" Value="MsiExec.exe /X {210A4E60-1555-4E32-83E0-C93981AD4346}" KeyPath="yes"/>
+            </RegistryKey>
+          </Component>
+          <Component Id="UninstallDisplayIcon" Guid="9d189c95-9b5e-4b3d-a94a-1a757367d273" Win64="no">
+            <RegistryKey Root="HKMU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{210A4E60-1555-4E32-83E0-C93981AD4346}.msq" ForceCreateOnInstall="no" ForceDeleteOnUninstall="yes">
+              <RegistryValue Name="DisplayIcon" Type="expandable" Value="[SystemFolder]msiexec.exe" KeyPath="yes"/>
+            </RegistryKey>
+          </Component>
+        </Directory>
+      </Directory>
+
+      <!-- Desktop -->
+      <Directory Id="DesktopFolder" Name="Desktop" />
+
+      <!-- Start Menu -->
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="Spirit"/>
+      </Directory>
+    </Directory>
+
+    <!-- Step 3: Add app to Start Menu -->
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="f83ae36b-1880-469c-8187-8409dbb438cb" Win64="no">
+        <Shortcut Id="ApplicationStartMenuShortcut"
+                  Name="VALTracker"
+                  Description="VALTracker Alpha V0.2"
+                  Target="[APPLICATIONROOTDIRECTORY]VALTracker.exe"
+                  WorkingDirectory="APPLICATIONROOTDIRECTORY">
+          <ShortcutProperty Key="System.AppUserModel.ID" Value="com.squirrel.valtracker.valtracker"/>
+        </Shortcut>
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU"
+                       Key="Software\Microsoft\VALTracker"
+                       Name="installed"
+                       Type="integer"
+                       Value="1"
+                       KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+   <!-- Step 4: Add app desktop shortcut --> 
+    <DirectoryRef Id="DesktopFolder">
+      <Component Id="DesktopShortcut" Guid="5e46c52c-012f-417a-839c-25df72e1edf7" >
+          <Shortcut Id="MyDesktopShortcut"
+                    Name="VALTracker"
+                    Description="VALTracker Alpha V0.2"
+                    Target="[APPLICATIONROOTDIRECTORY]VALTracker.exe"
+                    WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
+          <RegistryValue Root="HKCU"
+                    Key="Software\Microsoft\VALTracker"
+                    Name="installed"
+                    Type="integer"
+                    Value="1"
+                    KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+
+
+    <!-- Lets cleanup any files that are were not part of the initial install
+    via this MSI. Such as newer versions installed by the auto-updater. -->
+    <DirectoryRef Id="APPLICATIONROOTDIRECTORY">
+      <Component Id="PurgeOnUninstall" Guid="bdaf8ffa-4516-4d05-8871-9588819d5b5d" Win64="no">
+        <CreateFolder/>
+        <util:RemoveFolderEx On="uninstall" Property="INSTALLPATH" />
+      </Component>
+    </DirectoryRef>
+
+    <Feature Id="Complete" Title="VALTracker (1.0.0)" Description="The complete package." Display="expand" Level="1" ConfigurableDirectory="APPLICATIONROOTDIRECTORY">
+      <!-- Step 5: Tell WiX to install the files -->
+      <Feature Id="MainApplication" Title="Main Application" Level="1" Description="The main components to run the applications." >
+        <ComponentRef Id="_locales_am.pak_9b744142_0166_4ab0_a0d4_d9bcc0c0c97c" />
+        <ComponentRef Id="_locales_ar.pak_1626d46e_1ed1_4379_8089_5c96af4b118d" />
+        <ComponentRef Id="_locales_bg.pak_0cc35552_7e7a_45ae_8334_667c5d9c7987" />
+        <ComponentRef Id="_locales_bn.pak_134f2585_4372_437e_a367_50b840ced155" />
+        <ComponentRef Id="_locales_ca.pak_6e9753fb_2001_4e0d_8951_0878acdd9c3b" />
+        <ComponentRef Id="_locales_cs.pak_fff0f7f7_6333_4140_bf9c_0f6215b53eff" />
+        <ComponentRef Id="_locales_da.pak_7d343702_2cb8_4d83_8459_02d1b35642cf" />
+        <ComponentRef Id="_locales_de.pak_7db73dd1_d7ee_42b6_a616_95ce14ef2af7" />
+        <ComponentRef Id="_locales_el.pak_452f076c_b8fb_4638_a732_6b431234af89" />
+        <ComponentRef Id="_locales_en_GB.pak_b90470cc_c721_4e2b_abc2_c96ab6cc5811" />
+        <ComponentRef Id="_locales_en_US.pak_e76ce292_ca05_47f9_a922_33e84ef81ae9" />
+        <ComponentRef Id="_locales_es_419.pak_81554004_d847_4ad1_97a7_b071dc351b0f" />
+        <ComponentRef Id="_locales_es.pak_725725f9_cc46_4806_88cb_9fdc57bff42d" />
+        <ComponentRef Id="_locales_et.pak_7b30c32b_249b_4b8a_95dc_1b3d74731651" />
+        <ComponentRef Id="_locales_fa.pak_38678901_7673_4e8e_b1e3_11c40168fd53" />
+        <ComponentRef Id="_locales_fi.pak_49976bf1_3ecd_4c1a_a8c1_8e02d0f2ae44" />
+        <ComponentRef Id="_locales_fil.pak_06dba274_bab9_43b0_a036_037a9bd00a8f" />
+        <ComponentRef Id="_locales_fr.pak_be5e430b_d856_4eba_8e8f_c3fe07e24e5c" />
+        <ComponentRef Id="_locales_gu.pak_3ea25551_bc9a_438c_af64_f6886368578a" />
+        <ComponentRef Id="_locales_he.pak_fe1c9717_e71b_4cf2_844e_eff67dbb690d" />
+        <ComponentRef Id="_locales_hi.pak_75b16ebc_28ed_460c_8818_d0e1604ceb9d" />
+        <ComponentRef Id="_locales_hr.pak_83dd3732_fd00_41e7_99ef_ec33384b490c" />
+        <ComponentRef Id="_locales_hu.pak_945a9487_ac7d_42a4_8f8a_afc08bf2609b" />
+        <ComponentRef Id="_locales_id.pak_9d8500fc_1b8c_4399_b507_2853e1680b62" />
+        <ComponentRef Id="_locales_it.pak_ac765e28_9a03_40ab_a673_06a2f64e2997" />
+        <ComponentRef Id="_locales_ja.pak_0539a5de_deb3_400b_a576_b368da64897f" />
+        <ComponentRef Id="_locales_kn.pak_d44a55ba_aea0_4e0b_85ff_8881fb9e24cf" />
+        <ComponentRef Id="_locales_ko.pak_9cf195d1_8fb6_4cac_b172_6c115fff5196" />
+        <ComponentRef Id="_locales_lt.pak_22e4ba78_29ae_4e75_ad5b_8d44b78bb273" />
+        <ComponentRef Id="_locales_lv.pak_5f84a3fe_7232_4f27_a4c8_9137a5a4c939" />
+        <ComponentRef Id="_locales_ml.pak_c3a7c10c_4662_49ea_90c3_479a3e4fe7b1" />
+        <ComponentRef Id="_locales_mr.pak_dc666703_567a_4177_935d_1d4e9d835e9c" />
+        <ComponentRef Id="_locales_ms.pak_d75572c3_29f8_4659_af25_165287ff58db" />
+        <ComponentRef Id="_locales_nb.pak_024ef477_c9f9_489a_8804_6082b6e8d82e" />
+        <ComponentRef Id="_locales_nl.pak_848667d2_e9ef_4cf3_9a77_587cb9ef1f03" />
+        <ComponentRef Id="_locales_pl.pak_79788c91_d34d_4ee6_b6f8_d3d18a8f458a" />
+        <ComponentRef Id="_locales_pt_BR.pak_56932efa_112c_41c9_8ce8_5f7e13f8aeb6" />
+        <ComponentRef Id="_locales_pt_PT.pak_0ca944ae_598e_4709_8fc1_082acf413ab7" />
+        <ComponentRef Id="_locales_ro.pak_8c3dc5de_5719_48aa_a8af_beb7a7949f66" />
+        <ComponentRef Id="_locales_ru.pak_21af2058_f4ee_4522_b305_0280a9e0e0a8" />
+        <ComponentRef Id="_locales_sk.pak_54295d59_c713_4f6f_8020_9ae7c0b4af0a" />
+        <ComponentRef Id="_locales_sl.pak_44b9a82d_8b66_42fc_9ec3_9c1c21b53069" />
+        <ComponentRef Id="_locales_sr.pak_f1dd6dbe_1fa4_468d_b769_238d16655b6a" />
+        <ComponentRef Id="_locales_sv.pak_e6018ca1_a800_4539_a55a_b1fff37c0299" />
+        <ComponentRef Id="_locales_sw.pak_0353c2db_7171_4d2e_809e_4cea323deb91" />
+        <ComponentRef Id="_locales_ta.pak_de8e32a4_7a6f_4968_99c4_11d9a03d2c5c" />
+        <ComponentRef Id="_locales_te.pak_88379929_ef45_4064_b595_7472c1d7396b" />
+        <ComponentRef Id="_locales_th.pak_4e1a138f_ed2b_4550_be53_788e8c737c25" />
+        <ComponentRef Id="_locales_tr.pak_e7381bba_1747_4d8c_988d_5b8c4963b376" />
+        <ComponentRef Id="_locales_uk.pak_2e738fab_99c2_4301_9d1a_79d4d5f245b7" />
+        <ComponentRef Id="_locales_vi.pak_e592363e_594b_41df_a3eb_401048743fdc" />
+        <ComponentRef Id="_locales_zh_CN.pak_6b08497e_f658_4c3b_9fce_9d2560e8dfc8" />
+        <ComponentRef Id="_locales_zh_TW.pak_1d94e2bb_c19a_439a_8e40_fdb54dd58f79" />
+        <ComponentRef Id="_resources_app_assets_css_style.css_8c14e72c_5e32_4ebe_8c76_87e1df36c298" />
+        <ComponentRef Id="_playerSearch.js_a0174a4a_eb2b_40a6_ab47_88da597c8a2b" />
+        <ComponentRef Id="_testApiRequest.js_8fcb0400_26e1_4db3_a730_c6bf471d399e" />
+        <ComponentRef Id="_resources_app_icons_close_k_10.png_f5272dd4_cca8_4158_9792_671384668056" />
+        <ComponentRef Id="_resources_app_icons_close_k_12.png_5a8fcf4f_0df6_4fc4_a558_d69d2352c9d6" />
+        <ComponentRef Id="_resources_app_icons_close_k_15.png_21e487af_22e9_4cd9_938c_91290a6795a8" />
+        <ComponentRef Id="_resources_app_icons_close_k_20.png_2c8b8d24_f7c8_42eb_b2f4_2465484df5f6" />
+        <ComponentRef Id="_resources_app_icons_close_k_24.png_49f1bd1d_594c_4456_8989_0ead44bea47f" />
+        <ComponentRef Id="_resources_app_icons_close_k_30.png_9a3857ff_9afc_468a_9377_20da272cb59e" />
+        <ComponentRef Id="_resources_app_icons_close_w_10.png_a684463f_3304_4808_a78c_314b32d30bc4" />
+        <ComponentRef Id="_resources_app_icons_close_w_12.png_43a1c34b_5aad_4c90_a49f_2f2089e8e44d" />
+        <ComponentRef Id="_resources_app_icons_close_w_15.png_4a8c13d2_9a14_4d36_a54d_3b2423ce01ee" />
+        <ComponentRef Id="_resources_app_icons_close_w_20.png_6b3836b5_8c88_409d_9827_663746a39573" />
+        <ComponentRef Id="_resources_app_icons_close_w_24.png_b657695a_abbb_4317_89bd_62a153b4aa17" />
+        <ComponentRef Id="_resources_app_icons_close_w_30.png_a17dda54_5278_45c0_b960_5d00033e1d15" />
+        <ComponentRef Id="_resources_app_icons_max_k_10.png_575304be_8c30_49bb_8b7b_d8df14e58700" />
+        <ComponentRef Id="_resources_app_icons_max_k_12.png_d2144d4b_1d90_4516_9b2d_a68e236b4c41" />
+        <ComponentRef Id="_resources_app_icons_max_k_15.png_392ea8a1_d02b_4265_afcc_88110cd7ccc6" />
+        <ComponentRef Id="_resources_app_icons_max_k_20.png_954e4253_44c0_441b_a39c_9a094667f8b5" />
+        <ComponentRef Id="_resources_app_icons_max_k_24.png_773e7e19_7c66_4bf7_829d_1a83387d7998" />
+        <ComponentRef Id="_resources_app_icons_max_k_30.png_cb265479_406b_499b_8d32_925195da3691" />
+        <ComponentRef Id="_resources_app_icons_max_w_10.png_56857ab5_e0cf_4735_8d69_5f8072dd139a" />
+        <ComponentRef Id="_resources_app_icons_max_w_12.png_2eee034f_06cf_4794_8764_e775a0aa4e9b" />
+        <ComponentRef Id="_resources_app_icons_max_w_15.png_3890aa31_7de6_4cd0_88a3_d64e76f43273" />
+        <ComponentRef Id="_resources_app_icons_max_w_20.png_8b831649_e14e_4cf2_878d_d19482cd65b5" />
+        <ComponentRef Id="_resources_app_icons_max_w_24.png_f75546c5_a723_4f94_90ef_5b4d2b77ee78" />
+        <ComponentRef Id="_resources_app_icons_max_w_30.png_09266750_659d_4e9f_aa28_df8d72f8c207" />
+        <ComponentRef Id="_resources_app_icons_min_k_10.png_08dfddaf_d5a5_4583_95ab_1020974b81b1" />
+        <ComponentRef Id="_resources_app_icons_min_k_12.png_646c18c3_687f_4a54_b75e_8cd34e8b37d1" />
+        <ComponentRef Id="_resources_app_icons_min_k_15.png_e6a304f5_4594_46e1_9cd6_d489c042801f" />
+        <ComponentRef Id="_resources_app_icons_min_k_20.png_6e29628c_fead_45a3_b088_91f96f67c55d" />
+        <ComponentRef Id="_resources_app_icons_min_k_24.png_d28c9cad_e2c5_4cab_8bd8_6d654aad8e38" />
+        <ComponentRef Id="_resources_app_icons_min_k_30.png_e05018ad_7eec_4f88_ab22_fa35b0613da4" />
+        <ComponentRef Id="_resources_app_icons_min_w_10.png_8cfb594e_b6e2_4fcd_816b_5c687ded46fa" />
+        <ComponentRef Id="_resources_app_icons_min_w_12.png_e53f9857_4d5f_4d3c_825d_5d5849209448" />
+        <ComponentRef Id="_resources_app_icons_min_w_15.png_a5253304_3793_41ff_b317_f7aaaf9b17c5" />
+        <ComponentRef Id="_resources_app_icons_min_w_20.png_79116f2a_3c47_4700_9ade_9fd3090c2447" />
+        <ComponentRef Id="_resources_app_icons_min_w_24.png_6f7cbc31_c497_470b_a05c_3106ca77f560" />
+        <ComponentRef Id="_resources_app_icons_min_w_30.png_ffa28f2e_51e0_4c10_9254_2f8ac11f6417" />
+        <ComponentRef Id="_restore_k_10.png_02c3efc2_c4c4_4bc4_8aea_84e061a53a89" />
+        <ComponentRef Id="_restore_k_12.png_1c508016_96aa_49fa_bd9f_84140a861f7a" />
+        <ComponentRef Id="_restore_k_15.png_0d5d5c23_9710_4623_8618_41dad2de3dfa" />
+        <ComponentRef Id="_restore_k_20.png_20efa381_1615_48f5_8f71_705f78bc66d4" />
+        <ComponentRef Id="_restore_k_24.png_d21a2a2a_ec49_4ec6_80e4_4523ea2bfcfc" />
+        <ComponentRef Id="_restore_k_30.png_675fa9cd_2461_4e0b_a1fb_e0b1602a9807" />
+        <ComponentRef Id="_restore_w_10.png_106510dc_1357_4a8c_9925_42b2be05ea9c" />
+        <ComponentRef Id="_restore_w_12.png_97ce22f3_c45d_4131_a262_1c9dbd3dc0e3" />
+        <ComponentRef Id="_restore_w_15.png_f6b09877_a45a_40bc_b3d2_014e63c21ce8" />
+        <ComponentRef Id="_restore_w_20.png_fdf8a964_17c0_43fa_8025_454b415181f4" />
+        <ComponentRef Id="_restore_w_24.png_0d2d6c0a_4812_4aab_8228_91385fb1feb3" />
+        <ComponentRef Id="_restore_w_30.png_8f207cc4_0747_4532_969e_df0d7a61ef3d" />
+        <ComponentRef Id="_index.js_4d188404_7c57_4d86_a8ed_31119dfa7630" />
+        <ComponentRef Id="_license_910bfdbb_5d63_4004_8b8f_df79ee272a83" />
+        <ComponentRef Id="_package.json_6fbc5fdf_d408_4378_ae4e_ef5460f7848f" />
+        <ComponentRef Id="_readme.md_049463f5_6686_4959_9b82_af75c918b79a" />
+        <ComponentRef Id="_async.js_2ab6c264_d6f7_4d70_9095_927756082c70" />
+        <ComponentRef Id="_sync_package_managers.js_e177e009_d28a_428e_a50b_e7bafd39ff7a" />
+        <ComponentRef Id="_.travis.yml_d26aeeae_67a0_4cbf_b86e_69be73de30af" />
+        <ComponentRef Id="_LICENSE_37724889_b729_4938_b230_b0f39069eda3" />
+        <ComponentRef Id="_README.md_b86120d2_4c61_4519_87c7_a54d27bda12c" />
+        <ComponentRef Id="_bower.json_baceaffd_e3f3_44a5_81f6_f82bb0033258" />
+        <ComponentRef Id="_component.json_8dc954f4_b929_4e17_b717_82edf09a66e8" />
+        <ComponentRef Id="_package.json_c0474094_b143_43f8_95f2_0b9892cf27c5" />
+        <ComponentRef Id="_FUNDING.yml_b42959e4_b0e0_46f9_8853_963f25aad088" />
+        <ComponentRef Id="_LICENSE.md_a56ffe5e_e9a6_4c1b_a149_f09dd3cc5821" />
+        <ComponentRef Id="_README.md_bbda4ded_6d7b_4f4e_af72_55e0154ad8e8" />
+        <ComponentRef Id="_index.js_6bb20ca3_1fc4_4c5a_9c10_f97888553979" />
+        <ComponentRef Id="_package.json_20525659_0a9e_4b25_ae18_280b8093571a" />
+        <ComponentRef Id="_LICENSE_656a4fcd_06d0_4f24_8423_4460d990a99b" />
+        <ComponentRef Id="_README.md_a5b9b090_f6db_4f75_b11e_6bd7104849b8" />
+        <ComponentRef Id="_index.js_67dd948c_5950_402e_bebc_2d610201ffc1" />
+        <ComponentRef Id="_package.json_2081b6c2_b11b_4abd_bd8c_234379ff64a0" />
+        <ComponentRef Id="_index.d.ts_afe768e8_7d24_44cf_ac2d_a8b0257f5219" />
+        <ComponentRef Id="_index.js_78217867_b4a9_4593_a4a0_4de151008018" />
+        <ComponentRef Id="_index.js.flow_e2dd2718_819f_4ecf_9bd1_03047f55c184" />
+        <ComponentRef Id="_license_54b7bb1a_39c6_4fa1_aa9d_5a1facfe366e" />
+        <ComponentRef Id="_package.json_67a540d5_29dc_430b_9bd7_ad7f680b57d7" />
+        <ComponentRef Id="_readme.md_a197eb59_43db_4603_82ed_8b4d3a1200ea" />
+        <ComponentRef Id="_templates.js_0e9a3b84_f666_45fe_afdf_4adbd79f56db" />
+        <ComponentRef Id="_CHANGELOG.md_59f0e9b2_19c4_463e_8fd6_d76967b0b059" />
+        <ComponentRef Id="_LICENSE_8d7307d6_fc4a_4272_b776_fa257b75a1d5" />
+        <ComponentRef Id="_README.md_a75d1e12_b456_41ca_adfe_4db889780a09" />
+        <ComponentRef Id="_conversions.js_93cd3a08_10c1_4027_8b5c_36f6ed46fd21" />
+        <ComponentRef Id="_index.js_09811b4b_dc5a_4ecd_bbdf_fb0422249397" />
+        <ComponentRef Id="_package.json_38ccd933_9e80_4d22_b186_483b0b84c396" />
+        <ComponentRef Id="_route.js_9882860d_31d9_4483_8333_e316c71bcece" />
+        <ComponentRef Id="_.eslintrc.json_fa96358d_dd3b_4ab1_96d6_91804a10cfa8" />
+        <ComponentRef Id="_.npmignore_316d99d0_ac9f_493a_8191_70ab8b0d7790" />
+        <ComponentRef Id="_LICENSE_35d988d3_7b0a_4a80_8f56_ceb79d14e4d9" />
+        <ComponentRef Id="_README.md_a589f6e9_7983_4ccb_98ec_bf67578ccc51" />
+        <ComponentRef Id="_index.js_457cb71d_96bc_4254_8549_348537f88a1a" />
+        <ComponentRef Id="_package.json_4eaa50f5_287c_4ba7_a361_c03960f175f3" />
+        <ComponentRef Id="_test.js_62952e05_aa9e_4e58_a1e1_7ef0248fc439" />
+        <ComponentRef Id="_map.js_305b9cb0_1849_4b82_8d45_ecc685702dc2" />
+        <ComponentRef Id="_map.js_9fc4513f_f454_480a_aa2e_f96bba00b1b2" />
+        <ComponentRef Id="_.travis.yml_891e466d_8837_47ae_b86c_d197aecaf519" />
+        <ComponentRef Id="_LICENSE_27fea24f_b0ee_4e21_9019_ad58b98f77d0" />
+        <ComponentRef Id="_README.markdown_908d8de1_187f_44c9_ac28_91b2183d03cf" />
+        <ComponentRef Id="_index.js_20e9a777_fe38_47dc_959a_19a1e0a7647a" />
+        <ComponentRef Id="_package.json_11094c51_b590_45fd_b6d4_d2a883ad2de4" />
+        <ComponentRef Id="_cli.js_a8371575_d1aa_437d_8b9a_6486382062b7" />
+        <ComponentRef Id="_ejs.js_c075146c_7066_48fb_9cb6_628e59d3ea12" />
+        <ComponentRef Id="_utils.js_5537efd4_3f02_4980_8667_1805a69a3132" />
+        <ComponentRef Id="_LICENSE_5209f8be_0f25_4763_ab61_61cfc196768e" />
+        <ComponentRef Id="_README.md_0735db4e_439f_400a_9004_da25086c2de3" />
+        <ComponentRef Id="_ejs.js_db8c1732_1d91_47be_a5df_b5fa201966a8" />
+        <ComponentRef Id="_ejs.min.js_662690c2_470b_4d85_991e_78145e41a588" />
+        <ComponentRef Id="_jakefile.js_59923ba4_263f_440d_91e8_f13449e92701" />
+        <ComponentRef Id="_package.json_5ffb6e48_b0b9_435f_b1e8_efdcb1f83fbc" />
+        <ComponentRef Id="_usage.txt_f35ac508_e2c8_4af6_8793_9affecd47536" />
+        <ComponentRef Id="_LICENSE_ede5bee0_6c0a_48f8_89d3_f79b53a65699" />
+        <ComponentRef Id="_README.md_1a51a1d2_47a2_4c44_a8af_e86a4ccfc224" />
+        <ComponentRef Id="_index.js_85d69f93_5cc4_4787_b3b2_a453f6d6c678" />
+        <ComponentRef Id="_package.json_8a37e665_cae3_4c46_93af_4ff0c1cfc403" />
+        <ComponentRef Id="_index.js_c3ddcb67_a1e8_43a1_a19f_929960580019" />
+        <ComponentRef Id="_license_9aaf5ed1_18cd_4950_bd3a_7de0ed5a11d2" />
+        <ComponentRef Id="_package.json_8a795245_2327_4882_983e_c39b7c533a51" />
+        <ComponentRef Id="_readme.md_4bde2745_d550_4143_ad52_ecdbc8c1c6ba" />
+        <ComponentRef Id="_README.md_bdd7e6d1_2f55_44a1_a4e4_245684a6e19a" />
+        <ComponentRef Id="_index.d.ts_d93bbb5a_b106_4c64_af70_f73299359a6a" />
+        <ComponentRef Id="_index.js_a33ec518_d6ad_4b93_a7f0_fe7f92119192" />
+        <ComponentRef Id="_jakefile.js_bdc737d6_fee6_44b5_ab79_b17ac4a262a2" />
+        <ComponentRef Id="_package.json_969d52c0_6745_462d_b896_995d04e7b310" />
+        <ComponentRef Id="_index.js_be015826_6c57_4020_96ba_12a9047255cd" />
+        <ComponentRef Id="_license_0c480876_30cd_44b8_b850_0fc28239ab42" />
+        <ComponentRef Id="_package.json_295fd966_6f05_4bed_b9ec_50c6d4aa6621" />
+        <ComponentRef Id="_readme.md_84edbbd2_1989_4575_ba4c_37eed40307ee" />
+        <ComponentRef Id="_node_jquery.js_46dca72e_a03a_4c30_8dca_dd37e1a7fa3b" />
+        <ComponentRef Id="_wrapper.js_041f9d12_79f5_47ce_82a4_ee52dbf59c71" />
+        <ComponentRef Id="_core.html_2e5002dd_507f_47c5_8e8d_e615d3187862" />
+        <ComponentRef Id="_css.css_bb01072a_3568_484c_9d18_8e381ddabd1e" />
+        <ComponentRef Id="_css.html_0fd62c0a_3a46_413b_82e1_8c492e6d1b5c" />
+        <ComponentRef Id="_helper.js_c2da770c_9b3f_45c0_8301_f23c6ddac799" />
+        <ComponentRef Id="_core.js_7e182f1f_ad1e_497d_9e34_91144c178f97" />
+        <ComponentRef Id="_css.js_aa76d541_dcef_45dc_9bbf_59e5e425d454" />
+        <ComponentRef Id="_jquery.js_d393005c_eb8b_4b65_b27a_c10c3a131635" />
+        <ComponentRef Id="_.npmignore_0e7e3da5_e70b_4bde_a8eb_b25b42485383" />
+        <ComponentRef Id="_LICENSE_MIT_27cb0ef4_7b39_4a75_91a6_ec00865b7789" />
+        <ComponentRef Id="_README.md_ea6d4069_b68f_4d63_8952_c6e7a70565c9" />
+        <ComponentRef Id="_grunt.js_082905d1_287d_41ef_8cf0_aace2014088b" />
+        <ComponentRef Id="_package.json_c3ee0683_674c_40b1_a51d_a46edf304fbf" />
+        <ComponentRef Id="_bash_completion.sh_926e52f5_da3b_4103_94b2_57dfdc47e094" />
+        <ComponentRef Id="_cli.js_be9e8356_02cb_49e2_ab40_88b97873775c" />
+        <ComponentRef Id="_directory_task.js_781d45c6_55d2_4343_aef0_9c8f1b196095" />
+        <ComponentRef Id="_file_task.js_8b9b961a_b640_4320_acc6_96434596ffeb" />
+        <ComponentRef Id="_index.js_afc577dd_cabc_40fe_8c8e_6add4fad4e1a" />
+        <ComponentRef Id="_task.js_6d89aba4_3a22_44b9_8546_55d620007461" />
+        <ComponentRef Id="_file.js_bd8f651d_1f31_4f0e_8c82_b56552459776" />
+        <ComponentRef Id="_index.js_a9b17a1a_ea21_47ca_bf77_be03205b2c58" />
+        <ComponentRef Id="_logger.js_4c20bc28_fac5_4f5e_826a_b0635dabc40a" />
+        <ComponentRef Id="_api.js_c3ee2b37_9f95_4f4e_b693_558f8d9c3289" />
+        <ComponentRef Id="_jake.js_02da475e_6068_40b0_8b58_25e9166d2ad8" />
+        <ComponentRef Id="_loader.js_da40b9d2_c9b1_464b_a0d1_7080f97fa75b" />
+        <ComponentRef Id="_namespace.js_e93e57a9_99ee_4c16_9fae_d9d776b9de71" />
+        <ComponentRef Id="_package_task.js_336425c0_154b_409c_a9fa_996ab9b5ce3f" />
+        <ComponentRef Id="_parseargs.js_77d35f22_2685_4232_a8af_9f4a6fb5a5e6" />
+        <ComponentRef Id="_program.js_7e5f9a10_b7c8_4f64_a8ff_dcec9a84a3e1" />
+        <ComponentRef Id="_publish_task.js_1a942f48_bd3a_4dda_896f_e5626ae613fd" />
+        <ComponentRef Id="_rule.js_34c67df2_96ea_4832_b66c_b206d79c1bd5" />
+        <ComponentRef Id="_test_task.js_b95a89cb_6adb_4cfc_a536_018a1a6f1122" />
+        <ComponentRef Id="_concurrent.jake.js_3dbabbf7_a40b_4e29_877b_34ba0f698fb0" />
+        <ComponentRef Id="_publish.jake.js_169469eb_4795_4353_8366_27d4b7f255e6" />
+        <ComponentRef Id="_required_module.jake.js_5d48681a_5ee8_4c13_96b7_e106211f6442" />
+        <ComponentRef Id="_rule.jake.js_bbae5e6d_b6c5_4df5_9fcb_f1298bb12944" />
+        <ComponentRef Id="_concurrent.js_c7ceeecb_06aa_4bb7_88da_7edaf8d12bd6" />
+        <ComponentRef Id="_file.js_5224beee_5542_409e_9b1c_aff5ddfa6db0" />
+        <ComponentRef Id="_file_task.js_0e42b77b_b5d6_4e3b_b456_78557c7cc361" />
+        <ComponentRef Id="_helpers.js_0d4bb27b_2402_43dc_ae63_7d4b9bd896ed" />
+        <ComponentRef Id="_jakefile.js_4dd9219f_c530_43df_a43f_be2fab813e49" />
+        <ComponentRef Id="_publish_task.js_d5d81d5e_bc88_4d64_876e_b8c113f7e394" />
+        <ComponentRef Id="_rule.js_107f93d4_008a_4543_b9b2_5248b986ed09" />
+        <ComponentRef Id="_selfdep.js_16517dfe_dc6f_407d_b74f_bfaccc01b064" />
+        <ComponentRef Id="_task_base.js_7f2e0e61_157e_4b98_89d3_d9c74dd33690" />
+        <ComponentRef Id="_jakefile.js_d34eea1f_6f13_4b19_ba7e_e291d3f9f0b9" />
+        <ComponentRef Id="_namespace.js_b2b535c8_d85c_460f_b13e_cc1ff02347f1" />
+        <ComponentRef Id="_parseargs.js_e978faa7_b226_4692_8829_bbfcabf4e8c8" />
+        <ComponentRef Id="_Makefile_34795d5e_f3eb_4a63_923b_038295aac36e" />
+        <ComponentRef Id="_README.md_69495023_13e6_4315_8d7a_74400204d77b" />
+        <ComponentRef Id="_jakefile.js_7d5a53d3_d061_40e7_adca_654f675abce2" />
+        <ComponentRef Id="_package.json_5ca3229d_06c2_4898_917d_1a11bfdce9ec" />
+        <ComponentRef Id="_usage.txt_1e5ecddb_8d97_4e0e_b85c_101642a5271a" />
+        <ComponentRef Id="_other.js_be4d461d_c1e0_46a2_9cb7_e9dfba2685c3" />
+        <ComponentRef Id="_standard.js_850216a9_387f_47b9_a79b_22e079143bcc" />
+        <ComponentRef Id="_CHANGELOG.md_4ec8610a_4913_4932_91d9_b44cfafbb7ec" />
+        <ComponentRef Id="_LICENSE_9e3b69e8_ace0_4abf_83a2_68f6eb40c902" />
+        <ComponentRef Id="_Mime.js_2b9f5fc7_5cc3_4942_bbd9_7800b292584f" />
+        <ComponentRef Id="_README.md_414ce096_5022_402a_9d20_916f63c39636" />
+        <ComponentRef Id="_cli.js_ee62d78b_5bb3_45d1_94f1_38810fff1ac5" />
+        <ComponentRef Id="_index.js_bf383126_7626_4c00_9a5e_73123fce7c8d" />
+        <ComponentRef Id="_lite.js_ca85a378_7912_49c9_8fb1_602b72fbfd4e" />
+        <ComponentRef Id="_package.json_735f9eda_42ba_4564_8939_b45ee86777b4" />
+        <ComponentRef Id="_LICENSE_c40bd74f_561b_42d9_ad6d_f811958ef509" />
+        <ComponentRef Id="_README.md_a724830e_6557_416d_931f_299e02566cdb" />
+        <ComponentRef Id="_minimatch.js_182de9f6_ad5a_4be5_aa23_2920fd3500bc" />
+        <ComponentRef Id="_package.json_9a8ebf15_6d5a_48c2_9dc4_f922a4fec29f" />
+        <ComponentRef Id="_browser.js_ec4934fc_b236_4685_b612_e00c4f5f287b" />
+        <ComponentRef Id="_index.js_a8058626_77d4_4852_84a8_ec26af708ec5" />
+        <ComponentRef Id="_license_641abc89_4411_4657_8941_8714f79f0ffe" />
+        <ComponentRef Id="_package.json_8a236127_f5e4_47a9_9fed_e8361bf25dbe" />
+        <ComponentRef Id="_readme.md_205d8c20_d2f6_42bf_b964_59c31dc0fc1e" />
+        <ComponentRef Id="_.package_lock.json_14d75e07_1c5d_402a_805d_07b4526b4b3f" />
+        <ComponentRef Id="_resources_app_.gitignore_9d8fc705_6988_4296_89e5_4566876fcd33" />
+        <ComponentRef Id="_resources_app_README.md_609ce4b0_068b_42bc_96a2_4c9fb21f28d1" />
+        <ComponentRef Id="_resources_app_index.html_2a06a0ca_e0cd_47d7_9ef6_a2bd3d9bf910" />
+        <ComponentRef Id="_resources_app_main.js_8c210752_73e7_44d2_acd8_e533a478ad39" />
+        <ComponentRef Id="_resources_app_package.json_1089d1d3_eba2_4de1_af41_e131dab84cf2" />
+        <ComponentRef Id="_resources_app_preload.js_cebfe3f4_a72e_46c6_a1cf_63a932bf1ef4" />
+        <ComponentRef Id="_resources_app_renderer.js_c9dfab8c_c1d3_44fb_a140_04a65d3c1edb" />
+        <ComponentRef Id="_swiftshader_libEGL.dll_9488c360_898d_4a29_94d5_ce02536dfa56" />
+        <ComponentRef Id="_swiftshader_libGLESv2.dll_2faf6450_0a77_4a13_a84d_8430c85d31d8" />
+        <ComponentRef Id="_LICENSE_ced1dc9a_a684_4a36_9d6c_6116c31a2180" />
+        <ComponentRef Id="_LICENSES.chromium.html_e75fabfb_43a7_4c45_80e0_7180b5a7901d" />
+        <ComponentRef Id="_VALTracker.exe_8d29ddb6_8157_47b9_adca_913ed6b09791" />
+        <ComponentRef Id="_chrome_100_percent.pak_f97b4b8b_4330_4170_beed_223b62a77a76" />
+        <ComponentRef Id="_chrome_200_percent.pak_37128985_c1bb_40ee_ad26_537252ff330b" />
+        <ComponentRef Id="_d3dcompiler_47.dll_5c8376a9_657b_40ed_bccd_5cefdfb2534b" />
+        <ComponentRef Id="_ffmpeg.dll_d73c4ad2_7590_4feb_b1d0_b8f03362d127" />
+        <ComponentRef Id="_icudtl.dat_f69f39d0_4b85_4465_b38c_d112b9dea426" />
+        <ComponentRef Id="_libEGL.dll_cba55b79_0e7d_44bc_b4c8_84a3bb8472cb" />
+        <ComponentRef Id="_libGLESv2.dll_c0d9e950_4d64_4505_89e7_6d2e4d4fd608" />
+        <ComponentRef Id="_resources.pak_dff2a634_2ac4_4d20_959b_0fadcb5f4f37" />
+        <ComponentRef Id="_snapshot_blob.bin_2ff89aa3_994d_41b2_82fb_85ada931a9f7" />
+        <ComponentRef Id="_v8_context_snapshot.bin_1bc9329c_9825_456f_b6a8_bd36c9179b9a" />
+        <ComponentRef Id="_version_cd223ba8_b0f4_41d8_99b0_f70b58e735db" />
+        <ComponentRef Id="_vk_swiftshader.dll_d2bff286_896b_43ea_b254_299615d28202" />
+        <ComponentRef Id="_vk_swiftshader_icd.json_a6b7d470_f390_4d58_b444_41d56319aaa8" />
+        <ComponentRef Id="_vulkan_1.dll_450683f9_8fda_4572_bc10_d40ea8f6bd21" />
+        <ComponentRef Id="_VALTracker.exe_508f209f_8f6f_4e38_82bc_6fe6c6356ad8" />
+        <ComponentRef Id="_.installInfo.json_c87ec64a_3c4e_4771_8b6e_85f77d0af16e" />
+        <ComponentRef Id="RegistryInstallPath" />
+        <ComponentRef Id="UninstallDisplayName" />
+        <ComponentRef Id="UninstallPublisher" />
+        <ComponentRef Id="UninstallDisplayVersion" />
+        <ComponentRef Id="UninstallModifyString" />
+        <ComponentRef Id="UninstallString" />
+        <ComponentRef Id="UninstallDisplayIcon" />
+        <ComponentRef Id="ApplicationShortcut" />
+        <ComponentRef Id="DesktopShortcut" />
+        <ComponentRef Id="PurgeOnUninstall" />
+      </Feature> 
+    </Feature> 
+  </Product>
+</Wix>

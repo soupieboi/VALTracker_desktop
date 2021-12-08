@@ -1,18 +1,17 @@
-# VALTracker
-A completely free Stats Tracker/Lineup Library/Gameinfo Client for Valorant
+## Installation of complete example app
 
-## Features:
-- Match History
-  - Every Gamemode that has an API is supported here.
-  - Click on Match provides information about the Match like Kills, Rounds etc.
+(For the tutorial starting point app, see the [`src-start` directory](/src-start))
 
-- Info on all Skins, Bundles, Cosmetics (Cards, Buddies, Titles, Sprays), Agents(Contracts, Abilities), Current Gamemode rotation, Maps, Seasons, Weapons
-- Lineup Library (Like Blitz.gg)
+Assuming you have [Node](https://nodejs.org/en/) installed, clone this repo and run `npm install` in the `src` directory.
 
-## Future Features
+#### Command line:
 
-- Current Skin Packs in the Store
-  - Current Bundle if Riot adds Store Rotation to their API
+```
+git clone https://github.com/binaryfunt/electron-seamless-titlebar-tutorial.git
 
-- Later also other Games that Provide an API?
-  - App needs to get a lot of support for this to happen
+cd electron-seamless-titlebar-tutorial/src
+
+npm install
+
+npm start
+```
