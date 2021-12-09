@@ -10,7 +10,7 @@
   "repository": "https://github.com/spiritletsplays/valtracker",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^9.4.4",
+    "electron": "^11.5.0",
     "electron-builder": "^22.14.5",
     "electron-wix-msi": "^3.2.0"
   },
@@ -18,7 +18,7 @@
     "ejs": "^3.1.6",
     "ejs-electron": "^2.1.1",
     "electron-updater": "^4.6.1",
-    "jQuery": "^1.7.4",
+    "jQuery": "^3.5.0",
     "update-electron-app": "^2.0.1"
   },
   "config": {
