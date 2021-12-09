@@ -29,7 +29,7 @@ window.onload=function(){
       var searchedPlayerName = inputValue.substring(0, inputValue.indexOf("#"));
       var searchedPlayerTag = inputValue.substring(inputValue.indexOf("#") + 1);
       $.ajax({
-        url: `https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${searchedPlayerName}/${searchedPlayerTag}?api_key=RGAPI-3b7c289e-9322-4176-9132-20a055b5c017`,
+        url: `https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${searchedPlayerName}/${searchedPlayerTag}?api_key=RGAPI-c91e5f76-d215-4c8a-bf64-248d8f637454`,
         type: 'get',
         success: function(data, xhr) {
           console.log(xhr.status);

@@ -21,29 +21,18 @@ const msiCreator = new MSICreator({
     exe: 'VALTracker',
     name: 'VALTracker',
     manufacturer: 'Spirit',
-    version: 'Alpha 0.0.2',
+    version: '0.0.2',
     appIconPath: "./icons/Avatar.ico",
 
     // Configure installer User Interface
     ui: {
-        chooseDirectory: true,
+        chooseDirectory: true
     },
-
-    features: {
-        autoUpdate: true,
-    }
 });
 
-// Step 2: Create a .wxs template file
-const supportBinaries = await msiCreator.create();
+// 4. Create a .wxs template file
+msiCreator.create().then(function(){
 
-// 🆕 Step 2a: optionally sign support binaries if you
-// sign you binaries as part of of your packaging script
-supportBinaries.forEach(async (binary) => {
-  // Binaries are the new stub executable and optionally
-  // the Squirrel auto updater.
-  await signFile(binary);
+    // Step 5: Compile the template to a .msi file
+    msiCreator.compile();
 });
-
-// Step 3: Compile the template to a .msi file
-await msiCreator.compile();

@@ -200,8 +200,11 @@ body {
 #main {
   height: calc(100% - 32px);
   margin-top: 32px;
-  padding: 20px;
   overflow-y: auto;
+  padding-top: 15%;
+  padding-bottom: 20%;
+  padding-left: 20%;
+  padding-right: 20%;
 }
 
 .form__field {
@@ -252,18 +255,4 @@ body {
 
 #search-output {
   font-size: 22px;
-}
-
-#notification {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  width: 200px;
-  padding: 20px;
-  border-radius: 5px;
-  background-color: white;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
-.hidden {
-  display: none;
 }
