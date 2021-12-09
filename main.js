@@ -1,4 +1,6 @@
 const {app, autoUpdater, BrowserWindow} = require('electron');
+require('update-electron-app')()
+autoUpdater.setFeedURL("https://github.com/SpiritLetsPlays/VALTracker");
 const path = require('path');
 
 let mainWindow;
@@ -25,16 +27,7 @@ function createWindow () {
 }
 
 app.on('ready', function() {
-    var updateApp = require('update-electron-app');
-
-    updateApp({
-        updateInterval: '1 hour',
-        notifyUser: true
-    });
     createWindow();
-    setInterval(() => {
-        autoUpdater.checkForUpdates()
-    }, 30000)
 });
 
 autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
@@ -52,3 +45,6 @@ app.on('activate', function () {
         createWindow();
     }
 });
+
+//electron-packager . --platform=win32 --arch=x64 VALTracker --overwrite
+//node build_installer.js

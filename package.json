@@ -1,12 +1,12 @@
 {
   "name": "valtracker",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "VALTracker",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
-  "author": "Spirit", 
+  "author": "Spirit",
   "repository": "https://github.com/spiritletsplays/valtracker",
   "license": "MIT",
   "devDependencies": {
@@ -20,5 +20,19 @@
     "electron-updater": "^4.6.1",
     "jQuery": "^1.7.4",
     "update-electron-app": "^2.0.1"
+  },
+  "config": {
+    "forge": {
+      "makers": [
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": ["darwin", "linux"], 
+          "config": {
+            
+          }
+        }
+      ]
+    }
   }
 }
+  
