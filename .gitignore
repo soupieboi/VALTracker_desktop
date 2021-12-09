@@ -1,11 +1,3 @@
 /node_modules
 /VALTracker-win32-x64
-/win-installer
-win_installer/VALTracker.msi
-win_installer/VALTracker.wixobj
-win_installer/VALTracker.wixpdb
-win_installer/VALTracker.wxs
-windows_installer/VALTracker.msi
-windows_installer/VALTracker.wixobj
-windows_installer/VALTracker.wixpdb
-windows_installer/VALTracker.wxs
+.gitignore
