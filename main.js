@@ -1,6 +1,4 @@
-const {app, autoUpdater, BrowserWindow} = require('electron');
-require('update-electron-app')()
-autoUpdater.setFeedURL("https://github.com/SpiritLetsPlays/VALTracker");
+const {app, BrowserWindow} = require('electron');
 const path = require('path');
 
 let mainWindow;
@@ -8,8 +6,10 @@ let mainWindow;
 function createWindow () {
     
     mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1100,
+        height: 700,
+        minWidth: 1100,
+        minHeight: 700,
         frame: false,
         backgroundColor: '#FFF',
         webPreferences: {
@@ -29,10 +29,6 @@ function createWindow () {
 app.on('ready', function() {
     createWindow();
 });
-
-autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
-    //
-})
 
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') {

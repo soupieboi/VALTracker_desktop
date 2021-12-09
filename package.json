@@ -11,28 +11,15 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^11.5.0",
-    "electron-builder": "^22.14.5",
+    "electron-builder": "^22.10.5",
+    "electron-squirrel-startup": "^1.0.0",
     "electron-wix-msi": "^3.2.0"
   },
   "dependencies": {
     "ejs": "^3.1.6",
     "ejs-electron": "^2.1.1",
     "electron-updater": "^4.6.1",
-    "jQuery": "^3.5.0",
+    "jquery": "^1.7.4",
     "update-electron-app": "^2.0.1"
-  },
-  "config": {
-    "forge": {
-      "makers": [
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": ["darwin", "linux"], 
-          "config": {
-            
-          }
-        }
-      ]
-    }
   }
 }
-  

@@ -7,6 +7,7 @@
     <script>window.$ = window.jQuery = require('jquery');</script>
 
     <script type="application/javascript" src="assets/js/playerSearch.js"></script>
+    <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/global.css">
   </head>
   <body>
@@ -34,7 +35,22 @@
         </div>
       </div>
     </header>
-    
+
+    <div class="header-relative-div" id="sec" onclick="toggle()">
+      <div id="toggle"></div>
+    </div>
+    <div class="navslide">
+      <ul class="navslide-ul-container">
+        <li id="about" class="navslide-li color"><span class="" id="search-nav">Playersearch</span></li>
+        <li id="psearch" class="navslide-li"><span class="" id="profile-nav">Your Profile</span></li>
+        <li id="programming" class="navslide-li"><span class="" id="collectibles-nav">Collectibles</span></li>
+        <li id="tools" class="navslide-li"><span class="" id="tools-nav">Agents</span></li>
+        <li id="gear" class="navslide-li"><span class="" id="tools-nav">Maps & Lineups</span></li>
+        <li id="projects" class="navslide-li"><span class="" id="projects-nav">Leaderboards</span></li>
+        <li id="contact" class="navslide-li"><span class="" id="contact-nav">LFT</span></li>
+        </ul>
+    </div>
+
     <div class="app" id="main">
       <div class="wrapper">
         <div class="search-wrapper">

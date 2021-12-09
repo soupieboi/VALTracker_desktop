@@ -30,6 +30,10 @@ body {
   border: 1px solid #3b3b3b;
 }
 
+ul {
+  list-style-type: none;
+}
+
 #titlebar {
   display: block;
   position: fixed;
@@ -200,8 +204,11 @@ body {
 #main {
   height: calc(100% - 32px);
   margin-top: 32px;
-  padding: 20px;
   overflow-y: auto;
+  padding-top: 15%;
+  padding-bottom: 20%;
+  padding-left: 20%;
+  padding-right: 20%;
 }
 
 .form__field {
@@ -252,4 +259,152 @@ body {
 
 #search-output {
   font-size: 22px;
+}
+
+#toggle {
+  position: fixed;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+#toggle::before {
+  content: '';
+  position: absolute;
+  top: 7px;
+  width: 100%;
+  height: 2px;
+  background: #fff;
+}
+
+#toggle::after {
+  content: '';
+  position: absolute;
+  bottom: 7px;
+  width: 100%;
+  height: 2px;
+  background: #fff;
+}
+
+.header-relative-div {
+  position: fixed;
+  left: 1rem;
+  top: 2.5rem;
+  width: 80%;
+  -webkit-transition: 0.4s ease;
+  -o-transition: 0.4s ease;
+  transition: 0.4s ease;
+  z-index: 1000;
+}
+
+.navslide {
+  position: fixed;
+  width: 20%;
+  left: -20%;
+  height: calc(100% - 31px);
+  margin-top: 31px;
+  top: 0px;
+  background-color: #1b1b1b;
+  z-index: 999 !important;
+  -webkit-transition: 0.4s ease;
+  -o-transition: 0.4s ease;
+  transition: 0.4s ease;
+}
+
+.navslide ul li {
+  margin-top: 1.5rem;
+  font-weight: 600;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.header-relative-div.active + #toggle {
+  -webkit-transform: translateX(25%);
+      -ms-transform: translateX(25%);
+          transform: translateX(25%);
+}
+
+.header-relative-div.active + #sec {
+  -webkit-transform: translateX(25%);
+      -ms-transform: translateX(25%);
+          transform: translateX(25%);
+}
+
+.header-relative-div.active ~ .navslide {
+  -webkit-transform: translateX(100%);
+      -ms-transform: translateX(100%);
+          transform: translateX(100%);
+}
+
+.header-relative-div.active {
+  -webkit-transform: translateX(25%);
+      -ms-transform: translateX(25%);
+          transform: translateX(25%);
+}
+
+.header-relative-div.active #toggle::before {
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%) rotate(45deg);
+      -ms-transform: translate(-50%, -50%) rotate(45deg);
+          transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.header-relative-div.active #toggle::after {
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%) rotate(-45deg);
+      -ms-transform: translate(-50%, -50%) rotate(-45deg);
+          transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.navslide-li {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  transition: 0.4s ease;
+  font-size: 1.8rem !important;
+  color: rgba(255,255,255,.5);
+  position: relative;
+  text-decoration: none;
+}
+
+.navslide-li.color {
+  background: linear-gradient(to right, #d61044, #b510d6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.navslide-li:hover > span {
+  color: #ffffff;
+  background: inherit;
+  background-clip: inherit;
+  -webkit-background-clip: inherit;
+  -webkit-text-fill-color: inherit;
+}
+
+.navslide-ul-container {
+  padding-left: 0.5rem;
+}
+
+.app {
+  background: inherit;
+  transition: all 0.4s ease;
+}
+
+.active ~ .app::before {
+  content: "";
+  position: absolute;
+  background: rgba(0,0,0,0.25);
+  width: 100%;
+  height: 100%;
+  margin-top: 31px;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /*box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.4);*/
+  overflow: hidden;
 }
