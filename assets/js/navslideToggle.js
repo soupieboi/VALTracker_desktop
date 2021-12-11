@@ -1,6 +1,6 @@
 function toggle(){
-    var sec = document.getElementById('sec');
-    sec.classList.toggle('active');
+  var sec = document.getElementById('sec');
+  sec.classList.toggle('active');
 }
 
 $(document).ready(() => {
@@ -18,7 +18,4 @@ $(document).ready(() => {
       }
     });
   }
-  $("#collects").click(function() {
-    $(".div").toggleClass("rot");
-  });
 })

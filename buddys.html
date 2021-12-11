@@ -5,8 +5,9 @@
     <title>Hello World!</title>
 
     <script>window.$ = window.jQuery = require('jquery');</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css">
 
-    <script type="application/javascript" src="assets/js/playerSearch.js"></script>
+    <script type="application/javascript" src="assets/js/loadBuddys.js"></script>
     <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
     <script type="application/javascript" src="assets/js/redirects.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/global.css">
@@ -42,12 +43,12 @@
     </div>
     <div class="navslide">
       <ul class="navslide-ul-container">
-        <li id="psearch" class="navslide-li color"><span class="" id="search-nav">Playersearch</span></li>
+        <li id="psearch" class="navslide-li"><span class="" id="search-nav">Playersearch</span></li>
         <li id="profile" class="navslide-li"><span class="" id="profile-nav">Your Profile</span></li>
         <li id="collects" class="collapsible"><span class="" id="collectables-nav"> Collectables</span></li>
         <div class="content">
           <li class="collectables-sub" id="collects-sub-bundles">Bundles</li>
-          <li class="collectables-sub" id="collects-sub-buddys">Buddys</li>
+          <li class="collectables-sub color" id="collects-sub-buddys">Buddys</li>
           <li class="collectables-sub" id="collects-sub-cards">Cards</li>
           <li class="collectables-sub" id="collects-sub-titles">Titles</li>
           <li class="collectables-sub" id="collects-sub-bps">Battlepasses</li>
@@ -57,19 +58,14 @@
         <li id="m-n-l" class="navslide-li"><span class="" id="tools-nav">Maps & Lineups</span></li>
         <li id="leads" class="navslide-li"><span class="" id="projects-nav">Leaderboards</span></li>
         <li id="lft" class="navslide-li"><span class="" id="contact-nav">LFT</span></li>
-        </ul>
+      </ul>
     </div>
 
-    <div class="app" id="main">
-      <div class="wrapper">
-        <div class="search-wrapper">
-          <span id="version"></span>
-          <h1>Search for a Player:</h1>
-          <div>
-            <input id="playerNameSearch" type="text" class="form__field" maxlength="21" placeholder="Spirit#6996" name="playerSearch"></input>
-            <button id="playerNameSearchButton" class="btn">Search</button>
-          </div>
-          <div id="search-output"></div>
+    <div class="app" id="main-collection">
+      <h1 class="pageheader">All Buddys</h1>
+      <div class="massgrid">
+        <div class="row" id="cardGrid-buddys">
+          <!---->
         </div>
       </div>
     </div>
