@@ -52,7 +52,6 @@ function createDiv() {
    var cardGrid = document.getElementById("cardGrid-buddys");
    var nextElement = document.getElementById("nextElement");
    cardGrid.insertBefore(buddycardHandlerDiv, nextElement);
-   console.log("DONE!");
 }
  
 function makeCallAndBuildElements() {
@@ -65,7 +64,6 @@ function makeCallAndBuildElements() {
             ApiCall_BuddyTitle = data.data[count].displayName
             ApiCall_ImageSource = data.data[count].displayIcon
             createDiv();
-            console.log(data.data[count].displayName);
             if(count == undefined) {
                break;
             }
