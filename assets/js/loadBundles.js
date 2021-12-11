@@ -66,7 +66,6 @@ function makeCallAndBuildElements() {
             ApiCall_BundleTitle = data.data[count].displayName
             ApiCall_ImageSource = data.data[count].displayIcon2
             createDiv();
-            console.log(data.data[count].displayName);
             if(count == undefined) {
                break;
             }
