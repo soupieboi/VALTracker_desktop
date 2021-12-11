@@ -1,6 +1,9 @@
-const replaceText = (text) => {
-   const element = document.getElementById("search-output");
-   if (element) element.innerText = text
+function loadFade() {
+   $('.app').fadeTo(50, 1);
+}
+
+function leaveFade() {
+   $('.app').fadeTo(50, 0);
 }
 
 var ApiCall_BundleTitle;
@@ -18,7 +21,6 @@ function createDiv() {
 
    var bundlecardImage = document.createElement("img");
    bundlecardImage.className = "bundle-image";
-   bundlecardImage.id = "img";
    bundlecardImage.src = ApiCall_ImageSource;
 
    var bundlecardHoverDiv = document.createElement("div");
@@ -53,7 +55,6 @@ function createDiv() {
    var cardGrid = document.getElementById("cardGrid");
    var nextElement = document.getElementById("nextElement");
    cardGrid.insertBefore(bundlecardHandlerDiv, nextElement);
-   console.log("DONE!");
 }
 
 function makeCallAndBuildElements() {
@@ -62,9 +63,17 @@ function makeCallAndBuildElements() {
       type: 'get',
       success: function(data, jqXHR) {
          var count;
-         for(var count = 0; count < 10000; count++) {
-            ApiCall_BundleTitle = data.data[count].displayName
-            ApiCall_ImageSource = data.data[count].displayIcon2
+         for(var count = 0; count < 1000; count++) {
+            if(data.data[count].displayIcon2 == "https://media.valorant-api.com/bundles/fc723fef-444a-4013-a741-3e85a97382f2/displayicon2.png") {
+               ApiCall_BundleTitle = data.data[count].displayName + " 2.0"
+               ApiCall_ImageSource = data.data[count].displayIcon2
+            } else if(data.data[count].displayIcon2 == "https://media.valorant-api.com/bundles/338cabdb-473f-1f37-fa35-47a3d994517f/displayicon2.png"){
+               ApiCall_BundleTitle = data.data[count].displayName + " 2.0"
+               ApiCall_ImageSource = data.data[count].displayIcon2
+            } else {
+               ApiCall_BundleTitle = data.data[count].displayName
+               ApiCall_ImageSource = data.data[count].displayIcon2
+            }
             createDiv();
             if(count == undefined) {
                break;
