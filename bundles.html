@@ -5,8 +5,9 @@
     <title>Hello World!</title>
 
     <script>window.$ = window.jQuery = require('jquery');</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css">
 
-    <script type="application/javascript" src="assets/js/playerSearch.js"></script>
+    <script type="application/javascript" src="assets/js/loadBundles.js"></script>
     <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
     <script type="application/javascript" src="assets/js/redirects.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/global.css">
@@ -42,11 +43,11 @@
     </div>
     <div class="navslide">
       <ul class="navslide-ul-container">
-        <li id="psearch" class="navslide-li color"><span class="" id="search-nav">Playersearch</span></li>
+        <li id="psearch" class="navslide-li"><span class="" id="search-nav">Playersearch</span></li>
         <li id="profile" class="navslide-li"><span class="" id="profile-nav">Your Profile</span></li>
-        <li id="collects" class="collapsible"><span class="div">></span><span class="" id="collectables-nav"> collectables</span></li>
+        <li id="collects" class="collapsible"><span class="div">></span><span class="" id="collectables-nav"> Collectables</span></li>
         <div class="content">
-          <li class="collectables-sub" id="collects-sub-bundles">Bundles</li>
+          <li class="collectables-sub color" id="collects-sub-bundles">Bundles</li>
           <li class="collectables-sub" id="collects-sub-buddys">Buddys</li>
           <li class="collectables-sub" id="collects-sub-cards">Cards</li>
           <li class="collectables-sub" id="collects-sub-titles">Titles</li>
@@ -60,16 +61,49 @@
         </ul>
     </div>
 
-    <div class="app" id="main">
-      <div class="wrapper">
-        <div class="search-wrapper">
-          <span id="version"></span>
-          <h1>Search for a Player:</h1>
-          <div>
-            <input id="playerNameSearch" type="text" class="form__field" maxlength="21" placeholder="Spirit#6996" name="playerSearch"></input>
-            <button id="playerNameSearchButton" class="btn">Search</button>
+    <div class="app" id="main-collection">
+      <h1 class="pageheader">All Bundles</h1>
+      <div class="bundlegrid">
+        <div class="row">
+          <!---->
+          <div class="col-xs-6 col-md-3 col-xl-1">
+            <div class="bundlecard">
+              <img src="icons/displayicon.png" class="bundle-image" id="img">
+              <div class="bundlecard-hovertext"><span>RGX 11z Pro</span></div>
+              <div class="bundlecard-seperator">
+                <hr class="bundlecard-seperator-hr">
+              </div>
+              <div class="bundletitle-div">
+                <span class="bundle-title">RGX 11z Pro</span>
+              </div>
+            </div>
           </div>
-          <div id="search-output"></div>
+          <!--
+          <div class="col-xs-6 col-md-3 col-xl-1">
+            <div class="bundlecard">
+              <img src="icons/displayicon2.png" class="bundle-image" id="img">
+              <div class="bundlecard-hovertext"><span>Gravitaional Uranium Neuroblaster</span></div>
+              <div class="bundlecard-seperator">
+                <hr class="bundlecard-seperator-hr">
+              </div>
+              <div class="bundletitle-div">
+                <span class="bundle-title">Gravitaional Uranium Neuroblaster</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-6 col-md-3 col-xl-1">
+            <div class="bundlecard">
+              <img src="icons/displayicon3.png" class="bundle-image" id="img">
+              <div class="bundlecard-hovertext"><span>Oni</span></div>
+              <div class="bundlecard-seperator">
+                <hr class="bundlecard-seperator-hr">
+              </div>
+              <div class="bundletitle-div">
+                <span class="bundle-title">Oni</span>
+              </div>
+            </div>
+          </div>
+          -->
         </div>
       </div>
     </div>

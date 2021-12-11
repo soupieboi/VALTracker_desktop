@@ -8,7 +8,7 @@ window.onload=function(){
   // Execute a function when the user releases a key on the keyboard
   $("#playerNameSearch").keyup(function(event) {
     var inputValue = document.getElementById("playerNameSearch").value;
-    if (event.key === 13) {
+    if (event.keyCode === 13) {
       if (inputValue.indexOf('#') > -1) {
         $("#playerNameSearchButton").click();
       } else {
