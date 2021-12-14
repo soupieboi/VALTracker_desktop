@@ -9,9 +9,11 @@ function makeCallAndBuildElements() {
          var count;
          for(var count = 0; count < 1000; count++) {
             if(data.data[count].displayIcon2 == "https://media.valorant-api.com/bundles/fc723fef-444a-4013-a741-3e85a97382f2/displayicon2.png") {
-               continue
+               ApiCall_BundleTitle = data.data[count].displayName + " 2.0"
+               ApiCall_ImageSource = data.data[count].displayIcon2
             } else if(data.data[count].displayIcon2 == "https://media.valorant-api.com/bundles/338cabdb-473f-1f37-fa35-47a3d994517f/displayicon2.png"){
-               continue
+               ApiCall_BundleTitle = data.data[count].displayName + " 2.0"
+               ApiCall_ImageSource = data.data[count].displayIcon2
             } else {
                ApiCall_BundleTitle = data.data[count].displayName
                ApiCall_ImageSource = data.data[count].displayIcon2
@@ -27,7 +29,7 @@ function makeCallAndBuildElements() {
          
             var bundlecardDiv = document.createElement("div");
             bundlecardDiv.classList.add(`bundlecard`);
-            bundlecardDiv.setAttribute("onclick", "shiftBundleView(this.lastChild.firstChild.textContent, this.firstChild.id)");
+            bundlecardDiv.setAttribute("onclick", "shiftBundleView(this.lastChild.firstChild.textContent, this.firstChild.src)");
          
             var bundlecardImage = document.createElement("img");
             bundlecardImage.className = "bundle-image";
@@ -117,3 +119,4 @@ function makeCallAndBuildElements() {
 $(document).ready(() => {
    makeCallAndBuildElements();
 });
+
