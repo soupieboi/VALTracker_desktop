@@ -25,21 +25,16 @@ p {
   color: rgba(255,255,255,0.4);
 }
 
-/* Styling of window frame and titlebar */
-body {
-  border: 1px solid #3b3b3b;
-}
-
 /*Custom Scrollbar*/
 
-body::-webkit-scrollbar {
+*::-webkit-scrollbar {
   font-size: 25px;
-  width: 0.4rem;
+  width: 0.8rem;
 }
-body::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   background: #1e1e24;
 }
-body::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   background: rgb(194, 194, 194);
 }
 
@@ -71,6 +66,10 @@ a:visited {color:rgba(255,255,255,.5)}
 
 #titlebar {
   padding: 4px;
+  z-index: 10000;
+  background-color: #2d2d2d;
+  top: -1px;
+  margin-top: 1px;
 }
 
 #titlebar #drag-region {
@@ -175,6 +174,7 @@ a:visited {color:rgba(255,255,255,.5)}
 #close-button:active {
   background: #F1707A !important;
 }
+
 #close-button:active .icon {
   filter: invert(1);
 }
@@ -182,9 +182,11 @@ a:visited {color:rgba(255,255,255,.5)}
 #min-button {
   grid-column: 1;
 }
+
 #max-button, #restore-button {
   grid-column: 2;
 }
+
 #close-button {
   grid-column: 3;
 }
@@ -426,12 +428,13 @@ a:visited {color:rgba(255,255,255,.5)}
 .app {
   background: inherit;
   transition: all 0.4s ease;
+  z-index: 10;
 }
 
 .active ~ .app::before {
   content: "";
   position: absolute;
-  background: rgba(0,0,0,0.25);
+  background: rgba(0,0,0,0);
   width: 100%;
   height: 100%;
   margin-top: 31px;
@@ -517,14 +520,7 @@ a:visited {color:rgba(255,255,255,.5)}
   margin-right: 5%;
   margin-top: 1%;
   font-size: 17px;
-}
-
-.row {
-  pointer-events: none; 
-}
-
-.col-xs-6.col-md-3.col-xl-1 {
-  pointer-events: none; 
+  transition: all 0.2s ease;
 }
 
 .bundlecard {
@@ -540,63 +536,11 @@ a:visited {color:rgba(255,255,255,.5)}
   transition: all 0.4s ease;
   margin-bottom: 2rem;
   user-select: none;
-  pointer-events: auto; 
+  pointer-events: auto !important;
 }
 
-.bundlecard.move {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  transition: all 0s ease;
-}
-
-#viewActive {
-  transition: all 0s ease;
-  background-color: inherit;
-  overflow: hidden;
-  margin-bottom: 2rem;
-  user-select: none;
-  pointer-events: auto; 
-  padding: 0;
-}
-
-.bundleHandlerDiv {
-  display: block;
-}
-
-.bundleHandlerDiv::before {
-  content: "Monke"
-}
-
-.bundlecard.move > .bundle-image {
-  width: 50%;
-  height: auto;
-}
-
-#viewActive > .bundlecard-seperator {
-  opacity: 0;
-}
-
-#viewActive > .bundletitle-div {
-  opacity: 0;
-}
-
-.bundlecard.move:hover > *:not(.bundlecard-hovertext) {
-  filter: none;
-}
-
-.bundlecard.move:hover > .bundlecard-hovertext {
-  opacity: 0;
-}
-
-.bundlecard.move:hover > .bundle-image {
-  filter: drop-shadow(0px 0px 5px #000);
-  -webkit-filter: drop-shadow(0px 0px 5px #000);
-}
-
-.bundlecard.move:hover {
-  transform: none;
-  cursor: inherit;
+.bundlecard:active > .bundlecard-hovertext span {
+  color: #bc0233;
 }
 
 .bundlecard:hover {
@@ -631,7 +575,7 @@ a:visited {color:rgba(255,255,255,.5)}
   text-align: center;
   display: grid;
   place-items: center;
-  transition: all 0.4s ease;
+  transition: all 0.2s ease;
   opacity: 0;
   word-wrap: normal;
 }
@@ -783,4 +727,122 @@ a:visited {color:rgba(255,255,255,.5)}
   .col-xs-3.col-md-2.col-xl-1 {
     margin-right: 1.5rem;
   }
+}
+
+.bundle-largeview {
+  height: calc(100% - 32px);
+  margin-top: 32px;
+  padding-top: 3%;
+  padding-bottom: 5%;
+  padding-left: 5%;
+  padding-right: 5%;
+  color: white;
+  transition: all 0.4s ease;
+  overflow: auto;
+}
+
+.largeview-bundleinfo-flex {
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.largeinfo-bundleinfo-flex-right {
+  margin-left: 5%;
+  font-size: 1em;
+  margin-top: 1rem;
+}
+
+.largeinfo-bundleinfo-flex-right-ul {
+  font-size: 1.2em;
+}
+
+.largeview-bundleimage {
+  width: 18rem;
+  height: auto;
+  border-radius: 10px;
+  filter: drop-shadow(0px 0px 5px #000);
+  -webkit-filter: drop-shadow(0px 0px 5px #000);
+  margin-top: 1rem;
+}
+
+.largeview-seperator {
+  width: 100%;
+  border: 1px solid grey;
+  margin-bottom: 2rem;
+}
+
+.largeview-bundle-colors {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 5rem;
+}
+
+.largeview-bundle-colors h1 {
+  margin-right: 2rem;
+}
+
+.swatch {
+  cursor: pointer;
+  width: 4rem;
+  margin-right: 2rem;
+  filter: drop-shadow(0px 0px 5px #000);
+  -webkit-filter: drop-shadow(0px 0px 5px #000);
+  transition: all 0.2s ease;
+}
+
+.swatch:hover {
+  transform: scale(1.05);
+}
+
+.largeview-bundle-weapon-flex {
+  display: flex;
+  margin-bottom: 4rem;
+}
+
+.largeview-bundle-weapon-info {
+  margin-left: auto;
+}
+
+.largeview-bundle-weapon-img {
+  width: auto;
+  height: 8rem;
+  filter: drop-shadow(0px 0px 5px #000);
+  -webkit-filter: drop-shadow(0px 0px 5px #000);
+}
+
+.largeview-bundle-weapon-info ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.largeview-bundle-weapon-info ul li {
+  margin-left: auto;
+}
+
+#largeview-bundleweapon-preview {
+  border: none;
+  background-color: #bc0233;
+  color: white;
+  cursor: pointer;
+  padding: 15px 40px;
+  border-radius: 20px;
+  display: inline-block;
+  outline: none;
+  position: relative;
+  transition: all 0.3s;
+  margin-left: auto;
+}
+
+#largeview-bundleweapon-preview:hover {
+  background-color: #d61044;
+  border-radius: 10px;
+}
+
+.bundle-weapons:last-child {
+  margin-bottom: 5rem;
+}
+
+.largeview-vid {
+  display: none;
 }

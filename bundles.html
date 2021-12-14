@@ -6,12 +6,8 @@
 
     <script>window.$ = window.jQuery = require('jquery');</script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css">
-    
-    <script type="application/javascript" src="assets/js/bundleViews.js"></script>
-    <script type="application/javascript" src="assets/js/loadBundles.js"></script>
-    <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
-    <script type="application/javascript" src="assets/js/redirects.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/global.css">
+    <script type="application/javascript" src="assets/js/loadBundles.js" defer></script>
   </head>
   <body>
     <header id="titlebar">
@@ -66,13 +62,29 @@
       <h1 class="pageheader" id="pageheader">All Bundles</h1>
       <div class="massgrid">
         <div class="row" id="cardGrid">
+
           <!---->
+
         </div>
       </div>
     </div>
 
+    <!---->
+
+    <div class="bundle-largeview" id="largeview-handler" style="display: none;">
+
+      <!---->
+
+      <div class="largeview-vid" id="promo-vid-div"><video class="largeview-weapon-video" src="icons/d12ea5b8-4a76-f370-5e10-07859b7cca81.mp4" id="largeview-vid-element"></video></div>
+    </div>
+    <!--DU BIST HIER! NOCH KEINE ANBINDUNG AN API, NUR STATIC ;)-->
+
     <script>
       require('./renderer.js')
     </script>
+
+    <script type="application/javascript" src="assets/js/bundleViews.js"></script>
+    <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
+    <script type="application/javascript" src="assets/js/redirects.js"></script>
   </body>
 </html>

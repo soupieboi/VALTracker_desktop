@@ -1,61 +1,5 @@
-function loadFade() {
-   $('.app').fadeTo(50, 1);
-}
-
-function leaveFade() {
-   $('.app').fadeTo(50, 0);
-}
-
 var ApiCall_BundleTitle;
 var ApiCall_ImageSource;
-
-function createDiv() {
-   var displayBundleName = document.createTextNode(ApiCall_BundleTitle);
-   var displayHoverName = document.createTextNode(ApiCall_BundleTitle);
-
-   var bundlecardHandlerDiv = document.createElement("div");
-   bundlecardHandlerDiv.classList.add("col-xs-6", "col-md-3", "col-xl-1");
-
-   var bundlecardDiv = document.createElement("div");
-   bundlecardDiv.className = "bundlecard";
-
-   var bundlecardImage = document.createElement("img");
-   bundlecardImage.className = "bundle-image";
-   bundlecardImage.src = ApiCall_ImageSource;
-
-   var bundlecardHoverDiv = document.createElement("div");
-   bundlecardHoverDiv.className = "bundlecard-hovertext";
-   var bundlecardHoverText = document.createElement("span");
-
-   var bundlecardSepDiv = document.createElement("div");
-   bundlecardSepDiv.className = "bundlecard-seperator";
-   var bundlecardSepHr = document.createElement("hr");
-   bundlecardSepHr.className = "bundlecard-seperator-hr";
-
-   var bundletitleDiv = document.createElement("div");
-   bundletitleDiv.className = "bundletitle-div";
-   var bundleTitle = document.createElement("span");
-   bundleTitle.className = "bundle-title";
-
-   bundlecardHandlerDiv.appendChild(bundlecardDiv);
-
-   bundlecardDiv.appendChild(bundlecardImage);
-   bundlecardDiv.appendChild(bundlecardHoverDiv);
-   bundlecardDiv.appendChild(bundlecardSepDiv);
-   bundlecardDiv.appendChild(bundletitleDiv);
-
-   bundlecardSepDiv.appendChild(bundlecardSepHr);
-   bundlecardHoverDiv.appendChild(bundlecardHoverText);
-   bundlecardHoverText.appendChild(displayBundleName);
-   
-   bundletitleDiv.appendChild(bundleTitle);
-   bundleTitle.appendChild(displayBundleName);
-   bundlecardHoverText.appendChild(displayHoverName);
-
-   var cardGrid = document.getElementById("cardGrid");
-   var nextElement = document.getElementById("nextElement");
-   cardGrid.insertBefore(bundlecardHandlerDiv, nextElement);
-}
 
 function makeCallAndBuildElements() {
    $.ajax({
@@ -65,17 +9,68 @@ function makeCallAndBuildElements() {
          var count;
          for(var count = 0; count < 1000; count++) {
             if(data.data[count].displayIcon2 == "https://media.valorant-api.com/bundles/fc723fef-444a-4013-a741-3e85a97382f2/displayicon2.png") {
-               ApiCall_BundleTitle = data.data[count].displayName + " 2.0"
-               ApiCall_ImageSource = data.data[count].displayIcon2
+               continue
             } else if(data.data[count].displayIcon2 == "https://media.valorant-api.com/bundles/338cabdb-473f-1f37-fa35-47a3d994517f/displayicon2.png"){
-               ApiCall_BundleTitle = data.data[count].displayName + " 2.0"
-               ApiCall_ImageSource = data.data[count].displayIcon2
+               continue
             } else {
                ApiCall_BundleTitle = data.data[count].displayName
                ApiCall_ImageSource = data.data[count].displayIcon2
             }
-            createDiv();
-            if(count == undefined) {
+            
+//------------------------------------ CREATING ELEMENT --------------------------------------------------------
+
+            var displayBundleName = document.createTextNode(ApiCall_BundleTitle);
+            var displayHoverName = document.createTextNode(ApiCall_BundleTitle);
+         
+            var bundlecardHandlerDiv = document.createElement("div");
+            bundlecardHandlerDiv.classList.add("col-xs-6", "col-md-3", "col-xl-1");
+         
+            var bundlecardDiv = document.createElement("div");
+            bundlecardDiv.classList.add(`bundlecard`);
+            bundlecardDiv.setAttribute("onclick", "shiftBundleView(this.lastChild.firstChild.textContent, this.firstChild.id)");
+         
+            var bundlecardImage = document.createElement("img");
+            bundlecardImage.className = "bundle-image";
+            bundlecardImage.src = ApiCall_ImageSource;
+            bundlecardImage.setAttribute("id", `card-image-${count + 1}`);
+         
+            var bundlecardHoverDiv = document.createElement("div");
+            bundlecardHoverDiv.className = "bundlecard-hovertext";
+            var bundlecardHoverText = document.createElement("span");
+            bundlecardHoverText.setAttribute("id", `bundlename-${count + 1}`);
+         
+            var bundlecardSepDiv = document.createElement("div");
+            bundlecardSepDiv.className = "bundlecard-seperator";
+            var bundlecardSepHr = document.createElement("hr");
+            bundlecardSepHr.className = "bundlecard-seperator-hr";
+         
+            var bundletitleDiv = document.createElement("div");
+            bundletitleDiv.className = "bundletitle-div";
+            var bundleTitle = document.createElement("span");
+            bundleTitle.className = "bundle-title";
+         
+            bundlecardHandlerDiv.appendChild(bundlecardDiv);
+         
+            bundlecardDiv.appendChild(bundlecardImage);
+            bundlecardDiv.appendChild(bundlecardHoverDiv);
+            bundlecardDiv.appendChild(bundlecardSepDiv);
+            bundlecardDiv.appendChild(bundletitleDiv);
+         
+            bundlecardSepDiv.appendChild(bundlecardSepHr);
+            bundlecardHoverDiv.appendChild(bundlecardHoverText);
+            bundlecardHoverText.appendChild(displayBundleName);
+            
+            bundletitleDiv.appendChild(bundleTitle);
+            bundleTitle.appendChild(displayBundleName);
+            bundlecardHoverText.appendChild(displayHoverName);
+         
+            var cardGrid = document.getElementById("cardGrid");
+            var nextElement = document.getElementById("nextElement");
+            cardGrid.insertBefore(bundlecardHandlerDiv, nextElement);
+
+//----------------------------------------------------------------------------------------------------------------
+
+            if(count == null) {
                break;
             }
          }
