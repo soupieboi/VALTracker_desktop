@@ -7,6 +7,7 @@
     <script>window.$ = window.jQuery = require('jquery');</script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="assets/css/global.css">
+    <link rel="preload" as="style" href="assets/css/global.css">
     <script type="application/javascript" src="assets/js/loadBundles.js" defer></script>
   </head>
   <body>
@@ -58,7 +59,7 @@
         </ul>
     </div>
 
-    <div class="app" id="main-collection">
+    <div class="app" id="main-collection" style="transform: scale(0.9);">
       <h1 class="pageheader" id="pageheader">All Bundles</h1>
       <div class="massgrid">
         <div class="row" id="cardGrid">
@@ -70,14 +71,18 @@
     </div>
 
     <!---->
-
     <div class="bundle-largeview" id="largeview-handler" style="display: none;">
+      <div class="header-relative-div-largeview" id="sec" onclick="leaveToBundles()" style="opacity: 0;">
+        <div id="toggle"></div>
+      </div>
 
       <!---->
-
-      <div class="largeview-vid" id="promo-vid-div"><video class="largeview-weapon-video" src="icons/d12ea5b8-4a76-f370-5e10-07859b7cca81.mp4" id="largeview-vid-element"></video></div>
+    <div class="largeview-vid" id="promo-vid-div">
+      <div class="header-relative-div-video" id="sec" onclick="hideVideo()" style="opacity: 0;">
+        <div id="toggle"></div>
+      </div>
+    <video controls onloadstart="this.volume=0.3" class="largeview-weapon-video" src="icons/d12ea5b8-4a76-f370-5e10-07859b7cca81.mp4" id="largeview-vid-element"></video>
     </div>
-    <!--DU BIST HIER! NOCH KEINE ANBINDUNG AN API, NUR STATIC ;)-->
 
     <script>
       require('./renderer.js')
@@ -86,5 +91,8 @@
     <script type="application/javascript" src="assets/js/bundleViews.js"></script>
     <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
     <script type="application/javascript" src="assets/js/redirects.js"></script>
+    <script type="application/javascript" src="assets/js/changeBundleChroma.js"></script>
+    <script type="application/javascript" src="assets/js/leaveToBundles.js"></script>
+    <script type="application/javascript" src="assets/js/loadPromoVideo.js"></script>
   </body>
 </html>

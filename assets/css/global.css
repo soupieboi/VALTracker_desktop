@@ -303,6 +303,7 @@ a:visited {color:rgba(255,255,255,.5)}
   width: 30px;
   height: 30px;
   cursor: pointer;
+  z-index: 10000;
 }
 
 #toggle::before {
@@ -775,7 +776,7 @@ a:visited {color:rgba(255,255,255,.5)}
   align-items: center;
   display: flex;
   flex-direction: row;
-  margin-bottom: 5rem;
+  margin-bottom: 2rem;
 }
 
 .largeview-bundle-colors h1 {
@@ -844,5 +845,91 @@ a:visited {color:rgba(255,255,255,.5)}
 }
 
 .largeview-vid {
+  display: none;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  transition: all 0.4s ease;
+}
+
+.largeview-weapon-video {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  top: -6rem;
+}
+
+video:focus {
+  outline: none;
+}
+
+.header-relative-div-largeview {
+  position: fixed;
+  left: 95%;
+  top: 3rem;
+  width: 100%;
+  -webkit-transition: 0.4s ease;
+  -o-transition: 0.4s ease;
+  transition: 0.4s ease;
+  z-index: 1000;
+}
+
+.header-relative-div-largeview #toggle::after {
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%) rotate(-45deg);
+      -ms-transform: translate(-50%, -50%) rotate(-45deg);
+          transform: translate(-50%, -50%) rotate(-45deg);
+  border-color: #bc0233;
+  color: #bc0233;
+}
+
+.header-relative-div-largeview #toggle::before {
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%) rotate(45deg);
+      -ms-transform: translate(-50%, -50%) rotate(45deg);
+          transform: translate(-50%, -50%) rotate(45deg);
+  border-color: #bc0233;
+  color: #bc0233;
+}
+
+.hiddenBundleDesc {
+  display: none;
+}
+
+.header-relative-div-video {
+  position: fixed;
+  left: 80%;
+  top: 9rem;
+  width: 100%;
+  -webkit-transition: 0.4s ease;
+  -o-transition: 0.4s ease;
+  transition: 0.4s ease;
+  z-index: 1000;
+}
+
+.header-relative-div-video #toggle::after {
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%) rotate(-45deg);
+      -ms-transform: translate(-50%, -50%) rotate(-45deg);
+          transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.header-relative-div-video #toggle::before {
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%) rotate(45deg);
+      -ms-transform: translate(-50%, -50%) rotate(45deg);
+          transform: translate(-50%, -50%) rotate(45deg);
+}
+
+#largeview-bundleweapon-preview-link-hidden {
   display: none;
 }

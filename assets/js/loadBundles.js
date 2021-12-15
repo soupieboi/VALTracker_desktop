@@ -8,28 +8,30 @@ function makeCallAndBuildElements() {
       success: function(data, jqXHR) {
          var count;
          for(var count = 0; count < 1000; count++) {
-            if(data.data[count].displayIcon2 == "https://media.valorant-api.com/bundles/fc723fef-444a-4013-a741-3e85a97382f2/displayicon2.png") {
+            if(data.data[count].displayIcon2 == "https://media.valorant-api.com/bundles/fc723fef-444a-4013-a741-3e85a97382f2/displayicon2.png" || data.data[count].displayIcon2 == "https://media.valorant-api.com/bundles/338cabdb-473f-1f37-fa35-47a3d994517f/displayicon2.png") {
                ApiCall_BundleTitle = data.data[count].displayName + " 2.0"
                ApiCall_ImageSource = data.data[count].displayIcon2
-            } else if(data.data[count].displayIcon2 == "https://media.valorant-api.com/bundles/338cabdb-473f-1f37-fa35-47a3d994517f/displayicon2.png"){
-               ApiCall_BundleTitle = data.data[count].displayName + " 2.0"
-               ApiCall_ImageSource = data.data[count].displayIcon2
+               ApiCall_ExtraDesc = data.data[count].extraDescription
+            } else if(data.data[count].displayName == "Give Back" || data.data[count].displayName == "Run It Back"){
+               continue;
             } else {
                ApiCall_BundleTitle = data.data[count].displayName
                ApiCall_ImageSource = data.data[count].displayIcon2
+               ApiCall_ExtraDesc = data.data[count].extraDescription
             }
             
 //------------------------------------ CREATING ELEMENT --------------------------------------------------------
 
             var displayBundleName = document.createTextNode(ApiCall_BundleTitle);
             var displayHoverName = document.createTextNode(ApiCall_BundleTitle);
+            var hiddenDesc = document.createTextNode(ApiCall_ExtraDesc);
          
             var bundlecardHandlerDiv = document.createElement("div");
             bundlecardHandlerDiv.classList.add("col-xs-6", "col-md-3", "col-xl-1");
          
             var bundlecardDiv = document.createElement("div");
             bundlecardDiv.classList.add(`bundlecard`);
-            bundlecardDiv.setAttribute("onclick", "shiftBundleView(this.lastChild.firstChild.textContent, this.firstChild.src)");
+            bundlecardDiv.setAttribute("onclick", "shiftBundleView(this.lastChild.firstChild.textContent, this.firstChild.src, this.childNodes[3].textContent)");
          
             var bundlecardImage = document.createElement("img");
             bundlecardImage.className = "bundle-image";
@@ -40,6 +42,11 @@ function makeCallAndBuildElements() {
             bundlecardHoverDiv.className = "bundlecard-hovertext";
             var bundlecardHoverText = document.createElement("span");
             bundlecardHoverText.setAttribute("id", `bundlename-${count + 1}`);
+
+            var bundlecardDescInvisible = document.createElement("span");
+            bundlecardDescInvisible.className = "hiddenBundleDesc"
+            bundlecardDescInvisible.setAttribute("id", `bundledesc-${count + 1}`);
+            bundlecardDescInvisible.appendChild(hiddenDesc);
          
             var bundlecardSepDiv = document.createElement("div");
             bundlecardSepDiv.className = "bundlecard-seperator";
@@ -56,6 +63,7 @@ function makeCallAndBuildElements() {
             bundlecardDiv.appendChild(bundlecardImage);
             bundlecardDiv.appendChild(bundlecardHoverDiv);
             bundlecardDiv.appendChild(bundlecardSepDiv);
+            bundlecardDiv.appendChild(bundlecardDescInvisible);
             bundlecardDiv.appendChild(bundletitleDiv);
          
             bundlecardSepDiv.appendChild(bundlecardSepHr);
@@ -117,6 +125,7 @@ function makeCallAndBuildElements() {
 }
 
 $(document).ready(() => {
+   $(".app").css("transform", "scale(1)")
    makeCallAndBuildElements();
 });
 
