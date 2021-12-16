@@ -32,10 +32,6 @@ window.onload=function(){
         url: `https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${searchedPlayerName}/${searchedPlayerTag}?api_key=RGAPI-c91e5f76-d215-4c8a-bf64-248d8f637454`,
         type: 'get',
         success: function(data, xhr) {
-          console.log(xhr.status);
-          console.log(data.puuid);
-          console.log(data.gameName);
-          console.log(data.tagLine);
           var playerUUID = data.puuid;
     
           replaceText("PLAYER FOUND!\nYou searched for: " + searchedPlayerName + "#" + searchedPlayerTag + "\n PUUID: " + playerUUID);

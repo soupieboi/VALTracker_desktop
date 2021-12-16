@@ -1,6 +1,6 @@
 {
   "name": "valtracker",
-  "version": "0.0.7",
+  "version": "0.0.7.1",
   "description": "VALTracker",
   "main": "main.js",
   "scripts": {
@@ -19,7 +19,7 @@
     "ejs": "^3.1.6",
     "ejs-electron": "^2.1.1",
     "electron-updater": "^4.6.1",
-    "jquery": "^2.2.1",
+    "jquery": "^3.5.0",
     "update-electron-app": "^2.0.1"
   }
 }

@@ -126,6 +126,7 @@ function makeCallAndBuildElements() {
 
 $(document).ready(() => {
    $(".app").css("transform", "scale(1)")
+   sessionStorage.removeItem("chroma")
    makeCallAndBuildElements();
 });
 

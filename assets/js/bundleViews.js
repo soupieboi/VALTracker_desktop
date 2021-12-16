@@ -131,16 +131,36 @@ function shiftBundleView(event, imageid, bundledescmonke) {
                      flexLi1H2.className = document.createElement("bundle-weapon-info-gunname");
                      flexLi1H2.appendChild(document.createTextNode(data.data[count].skins[count2].displayName));
 
-                     var flexLi2 = document.createElement("li");
-                     var flexLi2Button = document.createElement("button");
-                     flexLi2Button.setAttribute("id", "largeview-bundleweapon-preview");
-                     flexLi2Button.setAttribute("onclick", "showPromoVid(this.parentElement.lastChild)");
-                     flexLi2Button.appendChild(document.createTextNode("Preview Video"));
+                     if(data.data[count].skins[count2].levels[data.data[count].skins[count2].levels.length-1].streamedVideo) {
+                        var flexLi2 = document.createElement("li");
+                        var flexLi2Button = document.createElement("button");
+                        flexLi2Button.className = "largeview-bundleweapon-preview";
+                        flexLi2Button.setAttribute("id", `${count}`);
+                        flexLi2Button.setAttribute("onclick", "showPromoVid(this.parentElement.firstChild.textContent, this.id, this.parentElement.parentElement.parentElement.parentElement.firstChild.id)");
+                        flexLi2Button.appendChild(document.createTextNode("Preview Video"));
+                     } else {
+                        var flexLi2 = document.createElement("li");
+                        var flexLi2Button = document.createElement("button");
+                        flexLi2Button.className = "largeview-bundleweapon-preview";
+                        flexLi2Button.setAttribute("id", `${count}`);
+                        flexLi2Button.setAttribute("onclick", "showPromoVid(this.parentElement.firstChild.textContent, this.id, this.parentElement.parentElement.parentElement.parentElement.firstChild.id)");
+                        flexLi2Button.setAttribute("style", "display: none;");
+                        flexLi2Button.appendChild(document.createTextNode("Preview Video"));
+                     }
+
+                     var bundlePromoVid;
+
+                     if (data.data[count].skins[count2].chromas[count3].streamedVideo == !null){
+                        bundlePromoVid = data.data[count].skins[count2].chromas[count3].streamedVideo;
+                     } else {
+                        var manualCount = data.data[count].skins[count2].levels.length;
+                        bundlePromoVid = data.data[count].skins[count2].levels[manualCount-1].streamedVideo;
+                     }
 
                      var flexLi2HiddenSpan = document.createElement("span");
-                     flexLi2HiddenSpan.setAttribute("id", "largeview-bundleweapon-preview-link-hidden");
-                     flexLi2HiddenSpan.appendChild(document.createTextNode("Preview Video"));
-
+                     flexLi2HiddenSpan.setAttribute("id", `largeview-bundleweapon-preview-link-hidden`);
+                     flexLi2HiddenSpan.appendChild(document.createTextNode(bundlePromoVid));
+                     flexLi2.appendChild(flexLi2HiddenSpan);
       
                      actualBundleWeapons.appendChild(bundleWeaponFlex);
                   
@@ -155,7 +175,6 @@ function shiftBundleView(event, imageid, bundledescmonke) {
                      flexLi1.appendChild(flexLi1H2);
                   
                      flexLi2.appendChild(flexLi2Button);
-                     flexLi2.appendChild(flexLi2HiddenSpan);
                   
                      bundleinfoFlex.appendChild(bundleImage);
                      bundleinfoFlex.appendChild(infoFlexRight);
@@ -236,6 +255,7 @@ function shiftBundleView(event, imageid, bundledescmonke) {
                         swatchImage.setAttribute("draggable", `false`);
                                  
                         bundleColorOptions.appendChild(swatchImage);
+
                         break;
 
                      } else {

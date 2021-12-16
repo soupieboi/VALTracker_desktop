@@ -2,20 +2,23 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>VALTracker</title>
 
     <script>window.$ = window.jQuery = require('jquery');</script>
+    
+    <link rel="preload" as="style" href="assets/css/global.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="assets/css/global.css">
-    <link rel="preload" as="style" href="assets/css/global.css">
+
     <script type="application/javascript" src="assets/js/loadBundles.js" defer></script>
+    <script src="https://kit.fontawesome.com/0fb7a47199.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <header id="titlebar">
       <div id="drag-region">
         <div id="window-title">
           <img class="titlebar-img" src="./icons/Avatar.ico">
-          <span>VALTracker Alpha V0.0.6</span>
+          <span>VALTracker Alpha V0.0.7.1</span>
         </div>
         <div id="window-controls">
 
@@ -60,7 +63,13 @@
     </div>
 
     <div class="app" id="main-collection" style="transform: scale(0.9);">
-      <h1 class="pageheader" id="pageheader">All Bundles</h1>
+      <div class="pageheader-div">
+        <h1 class="pageheader" id="pageheader">All Bundles</h1>
+        <div class="search-input-wrapper">
+          <input type="text" class="search-input" id="search-input" maxlength="35" placeholder="Search" onkeyup="bundleSearch()">
+          <i class="fas fa-search"></i>
+        </div>
+      </div>
       <div class="massgrid">
         <div class="row" id="cardGrid">
 
@@ -81,7 +90,7 @@
       <div class="header-relative-div-video" id="sec" onclick="hideVideo()" style="opacity: 0;">
         <div id="toggle"></div>
       </div>
-    <video controls onloadstart="this.volume=0.3" class="largeview-weapon-video" src="icons/d12ea5b8-4a76-f370-5e10-07859b7cca81.mp4" id="largeview-vid-element"></video>
+    <video controls onloadstart="this.volume=0.25" class="largeview-weapon-video" src="" id="largeview-vid-element"></video>
     </div>
 
     <script>
@@ -94,5 +103,6 @@
     <script type="application/javascript" src="assets/js/changeBundleChroma.js"></script>
     <script type="application/javascript" src="assets/js/leaveToBundles.js"></script>
     <script type="application/javascript" src="assets/js/loadPromoVideo.js"></script>
+    <script type="application/javascript" src="assets/js/searchBundles.js"></script>
   </body>
 </html>
