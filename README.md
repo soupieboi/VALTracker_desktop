@@ -9,14 +9,4 @@ A completely free Stats Tracker/Lineup Library/Gameinfo Client for Valorant
 
 - Info on all Skins, Bundles, Cosmetics (Cards, Buddies, Titles, Sprays), Agents(Contracts, Abilities), Current Gamemode rotation, Maps, Seasons, Weapons
 
-- Lineup Library (Like Blitz.gg)
-
-## Future Features
-
-- Current Skin Packs in the Store
-    - Current Bundle if Riot adds Store Rotation to their API
-
-    <hr>
-
-- Later also other Games that Provide an API?
-    - App needs to get a lot of support for this to happen
+- Lineup Library
