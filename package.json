@@ -1,10 +1,28 @@
 {
   "name": "valtracker",
-  "version": "0.0.7.1",
-  "description": "VALTracker",
+  "productName": "VALTracker",
+  "version": "0.7.2",
+  "description": "A free Desktop app to look up your VALORANT Statistics.",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "build": {
+    "appId": "VALTracker",
+    "win": {
+      "target": ["nsis"],
+      "icon": "icons/Avatar.ico",
+      "requestedExecutionLevel": "requireAdministrator"
+    },
+    "nsis": {
+      "installerIcon": "icons/Avatar.ico",
+      "uninstallerIcon": "icons/Avatar.ico",
+      "uninstallDisplayName": "VALTracker",
+      "license": "license.txt",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
   },
   "author": "Spirit",
   "repository": "https://github.com/spiritletsplays/valtracker",
@@ -18,8 +36,10 @@
   "dependencies": {
     "ejs": "^3.1.6",
     "ejs-electron": "^2.1.1",
+    "electron-is-dev": "^2.0.0",
+    "electron-log": "^4.4.3",
     "electron-updater": "^4.6.1",
-    "jquery": "^3.5.0",
+    "jquery": ">=3.5.0",
     "update-electron-app": "^2.0.1"
   }
 }

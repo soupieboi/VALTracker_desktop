@@ -129,4 +129,3 @@ $(document).ready(() => {
    sessionStorage.removeItem("chroma")
    makeCallAndBuildElements();
 });
-

@@ -1038,6 +1038,7 @@ video:focus {
 }
 
 .header-relative-div-video #toggle::after {
+  content: "";
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%) rotate(-45deg);
@@ -1046,6 +1047,7 @@ video:focus {
 }
 
 .header-relative-div-video #toggle::before {
+  content: "";
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%) rotate(45deg);

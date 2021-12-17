@@ -1,9 +1,4 @@
+/assets
+/icons
 /node_modules
-/VALTracker-win32-x64
-.gitignore
-./windows_installer
-windows_installer/VALTracker.msi
-windows_installer/VALTracker.wixobj
-windows_installer/VALTracker.wixpdb
-windows_installer/VALTracker.wxs
-*.msi
+/dist
