@@ -4,4 +4,4 @@ package-lock.json
 /dist/builder-effective-config.yml
 dist/builder-effective-config.yaml
 .gitattributes
-/dist/win-unpacked
+/dist
