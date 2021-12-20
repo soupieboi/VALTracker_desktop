@@ -1,7 +1,2 @@
 /node_modules
-package-lock.json
-/dist/builder-debug.yml
-/dist/builder-effective-config.yml
-dist/builder-effective-config.yaml
-.gitattributes
 /dist
