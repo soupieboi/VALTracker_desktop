@@ -1,7 +1,9 @@
-function shiftBundleView(event, imageid, bundledescmonke) {
+function shiftBundleView(event, imageid, bundledescmonke, thisE) {
    var leaveShift = 1.05;
    var hiddenShift = 0.9;
    var endShift = 1;
+   console.log(thisE.className);
+   $('.bundlecard').attr('onclick', '');
    $('body').css('overflow', 'hidden');
    $('.app').css('transform', 'scale(' + leaveShift + ')');
    $('.bundle-largeview').css('transform', 'scale(' + hiddenShift + ')');

@@ -1,4 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700&display=swap');
+
+:root {
+  --app-color: #12171d;
+  --app-color-light: #1b222b;
+  --app-color-lightest: #242e3a;
+}
+
 /* Basic styling */
 html {-webkit-box-sizing: border-box;box-sizing: border-box;}
 html, body {height: 100%; margin: 0;}
@@ -9,7 +16,7 @@ html, body {height: 100%; margin: 0;}
 
 body {
   font-family: "Segoe UI", sans-serif;
-  background: #2d2d2d;
+  background: var(--app-color);
   color: #FFF;
   overflow-y: hidden;
 }
@@ -67,7 +74,7 @@ a:visited {color:rgba(255,255,255,.5)}
 #titlebar {
   padding: 4px;
   z-index: 10000;
-  background-color: #2d2d2d;
+  background-color: var(--app-color);
   top: -1px;
   margin-top: 1px;
 }
@@ -235,6 +242,26 @@ a:visited {color:rgba(255,255,255,.5)}
   display: none;
 }
 
+button {
+  border: none;
+  background-color: #bc0233;
+  color: white;
+  cursor: pointer;
+  padding: 15px 40px;
+  border-radius: 20px;
+  display: inline-block;
+  outline: none;
+  position: relative;
+  -webkit-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+button:hover {
+  background-color: #d61044;
+  border-radius: 10px;
+}
+
 
 
 
@@ -301,30 +328,8 @@ a:visited {color:rgba(255,255,255,.5)}
   padding-bottom: 7px;
   font-weight: 600;
   border-width: 3px;
-  -o-border-image: -o-linear-gradient(left, #d61044, #d6107d);
-     border-image: -webkit-gradient(linear, left top, right top, from(#d61044), to(#d6107d));
-     border-image: linear-gradient(to right, #d61044, #d6107d);
+  border-image: linear-gradient(to right, #c80043, #6f00ff);
   border-image-slice: 1;
-}
-
-.btn {
-  border: none;
-  background-color: #bc0233;
-  color: white;
-  cursor: pointer;
-  padding: 15px 40px;
-  border-radius: 20px;
-  display: inline-block;
-  outline: none;
-  position: relative;
-  -webkit-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  transition: all 0.3s;
-}
-
-.btn:hover {
-  background-color: #d61044;
-  border-radius: 10px;
 }
 
 .search-wrapper {
@@ -374,23 +379,26 @@ a:visited {color:rgba(255,255,255,.5)}
 
 .navslide {
   position: fixed;
-  width: 20%;
+  width: 19.9%;
   left: -20%;
   height: calc(100% - 31px);
   margin-top: 31px;
   top: 0px;
-  background-color: #1b1b1b;
+  background-color: #1F2226;
+  filter: drop-shadow(0px 0px 0px #000);
+  -webkit-filter: drop-shadow(0px 0px 0px #000);
   z-index: 999 !important;
   -webkit-transition: 0.4s ease;
   -o-transition: 0.4s ease;
   transition: 0.4s ease;
+  border-right: 1px solid white;
 }
 
 .navslide ul li {
   margin-top: 1.5rem;
   margin-left: 0.5rem;
-  font-weight: 300;
-  font-size: 25px;
+  font-weight: 400;
+  font-size: 1.4em;
   cursor: pointer;
 }
 
@@ -448,9 +456,7 @@ a:visited {color:rgba(255,255,255,.5)}
 }
 
 .navslide-li.color {
-  background: -webkit-gradient(linear, left top, right top, from(#d61044), to(#d6107d));
-  background: -o-linear-gradient(left, #d61044, #d6107d);
-  background: linear-gradient(to right, #d61044, #d6107d);
+  background: linear-gradient(to right, #c80043, #6f00ff);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -468,27 +474,16 @@ a:visited {color:rgba(255,255,255,.5)}
   padding-left: 0.5rem;
 }
 
+.content {
+  margin-left: 8%;
+}
+
 .app {
   background: inherit;
   -webkit-transition: all 0.4s ease;
   -o-transition: all 0.4s ease;
   transition: all 0.4s ease;
   z-index: 10;
-}
-
-.active ~ .app::before {
-  content: "";
-  position: absolute;
-  background: rgba(0,0,0,0);
-  width: 100%;
-  height: 100%;
-  margin-top: 31px;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
 }
 
 .content {
@@ -524,9 +519,7 @@ a:visited {color:rgba(255,255,255,.5)}
 }
 
 .active, .collapsible:hover {
-  background: -webkit-gradient(linear, left top, right top, from(#da305d), to(#b92fd4));
-  background: -o-linear-gradient(left, #da305d, #b92fd4);
-  background: linear-gradient(to right, #da305d, #b92fd4);
+  background: linear-gradient(to right, #c80043, #6f00ff);
   background-clip: text;
   -webkit-background-clip: text;
 }
@@ -561,9 +554,7 @@ a:visited {color:rgba(255,255,255,.5)}
 }
 
 .collectables-sub.color {
-  background: -webkit-gradient(linear, left top, right top, from(#d61044), to(#b510d6));
-  background: -o-linear-gradient(left, #d61044, #b510d6);
-  background: linear-gradient(to right, #d61044, #b510d6);
+  background: linear-gradient(to right, #c80043, #6f00ff);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -587,12 +578,11 @@ a:visited {color:rgba(255,255,255,.5)}
   display: inline-block;
   width: 93%;
   height: auto;
-  background-color: #222222;
+  background-color: var(--app-color-light);
   overflow: hidden;
   padding: 1.5%;
-  border-radius: 10px;
-  filter: drop-shadow(0px 0px 2px #000);
-  -webkit-filter: drop-shadow(0px 0px 2px #000);
+  filter: drop-shadow(0px 0px 0px #000);
+  -webkit-filter: drop-shadow(0px 0px 0px #000);
   -webkit-transition: all 0.4s ease;
   -o-transition: all 0.4s ease;
   transition: all 0.4s ease;
@@ -602,16 +592,19 @@ a:visited {color:rgba(255,255,255,.5)}
       -ms-user-select: none;
           user-select: none;
   pointer-events: auto !important;
+  z-index: 2;
+  border-radius: 10px;
+  border: 1px solid rgb(156, 156, 156);
 }
 
 .bundlecard:active > .bundlecard-hovertext span {
-  color: #bc0233;
+  color: #f70344;
 }
 
 .bundlecard:hover {
-  -webkit-transform: scale(1.1);
-      -ms-transform: scale(1.1);
-          transform: scale(1.1);
+  -webkit-transform: scale(1.05);
+      -ms-transform: scale(1.05);
+          transform: scale(1.05);
   cursor: pointer;
 }
 
@@ -631,8 +624,8 @@ a:visited {color:rgba(255,255,255,.5)}
   width: 100%;
   height: auto;
   border-radius: 10px;
-  filter: drop-shadow(0px 0px 5px #000);
-  -webkit-filter: drop-shadow(0px 0px 5px #000);
+  filter: drop-shadow(0px 0px 2px var(--app-color-lightest));
+  -webkit-filter: drop-shadow(0px 0px 2px var(--app-color-lightest));
   -webkit-transition: all 0.4s ease;
   -o-transition: all 0.4s ease;
   transition: all 0.4s ease;
@@ -666,6 +659,15 @@ a:visited {color:rgba(255,255,255,.5)}
 .pageheader {
   margin-top: 3%;
   margin-left: 5%;
+}
+
+.bundlecard-seperator-hr {
+  background: -webkit-linear-gradient(to right, #c80043, #6f00ff);
+  background: -o-linear-gradient(to right, #c80043, #6f00ff);
+  background: -moz-linear-gradient(to right, #c80043, #6f00ff);
+  background: linear-gradient(to right, #c80043, #6f00ff);
+  height: 3px;
+  border: none;
 }
 
 .bundlecard-text {
@@ -859,9 +861,13 @@ a:visited {color:rgba(255,255,255,.5)}
   margin-top: 1rem;
 }
 
-.largeview-seperator {
-  width: 100%;
-  border: 1px solid grey;
+.largeview-seperator { 
+  background: -webkit-linear-gradient(to right, #c80043, #6f00ff);
+  background: -o-linear-gradient(to right, #c80043, #6f00ff);
+  background: -moz-linear-gradient(to right, #c80043, #6f00ff);
+  background: linear-gradient(to right, #c80043, #6f00ff);
+  height: 3px;
+  border: none;
   margin-bottom: 2rem;
 }
 
@@ -932,27 +938,6 @@ a:visited {color:rgba(255,255,255,.5)}
   margin-left: auto;
 }
 
-.largeview-bundleweapon-preview {
-  border: none;
-  background-color: #bc0233;
-  color: white;
-  cursor: pointer;
-  padding: 15px 40px;
-  border-radius: 20px;
-  display: inline-block;
-  outline: none;
-  position: relative;
-  -webkit-transition: all 0.3s;
-  -o-transition: all 0.3s;
-  transition: all 0.3s;
-  margin-left: auto;
-}
-
-.largeview-bundleweapon-preview:hover {
-  background-color: #d61044;
-  border-radius: 10px;
-}
-
 .bundle-weapons:last-child {
   margin-bottom: 5rem;
 }
@@ -976,15 +961,42 @@ a:visited {color:rgba(255,255,255,.5)}
   transition: all 0.4s ease;
 }
 
+.maximized .largeview-weapon-video {
+  position: relative;
+  width: 100%;
+  height: 70%;
+  top: -6rem;
+  left: -2%;
+}
+
 .largeview-weapon-video {
   position: relative;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-  top: -6rem;
+  width: 70%;
+  height: calc(fit-content - 5%);
+  top: -5rem;
+  left: 15%;
+}
+
+.maximized .header-relative-div-video {
+  position: fixed;
+  left: 79.5%;
+  top: 12% !important;
+  width: 100%;
+  -webkit-transition: 0.4s ease;
+  -o-transition: 0.4s ease;
+  transition: 0.4s ease;
+  z-index: 1000;
+}
+
+.header-relative-div-video {
+  position: fixed;
+  left: -80%;
+  top: 14% !important;
+  width: 100%;
+  -webkit-transition: 0.4s ease;
+  -o-transition: 0.4s ease;
+  transition: 0.4s ease;
+  z-index: 1000;
 }
 
 video:focus {
@@ -993,7 +1005,7 @@ video:focus {
 
 .header-relative-div-largeview {
   position: fixed;
-  left: 95%;
+  left: 94%;
   top: 3rem;
   width: 100%;
   -webkit-transition: 0.4s ease;
@@ -1117,8 +1129,366 @@ video:focus {
 .search-input:focus {
   padding-bottom: 7px;
   border-width: 3px;
-  -o-border-image: -o-linear-gradient(left, #d61044, #d6107d);
-     border-image: -webkit-gradient(linear, left top, right top, from(#d61044), to(#d6107d));
-     border-image: linear-gradient(to right, #d61044, #d6107d);
+  border-image: linear-gradient(to right, #c80043, #6f00ff);
   border-image-slice: 1;
+}
+
+#weapon {
+  display: flex;
+  border: 1px solid grey;
+  width: 90%;
+}
+
+.weapon-collapsible {
+  width: fit-content;
+  font-size: 1.8rem !important;
+  color: rgba(255,255,255,.5);
+  position: relative;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+
+.weapon-collapsible::before {
+  content: "\27A4";
+}
+
+.weapon-collapsible:hover {
+  color: white;
+}
+
+.weapon-collapsible:hover {
+  color: rgb(22, 22, 22);
+}
+
+.weapon-collapsible.active {
+  color: #000;
+  background: none;
+}
+
+.weapon-collapsible.active::before {
+  content: "\25BC";
+}
+
+.weapon-collapsible:hover > .collapsible::before {
+  color: white;
+}
+
+.weapon-image {
+  width: 25%;
+  margin-right: 2rem;
+  filter: drop-shadow(0px 0px 5px rgb(0, 0, 0));
+  -webkit-filter: drop-shadow(0px 0px 5px rgb(0, 0, 0));
+}
+
+.weapon-name {
+  font-size: 1.6em;
+}
+
+.weapon-skins {
+  font-size: 1.4em;
+  color: #000;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  margin-bottom: 1rem;
+  height: 101%;
+}
+
+.weapon-sub {
+  font-size: 1.35em !important;
+  font-weight: 400;
+  margin-left: 1rem;
+  color: rgba(255,255,255,.5);
+  cursor: pointer;
+}
+
+.weapon-sub:hover {
+  color: white;
+}
+
+.weapon-sub.color {
+  background: linear-gradient(to right, #c80043, #6f00ff);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.maximized .main-inv {
+  display: grid;
+  position: relative;
+  grid-template-columns: 15% 15% 21% 21% 25%;
+  grid-template-rows: 20% 20% 20% 20% 20%;
+  gap: 2.8% 1%;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "Card Classic Stinger Bulldog Marshal"
+    "Card Shorty Spectre Guardian Operator"
+    "Card Frenzy Bucky Phantom Ares"
+    "Title Ghost Judge Vandal Odin"
+    "Spray-3 Sheriff Free-Space Free-Space Melee";
+  height: 100%;
+  transform: scale(0.88) !important;
+  width: 100% !important;
+  left: 0 !important;
+  top: -3.85%;
+}
+
+.main-inv {
+  display: grid;
+  position: relative;
+  grid-template-columns: 15% 15% 21% 21% 25%;
+  grid-template-rows: 20% 20% 20% 20% 20%;
+  gap: 2.8% 1%;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "Card Classic Stinger Bulldog Marshal"
+    "Card Shorty Spectre Guardian Operator"
+    "Card Frenzy Bucky Phantom Ares"
+    "Title Ghost Judge Vandal Odin"
+    "Spray-3 Sheriff Free-Space Free-Space Melee";
+  height: 100%;
+  width: 105%;
+  left: -4%;
+  transform: scale(0.85);
+  top: -3.85%;
+}
+
+.Classic { 
+  grid-area: Classic; 
+  background-color: rgba(224, 60, 60, 0.2);
+}
+
+.Shorty { 
+  grid-area: Shorty; 
+  background-color: rgba(224, 60, 60, 0.2);
+}
+
+.Frenzy { 
+  grid-area: Frenzy; 
+  background-color: rgba(224, 60, 60, 0.2);
+}
+
+.Ghost { 
+  grid-area: Ghost; 
+  background-color: rgba(224, 60, 60, 0.2);
+}
+
+.Sheriff { 
+  grid-area: Sheriff; 
+  background-color: rgba(224, 60, 60, 0.2);
+}
+
+.Stinger { 
+  grid-area: Stinger; 
+  background-color: rgba(224, 60, 60, 0.2);
+}
+
+.Spectre { 
+  grid-area: Spectre; 
+  background-color: rgba(224, 60, 60, 0.2);
+}
+
+.Bucky { 
+  grid-area: Bucky; 
+  background-color: rgba(224, 60, 60, 0.2);
+}
+
+.Judge { 
+  grid-area: Judge; 
+  background-color: rgba(224, 60, 60, 0.2);
+}
+
+.Free-Space { 
+  grid-area: Free-Space;
+}
+
+.Bulldog { 
+  grid-area: Bulldog; 
+  background-color: rgba(224, 60, 60, 0.2);
+}
+
+.Guardian { 
+  grid-area: Guardian; 
+  background-color: rgba(224, 60, 60, 0.2);
+}
+
+.Phantom { 
+  grid-area: Phantom; 
+  background-color: rgba(224, 60, 60, 0.2);
+}
+
+.Vandal { 
+  grid-area: Vandal; 
+  background-color: rgba(224, 60, 60, 0.2);
+}
+
+.Marshal { 
+  grid-area: Marshal; 
+  background-color: rgba(224, 60, 60, 0.2);
+}
+
+.Operator { 
+  grid-area: Operator; 
+  background-color: rgba(224, 60, 60, 0.2);
+}
+
+.Ares { 
+  grid-area: Ares; 
+  background-color: rgba(224, 60, 60, 0.2);
+}
+
+.Odin { 
+  grid-area: Odin; 
+  background-color: rgba(224, 60, 60, 0.2);
+}
+
+.Melee { 
+  grid-area: Melee; 
+  background-color: rgba(224, 60, 60, 0.2);
+}
+
+.Card { 
+  grid-area: Card;
+  position: relative;
+  text-align: center;
+  text-justify: baseline;
+}
+
+.Spray { 
+  grid-area: Spray-3; 
+  background-color: rgba(224, 60, 60, 0.2);
+}
+
+.Title {
+  grid-area: Title;
+  background-color: rgba(224, 60, 60, 0.2);
+}
+
+.main-inv div {
+  position: relative;
+  color: #000;
+  font-size: 1.6em;
+  text-align: baseline;
+  align-content: center;
+  justify-items: center;
+  display: grid;
+  user-select: none;
+  min-width: 90%;
+  max-width: 110%;
+}
+
+.main-inv div img {
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0px 0px 10px #000);
+}
+
+.spray-img {
+  width: 80%;
+  height: auto;
+  transition: all 0.2s ease;
+  -webkit-user-drag: none;
+}
+
+.maximized .playercard-img {
+  width: 100% !important;
+  height: 100%;
+  transition: all 0.2s ease;
+}
+
+.playercard-img {
+  width: 100%;
+  height: 100%;
+  transition: all 0.2s ease;
+  z-index: 1;
+  -webkit-user-drag: none;
+}
+
+.type-header {
+  color: white;
+  position: absolute;
+  top: -16%;
+  pointer-events: none;
+}
+
+.card-header {
+  color: white;
+  position: absolute;
+  top: -4.8%;
+  z-index: 2;
+}
+
+.gunname {
+  position: absolute;
+  bottom: 0;
+  font-size: 1.1em;
+  width: 100%;
+  text-align: center;
+  background-color: rgba(243, 44, 44, 0.3);
+}
+
+#weapon-tile {
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: 2px solid rgb(100, 100, 100);
+  border-radius: 20px;
+}
+
+#weapon-tile span {
+  transition: all 0.2s ease;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+#weapon-tile img {
+  position: relative;
+  top: -10%;
+}
+
+#weapon-tile::before {
+  content: "";
+  background-color: #1b1b1b;
+  width: 100%;
+  height: auto;
+  transform: skewX(20deg) translateX(-110%);
+}
+
+#weapon-tile:hover > #weapon-tile::before {
+  content: "";
+  background-color: #1b1b1b;
+  transform: skewX(20deg) translateX(0);
+}
+
+#weapon-tile:hover:not(.type-header) > *:not(.type-header):not(.card-header):not(.gunname) {
+  transform: scale(1.1);
+}
+
+#card-tile {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 20px;
+}
+
+#card-tile img {
+  border-radius: 20px;
+  border: 2px solid rgb(100, 100, 100);
+  filter: drop-shadow(0px 0px 2px #000);
+}
+
+#card-tile:hover:not(.type-header) > *:not(.type-header):not(.card-header):not(.gunname) {
+  transform: scale(1.025);
+}
+
+#currentSkinsPage {
+  margin-left: 8%;
+}
+
+#currentSkinsPage::before {
+  content: "\2BA9";
 }

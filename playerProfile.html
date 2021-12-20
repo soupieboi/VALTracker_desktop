@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="assets/css/global.css">
 
-    <script type="application/javascript" src="assets/js/loadBundles.js" defer></script>
     <script src="https://kit.fontawesome.com/0fb7a47199.js" crossorigin="anonymous"></script>
   </head>
   <body>
@@ -43,11 +42,12 @@
     </div>
     <div class="navslide">
       <ul class="navslide-ul-container">
-        <li id="psearch" class="navslide-li"><span class="" id="search-nav">Playersearch</span></li>
-        <li id="profile" class="navslide-li color"><span class="" id="profile-nav">Your Profile</span></li>
+        <li id="psearch" class="navslide-li color"><span class="" id="search-nav">Playersearch</span></li>
+        <li id="profile" class="navslide-li"><span class="" id="profile-nav">Your Profile</span></li>
         <li id="collects" class="collapsible"><span class="" id="collectables-nav"> Collectables</span></li>
         <div class="content">
           <li class="collectables-sub" id="collects-sub-bundles">Bundles</li>
+          <li class="collectables-sub" id="collects-sub-skins">Skins</li>
           <li class="collectables-sub" id="collects-sub-buddys">Buddys</li>
           <li class="collectables-sub" id="collects-sub-cards">Cards</li>
           <!--<li class="collectables-sub" id="collects-sub-titles">Titles</li>
@@ -61,19 +61,38 @@
         </ul>
     </div>
 
-    <div class="app" id="main">
-      <div class="wrapper">
-        Haha monke
+    <div class="app" id="main-collection" style="transform: scale(0.9);">
+      <div class="pageheader-div">
+        <h1 class="pageheader" id="pageheader">Spirit#6996</h1>
       </div>
+      <div class="massgrid">
+        <div class="row" id="cardGrid">
+
+          <!---->
+
+        </div>
+      </div>
+    </div>
+
+    <!---->
+    <div class="bundle-largeview" id="largeview-handler" style="display: none;">
+      <div class="header-relative-div-largeview" id="sec" onclick="leaveToBundles()" style="opacity: 0;">
+        <div id="toggle"></div>
+      </div>
+
+      <!---->
+    <div class="largeview-vid" id="promo-vid-div">
+      <div class="header-relative-div-video" id="sec" onclick="hideVideo()" style="opacity: 0;">
+        <div id="toggle"></div>
+      </div>
+    <video controls onloadstart="this.volume=0.25" class="largeview-weapon-video" src="" id="largeview-vid-element"></video>
     </div>
 
     <script>
       require('./renderer.js')
     </script>
 
-    <script type="application/javascript" src="assets/js/playerSearch.js"></script>
     <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
     <script type="application/javascript" src="assets/js/redirects.js"></script>
-    <link rel="stylesheet" type="text/css" href="assets/css/global.css">
   </body>
-</html>
+</html> 

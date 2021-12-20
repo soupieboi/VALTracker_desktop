@@ -28,13 +28,15 @@ window.onload=function(){
       event.preventDefault();
       var searchedPlayerName = inputValue.substring(0, inputValue.indexOf("#"));
       var searchedPlayerTag = inputValue.substring(inputValue.indexOf("#") + 1);
+      console.log(searchedPlayerName)
+      console.log(searchedPlayerTag)
       $.ajax({
-        url: `https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/${searchedPlayerName}/${searchedPlayerTag}?api_key=RGAPI-c91e5f76-d215-4c8a-bf64-248d8f637454`,
+        url: `https://api.henrikdev.xyz/valorant/v1/account/${searchedPlayerName}/${searchedPlayerTag}`,
         type: 'get',
         success: function(data, xhr) {
-          var playerUUID = data.puuid;
-    
-          replaceText("PLAYER FOUND!\nYou searched for: " + searchedPlayerName + "#" + searchedPlayerTag + "\n PUUID: " + playerUUID);
+          sessionStorage.setItem("player_name", searchedPlayerName);
+          sessionStorage.setItem("player_tag", searchedPlayerTag);
+          window.location.href = "playerProfile.html";
         },
         error: function(xhr) {
           //get the status code
