@@ -1,5 +1,6 @@
 const {app, BrowserWindow} = require('electron');
 const path = require('path');
+import { autoUpdater } from "electron-updater"
 
 let mainWindow;
 
@@ -40,6 +41,38 @@ app.on('activate', function () {
     if (mainWindow === null) {
         createWindow();
     }
+});
+
+const sendStatusToWindow = (text) => {
+    log.info(text);
+    if(mainWindow) {
+        mainWindow.webContents.send('message', text)
+    }
+}
+
+autoUpdater.on('checking-for-update', () => {
+    sendStatusToWindow('Checking for update...');
+});
+
+autoUpdater.on('update-available', info => {
+    sendStatusToWindow('Update found.');
+});
+
+autoUpdater.on('update-not-available', info => {
+    sendStatusToWindow('No updates found.');
+});
+
+autoUpdater.on('error', err => {
+    sendStatusToWindow(`Encuntered an Error while updating: ${err.toString()}`);
+});
+
+autoUpdater.on('download-progress', progressObj => {
+    sendStatusToWindow(`Download speed: ${progressObj.bytesPerSecond} - Downloaded ${progressObj.percent}%`);
+});
+
+autoUpdater.on('update-downloaded', info => {
+    sendStatusToWindow('Update downloaded, will install now.');
+    autoUpdater.quitAndInstall();
 });
 
 //npm run build

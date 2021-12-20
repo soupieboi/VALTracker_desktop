@@ -65,7 +65,7 @@
       <div class="wrapper">
         <div class="search-wrapper">
           <span id="version"></span>
-          <h1>Search for a Player:</h1>
+          <h1>Search for a Player: (Update test)</h1>
           <div>
             <input id="playerNameSearch" type="text" class="form__field" maxlength="21" placeholder="Spirit#6996" name="playerSearch"></input>
             <button id="playerNameSearchButton" class="btn">Search</button>
@@ -78,8 +78,13 @@
     <script>
       require('./renderer.js')
     </script>
+    <script>
+      const { ipcRenderer } = require('electron');
+      ipcRenderer.on('message', function(event, text) {
+        console.log('Message from Updater: ', text)
+      })
+    </script>
 
-    <!--<script type="application/javascript" src="assets/js/home/update.js"></script>-->
     <script type="application/javascript" src="assets/js/home/playerSearch.js"></script>
     <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
     <script type="application/javascript" src="assets/js/redirects.js"></script>

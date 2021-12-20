@@ -6,7 +6,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder"
+    "build": "electron-builder",
+    "pack": "electron-builder --dir"
   },
   "build": {
     "appId": "VALTracker",
