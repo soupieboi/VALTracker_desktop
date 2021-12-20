@@ -1,0 +1,8 @@
+version: 0.7.32-alpha
+files:
+  - url: VALTracker-Setup-0.7.32-alpha.exe
+    sha512: CEhwT9nPD5GGdwKSrWf275b6bFDJsVMclvCzF9yNYNLRunXKncOd1uCNtl7GILhLvVr2pqn71zX6wPFUUclOvw==
+    size: 58001877
+path: VALTracker-Setup-0.7.32-alpha.exe
+sha512: CEhwT9nPD5GGdwKSrWf275b6bFDJsVMclvCzF9yNYNLRunXKncOd1uCNtl7GILhLvVr2pqn71zX6wPFUUclOvw==
+releaseDate: '2021-12-20T20:18:12.995Z'
