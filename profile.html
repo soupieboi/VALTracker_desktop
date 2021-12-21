@@ -12,12 +12,19 @@
     <script type="application/javascript" src="assets/js/loadBundles.js" defer></script>
     <script src="https://kit.fontawesome.com/0fb7a47199.js" crossorigin="anonymous"></script>
   </head>
+  <div class="update-banner" style="opacity: 1;">
+    <span style="margin-top: 1rem;">An Update has been downloaded. Close the App to install. Dont forget to give permission afterwards!</span>
+    <button class="close-app" id="noti-close-button">Close App</button>
+    <div class="update-relative-div" id="sec" onclick="toggle()">
+      <div id="toggle"></div>
+    </div>
+  </div>
   <body>
     <header id="titlebar">
       <div id="drag-region">
         <div id="window-title">
-          <img class="titlebar-img" src="./icons/Avatar.ico">
-          <span>VALTracker Alpha V0.0.7.3</span>
+          <img class="titlebar-img" src="./icons/VALTracker_logo.ico">
+          <span>VALTracker Alpha V0.0.7.311</span>
         </div>
         <div id="window-controls">
 
@@ -69,6 +76,24 @@
 
     <script>
       require('./renderer.js')
+    </script>
+    <script>
+      // Listen for messages
+      const { ipcRenderer } = require('electron');
+      ipcRenderer.on('message', function(event, text) {
+        console.log(text);
+      })
+      ipcRenderer.on('showUpdateWindow', function(event) {
+        $('.update-banner').css("opacity", "0");
+        $('.update-banner').css("display", "block");
+        $('.update-banner').fadeIn(150, 1);
+      })
+      $('.update-relative-div').on("click", function() {
+        $('.update-banner').css("display", "none");
+      })
+      $('#noti-close-button').on("click", function() {
+        window.close()
+      })
     </script>
 
     <script type="application/javascript" src="assets/js/playerSearch.js"></script>

@@ -67,6 +67,7 @@ autoUpdater.on('download-progress', (progressObj) => {
 
 autoUpdater.on('update-downloaded', (info) => {
     sendStatusToWindow('Update downloaded');
+    mainWindow.webContents.send('showUpdateWindow');
 });
 
 app.on('window-all-closed', function () {
