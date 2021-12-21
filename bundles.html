@@ -104,11 +104,13 @@
       require('./renderer.js')
     </script>
     <script>
-      if(sessionStorage.getItem("Update-downloaded") == true) {
-        $('.update-banner').css("display", "block");
-      }
-      if(sessionStorage.getItem("Update-available") == true) {
-        $('.download-banner').css("display", "block");
+      window.onload = function() {
+        if(sessionStorage.getItem("Update-downloaded") == true) {
+          $('.update-banner').css("display", "block");
+        }
+        if(sessionStorage.getItem("Update-available") == true) {
+          $('.download-banner').css("display", "block");
+        }
       }
       // Listen for messages
       const { ipcRenderer } = require('electron');
