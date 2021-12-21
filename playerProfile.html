@@ -105,9 +105,8 @@
         console.log(text);
       })
       ipcRenderer.on('showUpdateWindow', function(event) {
-        $('.update-banner').css("opacity", "0");
         $('.update-banner').css("display", "block");
-        $('.update-banner').fadeIn(150, 1);
+        $('.update-banner').css("opacity", "1");
       })
       $('.update-relative-div').on("click", function() {
         $('.update-banner').css("display", "none");
