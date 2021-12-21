@@ -15,7 +15,6 @@ var path2 = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
 var directoryName = path2.split("/").pop();
 
 $(document).ready(() => {
-    console.log(directoryName)
     loadFade();
     $('#psearch').on("click", function(){
         leaveFade();

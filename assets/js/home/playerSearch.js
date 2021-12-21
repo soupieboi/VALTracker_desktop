@@ -1,4 +1,4 @@
-window.onload=function(){
+window.onload = function() {
 
   const replaceText = (text) => {
     const element = document.getElementById("search-output");
@@ -28,8 +28,6 @@ window.onload=function(){
       event.preventDefault();
       var searchedPlayerName = inputValue.substring(0, inputValue.indexOf("#"));
       var searchedPlayerTag = inputValue.substring(inputValue.indexOf("#") + 1);
-      console.log(searchedPlayerName)
-      console.log(searchedPlayerTag)
       $.ajax({
         url: `https://api.henrikdev.xyz/valorant/v1/account/${searchedPlayerName}/${searchedPlayerTag}`,
         type: 'get',

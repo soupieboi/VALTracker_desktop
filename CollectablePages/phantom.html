@@ -23,21 +23,21 @@
       <div id="drag-region">
         <div id="window-title">
           <img class="titlebar-img" src="../icons/VALTracker_logo.ico">
-          <span>VALTracker Alpha V0.0.7.311</span>
+          <span>VALTracker Alpha V.0.8.0</span>
         </div>
         <div id="window-controls">
 
           <div class="button" id="min-button">
-            <img class="icon" srcset="icons/min-w-10.png 1x, icons/min-w-12.png 1.25x, icons/min-w-15.png 1.5x, icons/min-w-15.png 1.75x, icons/min-w-20.png 2x, icons/min-w-20.png 2.25x, icons/min-w-24.png 2.5x, icons/min-w-30.png 3x, icons/min-w-30.png 3.5x" draggable="false" />
+            <img class="icon" srcset="../icons/min-w-10.png 1x, ../icons/min-w-12.png 1.25x, ../icons/min-w-15.png 1.5x, ../icons/min-w-15.png 1.75x, ../icons/min-w-20.png 2x, ../icons/min-w-20.png 2.25x, ../icons/min-w-24.png 2.5x, ../icons/min-w-30.png 3x, ../icons/min-w-30.png 3.5x" draggable="false" />
           </div>
           <div class="button" id="max-button">
-            <img class="icon" srcset="icons/max-w-10.png 1x, icons/max-w-12.png 1.25x, icons/max-w-15.png 1.5x, icons/max-w-15.png 1.75x, icons/max-w-20.png 2x, icons/max-w-20.png 2.25x, icons/max-w-24.png 2.5x, icons/max-w-30.png 3x, icons/max-w-30.png 3.5x" draggable="false" />
+            <img class="icon" srcset="../icons/max-w-10.png 1x, ../icons/max-w-12.png 1.25x, ../icons/max-w-15.png 1.5x, icons/max-w-15.png 1.75x, ../icons/max-w-20.png 2x, ../icons/max-w-20.png 2.25x, ../icons/max-w-24.png 2.5x, ../icons/max-w-30.png 3x, ../icons/max-w-30.png 3.5x" draggable="false" />
           </div>
           <div class="button" id="restore-button">
-            <img class="icon" srcset="icons/restore-w-10.png 1x, icons/restore-w-12.png 1.25x, icons/restore-w-15.png 1.5x, icons/restore-w-15.png 1.75x, icons/restore-w-20.png 2x, icons/restore-w-20.png 2.25x, icons/restore-w-24.png 2.5x, icons/restore-w-30.png 3x, icons/restore-w-30.png 3.5x" draggable="false" />
+            <img class="icon" srcset="../icons/restore-w-10.png 1x, ../icons/restore-w-12.png 1.25x, ../icons/restore-w-15.png 1.5x, ../icons/restore-w-15.png 1.75x, ../icons/restore-w-20.png 2x, ../icons/restore-w-20.png 2.25x, ../icons/restore-w-24.png 2.5x, ../icons/restore-w-30.png 3x, ../icons/restore-w-30.png 3.5x" draggable="false" />
           </div>
           <div class="button" id="close-button">
-            <img class="icon" srcset="icons/close-w-10.png 1x, icons/close-w-12.png 1.25x, icons/close-w-15.png 1.5x, icons/close-w-15.png 1.75x, icons/close-w-20.png 2x, icons/close-w-20.png 2.25x, icons/close-w-24.png 2.5x, icons/close-w-30.png 3x, icons/close-w-30.png 3.5x" draggable="false" />
+            <img class="icon" srcset="../icons/close-w-10.png 1x, ../icons/close-w-12.png 1.25x, ../icons/close-w-15.png 1.5x, ../icons/close-w-15.png 1.75x, ../icons/close-w-20.png 2x, ../icons/close-w-20.png 2.25x, ../icons/close-w-24.png 2.5x, ../icons/close-w-30.png 3x, ../icons/close-w-30.png 3.5x" draggable="false" />
           </div>
 
         </div>
@@ -57,8 +57,6 @@
           <li class="collectables-sub" id="collects-sub-skins">Skins</li>
           <li class="collectables-sub color" id="currentSkinsPage">Phantom</li>
           <li class="collectables-sub" id="collects-sub-buddys">Buddys</li>
-          <li class="collectables-sub" id="collects-sub-cards">Cards</li>
-          <!--<li class="collectables-sub" id="collects-sub-titles">Titles</li>
           <li class="collectables-sub" id="collects-sub-bps">Battlepasses</li>
           <li class="collectables-sub" id="collects-sub-search">Search</li>-->
         </div>  
@@ -71,16 +69,25 @@
 
     <div class="app" id="main-collection">
       <div class="pageheader-div">
-        <h1 class="pageheader" id="pageheader">All Phantom Skins</h1>
+        <div class="weapon-info">
+          <h1 class="pageheader" id="pageheader">All Phantom Skins</h1>
+          <span class="pageheader-skincount">Total Skincount for this Weapon: <span class="pageheader-skincount-nr"></span></span>
+        </div>
         <div class="search-input-wrapper">
-          <input type="text" class="search-input" id="search-input" maxlength="35" placeholder="Search" onkeyup="bundleSearch()">
+          <input type="text" class="search-input" id="search-input" maxlength="35" placeholder="Search" onkeyup="itemSearch()">
           <i class="fas fa-search"></i>
         </div>
+      </div>
+      <div class="skin-page-default-img-wrapper">
+        <img class="skin-page-default-img">
+      </div>
+      <div class="collectable-skins-wrapper" id="skins-handler">
+        <hr id="pageBottom" style="display: none;">
       </div>
     </div>
 
     <script>
-      require('./renderer.js')
+      require('../renderer.js')
     </script>
     <script>
       window.onload = function() {
@@ -125,6 +132,8 @@
     </script>
 
     <script type="application/javascript" src="../assets/js/navslideToggle.js"></script>
+    <script type="application/javascript" src="../assets/js/skins/loadWeapons.js"></script>
+    <script type="application/javascript" src="../assets/js/skins/itemSearch.js"></script>
     <script type="application/javascript" src="../assets/js/redirects.js"></script>
   </body>
 </html>

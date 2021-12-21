@@ -10,10 +10,11 @@ $(document).ready(() => {
   var i;
   var path = window.location.pathname;
   var page = path.split("/").pop();
-  console.log(page)
+  var path2 = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
+  var directoryName = path2.split("/").pop();
 
   for (i = 0; i < coll.length; i++) {
-    if(page == "buddys.html" || page == "bundles.html" || page == "weaponskins.html") {
+    if(page == "buddys.html" || page == "bundles.html" || page == "weaponskins.html" || directoryName == "CollectablePages") {
       var collTest = document.getElementById("collects");
       collTest.classList.toggle("active");
       var content = collTest.nextElementSibling;
