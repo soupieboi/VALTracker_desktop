@@ -233,6 +233,67 @@ a:visited {color:rgba(255,255,255,.5)}
   left: 1rem;
 }
 
+.download-banner {
+  position: absolute;
+  bottom: 2%;
+  right: 2%;
+  width: 30%;
+  height: 15%;
+  transition: all 0.4s ease;
+  opacity: 1;
+  /*top: -32px;*/
+  background-color: var(--app-color-lightest) !important;
+  color: white;
+  border-radius: 10px;
+  z-index: 10000;
+}
+
+.download-banner span {
+  position: absolute;
+  transition: all 0.4s ease;
+  top: -0.5rem;
+  left: 1rem;
+  width: 85%;
+  opacity: 1;
+  /*top: -32px;*/
+  color: white;
+  border-radius: 10px;
+}
+
+.download-relative-div {
+  position: absolute;
+  top: 0.5rem;
+  right: 2.5rem;
+}
+
+.download-relative-div #toggle::after {
+  content: "";
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%) rotate(-45deg);
+      -ms-transform: translate(-50%, -50%) rotate(-45deg);
+          transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.download-relative-div #toggle::before {
+  content: "";
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%) rotate(45deg);
+      -ms-transform: translate(-50%, -50%) rotate(45deg);
+          transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.download-bar {
+  position: absolute;
+  transition: all 0.4s ease;
+  bottom: 1rem;
+  left: 1rem;
+  width: 85%;
+  opacity: 1;
+  /*top: -32px;*/
+}
+
 @media (-webkit-device-pixel-ratio: 1.5), (device-pixel-ratio: 1.5),
 (-webkit-device-pixel-ratio: 2), (device-pixel-ratio: 2),
 (-webkit-device-pixel-ratio: 3), (device-pixel-ratio: 3) {

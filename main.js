@@ -48,6 +48,7 @@ autoUpdater.on('checking-for-update', () => {
 
 autoUpdater.on('update-available', (info) => {
     sendStatusToWindow('Update available.');
+    mainWindow.webContents.send('update-available');
 })
 
 autoUpdater.on('update-not-available', (info) => {
@@ -63,6 +64,7 @@ autoUpdater.on('download-progress', (progressObj) => {
     log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
     log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
     sendStatusToWindow(log_message);
+    mainWindow.webContents.send('download-percent', progressObj.percent);
 })
 
 autoUpdater.on('update-downloaded', (info) => {
