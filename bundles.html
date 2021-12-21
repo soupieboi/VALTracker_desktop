@@ -12,7 +12,7 @@
     <script type="application/javascript" src="assets/js/bundles/loadBundles.js" defer></script>
     <script src="https://kit.fontawesome.com/0fb7a47199.js" crossorigin="anonymous"></script>
   </head>
-  <div class="update-banner" style="opacity: 0;">
+  <div class="update-banner" style="display: none;">
     <span style="margin-top: 1rem;">An Update has been downloaded. Close the App to install. Dont forget to give permission afterwards!</span>
     <button class="close-app" id="noti-close-button">Close App</button>
     <div class="update-relative-div" id="update-sec">
@@ -104,6 +104,9 @@
       require('./renderer.js')
     </script>
     <script>
+      if(sessionStorage.getItem("Update-available") == true) {
+        $('.update-banner').css("display", "block");
+      }
       // Listen for messages
       const { ipcRenderer } = require('electron');
       ipcRenderer.on('message', function(event, text) {
@@ -111,7 +114,6 @@
       })
       ipcRenderer.on('showUpdateWindow', function(event) {
         $('.update-banner').css("display", "block");
-        $('.update-banner').css("opacity", "1");
       })
       $('.update-relative-div').on("click", function() {
         $('.update-banner').css("display", "none");
