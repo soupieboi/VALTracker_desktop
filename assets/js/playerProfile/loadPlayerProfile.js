@@ -60,9 +60,10 @@ function makeCallAndBuildElements() {
                                     matchmodeIcon.setAttribute("src", `./assets/img/${matchmode.toLowerCase()}.png`)
                                 }
 
-                                var matchMap = document.createElement("span");
-                                matchMap.className = "match-map-name";
-                                matchMap.appendChild(document.createTextNode(data3.data[count].metadata.map))
+                                var matchMap = document.createElement("div");
+                                matchMap.className = "match-map";
+                                //matchMap.src = `./assets/img/${data3.data[count].metadata.map.toLowerCase()}.png`
+                                matchMap.setAttribute("style", `background: linear-gradient(to left, transparent, #1b222b), url(./assets/img/${data3.data[count].metadata.map.toLowerCase()}.png)`)
 
                                 var playedAgent = document.createElement("img");
                                 playedAgent.className = "match-played-agent";
@@ -73,9 +74,13 @@ function makeCallAndBuildElements() {
 
                                         var matchKDA = document.createElement("span");
                                         matchKDA.className = "match-kda";
-                                        matchKDA.appendChild(document.createTextNode(data3.data[count].players.all_players[playerCount].stats.kills + "/" + data3.data[count].players.all_players[playerCount].stats.deaths + "/" + data3.data[count].players.all_players[playerCount].stats.assists))
+                                        matchKDA.appendChild(document.createTextNode("KDA: " + data3.data[count].players.all_players[playerCount].stats.kills + "/" + data3.data[count].players.all_players[playerCount].stats.deaths + "/" + data3.data[count].players.all_players[playerCount].stats.assists))
 
-                                        var matchStanding = document.createElement("span");
+                                        var matchStanding = document.createElement("div");
+                                        var result = document.createElement("span");
+                                        result.className = "result-header"
+                                        result.appendChild(document.createTextNode("RESULT"))
+                                        matchStanding.appendChild(result)
                                         if(data3.data[count].players.all_players[playerCount].team == "Blue") {
                                             if(data3.data[count].teams.blue.has_won == false) {
                                                 matchStanding.className = "match-result-lost";
@@ -102,12 +107,12 @@ function makeCallAndBuildElements() {
                                 startedOn.className = "match-time";
                                 startedOn.appendChild(document.createTextNode("Game duration: " + str));
 
-                                Matchcontainer.appendChild(matchmodeIcon);
-                                Matchcontainer.appendChild(matchMap);
                                 Matchcontainer.appendChild(playedAgent);
-                                Matchcontainer.appendChild(matchStanding);
+                                Matchcontainer.appendChild(matchmodeIcon);
                                 Matchcontainer.appendChild(matchKDA);
+                                Matchcontainer.appendChild(matchStanding);
                                 Matchcontainer.appendChild(startedOn);
+                                Matchcontainer.appendChild(matchMap);
             
                                 var wrapper = document.getElementById("main-collection");
                                 var nextElement = document.getElementById("lastElement");
