@@ -9,6 +9,7 @@ function makeCallAndBuildElements() {
         type: 'get',
         success: function(data, xhr) {
             $('.player-card-img').attr("src", data.data.card.small);
+            $('.player-card-img').attr("onclick", `cardRedirect(this, this.src)`)
             //console.log("Card: " + data.data.card.small);
             var playerRegion = data.data.region
             var playerName = data.data.name
@@ -56,16 +57,16 @@ function makeCallAndBuildElements() {
                                         var matchmodeIcon = document.createElement("img");
                                         matchmodeIcon.className = "match-mode-icon";
                                         var matchmode = data3.data[count].metadata.mode
-                                        if(matchmode == "Unrated" || matchmode == "Competitive") {
+                                        if(matchmode == "Unrated" || matchmode == "Competitive" || matchmode == "Custom Game") {
                                             matchmodeIcon.setAttribute("src", "./assets/img/standard.png")
                                         } else {
                                             matchmodeIcon.setAttribute("src", `./assets/img/${matchmode.toLowerCase()}.png`)
                                         }
         
-                                        var matchMap = document.createElement("div");
+                                        var matchMap = document.createElement("img");
                                         matchMap.className = "match-map";
                                         //matchMap.src = `./assets/img/${data3.data[count].metadata.map.toLowerCase()}.png`
-                                        matchMap.setAttribute("style", `background: linear-gradient(to left, transparent, #1b222b), url(./assets/img/${data3.data[count].metadata.map.toLowerCase()}.png)`)
+                                        matchMap.setAttribute("src", `./assets/img/${data3.data[count].metadata.map.toLowerCase()}.png`)
         
                                         var playedAgent = document.createElement("img");
                                         playedAgent.className = "match-played-agent";
@@ -125,10 +126,18 @@ function makeCallAndBuildElements() {
                                         Matchcontainer.appendChild(matchStanding);
                                         Matchcontainer.appendChild(startedOn);
                                         Matchcontainer.appendChild(matchMap);
-                    
-                                        var wrapper = document.getElementById("main-collection");
+                        
+                                        var wrapper = document.getElementById("loading-layer");
                                         var nextElement = document.getElementById("lastElement");
                                         wrapper.insertBefore(Matchcontainer, nextElement);
+                                        
+                                        $('.loading-icon').fadeTo(150, 0)
+                                        setTimeout(function() {
+                                            $('.loading-icon').css("display", "none");
+                                            $('.loading-layer').css("opacity", "0");
+                                            $('.loading-layer').css("display", "block");
+                                            $('.loading-layer').fadeTo(150, 1)
+                                        }, 200)
                                     }
                                 }
                             });

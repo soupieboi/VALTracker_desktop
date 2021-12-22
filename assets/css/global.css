@@ -383,6 +383,10 @@ button {
 button:hover {
   background-color: #d61044;
   border-radius: 4px;
+  box-shadow:
+    0 0 2.5px rgba(255, 0, 85, 0.7),
+    0 0 10px rgba(255, 0, 85, 0.7),
+    0 0 30px rgba(255, 0, 85, 0.7);
 }
 
 
@@ -515,6 +519,7 @@ button:hover {
   -o-transition: 0.4s ease;
   transition: 0.4s ease;
   border-right: 1px solid white;
+  user-select: none;
 }
 
 .navslide ul li {
@@ -583,6 +588,7 @@ button:hover {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  animation: neonAnimText 2s alternate-reverse infinite;
 }
 
 .navslide-li:hover > span {
@@ -598,7 +604,8 @@ button:hover {
 }
 
 .content {
-  margin-left: 8%;
+  position: relative;
+  left: 0%;
 }
 
 .app {
@@ -656,10 +663,12 @@ button:hover {
 }
 
 .collectables-sub {
+  position: relative;
   font-size: 1.35em !important;
   font-weight: 300;
   margin-left: 1rem;
   color: rgba(255,255,255,.5);
+  left: 8%;
 }
 
 .collectables-sub:hover {
@@ -681,6 +690,7 @@ button:hover {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  animation: neonAnimTextSmall 2s alternate-reverse infinite;
 }
 
 .massgrid {
@@ -790,6 +800,7 @@ button:hover {
   background: linear-gradient(to right, #c80043, #6f00ff);
   height: 3px;
   border: none;
+  animation: neonAnimBoxSmall 2s alternate-reverse infinite;
 }
 
 .bundlecard-text {
@@ -991,6 +1002,10 @@ button:hover {
   height: 3px;
   border: none;
   margin-bottom: 2rem;
+  box-shadow:
+    0 0 2.5px rgba(255, 0, 85, 0.7),
+    0 0 10px rgba(255, 0, 85, 0.7),
+    0 0 30px rgba(255, 0, 85, 0.7);
 }
 
 .largeview-bundle-colors {
@@ -1162,7 +1177,7 @@ video:focus {
 
 .header-relative-div-video {
   position: fixed;
-  left: 80%;
+  left: 79%;
   top: 9rem;
   width: 100%;
   -webkit-transition: 0.4s ease;
@@ -1564,8 +1579,8 @@ video:focus {
 
 #weapon-tile span {
   transition: all 0.2s ease;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
 
 #weapon-tile img {
@@ -1846,8 +1861,6 @@ video:focus {
 .match-map {
   height: 98%;
   width: 24rem;
-  border-left: 1px solid var(--app-color-light);
-  background-position: bottom left;
   z-index: 1 !important;
 }
 
@@ -1879,4 +1892,118 @@ video:focus {
   flex-direction: column;
   text-align: center;
   justify-content: center;
+}
+
+@keyframes neonAnimText {
+  from {
+      text-shadow:
+        0 0 5px rgba(255, 0, 85, 0.6),
+        0 0 20px rgba(255, 0, 85, 0.6),
+        0 0 60px rgba(255, 0, 85, 0.6);
+    }
+    to {
+      text-shadow:
+        0 0 5px rgba(255, 0, 85, 0.6),
+        0 0 20px rgba(255, 0, 85, 0.6),
+        0 0 60px rgba(255, 0, 85, 0.6);
+    }
+}
+
+@keyframes neonAnimTextSmall {
+  from {
+      text-shadow:
+        0 0 5px rgba(255, 0, 85, 0.7),
+        0 0 20px rgba(255, 0, 85, 0.7),
+        0 0 50px rgba(255, 0, 85, 0.7);
+    }
+    to {
+      text-shadow:
+        0 0 2.5px rgba(255, 0, 85, 0.7),
+        0 0 10px rgba(255, 0, 85, 0.7),
+        0 0 30px rgba(255, 0, 85, 0.7);
+    }
+}
+
+@keyframes neonAnimBoxSmall {
+  from {
+      box-shadow:
+        0 0 5px rgba(255, 0, 85, 0.7),
+        0 0 20px rgba(255, 0, 85, 0.7),
+        0 0 50px rgba(255, 0, 85, 0.7);
+    }
+    to {
+      box-shadow:
+        0 0 2.5px rgba(255, 0, 85, 0.7),
+        0 0 10px rgba(255, 0, 85, 0.7),
+        0 0 30px rgba(255, 0, 85, 0.7);
+    }
+}
+
+@keyframes neonAnimButtonSmall {
+  from {
+      box-shadow:
+        0 0 2.5px rgba(255, 0, 85, 0.7),
+        0 0 10px rgba(255, 0, 85, 0.7),
+        0 0 30px rgba(255, 0, 85, 0.7);
+    }
+    to {
+      box-shadow:
+        0 0 2.5px rgba(255, 0, 85, 0.7),
+        0 0 10px rgba(255, 0, 85, 0.7),
+        0 0 30px rgba(255, 0, 85, 0.7);
+    }
+}
+
+.loading-layer {
+  width: 100%;
+  height: auto;
+  background: var(--app-color);
+}
+
+.loading-icon {
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 20%;
+}
+
+.loading-icon i {
+  font-size: 3em;
+}
+
+select {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+select {
+  /* ... */
+  width: 10%;
+  height: 45px;
+  -moz-padding-start: calc(10px - 3px);
+  padding-left: 10px;
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+select:focus {
+  box-shadow:
+    0 0 2.5px rgba(255, 0, 85, 0.7),
+    0 0 10px rgba(255, 0, 85, 0.7),
+    0 0 30px rgba(255, 0, 85, 0.7);
+}
+
+select:focus::-ms-value {
+  background-color: transparent;
 }

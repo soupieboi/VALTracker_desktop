@@ -30,7 +30,7 @@
       <div id="drag-region">
         <div id="window-title">
           <img class="titlebar-img" src="./icons/VALTracker_logo.ico">
-          <span>VALTracker Alpha V.0.8.4</span>
+          <span>VALTracker Alpha V.0.8.5</span>
         </div>
         <div id="window-controls">
 
@@ -74,32 +74,23 @@
     </div>
 
     <div class="app" id="main-collection" style="transform: scale(0.9);">
-      <div class="playerprofile-data-header">
-        <img class="player-card-img">
-        <div class="playerprofile-pageheader-div">
-          <h1 class="player-pageheader" id="playername-header"></h1>
-          <span class="player-region" id="player-region-span"></span>
-          <span class="player-account-level"></span>
+      <div class="loading-icon">
+        <i class="fas fa-circle-notch fa-spin"></i>
+      </div>
+      <div class="loading-layer" id="loading-layer" style="display: none;">
+        <div class="playerprofile-data-header">
+          <img class="player-card-img">
+          <div class="playerprofile-pageheader-div">
+            <h1 class="player-pageheader" id="playername-header"></h1>
+            <span class="player-region" id="player-region-span"></span>
+            <span class="player-account-level"></span>
+          </div>
+          <hr class="rotated-sep">
+          <img class="player-rank">
+          <span class="last-updated"></span>
         </div>
-        <hr class="rotated-sep">
-        <img class="player-rank">
-        <span class="last-updated"></span>
+        <hr id="lastElement" style="display: none;">
       </div>
-      <hr id="lastElement" style="display: none;">
-    </div>
-
-    <!---->
-    <div class="bundle-largeview" id="largeview-handler" style="display: none;">
-      <div class="header-relative-div-largeview" id="sec" onclick="leaveToBundles()" style="opacity: 0;">
-        <div id="toggle"></div>
-      </div>
-
-      <!---->
-    <div class="largeview-vid" id="promo-vid-div">
-      <div class="header-relative-div-video" id="sec" onclick="hideVideo()" style="opacity: 0;">
-        <div id="toggle"></div>
-      </div>
-    <video controls onloadstart="this.volume=0.25" class="largeview-weapon-video" src="" id="largeview-vid-element"></video>
     </div>
 
     <script>
@@ -153,4 +144,4 @@
     <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
     <script type="application/javascript" src="assets/js/redirects.js"></script>
   </body>
-</html> 
+</html>
