@@ -1705,6 +1705,11 @@ video:focus {
   border-radius: 4px;
   align-items: center;
   font-size: 1.3em;
+  cursor: pointer;
+}
+
+.card-wrapper:hover > .wide-card-image {
+  transform: scale(1.05);
 }
 
 .wide-card-image {
@@ -1712,6 +1717,7 @@ video:focus {
   border-radius: 4px;
   margin-right: 1rem;
   filter: drop-shadow(0px 0px 10px #000);
+  transition: all 0.2s ease;
 }
 
 .spray-wrapper {
@@ -1753,6 +1759,12 @@ video:focus {
   border: 2px solid rgb(156, 156, 156);
   padding: 0.5rem;
   filter: drop-shadow(0px 0px 10px #000);
+  transition: all 0.2s ease;
+}
+
+.player-card-img:hover {
+  cursor: pointer;
+  transform: scale(1.05);
 }
 
 .player-rank {
@@ -1845,4 +1857,26 @@ video:focus {
 
 .result-header {
   color: white;
+}
+
+.cardview-wrapper {
+  width: 95%;
+}
+
+.cards-header {
+  display: flex;
+  justify-content: space-around;
+  font-size: 1.6em;
+}
+
+.card-images {
+  display: flex;
+  justify-content: space-around;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
 }

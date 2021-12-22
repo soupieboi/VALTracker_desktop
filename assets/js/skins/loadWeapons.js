@@ -9,6 +9,7 @@ function makeCallAndBuildElements() {
             for(var count = 0; count < data.data.length; count++) {
                var skinHandler = document.createElement("div");
                skinHandler.className = "card-wrapper";
+               skinHandler.setAttribute("onclick", `cardRedirect(this.lastChild.textContent, this.firstChild.src)`)
 
                var cardImage = document.createElement("img");
                cardImage.className = "wide-card-image";

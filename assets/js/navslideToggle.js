@@ -14,7 +14,7 @@ $(document).ready(() => {
   var directoryName = path2.split("/").pop();
 
   for (i = 0; i < coll.length; i++) {
-    if(page == "buddys.html" || page == "bundles.html" || page == "weaponskins.html" || directoryName == "CollectablePages") {
+    if(page == "buddys.html" || page == "bundles.html" || page == "weaponskins.html" || directoryName == "CollectablePages" || page == "cardView.html") {
       var collTest = document.getElementById("collects");
       collTest.classList.toggle("active");
       var content = collTest.nextElementSibling;

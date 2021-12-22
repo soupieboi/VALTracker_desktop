@@ -10,9 +10,46 @@ function toggle(){
     var sec = document.getElementById('sec');
     sec.classList.toggle('active');
 }
+
 var path = document.location.pathname;
 var path2 = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
 var directoryName = path2.split("/").pop();
+
+function cardRedirect(event, event2, event3) {
+    sessionStorage.setItem("cardName", event)
+    sessionStorage.setItem("imgLink", event2)
+    sessionStorage.setItem("lastPage", event3)
+    leaveFade();
+    setTimeout(function() {
+        if(directoryName == "CollectablePages") {
+            window.location.href = "../cardView.html";
+        } else {
+            window.location.href = "cardView.html";
+        }
+    }, 500);
+}
+
+$('.player-card-img').on("click", function(){
+    leaveFade();
+    setTimeout(function() {
+        if(directoryName == "CollectablePages") {
+            window.location.href = "../cardView.html";
+        } else {
+            window.location.href = "cardView.html";
+        }
+    }, 500);
+});
+$('.card-wrapper').on("click", function(){
+    console.log("monke")
+    leaveFade();
+    setTimeout(function() {
+        if(directoryName == "CollectablePages") {
+            window.location.href = "../cardView.html";
+        } else {
+            window.location.href = "cardView.html";
+        }
+    }, 500);
+});
 
 $(document).ready(() => {
     loadFade();
