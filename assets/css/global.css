@@ -1809,7 +1809,7 @@ video:focus {
 
 .match-result-lost {
   flex-grow: 1;
-  color: #bc0233;
+  color: #ff0044;
   width: 10%;
   text-align: left;
   display: flex;
@@ -1841,4 +1841,8 @@ video:focus {
 
 .match-time {
   flex-grow: 1;
+}
+
+.result-header {
+  color: white;
 }
