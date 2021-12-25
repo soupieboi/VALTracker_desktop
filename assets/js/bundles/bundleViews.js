@@ -60,7 +60,6 @@ function shiftBundleView(event, imageid, bundledescmonke, thisE) {
    var bundleInfoLi1 = document.createElement("li");
    var bundleInfoLi1Span = document.createElement("span");
    bundleInfoLi1Span.className = "bundle-cost";
-   bundleInfoLi1Span.appendChild(document.createTextNode("Coming soon..."));
 
    var bundleInfoLi2 = document.createElement("li");
    var bundleInfoLi2Span = document.createElement("span");
@@ -129,7 +128,7 @@ function shiftBundleView(event, imageid, bundledescmonke, thisE) {
                      var flexUl = document.createElement("ul");
                      var flexLi1 = document.createElement("li");
                      var flexLi1H2 = document.createElement("h2");
-                     flexLi1H2.className = document.createElement("bundle-weapon-info-gunname");
+                     flexLi1H2.className = "bundle-weapon-info-gunname";
                      flexLi1H2.appendChild(document.createTextNode(data.data[count].skins[count2].displayName));
 
                      if(data.data[count].skins[count2].levels[data.data[count].skins[count2].levels.length-1].streamedVideo) {
@@ -202,7 +201,6 @@ function shiftBundleView(event, imageid, bundledescmonke, thisE) {
             bundledesc = bundledescmonke;
          }
                   
-         bundleInfoLi1.appendChild(document.createTextNode("Cost: "));
          bundleInfoLi1.appendChild(bundleInfoLi1Span);
                   
          bundleInfoLi2.appendChild(document.createTextNode("Extra Description: " + bundledesc));

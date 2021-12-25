@@ -31,7 +31,7 @@ function makeCallAndBuildElements() {
          
             var bundlecardDiv = document.createElement("div");
             bundlecardDiv.classList.add(`bundlecard`);
-            bundlecardDiv.setAttribute("onclick", "shiftBundleView(this.lastChild.firstChild.textContent, this.firstChild.src, this.childNodes[3].textContent, this)");
+            bundlecardDiv.setAttribute("onclick", "callDouble(this.lastChild.firstChild.textContent, this.firstChild.src, this.childNodes[3].textContent, this)");
          
             var bundlecardImage = document.createElement("img");
             bundlecardImage.className = "bundle-image";

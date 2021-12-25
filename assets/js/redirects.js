@@ -53,7 +53,7 @@ $('.card-wrapper').on("click", function(){
 
 $(document).ready(() => {
     loadFade();
-    $('#psearch').on("click", function(){
+    $('#home').on("click", function(){
         leaveFade();
         toggle();
         setTimeout(function() {
@@ -61,6 +61,17 @@ $(document).ready(() => {
                 window.location.href = "../index.html";
             } else {
                 window.location.href = "index.html";
+            }
+        }, 500);
+    });
+    $('#psearch').on("click", function(){
+        leaveFade();
+        toggle();
+        setTimeout(function() {
+            if(directoryName == "CollectablePages") {
+                window.location.href = "../playersearch.html";
+            } else {
+                window.location.href = "playersearch.html";
             }
         }, 500);
     });

@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="assets/css/global.css">
 
-    <script type="application/javascript" src="assets/js/loadBundles.js" defer></script>
     <script src="https://kit.fontawesome.com/0fb7a47199.js" crossorigin="anonymous"></script>
   </head>
   <div class="update-banner" style="display: none;">
@@ -58,8 +57,8 @@
     <div class="navslide">
       <ul class="navslide-ul-container">
         <li id="home" class="navslide-li"><span class="" id="home-nav">Home</span></li>
-        <li id="psearch" class="navslide-li"><span class="" id="search-nav">Playersearch</span></li>
-        <!--<li id="profile" class="navslide-li color"><span class="" id="profile-nav">Your Profile</span></li>-->
+        <li id="psearch" class="navslide-li color"><span class="" id="search-nav">Playersearch</span></li>
+        <!--<li id="profile" class="navslide-li"><span class="" id="profile-nav">Your Profile</span></li>-->
         <li id="collects" class="collapsible"><span class="" id="collectables-nav"> Collectables</span></li>
         <div class="content">
           <li class="collectables-sub" id="collects-sub-bundles">Bundles</li>
@@ -76,8 +75,24 @@
     </div>
 
     <div class="app" id="main">
+      
       <div class="wrapper">
-        Haha monke
+        <div class="search-wrapper">
+          <span id="version"></span>
+          <h1>Search for a Player:</h1>
+          <div>
+            <input id="playerNameSearch" type="text" class="form__field" maxlength="21" placeholder="Spirit#6996" name="playerSearch"></input>
+            <br>
+            <select id="selected-region" name="regions">
+              <option value="eu" selected>EU</option>
+              <option value="na">NA/LATAM/BR</option>
+              <option value="ap">AP</option>
+              <option value="kr">KR</option>
+            </select>
+            <button id="playerNameSearchButton" class="btn">Search</button>
+          </div>
+          <div id="search-output"></div>
+        </div>
       </div>
     </div>
 
@@ -113,7 +128,6 @@
       //Update downloading
       $('.download-bar').css("display", "block");
       ipcRenderer.on('download-percent', function(event, value) {
-        
         $('.download-banner').css("display", "block");
         document.getElementById("download-bar").value = value
       })
@@ -128,9 +142,8 @@
       })
     </script>
 
-    <script type="application/javascript" src="assets/js/playerSearch.js"></script>
+    <script type="application/javascript" src="assets/js/playersearch/playerSearch.js"></script>
     <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
     <script type="application/javascript" src="assets/js/redirects.js"></script>
-    <link rel="stylesheet" type="text/css" href="assets/css/global.css">
   </body>
 </html>

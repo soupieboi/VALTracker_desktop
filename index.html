@@ -56,7 +56,8 @@
     </div>
     <div class="navslide">
       <ul class="navslide-ul-container">
-        <li id="psearch" class="navslide-li color"><span class="" id="search-nav">Playersearch</span></li>
+        <li id="home" class="navslide-li color"><span class="" id="home-nav">Home</span></li>
+        <li id="psearch" class="navslide-li"><span class="" id="search-nav">Playersearch</span></li>
         <!--<li id="profile" class="navslide-li"><span class="" id="profile-nav">Your Profile</span></li>-->
         <li id="collects" class="collapsible"><span class="" id="collectables-nav"> Collectables</span></li>
         <div class="content">
@@ -70,20 +71,74 @@
         <li id="m-n-l" class="navslide-li"><span class="" id="tools-nav">Maps & Lineups</span></li>
         <li id="leads" class="navslide-li"><span class="" id="projects-nav">Leaderboards</span></li>
         <li id="lft" class="navslide-li"><span class="" id="contact-nav">LFT</span></li>-->
-        </ul>
+      </ul>
     </div>
 
-    <div class="app" id="main">
-      <div id="update-header"></div>
-      <div class="wrapper">
-        <div class="search-wrapper">
-          <span id="version"></span>
-          <h1>Search for a Player:</h1>
-          <div>
-            <input id="playerNameSearch" type="text" class="form__field" maxlength="21" placeholder="Spirit#6996" name="playerSearch"></input>
-            <button id="playerNameSearchButton" class="btn">Search</button>
+    <div class="app" id="main-home">
+      <div class="pageheader-home">
+        <h1 class="user-greetings"></h1>
+      </div>
+      <div class="absolute-div">
+        <div class="slideshow-container">
+          <h2 style="margin-top: 0; text-decoration: underline;">Newsfeed</h2>
+          <div class="mySlides fade">
+            <div class="redirect-to-article" id="link-0" onclick="redirectInDefaultBrowser(this.id, this.textContent)">
+              <img src="" style="width:100%; border-radius: 4px;" class="slide-img" id="img-0">
+              <div class="text" id="text-0"></div>
+              <span style="display: none;" id="hiddenurl-0"></span>
+            </div>
           </div>
-          <div id="search-output"></div>
+          <div class="mySlides fade">
+            <div class="redirect-to-article" id="link-1" onclick="redirectInDefaultBrowser(this.id, this.textContent)">
+              <img src="" style="width:100%; border-radius: 4px;" class="slide-img" id="img-1">
+              <div class="text" id="text-1"></div>
+              <span style="display: none;" id="hiddenurl-1"></span>
+            </div>
+          </div>
+          <div class="mySlides fade">
+            <div class="redirect-to-article" id="link-2" onclick="redirectInDefaultBrowser(this.id, this.textContent)">
+              <img src="" style="width:100%; border-radius: 4px;" class="slide-img" id="img-2">
+              <div class="text" id="text-2"></div>
+              <span style="display: none;" id="hiddenurl-2"></span>
+            </div>
+          </div>
+          <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+          <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </div>
+      </div>
+      <br>
+        
+        <div style="text-align:center">
+          <span class="dot" onclick="currentSlide(1)"></span> 
+          <span class="dot" onclick="currentSlide(2)"></span> 
+          <span class="dot" onclick="currentSlide(3)"></span> 
+        </div>
+        
+      <div class="last-matches" id="last-matches">
+        <h2 style="margin-top: 0; text-decoration: underline;">Your Last Matches</h2>
+        <hr id="lastElement" style="display: none;">
+      </div>
+      <div class="home-right-side">
+        <div class="home-upper-right">
+          <h2 style="margin-top: 0; text-decoration: underline;">Stats of your last 5 Matches</h2>
+          <ul class="last-5-matches-info">
+            <li>AVG KDA:<span class="home-avg-kda"></span></li>
+            <li>AVG Score:<span class="home-avg-score"></span></li>
+            <li>AVG Dmg/Match:<span class="home-avg-dmg_match"></span></li>
+            <br>
+            <li>Headshot Percentage:<span class="home-avg-headshots"></span></li>
+            <li>Bodyshot Percentage:<span class="home-avg-bodyshots"></span></li>
+            <li>Legshot Percentage:<span class="home-avg-legshots"></span></li>
+            <br>
+            <li>RR Change: <span class="home-avg-rrchange"></span></li>
+          </ul>
+        </div>
+        <div class="home-lower-right">
+          <h2 style="margin-top: 0; text-decoration: underline;">Featured Bundle</h2>
+          <div class="featured-bundle-wrapper">
+            <img class="featured-bundle-img">
+            <span class="featured-bundle-title"></span>
+          </div>
         </div>
       </div>
     </div>
@@ -102,7 +157,7 @@
       }
       // Listen for messages
       const { ipcRenderer } = require('electron');
-      ipcRenderer.on('message', function(event, text) {
+        ipcRenderer.on('message', function(event, text) {
         console.log(text);
       })
       //Update downloaded
@@ -134,7 +189,13 @@
       })
     </script>
 
-    <script type="application/javascript" src="assets/js/home/playerSearch.js"></script>
+    <script type="application/javascript" src="assets/js/home/userGreeting.js"></script>
+    <script type="application/javascript" src="assets/js/home/newsSlide.js"></script>
+    <script type="application/javascript" src="assets/js/home/loadPlayerMatches.js"></script>
+    <script type="application/javascript" src="assets/js/home/loadWebsiteNews.js"></script>
+    <script type="application/javascript" src="assets/js/home/loadNewestBundle.js"></script>
+    <script type="application/javascript" src="assets/js/home/loadBundleTitle.js"></script>
+    <script type="application/javascript" src="assets/js/home/loadPlayerStats.js"></script>
     <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
     <script type="application/javascript" src="assets/js/redirects.js"></script>
   </body>
