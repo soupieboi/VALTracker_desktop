@@ -1,7 +1,10 @@
 $(document).ready(() => {
     setTimeout(function() {
-        var playerName = "Spirit";
-        var playerTag = "6996";
+        let rawdata = fs.readFileSync('./settings/userData.json');
+        let dataToRead = JSON.parse(rawdata);
+
+        var playerName = dataToRead.playerName
+        var playerTag = dataToRead.playerTag
         $.ajax({
             dataType: "json",
             url: `https://api.henrikdev.xyz/valorant/v3/matches/eu/${playerName}/${playerTag}`,

@@ -2,6 +2,7 @@ const {app, BrowserWindow} = require('electron');
 const path = require('path');
 const { autoUpdater } = require("electron-updater");
 const log = require('electron-log');
+const fs = require('fs');
 
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
@@ -24,8 +25,60 @@ function createWindow () {
             enableRemoteModule: true,
         }
     });
+    var checkedFolder1 = './settings'
 
-    mainWindow.loadFile('./index.html');
+    if (fs.existsSync(checkedFolder1)) {
+        var checkedPath1 = './settings/onLoad.json'
+        var checkedPath2 = './settings/userData.json'
+        if(fs.existsSync(checkedPath1) && fs.existsSync(checkedPath2)) {
+            let rawdata = fs.readFileSync('./settings/onLoad.json');
+            let data = JSON.parse(rawdata);
+            if(data.hasFinishedSetupSequence == false) {
+                mainWindow.loadFile('./setupSequence/index.html'); 
+            } else {
+                mainWindow.loadFile('./index.html');
+            }
+        } else {
+            let onLoadFile = { 
+                hasFinishedSetupSequence: false
+            };
+             
+            let data = JSON.stringify(onLoadFile);
+            fs.writeFileSync('./settings/onLoad.json', data);
+    
+            let userData = {
+                givenPlayerName: "",
+                givenPlayerTag: "",
+                foundPlayerUUID: ""
+            };
+             
+            let data2 = JSON.stringify(userData);
+            fs.writeFileSync('./settings/userData.json', data2);
+            mainWindow.loadFile('./setupSequence/index.html'); 
+        }
+    } else {
+        fs.mkdirSync(checkedFolder1);
+        let onLoadFile = { 
+            hasFinishedSetupSequence: false
+        };
+         
+        let data = JSON.stringify(onLoadFile);
+        fs.writeFileSync('./settings/onLoad.json', data);
+
+        let userData = {
+            givenPlayerName: "",
+            givenPlayerTag: "",
+            foundPlayerUUID: ""
+        };
+         
+        let data2 = JSON.stringify(userData);
+        fs.writeFileSync('./settings/userData.json', data2);
+        mainWindow.loadFile('./setupSequence/index.html'); 
+    }
+    
+    mainWindow.on('closed', () => {
+        mainWindow = null;
+    });
     
     mainWindow.on('closed', () => {
         mainWindow = null;

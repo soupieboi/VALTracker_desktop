@@ -1,4 +1,10 @@
+const fs = require("fs")
 $(document).ready(() => {
+    let rawdata = fs.readFileSync('./settings/userData.json');
+    let dataToRead = JSON.parse(rawdata);
+
+    var playerName = dataToRead.playerName
+    var playerTag = dataToRead.playerTag
     setTimeout(function() {
         var pKills_before = 0;
         var pDeaths_before = 0;
@@ -24,7 +30,7 @@ $(document).ready(() => {
 
         $.ajax({
             dataType: "json",
-            url: `https://api.henrikdev.xyz/valorant/v1/mmr-history/eu/Spirit/6996`,
+            url: `https://api.henrikdev.xyz/valorant/v1/mmr-history/eu/${playerName}/${playerTag}`,
             type: 'get',
             success: function(data, xhr) {
                 function ispositive(n){
@@ -34,9 +40,9 @@ $(document).ready(() => {
                 if(ispositive(RR_after) == true) {
                     $('.home-avg-rrchange').append(" +" + RR_after)
                 } else {
-                    $('.home-avg-rrchange').append(" -" + RR_after)
+                    $('.home-avg-rrchange').append("" + RR_after)
                 }
             }
         })
-    }, 1000)
+    }, 1500)
 })

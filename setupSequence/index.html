@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>VALTracker</title>
+
+    <script>window.$ = window.jQuery = require('jquery');</script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/global.css">
+
+    <script src="https://kit.fontawesome.com/0fb7a47199.js" crossorigin="anonymous"></script>
+  </head>
+  <div class="update-banner" style="display: none;">
+    <span style="margin-top: 1rem;">An Update has been downloaded. Close the App to install. Dont forget to give permission afterwards!</span>
+    <button class="close-app" id="noti-close-button">Close App</button>
+    <div class="update-relative-div" id="update-sec">
+      <div id="toggle"></div>
+    </div>
+  </div>
+  <div class="download-banner" style="display: none;">
+    <span style="margin-top: 1rem;">An Update is being downloaded. Please don't close this Window. You can continue using the app.</span>
+    <progress class="download-bar" id="download-bar" max="100" value="0"></progress>
+    <div class="download-relative-div" id="download-sec">
+      <div id="toggle"></div>
+    </div>
+  </div>
+  <body>
+    <header id="titlebar">
+      <div id="drag-region">
+        <div id="window-title">
+          <img class="titlebar-img" src="../icons/VALTracker_logo.ico">
+          <span>VALTracker Alpha V.0.8.5</span>
+        </div>
+        <div id="window-controls">
+
+          <div class="button" id="min-button">
+            <img class="icon" srcset="../icons/min-w-10.png 1x, ../icons/min-w-12.png 1.25x, ../icons/min-w-15.png 1.5x, ../icons/min-w-15.png 1.75x, ../icons/min-w-20.png 2x, ../icons/min-w-20.png 2.25x, ../icons/min-w-24.png 2.5x, ../icons/min-w-30.png 3x, ../icons/min-w-30.png 3.5x" draggable="false" />
+          </div>
+          <div class="button" id="max-button">
+            <img class="icon" srcset="../icons/max-w-10.png 1x, ../icons/max-w-12.png 1.25x, ../icons/max-w-15.png 1.5x, icons/max-w-15.png 1.75x, ../icons/max-w-20.png 2x, ../icons/max-w-20.png 2.25x, ../icons/max-w-24.png 2.5x, ../icons/max-w-30.png 3x, ../icons/max-w-30.png 3.5x" draggable="false" />
+          </div>
+          <div class="button" id="restore-button">
+            <img class="icon" srcset="../icons/restore-w-10.png 1x, ../icons/restore-w-12.png 1.25x, ../icons/restore-w-15.png 1.5x, ../icons/restore-w-15.png 1.75x, ../icons/restore-w-20.png 2x, ../icons/restore-w-20.png 2.25x, ../icons/restore-w-24.png 2.5x, ../icons/restore-w-30.png 3x, ../icons/restore-w-30.png 3.5x" draggable="false" />
+          </div>
+          <div class="button" id="close-button">
+            <img class="icon" srcset="../icons/close-w-10.png 1x, ../icons/close-w-12.png 1.25x, ../icons/close-w-15.png 1.5x, ../icons/close-w-15.png 1.75x, ../icons/close-w-20.png 2x, ../icons/close-w-20.png 2.25x, ../icons/close-w-24.png 2.5x, ../icons/close-w-30.png 3x, ../icons/close-w-30.png 3.5x" draggable="false" />
+          </div>
+
+        </div>
+      </div>
+    </header>
+
+    <div class="setup-wrapper" style="opacity: 0;">
+      <h1>VALTracker Setup</h1>
+      <div class="setup-text-wrapper">
+        <span>Hey, Welcome to VALTracker!<br>Lets get your Player Name and Tag, shall we? Don't worry, this will only be stored on your PC.</span>
+      </div>
+      <div class="input-wrapper">
+        <div class="search-wrapper">
+          <span id="version"></span>
+          <div>
+            <input id="playerNameSearch" type="text" class="form__field" maxlength="21" placeholder="Spirit#6996" name="playerSearch"></input>
+            <br>
+            <select id="selected-region" name="regions">
+              <option value="eu" selected>EU</option>
+              <option value="na">NA/LATAM/BR</option>
+              <option value="ap">AP</option>
+              <option value="kr">KR</option>
+            </select>
+            <button id="playerNameSearchButton" class="btn">Search</button>
+          </div>
+          <div id="search-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="setup-wrapper-2" style="opacity: 0; display: none;">
+      <h1>Player found!</h1>
+      <div class="setup-text-wrapper">
+        <span>Is this you?</span>
+        <div class="playerprofile-data-header-setup">
+          <img class="player-card-img-setup">
+          <div class="playerprofile-pageheader-div">
+            <h1 class="player-pageheader" id="playername-header"></h1>
+            <span class="player-region" id="player-region-span"></span>
+            <span class="player-account-level"></span>
+          </div>
+          <span class="last-updated"></span>
+        </div>
+      </div>
+      <div class="setup-buttons">
+        <button class="setup-button-back">No, go back please</button>
+        <button class="setup-button-next">Yes, this is me</button>
+      </div>
+    </div>
+    
+    <div class="setup-wrapper-3" style="opacity: 0; display: none;">
+      <h1>Thanks for installing VALTracker!</h1>
+      <div class="setup-text-wrapper-finished">
+        <span>Thank you for installing and setting up VALTracker! Have fun and GLHF!<br>~ Spirit, Developer of VALTracker.gg</span>
+      </div>
+      <button class="setup-button-finish">Finish Setup</button>
+    </div>
+
+    <script>
+      require('../renderer.js')
+    </script>
+    <script>
+      window.onload = function() {
+        if(sessionStorage.getItem("Update-downloaded") == true) {
+          $('.update-banner').css("display", "block");
+        }
+        if(sessionStorage.getItem("Update-available") == true) {
+          $('.download-banner').css("display", "block");
+        }
+      }
+      // Listen for messages
+      const { ipcRenderer } = require('electron');
+      ipcRenderer.on('message', function(event, text) {
+        console.log(text);
+      })
+      //Update downloaded
+      ipcRenderer.on('showUpdateWindow', function(event) {
+        sessionStorage.setItem("Update-downloaded", true);
+        $('.download-banner').css("display", "none");
+        $('.update-banner').css("display", "block");
+      })
+      //Update Found, about to download
+      ipcRenderer.on('update-available', function(event, value) {
+        sessionStorage.setItem("Update-available", true);
+        $('.update-banner').css("display", "none");
+        $('.download-banner').css("display", "block");
+      })
+      //Update downloading
+      $('.download-bar').css("display", "block");
+      ipcRenderer.on('download-percent', function(event, value) {
+        
+        $('.download-banner').css("display", "block");
+        document.getElementById("download-bar").value = value
+      })
+      $('.update-relative-div').on("click", function() {
+        $('.update-banner').css("display", "none");
+      })
+      $('#noti-close-button').on("click", function() {
+        window.close()
+      })
+      $('.download-relative-div').on("click", function() {
+        $('.download-banner').css("display", "none");
+      })
+    </script>
+
+    <script type="application/javascript" src="index.js"></script>
+  </body>
+</html>

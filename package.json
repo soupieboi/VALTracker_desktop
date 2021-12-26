@@ -30,7 +30,8 @@
       "provider": "github",
       "owner": "SpiritLetsPlays",
       "repo": "VALTracker_src"
-    }]
+    }],
+    "files": "!./settings"
   },
   "author": "Spirit",
   "repository": "https://github.com/spiritletsplays/valtracker",
