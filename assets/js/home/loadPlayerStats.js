@@ -1,4 +1,3 @@
-const fs = require("fs")
 $(document).ready(() => {
     let rawdata = fs.readFileSync('./settings/userData.json');
     let dataToRead = JSON.parse(rawdata);

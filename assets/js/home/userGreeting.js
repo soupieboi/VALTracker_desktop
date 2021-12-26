@@ -1,3 +1,8 @@
+const fs = require("fs")
+let rawdata = fs.readFileSync('./settings/userData.json');
+let dataToRead = JSON.parse(rawdata);
+
+var playerName = dataToRead.playerName
 var welcome;  
 var date = new Date();  
 var hour = date.getHours();  
@@ -17,4 +22,4 @@ if (hour < 12) {
     welcome = "Good evening";  
 }
 
-$('.user-greetings').append(welcome + ", User")
+$('.user-greetings').append(welcome + ", " + playerName)
