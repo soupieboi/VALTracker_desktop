@@ -41,7 +41,7 @@ function createWindow () {
                     if(data.hasFinishedSetupSequence == false) { //If Base Files exist and onLoad returns false, load setup
                         mainWindow.loadFile('./setupSequence/index.html'); 
                     } else {
-                        mainWindow.loadFile('./index.html');
+                        mainWindow.loadFile('./fakeLoadingIndex.html');
                     }
                 } else { // Create Files and load setup
                     let onLoadFile = { 
