@@ -41,6 +41,12 @@ $(document).ready(() => {
                 } else {
                     $('.home-avg-rrchange').append("" + RR_after)
                 }
+                setTimeout(function() {
+                    $('.loading-div-home').fadeTo(950, 0)
+                    setTimeout(function() {
+                        $('.loading-div-home').css("display", "none")
+                    }, 1000)
+                }, 1000)
             }
         })
     }, 1500)
