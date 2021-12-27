@@ -1,5 +1,5 @@
 $(document).ready(() => {
-    let rawdata = fs.readFileSync('./settings/userData.json');
+    let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/userData.json');
     let dataToRead = JSON.parse(rawdata);
 
     var playerName = dataToRead.playerName

@@ -2290,6 +2290,7 @@ select:focus::-ms-value {
 .setup-wrapper-2 {
   margin: 5%;
   margin-bottom: 0;
+  font-size: 1em;
 }
 
 .setup-wrapper-3 {
@@ -2317,14 +2318,14 @@ select:focus::-ms-value {
   display: flex;
   flex-direction: row;
   margin-top: 2rem;
-  margin-left: 32%;
+  margin-left: 20%;
   align-items: center;
   align-content: center;
   margin-bottom: 10%;
   align-items: center;
   justify-content: center;
   align-content: center;
-  width: 100%;
+  width: 140%;
   font-size: 1em;
 }
 
@@ -2371,4 +2372,12 @@ select:focus::-ms-value {
   margin-left: auto;
   font-size: 1.2em;
   margin-right: 0.5rem;
+}
+
+.playerprofile-pageheader-div {
+  width: 100%;
+}
+
+.last-updated {
+  width: 100%;
 }

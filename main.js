@@ -25,26 +25,84 @@ function createWindow () {
             enableRemoteModule: true,
         }
     });
-    var checkedFolder1 = './settings'
 
-    if (fs.existsSync(checkedFolder1)) {
-        var checkedPath1 = './settings/onLoad.json'
-        var checkedPath2 = './settings/userData.json'
-        if(fs.existsSync(checkedPath1) && fs.existsSync(checkedPath2)) {
-            let rawdata = fs.readFileSync('./settings/onLoad.json');
-            let data = JSON.parse(rawdata);
-            if(data.hasFinishedSetupSequence == false) {
-                mainWindow.loadFile('./setupSequence/index.html'); 
+    var checkedFolder1 = app.getPath('userData') // '/settings'
+    var checkedFolder2 = checkedFolder1 + '/settings/home' // '/settings'
+
+    if (fs.existsSync(checkedFolder1)) { // Check for user data folder
+        if(fs.existsSync(checkedFolder1 + '/settings')) { // Check for Settings Folder
+            if(fs.existsSync(checkedFolder2)) { //Check for Home Folder in Settings folder
+                var checkedPath1 = checkedFolder1 + '/settings/onLoad.json'
+                var checkedPath2 = checkedFolder1 + '/settings/userData.json'
+                var checkedPath3 = checkedFolder1 + '/settings/home/preferredMatchFilter.json'
+                if(fs.existsSync(checkedPath1) && fs.existsSync(checkedPath2) && fs.existsSync(checkedPath3)) { // Check for 3 Base Files
+                    let rawdata = fs.readFileSync(checkedFolder1 + '/settings/onLoad.json');
+                    let data = JSON.parse(rawdata);
+                    if(data.hasFinishedSetupSequence == false) { //If Base Files exist and onLoad returns false, load setup
+                        mainWindow.loadFile('./setupSequence/index.html'); 
+                    } else {
+                        mainWindow.loadFile('./index.html');
+                    }
+                } else { // Create Files and load setup
+                    let onLoadFile = { 
+                        hasFinishedSetupSequence: false
+                    };
+                     
+                    let data = JSON.stringify(onLoadFile);
+                    fs.writeFileSync(checkedFolder1 + '/settings/onLoad.json', data);
+            
+                    let userData = {
+                        givenPlayerName: "",
+                        givenPlayerTag: "",
+                        foundPlayerUUID: ""
+                    };
+                     
+                    let data2 = JSON.stringify(userData);
+                    fs.writeFileSync(checkedFolder1 + '/settings/userData.json', data2);
+            
+                    let matchData = {
+                        preferredMatchFilter: ""
+                    };
+                     
+                    let data3 = JSON.stringify(matchData);
+                    fs.writeFileSync(checkedFolder1 + '/settings/home/preferredMatchFilter.json', data3);
+                    mainWindow.loadFile('./setupSequence/index.html'); 
+                }
             } else {
-                mainWindow.loadFile('./index.html');
+                fs.mkdirSync(checkedFolder2);
+                let onLoadFile = { 
+                    hasFinishedSetupSequence: false
+                };
+                 
+                let data = JSON.stringify(onLoadFile);
+                fs.writeFileSync(checkedFolder1 + '/settings/onLoad.json', data);
+        
+                let userData = {
+                    givenPlayerName: "",
+                    givenPlayerTag: "",
+                    foundPlayerUUID: ""
+                };
+                 
+                let data2 = JSON.stringify(userData);
+                fs.writeFileSync(checkedFolder1 + '/settings/userData.json', data2);
+        
+                let matchData = {
+                    preferredMatchFilter: ""
+                };
+                 
+                let data3 = JSON.stringify(matchData);
+                fs.writeFileSync(checkedFolder1 + '/settings/home/preferredMatchFilter.json', data3);
+                mainWindow.loadFile('./setupSequence/index.html'); 
             }
         } else {
+            fs.mkdirSync(checkedFolder1 + '/settings');
+            fs.mkdirSync(checkedFolder2);
             let onLoadFile = { 
                 hasFinishedSetupSequence: false
             };
              
             let data = JSON.stringify(onLoadFile);
-            fs.writeFileSync('./settings/onLoad.json', data);
+            fs.writeFileSync(checkedFolder1 + '/settings/onLoad.json', data);
     
             let userData = {
                 givenPlayerName: "",
@@ -53,17 +111,26 @@ function createWindow () {
             };
              
             let data2 = JSON.stringify(userData);
-            fs.writeFileSync('./settings/userData.json', data2);
+            fs.writeFileSync(checkedFolder1 + '/settings/userData.json', data2);
+        
+            let matchData = {
+                preferredMatchFilter: ""
+            };
+             
+            let data3 = JSON.stringify(matchData);
+            fs.writeFileSync(checkedFolder1 + '/settings/home/preferredMatchFilter.json', data3);
             mainWindow.loadFile('./setupSequence/index.html'); 
         }
     } else {
         fs.mkdirSync(checkedFolder1);
+        fs.mkdirSync(checkedFolder1 + '/settings');
+        fs.mkdirSync(checkedFolder2);
         let onLoadFile = { 
             hasFinishedSetupSequence: false
         };
          
         let data = JSON.stringify(onLoadFile);
-        fs.writeFileSync('./settings/onLoad.json', data);
+        fs.writeFileSync(checkedFolder1 + '/settings/onLoad.json', data);
 
         let userData = {
             givenPlayerName: "",
@@ -72,7 +139,14 @@ function createWindow () {
         };
          
         let data2 = JSON.stringify(userData);
-        fs.writeFileSync('./settings/userData.json', data2);
+        fs.writeFileSync(checkedFolder1 + '/settings/userData.json', data2);
+        
+        let matchData = {
+            preferredMatchFilter: ""
+        };
+         
+        let data3 = JSON.stringify(matchData);
+        fs.writeFileSync(checkedFolder1 + '/settings/home/preferredMatchFilter.json', data3);
         mainWindow.loadFile('./setupSequence/index.html'); 
     }
     

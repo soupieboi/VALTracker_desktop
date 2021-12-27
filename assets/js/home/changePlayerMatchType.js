@@ -2,7 +2,7 @@ $(document).ready(() => {
     setTimeout(function() {
         $("#selected-matchtype").change(function(){
             document.querySelectorAll('.home-matchtile').forEach(e => e.remove());
-            let rawdata = fs.readFileSync('./settings/userData.json');
+            let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/userData.json');
             let dataToRead = JSON.parse(rawdata);
     
             var playerName = dataToRead.playerName
@@ -185,7 +185,7 @@ $(document).ready(() => {
                         };
                          
                         let data1 = JSON.stringify(finishedData);
-                        fs.writeFileSync('./settings/home/preferredMatchFilter.json', data1);
+                        fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/home/preferredMatchFilter.json', data1);
                 
                         $.ajax({
                             dataType: "json",
@@ -386,7 +386,7 @@ $(document).ready(() => {
                         };
                          
                         let data1 = JSON.stringify(finishedData);
-                        fs.writeFileSync('./settings/home/preferredMatchFilter.json', data1);
+                        fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/home/preferredMatchFilter.json', data1);
                 
                         $.ajax({
                             dataType: "json",

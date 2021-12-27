@@ -1,9 +1,9 @@
 $(document).ready(() => {
     setTimeout(function() {
-        let rawdata = fs.readFileSync('./settings/userData.json');
+        let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/userData.json');
         let dataToRead = JSON.parse(rawdata);
 
-        let rawdata2 = fs.readFileSync('./settings/home/preferredMatchFilter.json');
+        let rawdata2 = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/home/preferredMatchFilter.json');
         let dataToRead2 = JSON.parse(rawdata2);
 
         var playerName = dataToRead.playerName

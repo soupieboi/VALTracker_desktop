@@ -108,7 +108,8 @@ $(document).ready(() => {
                             };
                              
                             let data3 = JSON.stringify(finishedData);
-                            fs.writeFileSync('./settings/onLoad.json', data3);
+                            var testVar = process.env.APPDATA  + '/VALTracker/settings/onLoad.json'
+                            fs.writeFileSync(testVar, data3);
                     
                             let userData = {
                                 playerName: searchedPlayerName,
@@ -118,7 +119,7 @@ $(document).ready(() => {
                             };
                              
                             let data2 = JSON.stringify(userData);
-                            fs.writeFileSync('./settings/userData.json', data2);
+                            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/userData.json', data2);
                         });
                         
                         $('.setup-button-next').on("click", function() {
