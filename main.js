@@ -32,16 +32,63 @@ function createWindow () {
     if (fs.existsSync(checkedFolder1)) { // Check for user data folder
         if(fs.existsSync(checkedFolder1 + '/settings')) { // Check for Settings Folder
             if(fs.existsSync(checkedFolder2)) { //Check for Home Folder in Settings folder
-                var checkedPath1 = checkedFolder1 + '/settings/onLoad.json'
-                var checkedPath2 = checkedFolder1 + '/settings/userData.json'
-                var checkedPath3 = checkedFolder1 + '/settings/home/preferredMatchFilter.json'
+                var checkedPath1 = checkedFolder1 + '/settings/onLoad.json' //Var for onLoad.json
+                var checkedPath2 = checkedFolder1 + '/settings/userData.json' //Var for userData.json
+                var checkedPath3 = checkedFolder1 + '/settings/home/preferredMatchFilter.json' //Var for Home Match Filter json
                 if(fs.existsSync(checkedPath1) && fs.existsSync(checkedPath2) && fs.existsSync(checkedPath3)) { // Check for 3 Base Files
                     let rawdata = fs.readFileSync(checkedFolder1 + '/settings/onLoad.json');
                     let data = JSON.parse(rawdata);
                     if(data.hasFinishedSetupSequence == false) { //If Base Files exist and onLoad returns false, load setup
-                        mainWindow.loadFile('./setupSequence/index.html'); 
+                        var checkedFolder3 = checkedFolder1 + '/settings/playersearch' // '/playersearch folder'
+                        var checkedPath4 = checkedFolder1 + '/settings/playersearch/preferredMatchFilter.json' //Preference File
+                        if(fs.existsSync(checkedFolder3)) { //check for folder
+                            if(fs.existsSync(checkedPath4)) { //check for file
+                                mainWindow.loadFile('./setupSequence/index.html'); //load window
+                            } else {
+                                let matchFilterData = { 
+                                    preferredMatchFilter: ""
+                                };
+                                 
+                                let dataToWrite = JSON.stringify(matchFilterData);
+                                fs.writeFileSync(checkedPath4, dataToWrite); //Create File
+                                mainWindow.loadFile('./setupSequence/index.html'); //Load Setup
+                            }
+                        } else { //If folder does not exist
+                            fs.mkdirSync(checkedFolder3); //create Folder
+                            let matchFilterData = {
+                                preferredMatchFilter: ""
+                            };
+                             
+                            let dataToWrite = JSON.stringify(matchFilterData);
+                            fs.writeFileSync(checkedPath4, dataToWrite); //create JSON File
+                            mainWindow.loadFile('./setupSequence/index.html'); //Load Setup
+                        }
                     } else {
-                        mainWindow.loadFile('./fakeLoadingIndex.html');
+                        var checkedFolder3 = checkedFolder1 + '/settings/playersearch' // '/playersearch folder'
+                        var checkedPath4 = checkedFolder1 + '/settings/playersearch/preferredMatchFilter.json' //Preference File
+                        if(fs.existsSync(checkedFolder3)) { //check for folder
+                            if(fs.existsSync(checkedPath4)) { //check for file
+                                log.info('YEP');
+                                mainWindow.loadFile('./fakeLoadingIndex.html'); //load window
+                            } else {
+                                let matchFilterData = { 
+                                    preferredMatchFilter: ""
+                                };
+                                 
+                                let dataToWrite = JSON.stringify(matchFilterData);
+                                fs.writeFileSync(checkedPath4, dataToWrite); //Create File
+                                mainWindow.loadFile('./fakeLoadingIndex.html'); //Load Index
+                            }
+                        } else {
+                            fs.mkdirSync(checkedFolder3); //create Folder
+                            let matchFilterData = { 
+                                preferredMatchFilter: ""
+                            };
+                             
+                            let dataToWrite = JSON.stringify(matchFilterData);
+                            fs.writeFileSync(checkedPath4, dataToWrite);
+                            mainWindow.loadFile('./fakeLoadingIndex.html'); //Load Index
+                        }
                     }
                 } else { // Create Files and load setup
                     let onLoadFile = { 
@@ -68,7 +115,7 @@ function createWindow () {
                     fs.writeFileSync(checkedFolder1 + '/settings/home/preferredMatchFilter.json', data3);
                     mainWindow.loadFile('./setupSequence/index.html'); 
                 }
-            } else {
+            } else { // Create Files and load setup
                 fs.mkdirSync(checkedFolder2);
                 let onLoadFile = { 
                     hasFinishedSetupSequence: false
@@ -94,7 +141,7 @@ function createWindow () {
                 fs.writeFileSync(checkedFolder1 + '/settings/home/preferredMatchFilter.json', data3);
                 mainWindow.loadFile('./setupSequence/index.html'); 
             }
-        } else {
+        } else { // Create Files and load setup
             fs.mkdirSync(checkedFolder1 + '/settings');
             fs.mkdirSync(checkedFolder2);
             let onLoadFile = { 
@@ -121,7 +168,7 @@ function createWindow () {
             fs.writeFileSync(checkedFolder1 + '/settings/home/preferredMatchFilter.json', data3);
             mainWindow.loadFile('./setupSequence/index.html'); 
         }
-    } else {
+    } else { // Create Files and load setup
         fs.mkdirSync(checkedFolder1);
         fs.mkdirSync(checkedFolder1 + '/settings');
         fs.mkdirSync(checkedFolder2);
@@ -210,5 +257,3 @@ app.on('activate', function () {
         createWindow();
     }
 });
-
-//npm run build

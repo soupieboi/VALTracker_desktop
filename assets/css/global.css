@@ -1757,6 +1757,7 @@ video:focus {
   display: flex;
   flex-direction: column;
   margin-left: 3rem;
+  width: 30%;
 }
 
 .playerprofile-data-header {
@@ -1965,7 +1966,7 @@ video:focus {
 
 .loading-layer {
   width: 100%;
-  height: auto;
+  height: 95%;
   background: var(--app-color);
 }
 
@@ -2408,4 +2409,15 @@ select:focus::-ms-value {
 
 .home-loading-circle {
   font-size: 1.8em;
+}
+
+#playersearch-loading-circle {
+  position: absolute;
+  top: 6px;
+  right: 35%;
+  display: none;
+}
+
+.selected-matchtype-playerprofile {
+  margin-right: 5%;
 }

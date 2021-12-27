@@ -5,12 +5,23 @@ $(document).ready(() => {
 
         var playerName = dataToRead.playerName
         var playerTag = dataToRead.playerTag
-        var filterType = document.getElementById('selected-matchtype').value;
-        let titleCase = filterType[0].toUpperCase() + filterType.substr(1);
-        $('#home-stats-header').empty()
-        $('#home-stats-header').append(`Stats of your last 5 ${titleCase} Matches`)
+        
+        let rawdata2 = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/home/preferredMatchFilter.json');
+        let dataToRead2 = JSON.parse(rawdata2);
+        
+        var filterData = dataToRead2.preferredMatchFilter
+        if(filterData == "") {
+            $('#home-stats-header').empty()
+            $('#home-stats-header').append(`Stats of your last 5 Matches`)
+        } else {
+            let titleData = filterData[0].toUpperCase() + filterData.substr(1);
+            $('#home-stats-header').empty()
+            $('#home-stats-header').append(`Stats of your last 5 ${titleData} Matches`)
+        }
+
         $("#selected-matchtype").change(function(){
             document.querySelectorAll('.home-matchtile').forEach(e => e.remove());
+            var filterType = document.getElementById('selected-matchtype').value;
             if(filterType == "") {
                 $.ajax({
                     dataType: "json",
@@ -412,5 +423,5 @@ $(document).ready(() => {
                 });
             }
         });
-    }, 400)
+    }, 500)
 });

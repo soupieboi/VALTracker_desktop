@@ -1,11 +1,10 @@
 $(document).ready(() => {
-    let rawdata2 = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/playersearch/preferredMatchFilter.json');
-    let dataToRead2 = JSON.parse(rawdata2);
-    $("#selected-matchtype").val(dataToRead2.preferredMatchFilter);
-
     setTimeout(function() {
         let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/userData.json');
         let dataToRead = JSON.parse(rawdata);
+
+        let rawdata2 = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/home/preferredMatchFilter.json');
+        let dataToRead2 = JSON.parse(rawdata2);
 
         var playerName = dataToRead.playerName
         var playerTag = dataToRead.playerTag

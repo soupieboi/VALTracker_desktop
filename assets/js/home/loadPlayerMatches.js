@@ -153,7 +153,6 @@ $(document).ready(() => {
             });
         } else {
             var filterType = dataToRead2.preferredMatchFilter
-            console.log(filterType)
             $.ajax({
                 dataType: "json",
                 url: `https://api.henrikdev.xyz/valorant/v3/matches/eu/${playerName}/${playerTag}?filter=${filterType}`,
