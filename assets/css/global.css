@@ -1831,14 +1831,14 @@ video:focus {
 }
 
 .match-kda {
-  margin-right: 5%;
+  margin-right: 3%;
   width: 10%;
 }
 
 .match-result-lost {
   flex-grow: 1;
   color: #ff0044;
-  width: 10%;
+  width: 8%;
   text-align: left;
   display: flex;
   flex-direction: column;
@@ -1847,7 +1847,7 @@ video:focus {
 .match-result-won {
   flex-grow: 1;
   color: #00ffd5;
-  width: 10%;
+  width: 8%;
   text-align: left;
   display: flex;
   flex-direction: column;
@@ -1856,7 +1856,7 @@ video:focus {
 .match-result-draw {
   flex-grow: 1;
   color: #fff09e;
-  width: 10%;
+  width: 8%;
   text-align: left;
   display: flex;
   flex-direction: column;
@@ -2040,7 +2040,7 @@ select:focus::-ms-value {
 
 #main-home {
   overflow-y: auto;
-  margin-top: 4%;
+  margin-top: 2.5%;
   margin-left: 5%;
   margin-right: 5%;
 }
@@ -2177,13 +2177,13 @@ select:focus::-ms-value {
 .match-map-home {
   z-index: 1 !important;
   position: relative;
-  margin-right: 2rem;
+  margin-right: 1rem;
 }
 
 .match-played-agent-home {
   height: 100%;
   filter: drop-shadow(0px 0px 10px #000);
-  margin-left: 2rem;
+  margin-left: 1rem;
   margin-right: 1rem;
 }
 
@@ -2420,4 +2420,102 @@ select:focus::-ms-value {
 
 .selected-matchtype-playerprofile {
   margin-right: 5%;
+}
+
+.pageheader-home {
+  display: flex;
+}
+
+.user-greetings {
+  align-self: center;
+}
+
+.user-rank-icon {
+  width: 4rem;
+  z-index: 10001;
+  align-self: center;
+  opacity: 0;
+}
+
+.user-rr-wrapper {
+  align-self: center;
+  font-size: 1.5em;
+  margin-left: 1rem;
+}
+
+.match-rr-img {
+  width: 2.5rem;
+  filter: drop-shadow(0px 0px 2px #000);
+}
+
+.match-rr-wrapper {
+  flex-grow: 20;
+  text-align: left;
+  margin-right: auto;
+  margin-left: 1rem;
+}
+
+.match-rr-home-lose {
+  position: relative;
+  bottom: 14px;
+  align-self: center;
+  color: #ff0044;
+  text-align: left;
+  font-size: 1.2em;
+  margin-left: 0.5rem;
+}
+
+.match-rr-home-win {
+  position: relative;
+  text-align: center;
+  bottom: 14px;
+  color: #00ffd5;
+  text-align: left;
+  font-size: 1.2em;
+  margin-left: 0.5rem;
+}
+
+.match-rr-home-draw {
+  position: relative;
+  text-align: center;
+  bottom: 14px;
+  color: #fff09e;
+  text-align: left;
+  font-size: 1.2em;
+  margin-left: 0.5rem;
+}
+
+.match-rr-img-pp {
+  position: relative;
+  top: 2px;
+  width: 4rem;
+  filter: drop-shadow(0px 0px 2px #000);
+}
+
+.match-rr-pp-lose {
+  position: relative;
+  bottom: 22px;
+  align-self: center;
+  color: #ff0044;
+  text-align: left;
+  font-size: 1.2em;
+  margin-left: 0.5rem;
+}
+
+.match-rr-pp-win {
+  position: relative;
+  bottom: 22px;
+  color: #00ffd5;
+  text-align: left;
+  font-size: 1.2em;
+  margin-left: 0.5rem;
+}
+
+.match-rr-pp-draw {
+  position: relative;
+  bottom: 22px;
+  color: #fff09e;
+  text-align: left;
+  font-size: 1.2em;
+  margin-left: 0.5rem;
 }

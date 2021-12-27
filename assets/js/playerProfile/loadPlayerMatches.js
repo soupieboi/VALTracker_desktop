@@ -9,10 +9,11 @@ $(document).ready(() => {
 
         var playerName = dataToRead.playerName
         var playerTag = dataToRead.playerTag
+        var playerRegion = dataToRead.playerRegion
         if(dataToRead2.preferredMatchFilter == "") {
             $.ajax({
                 dataType: "json",
-                url: `https://api.henrikdev.xyz/valorant/v3/matches/eu/${playerName}/${playerTag}`,
+                url: `https://api.henrikdev.xyz/valorant/v3/matches/${playerRegion}/${playerName}/${playerTag}`,
                 type: 'get',
                 success: function(data3, xhr) {
                     for(var count = 0; count < data3.data.length; count++) {
@@ -128,7 +129,7 @@ $(document).ready(() => {
             var filterType = dataToRead2.preferredMatchFilter
             $.ajax({
                 dataType: "json",
-                url: `https://api.henrikdev.xyz/valorant/v3/matches/eu/${playerName}/${playerTag}?filter=${filterType}`,
+                url: `https://api.henrikdev.xyz/valorant/v3/matches/${playerRegion}/${playerName}/${playerTag}?filter=${filterType}`,
                 type: 'get',
                 success: function(data3, xhr) {
                     for(var count = 0; count < data3.data.length; count++) {
@@ -162,6 +163,31 @@ $(document).ready(() => {
             
                         for(var playerCount = 0; playerCount < data3.data[count].players.all_players.length; playerCount++) {
                             if(data3.data[count].players.all_players[playerCount].name == playerName && data3.data[count].players.all_players[playerCount].tag == playerTag) {
+
+                                if(matchmode == "Competitive") {
+                                    var matchRRwrapper = document.createElement("div");
+                                    matchRRwrapper.className = "match-rr-wrapper";
+        
+                                    var matchRRimg = document.createElement("img");
+                                    matchRRimg.className = "match-rr-img-pp";
+                                    var rankIcons = [
+                                        './assets/img/iron_1.png', './assets/img/iron_2.png', './assets/img/iron_3.png', 
+                                        './assets/img/bronze_1.png', './assets/img/bronze_2.png', './assets/img/bronze_3.png', 
+                                        './assets/img/silver_1.png', './assets/img/silver_2.png', './assets/img/silver_3.png', 
+                                        './assets/img/gold_1.png', './assets/img/gold_2.png', './assets/img/gold_3.png', 
+                                        './assets/img/plat_1.png', './assets/img/plat_2.png', './assets/img/plat_3.png', 
+                                        './assets/img/dia_1.png', './assets/img/dia_2.png', './assets/img/dia_3.png', 
+                                        './assets/img/immortal_1.png', './assets/img/immortal_2.png', './assets/img/immortal_3.png', 
+                                        './assets/img/radiant.png',
+                                        './assets/img/unranked.png',
+                                    ]
+                                    matchRRimg.setAttribute("src", `${rankIcons[data3.data[count].players.all_players[playerCount].currenttier -3]}`)
+            
+                                    matchRRwrapper.appendChild(matchRRimg)
+        
+                                    var matchRRspan = document.createElement("span");
+                                }
+
                                 playedAgent.src = data3.data[count].players.all_players[playerCount].assets.agent.small;
             
                                 var matchKDA = document.createElement("span");
@@ -185,26 +211,38 @@ $(document).ready(() => {
                                     if(data3.data[count].players.all_players[playerCount].team == "Blue") {
                                         if(data3.data[count].teams.blue.rounds_won == data3.data[count].teams.blue.rounds_lost) {
                                             matchStanding.className = "match-result-draw";
+                                            matchRRspan.className = `match-rr-pp-draw`;
+                                            matchRRspan.setAttribute("id", "match-rr-id-"+ count);
                                             matchStanding.appendChild(document.createTextNode(data3.data[count].teams.blue.rounds_won + " : " + data3.data[count].teams.blue.rounds_lost));
                                         } else {
                                             if(data3.data[count].teams.blue.has_won == false) {
                                                 matchStanding.className = "match-result-lost";
+                                                matchRRspan.className = `match-rr-pp-lose`;
+                                                matchRRspan.setAttribute("id", "match-rr-id-"+ count);
                                                 matchStanding.appendChild(document.createTextNode(data3.data[count].teams.blue.rounds_won + " : " + data3.data[count].teams.blue.rounds_lost));
                                             } else {
                                                 matchStanding.className = "match-result-won";
+                                                matchRRspan.className = `match-rr-pp-win`;
+                                                matchRRspan.setAttribute("id", "match-rr-id-"+ count);
                                                 matchStanding.appendChild(document.createTextNode(data3.data[count].teams.blue.rounds_won + " : " + data3.data[count].teams.blue.rounds_lost));
                                             }
                                         }
                                     } else {
                                         if(data3.data[count].teams.blue.rounds_won == data3.data[count].teams.blue.rounds_lost) {
                                             matchStanding.className = "match-result-draw";
+                                            matchRRspan.className = `match-rr-pp-draw`;
+                                            matchRRspan.setAttribute("id", "match-rr-id-"+ count);
                                             matchStanding.appendChild(document.createTextNode(data3.data[count].teams.blue.rounds_won + " : " + data3.data[count].teams.blue.rounds_lost));
                                         } else {
                                             if(data3.data[count].teams.red.has_won == false) {
                                                 matchStanding.className = "match-result-lost";
+                                                matchRRspan.className = `match-rr-pp-lose`;
+                                                matchRRspan.setAttribute("id", "match-rr-id-"+ count);
                                                 matchStanding.appendChild(document.createTextNode(data3.data[count].teams.red.rounds_won + " : " + data3.data[count].teams.red.rounds_lost));
                                             } else {
                                                 matchStanding.className = "match-result-won";
+                                                matchRRspan.className = `match-rr-pp-win`;
+                                                matchRRspan.setAttribute("id", "match-rr-id-"+ count);
                                                 matchStanding.appendChild(document.createTextNode(data3.data[count].teams.red.rounds_won + " : " + data3.data[count].teams.red.rounds_lost));
                                             }
                                         }
@@ -223,6 +261,10 @@ $(document).ready(() => {
                         Matchcontainer.appendChild(matchmodeIcon);
                         Matchcontainer.appendChild(matchKDA);
                         Matchcontainer.appendChild(matchStanding);
+                        if(matchmode == "Competitive") {
+                            matchRRwrapper.appendChild(matchRRspan)
+                            Matchcontainer.appendChild(matchRRwrapper);
+                        }
                         Matchcontainer.appendChild(startedOn);
                         Matchcontainer.appendChild(matchMap);
                         

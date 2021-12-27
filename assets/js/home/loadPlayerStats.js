@@ -4,6 +4,7 @@ $(document).ready(() => {
 
     var playerName = dataToRead.playerName
     var playerTag = dataToRead.playerTag
+    var playerRegion = dataToRead.playerRegion
     $('#sec').css("display", "none")
     setTimeout(function() {
         if(sessionStorage.getItem("afterReload")) {
@@ -34,11 +35,31 @@ $(document).ready(() => {
             
             $.ajax({
                 dataType: "json",
-                url: `https://api.henrikdev.xyz/valorant/v1/mmr-history/eu/${playerName}/${playerTag}`,
+                url: `https://api.henrikdev.xyz/valorant/v1/mmr-history/${playerRegion}/${playerName}/${playerTag}`,
                 type: 'get',
                 success: function(data, xhr) {
+                    $('.user-rankrating').append(data.data[0].ranking_in_tier)
                     function ispositive(n){
                         return 1/(n*0)===1/0
+                    }
+                    var rankIcons = [
+                        './assets/img/iron_1.png', './assets/img/iron_2.png', './assets/img/iron_3.png', 
+                        './assets/img/bronze_1.png', './assets/img/bronze_2.png', './assets/img/bronze_3.png', 
+                        './assets/img/silver_1.png', './assets/img/silver_2.png', './assets/img/silver_3.png', 
+                        './assets/img/gold_1.png', './assets/img/gold_2.png', './assets/img/gold_3.png', 
+                        './assets/img/plat_1.png', './assets/img/plat_2.png', './assets/img/plat_3.png', 
+                        './assets/img/dia_1.png', './assets/img/dia_2.png', './assets/img/dia_3.png', 
+                        './assets/img/immortal_1.png', './assets/img/immortal_2.png', './assets/img/immortal_3.png', 
+                        './assets/img/radiant.png',
+                        './assets/img/unranked.png',
+                    ]
+                    $('.user-rank-icon').attr("src", rankIcons[data.data[0].currenttier -3])
+                    for(var count = 0; count < 5; count++) {
+                        if(ispositive(data.data[count].mmr_change_to_last_game) == true) {
+                            $(`#match-rr-id-${count}`).append("+" + data.data[count].mmr_change_to_last_game)
+                        } else {
+                            $(`#match-rr-id-${count}`).append(data.data[count].mmr_change_to_last_game)
+                        }
                     }
                     var RR_after = data.data[0].ranking_in_tier - data.data[4].ranking_in_tier;
                     if(ispositive(RR_after) == true) {
@@ -50,6 +71,7 @@ $(document).ready(() => {
                     }
                     setTimeout(function() {
                         $('.loading-div-home').fadeTo(950, 0)
+                        $('.user-rank-icon').fadeTo(950, 1)
                         $('#sec').css("opacity", "0")
                         $('#sec').css("display", "block")
                         $('#sec').fadeTo(950, 1)
