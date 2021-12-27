@@ -99,9 +99,6 @@ $(document).ready(() => {
                         $('#player-region-span').append("Region: " + playerRegion.toUpperCase());
 
                         loadFade2();
-
-                        let rawdata = fs.readFileSync('./settings/onLoad.json');
-                        let dataToRead = JSON.parse(rawdata);
     
                         $('.setup-button-next').on("click", function() {
                             leaveFade2();

@@ -115,12 +115,24 @@
         </div>
         
       <div class="last-matches" id="last-matches">
-        <h2 style="margin-top: 0; text-decoration: underline;">Your Last Matches</h2>
+        <div class="match-header-home">
+          <h2 style="margin: 0; text-decoration: underline;">Your Last Matches</h2>
+          <span>Filter:</span>
+          <select id="selected-matchtype" name="matchtype">
+            <option value="" selected>All Matches</option>
+            <option value="competitive">Competitive</option>
+            <option value="unrated">Unrated</option>
+            <option value="deathmatch">Deathmatch</option>
+            <option value="spikerush">Spike Rush</option>
+            <option value="escalation">Escalation</option>
+            <option value="replication">Replication</option>
+          </select>
+        </div>
         <hr id="lastElement" style="display: none;">
       </div>
       <div class="home-right-side">
         <div class="home-upper-right">
-          <h2 style="margin-top: 0; text-decoration: underline;">Stats of your last 5 Matches</h2>
+          <h2 style="margin-top: 0; text-decoration: underline;" id="home-stats-header">Stats of your last 5 Matches</h2>
           <ul class="last-5-matches-info">
             <li>AVG KDA:<span class="home-avg-kda"></span></li>
             <li>AVG Score:<span class="home-avg-score"></span></li>
@@ -189,13 +201,13 @@
       })
     </script>
 
-    <script type="application/javascript" src="assets/js/home/userGreeting.js"></script>
-    <script type="application/javascript" src="assets/js/home/newsSlide.js"></script>
+    <script type="application/javascript" src="assets/js/home/newsSlideAndUserGreeting.js"></script>
     <script type="application/javascript" src="assets/js/home/loadPlayerMatches.js"></script>
     <script type="application/javascript" src="assets/js/home/loadWebsiteNews.js"></script>
-    <script type="application/javascript" src="assets/js/home/loadNewestBundle.js"></script>
+    <script type="application/javascript" src="assets/js/home/loadNewestBundleAndMatchFilter.js"></script>
     <script type="application/javascript" src="assets/js/home/loadBundleTitle.js"></script>
     <script type="application/javascript" src="assets/js/home/loadPlayerStats.js"></script>
+    <script type="application/javascript" src="assets/js/home/changePlayerMatchType.js"></script>
     <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
     <script type="application/javascript" src="assets/js/redirects.js"></script>
   </body>

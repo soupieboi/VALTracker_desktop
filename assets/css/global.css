@@ -2183,17 +2183,17 @@ select:focus::-ms-value {
   height: 100%;
   filter: drop-shadow(0px 0px 10px #000);
   margin-left: 2rem;
-  margin-right: 2rem;
+  margin-right: 1rem;
 }
 
 .match-mode-icon-home {
   height: 70%;
   filter: drop-shadow(0px 0px 10px #000);
-  margin-right: 2rem;
+  margin-right: 1rem;
 }
 
 .user-greetings {
-  font-size: 2.5em;
+  font-size: 2.1em;
 }
 
 .pageheader-home {
@@ -2275,11 +2275,11 @@ select:focus::-ms-value {
 
 .featured-bundle-title {
   margin-top: 1rem;
-  font-size: 1.5em;
+  font-size: 1.3em;
 }
 
 .last-5-matches-info {
-  font-size: 1.4em;
+  font-size: 1.3em;
 }
 
 .setup-wrapper {
@@ -2347,4 +2347,28 @@ select:focus::-ms-value {
 
 .setup-button-finish {
   margin-top: 1.5rem;
+}
+
+.match-header-home {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  margin-top: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+#selected-matchtype {
+  width: 8rem;
+  height: 2rem;
+  padding: 0;
+  padding-left: 0.5rem;
+}
+
+.match-header-home span {
+  margin-left: auto;
+  font-size: 1.2em;
+  margin-right: 0.5rem;
 }

@@ -1,4 +1,7 @@
 $(document).ready(() => {
+    let rawdata = fs.readFileSync('./settings/home/preferredMatchFilter.json');
+    let dataToRead = JSON.parse(rawdata);
+    $("#selected-matchtype").val(dataToRead.preferredMatchFilter);
     setTimeout(function() {
         $.ajax({
             dataType: "json",
