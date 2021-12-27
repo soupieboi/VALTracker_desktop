@@ -1784,14 +1784,14 @@ video:focus {
 }
 
 .player-rank {
-  margin-right: 10rem;
+  margin-right: 2rem;
   height: 8rem;
   filter: drop-shadow(0px 0px 10px #000);
 }
 
 .rotated-sep {
   transform: rotate(90deg);
-  width: 8%;
+  width: 20rem;
   margin-left: 0;
   margin-right: 0;
 }
@@ -2518,4 +2518,11 @@ select:focus::-ms-value {
   text-align: left;
   font-size: 1.2em;
   margin-left: 0.5rem;
+}
+
+.user-rr-wrapper-pp {
+  margin-left: 1rem;
+  font-size: 1.8em;
+  margin-right: 22rem;
+  width: 120%;
 }

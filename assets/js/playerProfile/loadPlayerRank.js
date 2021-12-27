@@ -30,6 +30,7 @@ $(document).ready(() => {
                         $(`#match-rr-id-${count}`).append(data2.data[count].mmr_change_to_last_game)
                     }
                 }
+                $('.user-rankrating').append(data2.data[0].ranking_in_tier)
             },
         });
     }, 1000)
