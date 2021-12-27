@@ -2413,7 +2413,7 @@ select:focus::-ms-value {
 
 #playersearch-loading-circle {
   position: absolute;
-  top: 6px;
+  top: 3.2rem;
   right: 35%;
   display: none;
 }
