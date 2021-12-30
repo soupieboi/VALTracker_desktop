@@ -85,7 +85,7 @@ $(document).ready(() => {
             setTimeout(function() {
                 sessionStorage.setItem("afterReload", true)
                 window.location.href = ""
-            }, 1500)
+            }, 2500)
         }
     }, 750)
 })

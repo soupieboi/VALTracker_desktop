@@ -21,7 +21,6 @@ function makeCallAndBuildElements() {
                 $('.insert-playername').append(data.data.name + "' Last Matches")
             } else {
                 $('.insert-playername').append(data.data.name + "'s Last Matches")
-
             }
         },
     });

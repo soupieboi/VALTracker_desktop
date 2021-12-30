@@ -5,6 +5,7 @@ function changeBundleChroma(id, src) {
         success: function(data, jqXHR) {
             var list = document.getElementsByClassName("largeview-bundle-weapon-img");
             for(var i = 0; i < list.length; i++) {
+                sessionStorage.setItem("chroma", chroma);
                 //console.log(list[i].id);
                 const str = list[i].id;
             
@@ -17,7 +18,6 @@ function changeBundleChroma(id, src) {
                 //console.log(slug2)
                 document.getElementById(list[i].id).setAttribute("src", data.data[parseInt(slug1)].skins[parseInt(slug2)].chromas[id-1].fullRender)
                 var chroma = id;
-                sessionStorage.setItem("chroma", chroma);
             }
         }
     })

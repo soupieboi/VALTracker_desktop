@@ -38,56 +38,6 @@ $(document).ready(() => {
             
                         for(var playerCount = 0; playerCount < data3.data[count].players.all_players.length; playerCount++) {
                             if(data3.data[count].players.all_players[playerCount].name == playerName && data3.data[count].players.all_players[playerCount].tag == playerTag) {
-                                playedAgent.src = data3.data[count].players.all_players[playerCount].assets.agent.small;
-            
-                                var matchKDA = document.createElement("span");
-                                matchKDA.className = "match-kda-home";
-                                matchKDA.appendChild(document.createTextNode("KDA: " + data3.data[count].players.all_players[playerCount].stats.kills + "/" + data3.data[count].players.all_players[playerCount].stats.deaths + "/" + data3.data[count].players.all_players[playerCount].stats.assists))
-            
-                                var matchStanding = document.createElement("div");
-                                var result = document.createElement("span");
-                                result.className = "result-header"
-                                result.appendChild(document.createTextNode("RESULT"))
-                                matchStanding.appendChild(result)
-                                if(data3.data[count].teams.red == null) {
-                                    if(data3.data[count].players.all_players[playerCount].stats.kills == 40) {
-                                        matchStanding.className = "match-result-won";
-                                        matchStanding.appendChild(document.createTextNode("WIN"));
-                                    } else {
-                                        matchStanding.className = "match-result-lost";
-                                        matchStanding.appendChild(document.createTextNode("LOSE"));
-                                    }
-                                } else {
-                                    if(data3.data[count].players.all_players[playerCount].team == "Blue") {
-                                        if(data3.data[count].teams.blue.rounds_won == data3.data[count].teams.blue.rounds_lost) {
-                                            matchStanding.className = "match-result-draw";
-                                            matchStanding.appendChild(document.createTextNode(data3.data[count].teams.blue.rounds_won + " : " + data3.data[count].teams.blue.rounds_lost));
-                                        } else {
-                                            if(data3.data[count].teams.blue.has_won == false) {
-                                                matchStanding.className = "match-result-lost";
-                                                matchStanding.appendChild(document.createTextNode(data3.data[count].teams.blue.rounds_won + " : " + data3.data[count].teams.blue.rounds_lost));
-                                            } else {
-                                                matchStanding.className = "match-result-won";
-                                                matchStanding.appendChild(document.createTextNode(data3.data[count].teams.blue.rounds_won + " : " + data3.data[count].teams.blue.rounds_lost));
-                                            }
-                                        }
-                                    } else {
-                                        if(data3.data[count].teams.blue.rounds_won == data3.data[count].teams.blue.rounds_lost) {
-                                            matchStanding.className = "match-result-draw";
-                                            matchStanding.appendChild(document.createTextNode(data3.data[count].teams.blue.rounds_won + " : " + data3.data[count].teams.blue.rounds_lost));
-                                        } else {
-                                            if(data3.data[count].teams.red.has_won == false) {
-                                                matchStanding.className = "match-result-lost";
-                                                matchStanding.appendChild(document.createTextNode(data3.data[count].teams.red.rounds_won + " : " + data3.data[count].teams.red.rounds_lost));
-                                            } else {
-                                                matchStanding.className = "match-result-won";
-                                                matchStanding.appendChild(document.createTextNode(data3.data[count].teams.red.rounds_won + " : " + data3.data[count].teams.red.rounds_lost));
-                                            }
-                                        }
-                                    }
-                                }
-    
-                                //////////////////////////////////////////////////////////////////////
     
                                 sessionStorage.setItem(`addToTotal_score-${count}`, data3.data[count].players.all_players[playerCount].stats.score)
                                 sessionStorage.setItem(`addToTotal_kills-${count}`, data3.data[count].players.all_players[playerCount].stats.kills)
@@ -112,15 +62,110 @@ $(document).ready(() => {
                                 sessionStorage.setItem(`headshot-counter-${count}`, headshots_before)
                                 sessionStorage.setItem(`bodyshot-counter-${count}`, bodyshots_before)
                                 sessionStorage.setItem(`legshot-counter-${count}`, legshots_before)
+
+                                if(matchmode == "Competitive") {
+                                    var matchRRwrapper = document.createElement("div");
+                                    matchRRwrapper.className = "match-rr-wrapper";
+        
+                                    var matchRRimg = document.createElement("img");
+                                    matchRRimg.className = "match-rr-img";
+                                    var rankIcons = [
+                                        './assets/img/iron_1.png', './assets/img/iron_2.png', './assets/img/iron_3.png', 
+                                        './assets/img/bronze_1.png', './assets/img/bronze_2.png', './assets/img/bronze_3.png', 
+                                        './assets/img/silver_1.png', './assets/img/silver_2.png', './assets/img/silver_3.png', 
+                                        './assets/img/gold_1.png', './assets/img/gold_2.png', './assets/img/gold_3.png', 
+                                        './assets/img/plat_1.png', './assets/img/plat_2.png', './assets/img/plat_3.png', 
+                                        './assets/img/dia_1.png', './assets/img/dia_2.png', './assets/img/dia_3.png', 
+                                        './assets/img/immortal_1.png', './assets/img/immortal_2.png', './assets/img/immortal_3.png', 
+                                        './assets/img/radiant.png',
+                                        './assets/img/unranked.png',
+                                    ]
+                                    matchRRimg.setAttribute("src", `${rankIcons[data3.data[count].players.all_players[playerCount].currenttier -3]}`)
+            
+                                    matchRRwrapper.appendChild(matchRRimg)
+        
+                                    var matchRRspan = document.createElement("span");
+                                }
+
+                                playedAgent.src = data3.data[count].players.all_players[playerCount].assets.agent.small;
+            
+                                var matchKDA = document.createElement("span");
+                                matchKDA.className = "match-kda-home";
+                                matchKDA.appendChild(document.createTextNode("KDA: " + data3.data[count].players.all_players[playerCount].stats.kills + "/" + data3.data[count].players.all_players[playerCount].stats.deaths + "/" + data3.data[count].players.all_players[playerCount].stats.assists))
+            
+                                var matchStanding = document.createElement("div");
+                                var result = document.createElement("span");
+                                result.className = "result-header"
+                                result.appendChild(document.createTextNode("RESULT"))
+                                matchStanding.appendChild(result)
+                                if(data3.data[count].teams.red == null) {
+                                    if(data3.data[count].players.all_players[playerCount].stats.kills == 40) {
+                                        matchStanding.className = "match-result-won";
+                                        matchStanding.appendChild(document.createTextNode("WIN"));
+                                    } else {
+                                        matchStanding.className = "match-result-lost";
+                                        matchStanding.appendChild(document.createTextNode("LOSE"));
+                                    }
+                                } else {
+                                    if(data3.data[count].players.all_players[playerCount].team == "Blue") {
+                                        if(data3.data[count].teams.blue.rounds_won == data3.data[count].teams.blue.rounds_lost) {
+                                            matchStanding.className = "match-result-draw";
+                                            matchRRspan.className = `match-rr-home-draw`;
+                                            matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                            matchStanding.appendChild(document.createTextNode(data3.data[count].teams.blue.rounds_won + " : " + data3.data[count].teams.blue.rounds_lost));
+                                        } else {
+                                            if(data3.data[count].teams.blue.has_won == false) {
+                                                matchStanding.className = "match-result-lost";
+                                                matchRRspan.className = `match-rr-home-lose`;
+                                                matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                matchStanding.appendChild(document.createTextNode(data3.data[count].teams.blue.rounds_won + " : " + data3.data[count].teams.blue.rounds_lost));
+                                            } else {
+                                                matchStanding.className = "match-result-won";
+                                                matchRRspan.className = `match-rr-home-win`;
+                                                matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                matchStanding.appendChild(document.createTextNode(data3.data[count].teams.blue.rounds_won + " : " + data3.data[count].teams.blue.rounds_lost));
+                                            }
+                                        }
+                                    } else {
+                                        if(data3.data[count].teams.blue.rounds_won == data3.data[count].teams.blue.rounds_lost) {
+                                            matchStanding.className = "match-result-draw";
+                                            matchRRspan.className = `match-rr-home-draw`;
+                                            matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                            matchStanding.appendChild(document.createTextNode(data3.data[count].teams.blue.rounds_won + " : " + data3.data[count].teams.blue.rounds_lost));
+                                        } else {
+                                            if(data3.data[count].teams.red.has_won == false) {
+                                                matchStanding.className = "match-result-lost";
+                                                matchRRspan.className = `match-rr-home-lose`;
+                                                matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                matchStanding.appendChild(document.createTextNode(data3.data[count].teams.red.rounds_won + " : " + data3.data[count].teams.red.rounds_lost));
+                                            } else {
+                                                matchStanding.className = "match-result-won";
+                                                matchRRspan.className = `match-rr-home-win`;
+                                                matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                matchStanding.appendChild(document.createTextNode(data3.data[count].teams.red.rounds_won + " : " + data3.data[count].teams.red.rounds_lost));
+                                            }
+                                        }
+                                    }
+                                }
+    
+                                //////////////////////////////////////////////////////////////////////
                             } else {
                                 continue;
                             }
                         }
-            
+                        var hiddenMatchID = document.createElement("span");
+                        hiddenMatchID.className = "hidden-matchid"
+                        hiddenMatchID.appendChild(document.createTextNode(data3.data[count].metadata.matchid))
+                        Matchcontainer.appendChild(hiddenMatchID);
+                        Matchcontainer.setAttribute("onclick", "loadMatchView(this.firstChild.textContent)")
                         Matchcontainer.appendChild(playedAgent);
                         Matchcontainer.appendChild(matchmodeIcon);
                         Matchcontainer.appendChild(matchKDA);
                         Matchcontainer.appendChild(matchStanding);
+                        if(matchmode == "Competitive") {
+                            matchRRwrapper.appendChild(matchRRspan)
+                            Matchcontainer.appendChild(matchRRwrapper);
+                        }
                         Matchcontainer.appendChild(matchMap);
                         
                         var wrapper = document.getElementById("last-matches");
@@ -182,6 +227,30 @@ $(document).ready(() => {
             
                         for(var playerCount = 0; playerCount < data3.data[count].players.all_players.length; playerCount++) {
                             if(data3.data[count].players.all_players[playerCount].name == playerName && data3.data[count].players.all_players[playerCount].tag == playerTag) {
+    
+                                sessionStorage.setItem(`addToTotal_score-${count}`, data3.data[count].players.all_players[playerCount].stats.score)
+                                sessionStorage.setItem(`addToTotal_kills-${count}`, data3.data[count].players.all_players[playerCount].stats.kills)
+                                sessionStorage.setItem(`addToTotal_deaths-${count}`, data3.data[count].players.all_players[playerCount].stats.deaths)
+                                sessionStorage.setItem(`addToTotal_assists-${count}`, data3.data[count].players.all_players[playerCount].stats.assists)
+                                sessionStorage.setItem(`addToTotal_dmg-${count}`, data3.data[count].players.all_players[playerCount].damage_made)
+                                var headshots_before = 0;
+                                var bodyshots_before = 0;
+                                var legshots_before = 0;
+                                for(var roundCount = 0; roundCount < data3.data[count].rounds.length; roundCount++) {
+                                    for(var playerCount2 = 0; playerCount2 < data3.data[count].rounds[roundCount].player_stats.length; playerCount2++) {
+                                        if(data3.data[count].rounds[roundCount].player_stats[playerCount2].player_display_name == playerName + "#" + playerTag) {
+                                           headshots_before = headshots_before + parseInt(data3.data[count].rounds[roundCount].player_stats[playerCount2].headshots)
+                                           bodyshots_before = bodyshots_before + parseInt(data3.data[count].rounds[roundCount].player_stats[playerCount2].bodyshots)
+                                           legshots_before = legshots_before + parseInt(data3.data[count].rounds[roundCount].player_stats[playerCount2].legshots)
+                                           break;
+                                        } else {
+                                            continue;
+                                        }
+                                    }
+                                }
+                                sessionStorage.setItem(`headshot-counter-${count}`, headshots_before)
+                                sessionStorage.setItem(`bodyshot-counter-${count}`, bodyshots_before)
+                                sessionStorage.setItem(`legshot-counter-${count}`, legshots_before)
 
                                 if(matchmode == "Competitive") {
                                     var matchRRwrapper = document.createElement("div");
@@ -236,7 +305,7 @@ $(document).ready(() => {
                                         } else {
                                             if(data3.data[count].teams.blue.has_won == false) {
                                                 matchStanding.className = "match-result-lost";
-                                                matchRRspan.className = `match-rr-pp-lose`;
+                                                matchRRspan.className = `match-rr-home-lose`;
                                                 matchRRspan.setAttribute("id", "match-rr-id-"+ count);
                                                 matchStanding.appendChild(document.createTextNode(data3.data[count].teams.blue.rounds_won + " : " + data3.data[count].teams.blue.rounds_lost));
                                             } else {
@@ -269,35 +338,16 @@ $(document).ready(() => {
                                 }
     
                                 //////////////////////////////////////////////////////////////////////
-    
-                                sessionStorage.setItem(`addToTotal_score-${count}`, data3.data[count].players.all_players[playerCount].stats.score)
-                                sessionStorage.setItem(`addToTotal_kills-${count}`, data3.data[count].players.all_players[playerCount].stats.kills)
-                                sessionStorage.setItem(`addToTotal_deaths-${count}`, data3.data[count].players.all_players[playerCount].stats.deaths)
-                                sessionStorage.setItem(`addToTotal_assists-${count}`, data3.data[count].players.all_players[playerCount].stats.assists)
-                                sessionStorage.setItem(`addToTotal_dmg-${count}`, data3.data[count].players.all_players[playerCount].damage_made)
-                                var headshots_before = 0;
-                                var bodyshots_before = 0;
-                                var legshots_before = 0;
-                                for(var roundCount = 0; roundCount < data3.data[count].rounds.length; roundCount++) {
-                                    for(var playerCount2 = 0; playerCount2 < data3.data[count].rounds[roundCount].player_stats.length; playerCount2++) {
-                                        if(data3.data[count].rounds[roundCount].player_stats[playerCount2].player_display_name == playerName + "#" + playerTag) {
-                                           headshots_before = headshots_before + parseInt(data3.data[count].rounds[roundCount].player_stats[playerCount2].headshots)
-                                           bodyshots_before = bodyshots_before + parseInt(data3.data[count].rounds[roundCount].player_stats[playerCount2].bodyshots)
-                                           legshots_before = legshots_before + parseInt(data3.data[count].rounds[roundCount].player_stats[playerCount2].legshots)
-                                           break;
-                                        } else {
-                                            continue;
-                                        }
-                                    }
-                                }
-                                sessionStorage.setItem(`headshot-counter-${count}`, headshots_before)
-                                sessionStorage.setItem(`bodyshot-counter-${count}`, bodyshots_before)
-                                sessionStorage.setItem(`legshot-counter-${count}`, legshots_before)
                             } else {
                                 continue;
                             }
                         }
 
+                        var hiddenMatchID = document.createElement("span");
+                        hiddenMatchID.className = "hidden-matchid"
+                        hiddenMatchID.appendChild(document.createTextNode(data3.data[count].metadata.matchid))
+                        Matchcontainer.appendChild(hiddenMatchID);
+                        Matchcontainer.setAttribute("onclick", "loadMatchView(this.firstChild.textContent)")
                         Matchcontainer.appendChild(playedAgent);
                         Matchcontainer.appendChild(matchmodeIcon);
                         Matchcontainer.appendChild(matchKDA);

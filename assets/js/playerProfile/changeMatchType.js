@@ -1,12 +1,9 @@
 const fs = require('fs');
 $(document).ready(() => {
     setTimeout(function() {
-        let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/userData.json');
-        let dataToRead = JSON.parse(rawdata);
-
-        var playerName = dataToRead.playerName
-        var playerTag = dataToRead.playerTag
-        var playerRegion = dataToRead.playerRegion
+        var playerName = sessionStorage.getItem("player_name");
+        var playerTag = sessionStorage.getItem("player_tag");
+        var playerRegion = sessionStorage.getItem("player_region");
         
         let rawdata2 = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/home/preferredMatchFilter.json');
         let dataToRead2 = JSON.parse(rawdata2);
@@ -117,7 +114,12 @@ $(document).ready(() => {
                             var startedOn = document.createElement("span");
                             startedOn.className = "match-time";
                             startedOn.appendChild(document.createTextNode("Game duration: " + str));
-                
+                            
+                            var hiddenMatchID = document.createElement("span");
+                            hiddenMatchID.className = "hidden-matchid"
+                            hiddenMatchID.appendChild(document.createTextNode(data3.data[count].metadata.matchid))
+                            Matchcontainer.appendChild(hiddenMatchID);
+                            Matchcontainer.setAttribute("onclick", "loadMatchView(this.firstChild.textContent)")
                             Matchcontainer.appendChild(playedAgent);
                             Matchcontainer.appendChild(matchmodeIcon);
                             Matchcontainer.appendChild(matchKDA);
@@ -280,7 +282,12 @@ $(document).ready(() => {
                             var startedOn = document.createElement("span");
                             startedOn.className = "match-time";
                             startedOn.appendChild(document.createTextNode("Game duration: " + str));
-                            
+
+                            var hiddenMatchID = document.createElement("span");
+                            hiddenMatchID.className = "hidden-matchid"
+                            hiddenMatchID.appendChild(document.createTextNode(data3.data[count].metadata.matchid))
+                            Matchcontainer.appendChild(hiddenMatchID);
+                            Matchcontainer.setAttribute("onclick", "loadMatchView(this.firstChild.textContent)")
                             Matchcontainer.appendChild(playedAgent);
                             Matchcontainer.appendChild(matchmodeIcon);
                             Matchcontainer.appendChild(matchKDA);
