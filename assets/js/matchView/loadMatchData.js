@@ -12,7 +12,41 @@ $(document).ready(function() {
             var date = new Date(data.data.metadata.game_length);
             $('.matchview-matchstart').append(data.data.metadata.game_start_patched);
             $('.insertGameLength').append(`${date.getMinutes()}:${date.getSeconds()}`);
+
             var agentUUID_url;
+            var headshot_before = 0;
+            var bodyshot_before = 0;
+            var legshot_before = 0;
+            var totalFBs = 0;
+            
+            for(var count = 0; count < data.data.rounds.length; count++) { //Für jede runde Neu
+                var killerArray = [] //Neuer Array
+                var killtimeArray = [] //Neuer Array
+                for(var count2 = 0; count2 < data.data.rounds[count].player_stats.length; count2++) { // Für Jeden spieler
+                    for(var count3 = 0; count3 < data.data.rounds[count].player_stats[count2].kill_events.length; count3++) { //Für jeden Kill
+                        killerArray.push(data.data.rounds[count].player_stats[count2].kill_events[count3].killer_display_name + " " + data.data.rounds[count].player_stats[count2].kill_events[count3].kill_time_in_round)
+                        killtimeArray.push(data.data.rounds[count].player_stats[count2].kill_events[count3].kill_time_in_round)
+                    }
+                    if(data.data.rounds[count].player_stats[count2].player_display_name == playerName + "#" + playerTag) {
+                        headshot_before = headshot_before + data.data.rounds[count].player_stats[count2].headshots
+                        bodyshot_before = bodyshot_before + data.data.rounds[count].player_stats[count2].bodyshots
+                        legshot_before = legshot_before + data.data.rounds[count].player_stats[count2].legshots
+                    }
+                }
+                for(var count2 = 0; count2 < killerArray.length; count2++) {
+                    var killerArrayObj = killerArray[count2];
+                    var killerArrayTime = killerArrayObj.split(" ").pop();
+                    if(killerArrayTime == Math.min(...killtimeArray)) {
+                        console.log(killerArrayObj.substring(0, killerArrayObj.lastIndexOf(' ')))
+                        var firstBloodKiller = killerArrayObj.substring(0, killerArrayObj.lastIndexOf(' '))
+                        if(firstBloodKiller == playerName + "#" + playerTag) {
+                            totalFBs++;
+                        }
+                        break;
+                    }
+                }
+            }
+
             for(var count = 0; count < data.data.players.all_players.length; count++) {
                 if(data.data.players.all_players[count].name == playerName && data.data.players.all_players[count].tag == playerTag) {
                     if(data.data.metadata.mode == "Competitive") {
@@ -72,39 +106,7 @@ $(document).ready(function() {
                         $(`.matchview-abilityicon-${iconCount}`).attr("src", data2.data.abilities[iconCount].displayIcon)
                         $(`.matchview-abilityname-${iconCount}`).append(data2.data.abilities[iconCount].displayName + ": ")
                     }
-                    var headshot_before = 0;
-                    var bodyshot_before = 0;
-                    var legshot_before = 0;
-                    var totalFBs = 0;
-                    for(var count = 0; count < data.data.rounds.length; count++) {
-                        var killerArray = []
-                        var killtimeArray = []
-                        for(var count2 = 0; count2 < data.data.rounds[count].player_stats.length; count2++) {
-                            if(data.data.rounds[count].player_stats[count2].kill_events.length == !0) {
-                                for(var count3 = 0; count3 < data.data.rounds[count].player_stats[count2].kill_events.length; count3++) {
-                                    //console.log(count)
-                                    //console.log(data.data.rounds[count].player_stats[count2].kill_events[count3].killer_display_name)
-                                    killerArray.push(data.data.rounds[count].player_stats[count2].kill_events[count3].killer_display_name + " " + data.data.rounds[count].player_stats[count2].kill_events[count3].kill_time_in_round)
-                                    killtimeArray.push(data.data.rounds[count].player_stats[count2].kill_events[count3].kill_time_in_round)
-                                    if(data.data.rounds[count].player_stats[count2].kill_events[count3].killer_display_name == playerName + "#" + playerTag) {
-                                    }
-                                }
-                            }
-                            if(data.data.rounds[count].player_stats[count2].player_display_name == playerName + "#" + playerTag) {
-                                headshot_before = headshot_before + data.data.rounds[count].player_stats[count2].headshots
-                                bodyshot_before = bodyshot_before + data.data.rounds[count].player_stats[count2].bodyshots
-                                legshot_before = legshot_before + data.data.rounds[count].player_stats[count2].legshots
-                            }
-                        }
-                        for(var count2 = 0; count2 < killerArray.length; count2++) {
-                            if(Math.min(...killtimeArray) == killerArray[count2].split(' ').pop().trim()) {
-                                if(killerArray[count2].match(playerName + "#" + playerTag)) {
-                                    totalFBs++;
-                                }
-                                break;
-                            }
-                        }
-                    }
+                    $('.insertFBsHere').append(totalFBs)
                     var totalShotsHit = headshot_before + bodyshot_before + legshot_before
                     const headshotPercent = Math.round((headshot_before / totalShotsHit) * 100)
                     const bodyshotPercent = Math.round((bodyshot_before / totalShotsHit) * 100)
@@ -112,7 +114,6 @@ $(document).ready(function() {
                     $('.insertHeadshotPercent').append(headshotPercent + "%")
                     $('.insertBodyshotPercent').append(bodyshotPercent + "%")
                     $('.insertLegshotPercent').append(legshotPercent + "%")
-                    $('.insertFBsHere').append(totalFBs)
                     $('.matchview-playername').append(playerName)
                 }
             })

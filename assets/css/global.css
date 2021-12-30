@@ -2718,9 +2718,8 @@ select:focus::-ms-value {
 
 .playerinfo-wrapper {
   display: flex;
-  align-items: center;
+  text-align: center;
   position: relative;
-  left: 0.5rem;
   margin-top: 0.2rem;
 }
 
