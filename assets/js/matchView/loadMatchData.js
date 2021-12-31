@@ -2,7 +2,6 @@ $(document).ready(function() {
     var matchID = sessionStorage.getItem("matchID");
     var playerName = sessionStorage.getItem("player_name");
     var playerTag = sessionStorage.getItem("player_tag");
-    console.log(matchID)
     $.ajax({
         url: `https://api.henrikdev.xyz/valorant/v2/match/${matchID}`,
         type: 'get',
@@ -37,7 +36,6 @@ $(document).ready(function() {
                     var killerArrayObj = killerArray[count2];
                     var killerArrayTime = killerArrayObj.split(" ").pop();
                     if(killerArrayTime == Math.min(...killtimeArray)) {
-                        console.log(killerArrayObj.substring(0, killerArrayObj.lastIndexOf(' ')))
                         var firstBloodKiller = killerArrayObj.substring(0, killerArrayObj.lastIndexOf(' '))
                         if(firstBloodKiller == playerName + "#" + playerTag) {
                             totalFBs++;

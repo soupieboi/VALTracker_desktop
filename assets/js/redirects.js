@@ -40,7 +40,6 @@ $('.player-card-img').on("click", function(){
     }, 500);
 });
 $('.card-wrapper').on("click", function(){
-    console.log("monke")
     leaveFade();
     setTimeout(function() {
         if(directoryName == "CollectablePages") {
@@ -61,6 +60,17 @@ $(document).ready(() => {
                 window.location.href = "../index.html";
             } else {
                 window.location.href = "index.html";
+            }
+        }, 500);
+    });
+    $('#favs').on("click", function(){
+        leaveFade();
+        toggle();
+        setTimeout(function() {
+            if(directoryName == "CollectablePages") {
+                window.location.href = "../favMatches.html";
+            } else {
+                window.location.href = "favMatches.html";
             }
         }, 500);
     });

@@ -6,6 +6,5 @@ function loadMatchView(matchID) {
     sessionStorage.setItem("matchID", matchID)
     sessionStorage.setItem("player_name", playerName);
     sessionStorage.setItem("player_tag", playerTag);
-    console.log(matchID)
     window.location.href = "./matchView.html"
 }

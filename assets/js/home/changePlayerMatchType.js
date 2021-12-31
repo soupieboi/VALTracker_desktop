@@ -29,6 +29,7 @@ $(document).ready(() => {
                     url: `https://api.henrikdev.xyz/valorant/v3/matches/${playerRegion}/${playerName}/${playerTag}`,
                     type: 'get',
                     success: function(data3, xhr) {
+                        var totalRoundCount = 0;
                         for(var count = 0; count < data3.data.length; count++) {
                 
                             var Matchcontainer = document.createElement("div");
@@ -49,6 +50,8 @@ $(document).ready(() => {
                 
                             var playedAgent = document.createElement("img");
                             playedAgent.className = "match-played-agent-home";
+
+                            totalRoundCount = totalRoundCount + data3.data[count].rounds.length
                 
                             for(var playerCount = 0; playerCount < data3.data[count].players.all_players.length; playerCount++) {
                                 if(data3.data[count].players.all_players[playerCount].name == playerName && data3.data[count].players.all_players[playerCount].tag == playerTag) {
@@ -194,18 +197,14 @@ $(document).ready(() => {
                                 Matchcontainer.appendChild(matchRRwrapper);
                             }
                             Matchcontainer.appendChild(matchMap);
+                            var favStarIcon = document.createElement("i")
+                            favStarIcon.classList.add("far", "fa-star")
+                            favStarIcon.setAttribute("onclick", "saveToFavs(this.parentElement.firstChild.textContent, this); event.stopPropagation();");
+                            Matchcontainer.appendChild(favStarIcon)   
                             
                             var wrapper = document.getElementById("last-matches");
                             var nextElement = document.getElementById("lastElement");
                             wrapper.insertBefore(Matchcontainer, nextElement);
-                                            
-                            $('.loading-icon').fadeTo(150, 0)
-                            setTimeout(function() {
-                                $('.loading-icon').css("display", "none");
-                                $('.loading-layer').css("opacity", "0");
-                                $('.loading-layer').css("display", "block");
-                                $('.loading-layer').fadeTo(150, 1)
-                            }, 200)
                         }
                         var headshots_mid = 0;
                         var bodyshots_mid = 0;
@@ -244,14 +243,14 @@ $(document).ready(() => {
                         var pDeaths_after = pDeaths_before / 5;
                         var pAssists_after = pAssists_before / 5;
                         var pScore_after = pScore_before / 5;
-                        var pDmg_after = pDmg_before / 5;
+                        var pDmg_after = pDmg_before / parseInt(sessionStorage.getItem(`totalRoundCount`));
                 
                         $('.home-avg-kda').empty()
                         $('.home-avg-score').empty()
                         $('.home-avg-dmg_match').empty()
                         $('.home-avg-kda').append(" " + Math.round(pKills_after) + "/" + Math.round(pDeaths_after) + "/" + Math.round(pAssists_after));
                         $('.home-avg-score').append(" " + pScore_after);
-                        $('.home-avg-dmg_match').append(" " + pDmg_after + "HP");
+                        $('.home-avg-dmg_match').append(" " + Math.round(pDmg_after) + "HP");
     
                         let finishedData = {
                             preferredMatchFilter: filterType
@@ -268,7 +267,7 @@ $(document).ready(() => {
                                 function ispositive(n){
                                     return 1/(n*0)===1/0
                                 }
-                                var RR_after = data.data[0].ranking_in_tier - data.data[4].ranking_in_tier;
+                                var RR_after = data.data[0].mmr_change_to_last_game + data.data[1].mmr_change_to_last_game + data.data[2].mmr_change_to_last_game + data.data[3].mmr_change_to_last_game + data.data[4].mmr_change_to_last_game;
                                 if(ispositive(RR_after) == true) {
                                     $('.home-avg-rrchange').empty()
                                     $('.home-avg-rrchange').append(" +" + RR_after)
@@ -283,6 +282,38 @@ $(document).ready(() => {
                                         $(`#match-rr-id-${count}`).append(data.data[count].mmr_change_to_last_game)
                                     }
                                 }
+
+                                var checkedPath1 = process.env.APPDATA + '/VALTracker/settings/favourites.json'
+                                if(fs.existsSync(checkedPath1)) {
+                                    var rawdata = fs.readFileSync(checkedPath1);
+                                    var dataToRead = JSON.parse(rawdata);
+                                    var matches = document.getElementsByClassName('home-matchtile')
+                                    for(var count = 0; count < matches.length; count++) {
+                                        for(var jsonCount = 0; jsonCount < dataToRead.favourites.length; jsonCount++) {
+                                            if(matches.item(count).firstChild.textContent == dataToRead.favourites[jsonCount].MatchID) {
+                                                matches.item(count).lastChild.classList.toggle('far')
+                                                matches.item(count).lastChild.classList.toggle('fas')
+                                                matches.item(count).lastChild.setAttribute("id", dataToRead.favourites[jsonCount].MatchID)
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    var newArrToPush = {
+                                        "favourites": [{
+                            
+                                        }]
+                                    };
+                            
+                                    fs.writeFileSync(checkedPath1, JSON.stringify(newArrToPush));
+                                }
+                                                    
+                                $('.loading-icon').fadeTo(150, 0)
+                                setTimeout(function() {
+                                    $('.loading-icon').css("display", "none");
+                                    $('.loading-layer').css("opacity", "0");
+                                    $('.loading-layer').css("display", "block");
+                                    $('.loading-layer').fadeTo(150, 1)
+                                }, 200)
                             }
                         })
                     }
@@ -293,6 +324,7 @@ $(document).ready(() => {
                     url: `https://api.henrikdev.xyz/valorant/v3/matches/${playerRegion}/${playerName}/${playerTag}?filter=${filterType}`,
                     type: 'get',
                     success: function(data3, xhr) {
+                        var totalRoundCount = 0;
                         for(var count = 0; count < data3.data.length; count++) {
                 
                             var Matchcontainer = document.createElement("div");
@@ -313,6 +345,8 @@ $(document).ready(() => {
                 
                             var playedAgent = document.createElement("img");
                             playedAgent.className = "match-played-agent-home";
+
+                            totalRoundCount = totalRoundCount + data3.data[count].rounds.length
                 
                             for(var playerCount = 0; playerCount < data3.data[count].players.all_players.length; playerCount++) {
                                 if(data3.data[count].players.all_players[playerCount].name == playerName && data3.data[count].players.all_players[playerCount].tag == playerTag) {
@@ -457,18 +491,14 @@ $(document).ready(() => {
                                 Matchcontainer.appendChild(matchRRwrapper);
                             }
                             Matchcontainer.appendChild(matchMap);
+                            var favStarIcon = document.createElement("i")
+                            favStarIcon.classList.add("far", "fa-star")
+                            favStarIcon.setAttribute("onclick", "saveToFavs(this.parentElement.firstChild.textContent, this); event.stopPropagation();");
+                            Matchcontainer.appendChild(favStarIcon)   
                             
                             var wrapper = document.getElementById("last-matches");
                             var nextElement = document.getElementById("lastElement");
                             wrapper.insertBefore(Matchcontainer, nextElement);
-                                            
-                            $('.loading-icon').fadeTo(150, 0)
-                            setTimeout(function() {
-                                $('.loading-icon').css("display", "none");
-                                $('.loading-layer').css("opacity", "0");
-                                $('.loading-layer').css("display", "block");
-                                $('.loading-layer').fadeTo(150, 1)
-                            }, 200)
                         }
                         var headshots_mid = 0;
                         var bodyshots_mid = 0;
@@ -508,14 +538,14 @@ $(document).ready(() => {
                         var pDeaths_after = pDeaths_before / 5;
                         var pAssists_after = pAssists_before / 5;
                         var pScore_after = pScore_before / 5;
-                        var pDmg_after = pDmg_before / 5;
+                        var pDmg_after = pDmg_before / parseInt(sessionStorage.getItem(`totalRoundCount`));
                 
                         $('.home-avg-kda').empty()
                         $('.home-avg-score').empty()
                         $('.home-avg-dmg_match').empty()
                         $('.home-avg-kda').append(" " + Math.round(pKills_after) + "/" + Math.round(pDeaths_after) + "/" + Math.round(pAssists_after));
                         $('.home-avg-score').append(" " + pScore_after);
-                        $('.home-avg-dmg_match').append(" " + pDmg_after + "HP");
+                        $('.home-avg-dmg_match').append(" " + Math.round(pDmg_after) + "HP");
     
                         let finishedData = {
                             preferredMatchFilter: filterType
@@ -532,7 +562,7 @@ $(document).ready(() => {
                                 function ispositive(n){
                                     return 1/(n*0)===1/0
                                 }
-                                var RR_after = data.data[0].ranking_in_tier - data.data[4].ranking_in_tier;
+                                var RR_after = data.data[0].mmr_change_to_last_game + data.data[1].mmr_change_to_last_game + data.data[2].mmr_change_to_last_game + data.data[3].mmr_change_to_last_game + data.data[4].mmr_change_to_last_game;
                                 if(ispositive(RR_after) == true) {
                                     $('.home-avg-rrchange').empty()
                                     $('.home-avg-rrchange').append(" +" + RR_after)
@@ -547,6 +577,38 @@ $(document).ready(() => {
                                         $(`#match-rr-id-${count}`).append(data.data[count].mmr_change_to_last_game)
                                     }
                                 }
+
+                                var checkedPath1 = process.env.APPDATA + '/VALTracker/settings/favourites.json'
+                                if(fs.existsSync(checkedPath1)) {
+                                    var rawdata = fs.readFileSync(checkedPath1);
+                                    var dataToRead = JSON.parse(rawdata);
+                                    var matches = document.getElementsByClassName('home-matchtile')
+                                    for(var count = 0; count < matches.length; count++) {
+                                        for(var jsonCount = 0; jsonCount < dataToRead.favourites.length; jsonCount++) {
+                                            if(matches.item(count).firstChild.textContent == dataToRead.favourites[jsonCount].MatchID) {
+                                                matches.item(count).lastChild.classList.toggle('far')
+                                                matches.item(count).lastChild.classList.toggle('fas')
+                                                matches.item(count).lastChild.setAttribute("id", dataToRead.favourites[jsonCount].MatchID)
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    var newArrToPush = {
+                                        "favourites": [{
+                            
+                                        }]
+                                    };
+                            
+                                    fs.writeFileSync(checkedPath1, JSON.stringify(newArrToPush));
+                                }
+                                                    
+                                $('.loading-icon').fadeTo(150, 0)
+                                setTimeout(function() {
+                                    $('.loading-icon').css("display", "none");
+                                    $('.loading-layer').css("opacity", "0");
+                                    $('.loading-layer').css("display", "block");
+                                    $('.loading-layer').fadeTo(150, 1)
+                                }, 200)
                             }
                         })
                     }

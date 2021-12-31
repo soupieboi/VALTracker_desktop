@@ -26,11 +26,13 @@
       "oneClick": false,
       "allowToChangeInstallationDirectory": false
     },
-    "publish": [{
-      "provider": "github",
-      "owner": "SpiritLetsPlays",
-      "repo": "VALTracker_src"
-    }],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "SpiritLetsPlays",
+        "repo": "VALTracker_src"
+      }
+    ],
     "files": "!./settings"
   },
   "author": "Spirit",
@@ -43,6 +45,7 @@
     "electron-wix-msi": "^3.2.0"
   },
   "dependencies": {
+    "clean-deep": "^3.4.0",
     "ejs": "^3.1.6",
     "ejs-electron": "^2.1.1",
     "electron-is-dev": "^2.0.0",

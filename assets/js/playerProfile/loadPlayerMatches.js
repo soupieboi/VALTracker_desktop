@@ -191,7 +191,6 @@ $(document).ready(() => {
                                     var matchRRspan = document.createElement("span");
                                 }
 
-                                console.log(data3.data[count].players.all_players[playerCount].assets.agent.small)
                                 playedAgent.src = data3.data[count].players.all_players[playerCount].assets.agent.small;
             
                                 var matchKDA = document.createElement("span");

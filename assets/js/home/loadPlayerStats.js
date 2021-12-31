@@ -24,14 +24,14 @@ $(document).ready(() => {
             var pDeaths_after = pDeaths_before / 5;
             var pAssists_after = pAssists_before / 5;
             var pScore_after = pScore_before / 5;
-            var pDmg_after = pDmg_before / 5;
+            var pDmg_after = pDmg_before / parseInt(sessionStorage.getItem(`totalRoundCount`));
             
             $('.home-avg-kda').empty()
             $('.home-avg-score').empty()
             $('.home-avg-dmg_match').empty()
             $('.home-avg-kda').append(" " + Math.round(pKills_after) + "/" + Math.round(pDeaths_after) + "/" + Math.round(pAssists_after));
             $('.home-avg-score').append(" " + pScore_after);
-                $('.home-avg-dmg_match').append(" " + pDmg_after + "HP");
+            $('.home-avg-dmg_match').append(" " + Math.round(pDmg_after) + "HP");
             
             $.ajax({
                 dataType: "json",
@@ -61,7 +61,7 @@ $(document).ready(() => {
                             $(`#match-rr-id-${count}`).append(data.data[count].mmr_change_to_last_game)
                         }
                     }
-                    var RR_after = data.data[0].ranking_in_tier - data.data[4].ranking_in_tier;
+                    var RR_after = data.data[0].mmr_change_to_last_game + data.data[1].mmr_change_to_last_game + data.data[2].mmr_change_to_last_game + data.data[3].mmr_change_to_last_game + data.data[4].mmr_change_to_last_game;
                     if(ispositive(RR_after) == true) {
                         $('.home-avg-rrchange').empty()
                         $('.home-avg-rrchange').append(" +" + RR_after)

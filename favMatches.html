@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="assets/css/global.css">
 
-    <script type="application/javascript" src="assets/js/bundles/loadBundles.js" defer></script>
     <script src="https://kit.fontawesome.com/0fb7a47199.js" crossorigin="anonymous"></script>
   </head>
   <div class="update-banner" style="display: none;">
@@ -31,7 +30,7 @@
       <div id="drag-region">
         <div id="window-title">
           <img class="titlebar-img" src="./icons/VALTracker_logo.ico">
-          <span>VALTracker Alpha V0.8.3</span>
+          <span>VALTracker Alpha V0.8.12</span>
         </div>
         <div id="window-controls">
 
@@ -58,12 +57,12 @@
     <div class="navslide">
       <ul class="navslide-ul-container">
         <li id="home" class="navslide-li"><span class="" id="home-nav">Home</span></li>
-        <li id="favs" class="navslide-li"><span class="" id="favs-nav">Favourite Matches</span></li>
+        <li id="favs" class="navslide-li color"><span class="" id="favs-nav">Favourite Matches</span></li>
         <li id="psearch" class="navslide-li"><span class="" id="search-nav">Playersearch</span></li>
         <!--<li id="profile" class="navslide-li"><span class="" id="profile-nav">Your Profile</span></li>-->
         <li id="collects" class="collapsible"><span class="" id="collectables-nav"> Collectables</span></li>
         <div class="content">
-          <li class="collectables-sub color" id="collects-sub-bundles">Bundles</li>
+          <li class="collectables-sub" id="collects-sub-bundles">Bundles</li>
           <li class="collectables-sub" id="collects-sub-skins">Skins</li>
           <li class="collectables-sub" id="collects-sub-buddys">Buddys</li>
           <!--<li class="collectables-sub" id="collects-sub-bps">Battlepasses</li>
@@ -73,38 +72,11 @@
         <li id="m-n-l" class="navslide-li"><span class="" id="tools-nav">Maps & Lineups</span></li>
         <li id="leads" class="navslide-li"><span class="" id="projects-nav">Leaderboards</span></li>
         <li id="lft" class="navslide-li"><span class="" id="contact-nav">LFT</span></li>-->
-        </ul>
+      </ul>
     </div>
-
-    <div class="app" id="main-collection" style="transform: scale(0.9);">
-      <div class="pageheader-div">
-        <h1 class="pageheader" id="pageheader">All Bundles</h1>
-        <div class="search-input-wrapper">
-          <input type="text" class="search-input" id="search-input" maxlength="35" placeholder="Search" onkeyup="bundleSearch()">
-          <i class="fas fa-search"></i>
-        </div>
-      </div>
-      <div class="massgrid">
-        <div class="row" id="cardGrid">
-
-          <!---->
-
-        </div>
-      </div>
-    </div>
-
-    <!---->
-    <div class="bundle-largeview" id="largeview-handler" style="display: none;">
-      <div class="header-relative-div-largeview" id="sec" onclick="leaveToBundles()" style="opacity: 0;">
-        <div id="toggle"></div>
-      </div>
-
-      <!---->
-    <div class="largeview-vid" id="promo-vid-div">
-      <div class="header-relative-div-video" id="sec" onclick="hideVideo()" style="opacity: 0;">
-        <div id="toggle"></div>
-      </div>
-    <video controls onloadstart="this.volume=0.25" class="largeview-weapon-video" src="" id="largeview-vid-element"></video>
+    <div class="app" id="main-favs">
+      <h1>Your Favourite Matches</h1>
+      <div class="fav-match-wrapper"></div>
     </div>
 
     <script>
@@ -121,7 +93,7 @@
       }
       // Listen for messages
       const { ipcRenderer } = require('electron');
-      ipcRenderer.on('message', function(event, text) {
+        ipcRenderer.on('message', function(event, text) {
         console.log(text);
       })
       //Update downloaded
@@ -139,7 +111,6 @@
       //Update downloading
       $('.download-bar').css("display", "block");
       ipcRenderer.on('download-percent', function(event, value) {
-        
         $('.download-banner').css("display", "block");
         document.getElementById("download-bar").value = value
       })
@@ -154,14 +125,7 @@
       })
     </script>
 
-    <script type="application/javascript" src="assets/js/bundles/bundleViews.js"></script>
-    <script type="application/javascript" src="assets/js/bundles/doubleCallHandler.js"></script>
-    <script type="application/javascript" src="assets/js/bundles/getBundleCost.js"></script>
     <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
     <script type="application/javascript" src="assets/js/redirects.js"></script>
-    <script type="application/javascript" src="assets/js/bundles/changeBundleChroma.js"></script>
-    <script type="application/javascript" src="assets/js/bundles/leaveToBundles.js"></script>
-    <script type="application/javascript" src="assets/js/bundles/loadPromoVideo.js"></script>
-    <script type="application/javascript" src="assets/js/bundles/searchBundles.js"></script>
   </body>
-</html> 
+</html>

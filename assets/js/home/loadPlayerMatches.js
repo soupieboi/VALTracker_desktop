@@ -15,6 +15,7 @@ $(document).ready(() => {
                 url: `https://api.henrikdev.xyz/valorant/v3/matches/${playerRegion}/${playerName}/${playerTag}`,
                 type: 'get',
                 success: function(data3, xhr) {
+                    var totalRoundCount = 0;
                     for(var count = 0; count < data3.data.length; count++) {
             
                         var Matchcontainer = document.createElement("div");
@@ -35,6 +36,8 @@ $(document).ready(() => {
             
                         var playedAgent = document.createElement("img");
                         playedAgent.className = "match-played-agent-home";
+
+                        totalRoundCount = totalRoundCount + data3.data[count].rounds.length
             
                         for(var playerCount = 0; playerCount < data3.data[count].players.all_players.length; playerCount++) {
                             if(data3.data[count].players.all_players[playerCount].name == playerName && data3.data[count].players.all_players[playerCount].tag == playerTag) {
@@ -110,38 +113,50 @@ $(document).ready(() => {
                                     if(data3.data[count].players.all_players[playerCount].team == "Blue") {
                                         if(data3.data[count].teams.blue.rounds_won == data3.data[count].teams.blue.rounds_lost) {
                                             matchStanding.className = "match-result-draw";
-                                            matchRRspan.className = `match-rr-home-draw`;
-                                            matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                            if(matchmode == "Competitive") {
+                                                matchRRspan.className = `match-rr-home-draw`;
+                                                matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                            }
                                             matchStanding.appendChild(document.createTextNode(data3.data[count].teams.blue.rounds_won + " : " + data3.data[count].teams.blue.rounds_lost));
                                         } else {
                                             if(data3.data[count].teams.blue.has_won == false) {
                                                 matchStanding.className = "match-result-lost";
-                                                matchRRspan.className = `match-rr-home-lose`;
-                                                matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                if(matchmode == "Competitive") {
+                                                    matchRRspan.className = `match-rr-home-lose`;
+                                                    matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                }
                                                 matchStanding.appendChild(document.createTextNode(data3.data[count].teams.blue.rounds_won + " : " + data3.data[count].teams.blue.rounds_lost));
                                             } else {
                                                 matchStanding.className = "match-result-won";
-                                                matchRRspan.className = `match-rr-home-win`;
-                                                matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                if(matchmode == "Competitive") {
+                                                    matchRRspan.className = `match-rr-home-win`;
+                                                    matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                }
                                                 matchStanding.appendChild(document.createTextNode(data3.data[count].teams.blue.rounds_won + " : " + data3.data[count].teams.blue.rounds_lost));
                                             }
                                         }
                                     } else {
                                         if(data3.data[count].teams.blue.rounds_won == data3.data[count].teams.blue.rounds_lost) {
                                             matchStanding.className = "match-result-draw";
-                                            matchRRspan.className = `match-rr-home-draw`;
-                                            matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                            if(matchmode == "Competitive") {
+                                                matchRRspan.className = `match-rr-home-draw`;
+                                                matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                            }
                                             matchStanding.appendChild(document.createTextNode(data3.data[count].teams.blue.rounds_won + " : " + data3.data[count].teams.blue.rounds_lost));
                                         } else {
                                             if(data3.data[count].teams.red.has_won == false) {
                                                 matchStanding.className = "match-result-lost";
-                                                matchRRspan.className = `match-rr-home-lose`;
-                                                matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                if(matchmode == "Competitive") {
+                                                    matchRRspan.className = `match-rr-home-lose`;
+                                                    matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                }
                                                 matchStanding.appendChild(document.createTextNode(data3.data[count].teams.red.rounds_won + " : " + data3.data[count].teams.red.rounds_lost));
                                             } else {
                                                 matchStanding.className = "match-result-won";
-                                                matchRRspan.className = `match-rr-home-win`;
-                                                matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                if(matchmode == "Competitive") {
+                                                    matchRRspan.className = `match-rr-home-win`;
+                                                    matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                }
                                                 matchStanding.appendChild(document.createTextNode(data3.data[count].teams.red.rounds_won + " : " + data3.data[count].teams.red.rounds_lost));
                                             }
                                         }
@@ -167,19 +182,16 @@ $(document).ready(() => {
                             Matchcontainer.appendChild(matchRRwrapper);
                         }
                         Matchcontainer.appendChild(matchMap);
+                        var favStarIcon = document.createElement("i")
+                        favStarIcon.classList.add("far", "fa-star")
+                        favStarIcon.setAttribute("onclick", "saveToFavs(this.parentElement.firstChild.textContent, this); event.stopPropagation();");
+                        Matchcontainer.appendChild(favStarIcon)   
                         
                         var wrapper = document.getElementById("last-matches");
                         var nextElement = document.getElementById("lastElement");
                         wrapper.insertBefore(Matchcontainer, nextElement);
-                                        
-                        $('.loading-icon').fadeTo(150, 0)
-                        setTimeout(function() {
-                            $('.loading-icon').css("display", "none");
-                            $('.loading-layer').css("opacity", "0");
-                            $('.loading-layer').css("display", "block");
-                            $('.loading-layer').fadeTo(150, 1)
-                        }, 200)
                     }
+                    sessionStorage.setItem(`totalRoundCount`, totalRoundCount)
                     var headshots_mid = 0;
                     var bodyshots_mid = 0;
                     var legshots_mid = 0;
@@ -195,6 +207,38 @@ $(document).ready(() => {
                     $('.home-avg-headshots').append(" " + Math.floor((headshots_after / totalShotsHit) * 100) + "%")
                     $('.home-avg-bodyshots').append(" " + Math.floor((bodyshots_after / totalShotsHit) * 100) + "%")
                     $('.home-avg-legshots').append(" " + Math.floor((legshots_after / totalShotsHit) * 100) + "%")
+
+                    var checkedPath1 = process.env.APPDATA + '/VALTracker/settings/favourites.json'
+                    if(fs.existsSync(checkedPath1)) {
+                        var rawdata = fs.readFileSync(checkedPath1);
+                        var dataToRead = JSON.parse(rawdata);
+                        var matches = document.getElementsByClassName('home-matchtile')
+                        for(var count = 0; count < matches.length; count++) {
+                            for(var jsonCount = 0; jsonCount < dataToRead.favourites.length; jsonCount++) {
+                                if(matches.item(count).firstChild.textContent == dataToRead.favourites[jsonCount].MatchID) {
+                                    matches.item(count).lastChild.classList.toggle('far')
+                                    matches.item(count).lastChild.classList.toggle('fas')
+                                    matches.item(count).lastChild.setAttribute("id", dataToRead.favourites[jsonCount].MatchID)
+                                }
+                            }
+                        }
+                    } else {
+                        var newArrToPush = {
+                            "favourites": [{
+                
+                            }]
+                        };
+                
+                        fs.writeFileSync(checkedPath1, JSON.stringify(newArrToPush));
+                    }
+                                        
+                    $('.loading-icon').fadeTo(150, 0)
+                    setTimeout(function() {
+                        $('.loading-icon').css("display", "none");
+                        $('.loading-layer').css("opacity", "0");
+                        $('.loading-layer').css("display", "block");
+                        $('.loading-layer').fadeTo(150, 1)
+                    }, 200)
                 }
             });
         } else {
@@ -204,6 +248,7 @@ $(document).ready(() => {
                 url: `https://api.henrikdev.xyz/valorant/v3/matches/${playerRegion}/${playerName}/${playerTag}?filter=${filterType}`,
                 type: 'get',
                 success: function(data3, xhr) {
+                    var totalRoundCount = 0;
                     for(var count = 0; count < data3.data.length; count++) {
             
                         var Matchcontainer = document.createElement("div");
@@ -224,6 +269,8 @@ $(document).ready(() => {
             
                         var playedAgent = document.createElement("img");
                         playedAgent.className = "match-played-agent-home";
+
+                        totalRoundCount = totalRoundCount + data3.data[count].rounds.length
             
                         for(var playerCount = 0; playerCount < data3.data[count].players.all_players.length; playerCount++) {
                             if(data3.data[count].players.all_players[playerCount].name == playerName && data3.data[count].players.all_players[playerCount].tag == playerTag) {
@@ -342,7 +389,6 @@ $(document).ready(() => {
                                 continue;
                             }
                         }
-
                         var hiddenMatchID = document.createElement("span");
                         hiddenMatchID.className = "hidden-matchid"
                         hiddenMatchID.appendChild(document.createTextNode(data3.data[count].metadata.matchid))
@@ -357,19 +403,18 @@ $(document).ready(() => {
                             Matchcontainer.appendChild(matchRRwrapper);
                         }
                         Matchcontainer.appendChild(matchMap);
-                        
+                        var favStarIcon = document.createElement("i")
+                        favStarIcon.classList.add("far", "fa-star")
+                        favStarIcon.setAttribute("onclick", "saveToFavs(this.parentElement.firstChild.textContent, this); event.stopPropagation();");
+                        Matchcontainer.appendChild(favStarIcon)         
+
                         var wrapper = document.getElementById("last-matches");
                         var nextElement = document.getElementById("lastElement");
                         wrapper.insertBefore(Matchcontainer, nextElement);
-                                        
-                        $('.loading-icon').fadeTo(150, 0)
-                        setTimeout(function() {
-                            $('.loading-icon').css("display", "none");
-                            $('.loading-layer').css("opacity", "0");
-                            $('.loading-layer').css("display", "block");
-                            $('.loading-layer').fadeTo(150, 1)
-                        }, 200)
                     }
+
+                    sessionStorage.setItem(`totalRoundCount`, totalRoundCount)
+
                     var headshots_mid = 0;
                     var bodyshots_mid = 0;
                     var legshots_mid = 0;
@@ -385,6 +430,38 @@ $(document).ready(() => {
                     $('.home-avg-headshots').append(" " + Math.floor((headshots_after / totalShotsHit) * 100) + "%")
                     $('.home-avg-bodyshots').append(" " + Math.floor((bodyshots_after / totalShotsHit) * 100) + "%")
                     $('.home-avg-legshots').append(" " + Math.floor((legshots_after / totalShotsHit) * 100) + "%")
+
+                    var checkedPath1 = process.env.APPDATA + '/VALTracker/settings/favourites.json'
+                    if(fs.existsSync(checkedPath1)) {
+                        var rawdata = fs.readFileSync(checkedPath1);
+                        var dataToRead = JSON.parse(rawdata);
+                        var matches = document.getElementsByClassName('home-matchtile')
+                        for(var count = 0; count < matches.length; count++) {
+                            for(var jsonCount = 0; jsonCount < dataToRead.favourites.length; jsonCount++) {
+                                if(matches.item(count).firstChild.textContent == dataToRead.favourites[jsonCount].MatchID) {
+                                    matches.item(count).lastChild.classList.toggle('far')
+                                    matches.item(count).lastChild.classList.toggle('fas')
+                                    matches.item(count).lastChild.setAttribute("id", dataToRead.favourites[jsonCount].MatchID)
+                                }
+                            }
+                        }
+                    } else {
+                        var newArrToPush = {
+                            "favourites": [{
+                
+                            }]
+                        };
+                
+                        fs.writeFileSync(checkedPath1, JSON.stringify(newArrToPush));
+                    }
+                                        
+                    $('.loading-icon').fadeTo(150, 0)
+                    setTimeout(function() {
+                        $('.loading-icon').css("display", "none");
+                        $('.loading-layer').css("opacity", "0");
+                        $('.loading-layer').css("display", "block");
+                        $('.loading-layer').fadeTo(150, 1)
+                    }, 200)
                 }
             });
         }

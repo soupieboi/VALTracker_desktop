@@ -32,7 +32,6 @@ $(document).ready(() => {
                                     var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
                                     return dDisplay + hDisplay + mDisplay + sDisplay; 
                                 }
-                                console.log(secondsToHms(secondsRemaining))
                                 setInterval(function() {
                                     secondsRemaining--;
                                     $('.featured-bundle-time-left').empty()
