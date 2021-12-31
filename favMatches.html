@@ -74,9 +74,29 @@
         <li id="lft" class="navslide-li"><span class="" id="contact-nav">LFT</span></li>-->
       </ul>
     </div>
-    <div class="app" id="main-favs">
-      <h1>Your Favourite Matches</h1>
-      <div class="fav-match-wrapper"></div>
+    <div class="app" id="main-collection" style="transform: scale(0.9);">
+      <div class="loading-icon">
+        <i class="fas fa-circle-notch fa-spin"></i>
+      </div>
+      <div class="loading-layer" id="loading-layer" style="display: none;">
+        <div class="match-header-favMatches">
+          <span>Filter:</span>
+          <select id="selected-matchtype" class="selected-matchtype-favMatches" name="matchtype">
+            <option value="" selected>All Matches</option>
+            <option value="competitive">Competitive</option>
+            <option value="unrated">Unrated</option>
+            <option value="deathmatch">Deathmatch</option>
+            <option value="spikerush">Spike Rush</option>
+            <option value="escalation">Escalation</option>
+            <option value="replication">Replication</option>
+          </select>
+        </div>
+        <div class="fav-matchwrapper"></div>
+        <hr id="lastElement" style="display: none;">
+      </div>
+      <div class="loading-layer-fallback" id="loading-layer" style="display: none;">
+        No matches found. Set Matches a favourites by Clicking the Star next to them in the Home Menu!
+      </div>
     </div>
 
     <script>
@@ -125,6 +145,9 @@
       })
     </script>
 
+    <script type="application/javascript" src="assets/js/favMatches/changeMatchType.js"></script>
+    <script type="application/javascript" src="assets/js/favMatches/loadPlayerMatches.js"></script>
+    <script type="application/javascript" src="assets/js/home/redirectToMatchview.js"></script>
     <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
     <script type="application/javascript" src="assets/js/redirects.js"></script>
   </body>

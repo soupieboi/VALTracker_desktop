@@ -11,8 +11,8 @@ function toggle(){
     sec.classList.toggle('active');
 }
 
-var path = document.location.pathname;
-var path2 = path.substring(path.indexOf('/'), path.lastIndexOf('/'));
+var pathvar = document.location.pathname;
+var path2 = pathvar.substring(pathvar.indexOf('/'), pathvar.lastIndexOf('/'));
 var directoryName = path2.split("/").pop();
 
 function cardRedirect(event, event2, event3) {
