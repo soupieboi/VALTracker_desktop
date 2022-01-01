@@ -3,6 +3,8 @@ var searchedPlayerTag = sessionStorage.getItem("player_tag");
 
 var playerRegion = sessionStorage.getItem("player_region");
 
+var lastPage = sessionStorage.getItem("last_page");
+
 function makeCallAndBuildElements() {
     $.ajax({
         dataType: "json",
@@ -28,4 +30,7 @@ function makeCallAndBuildElements() {
 
 $(document).ready(() => {
     makeCallAndBuildElements();
+    $('#backToLastPage').on("click", function() {
+        window.location.href = lastPage
+    })
 });

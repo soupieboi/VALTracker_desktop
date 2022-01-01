@@ -187,7 +187,7 @@ $(document).ready(() => {
                             hiddenMatchID.className = "hidden-matchid"
                             hiddenMatchID.appendChild(document.createTextNode(data3.data[count].metadata.matchid))
                             Matchcontainer.appendChild(hiddenMatchID);
-                            Matchcontainer.setAttribute("onclick", "loadMatchView(this.firstChild.textContent)")
+                            Matchcontainer.setAttribute("onclick", "loadMatchView(this.firstChild.textContent, window.location.pathname)")
                             Matchcontainer.appendChild(playedAgent);
                             Matchcontainer.appendChild(matchmodeIcon);
                             Matchcontainer.appendChild(matchKDA);
@@ -481,7 +481,7 @@ $(document).ready(() => {
                             hiddenMatchID.className = "hidden-matchid"
                             hiddenMatchID.appendChild(document.createTextNode(data3.data[count].metadata.matchid))
                             Matchcontainer.appendChild(hiddenMatchID);
-                            Matchcontainer.setAttribute("onclick", "loadMatchView(this.firstChild.textContent)")
+                            Matchcontainer.setAttribute("onclick", "loadMatchView(this.firstChild.textContent, window.location.pathname)")
                             Matchcontainer.appendChild(playedAgent);
                             Matchcontainer.appendChild(matchmodeIcon);
                             Matchcontainer.appendChild(matchKDA);

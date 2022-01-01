@@ -42,6 +42,8 @@ window.onload = function() {
             sessionStorage.setItem("player_tag", data.data.tag);
             sessionStorage.setItem("player_region", searchedRegion);
             sessionStorage.setItem("puuid", data.data.puuid);
+            var page = window.location.href;
+            sessionStorage.setItem("last_page", page);
             window.location.href = "playerProfile.html";
           },
           error: function(xhr) {

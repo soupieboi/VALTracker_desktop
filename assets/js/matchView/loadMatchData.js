@@ -2,6 +2,10 @@ $(document).ready(function() {
     var matchID = sessionStorage.getItem("matchID");
     var playerName = sessionStorage.getItem("player_name");
     var playerTag = sessionStorage.getItem("player_tag");
+    var lastPage = sessionStorage.getItem("last_page");
+    $('#backToLastPage').on("click", function() {
+        window.location.href = lastPage
+    })
     $.ajax({
         url: `https://api.henrikdev.xyz/valorant/v2/match/${matchID}`,
         type: 'get',
