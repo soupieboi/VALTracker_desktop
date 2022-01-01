@@ -12,7 +12,7 @@ $(document).ready(() => {
     for(var count = 0; count < dataToRead.favourites.length; count++) {
         var matchID = dataToRead.favourites[count].MatchID
         matchIDarray.push(matchID)
-        if(matchID == undefined) { //No saved matches found at all        
+        if(dataToRead.favourites[count] == undefined) { //No saved matches found at all
             $('.loading-icon').fadeTo(150, 0)
             setTimeout(function() {
                 $('.loading-icon').css("display", "none");
@@ -21,6 +21,9 @@ $(document).ready(() => {
                 $('.loading-layer-fallback').fadeTo(150, 1)
             }, 200)
         } else { //saved match found
+            if(dataToRead.favourites[count].MatchID == undefined) {
+                continue;
+            }
             var checkedFolder = process.env.APPDATA + `/VALTracker/settings/favouriteMatches` 
             if(fs.existsSync(checkedFolder)) { //Check for folder of saved match data
                 var checkedPath = process.env.APPDATA + `/VALTracker/settings/favouriteMatches/${matchID}.json`
