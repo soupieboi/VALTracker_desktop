@@ -70,7 +70,7 @@ $(document).ready(() => {
                                 var matchRRspan = document.createElement("span");
                             }
 
-                            playedAgent.src = data.data.players.all_players[playerCount].assets.agent.small;
+                            playedAgent.src = `assets/img/${data.data.players.all_players[playerCount].character}.png`;
         
                             var matchKDA = document.createElement("span");
                             matchKDA.className = "match-kda";
@@ -83,49 +83,79 @@ $(document).ready(() => {
                             matchStanding.appendChild(result)
                             if(data.data.teams.red == null) {
                                 if(data.data.players.all_players[playerCount].stats.kills == 40) {
-                                    matchStanding.className = "match-result-won-favmatch";
+                                    matchStanding.className = "match-result-won";
                                     matchStanding.appendChild(document.createTextNode("WIN"));
                                 } else {
-                                    matchStanding.className = "match-result-lost-favmatch-favmatch";
+                                    matchStanding.className = "match-result-lost";
                                     matchStanding.appendChild(document.createTextNode("LOSE"));
                                 }
                             } else {
-                                if(data.data.players.all_players[playerCount].team == "Blue") {
-                                    if(data.data.teams.blue.rounds_won == data.data.teams.blue.rounds_lost) {
-                                        matchStanding.className = "match-result-draw-favmatch";
-                                        matchRRspan.className = `match-rr-pp-draw`;
-                                        matchRRspan.setAttribute("id", "match-rr-id-"+ count);
-                                        matchStanding.appendChild(document.createTextNode(data.data.teams.blue.rounds_won + " : " + data.data.teams.blue.rounds_lost));
-                                    } else {
-                                        if(data.data.teams.blue.has_won == false) {
-                                            matchStanding.className = "match-result-lost-favmatch";
-                                            matchRRspan.className = `match-rr-pp-lose`;
-                                            matchRRspan.setAttribute("id", "match-rr-id-"+ count);
-                                            matchStanding.appendChild(document.createTextNode(data.data.teams.blue.rounds_won + " : " + data.data.teams.blue.rounds_lost));
-                                        } else {
-                                            matchStanding.className = "match-result-won-favmatch";
+                                if(data.data.rounds[data.data.rounds.length -1].end_type == "Surrendered") {
+                                    if(data.data.players.all_players[playerCount].team == data.data.rounds[data.data.rounds.length -1].winning_team) {
+                                        matchStanding.className = "match-result-won-favmatch";
+                                        if(matchmode == "Competitive") {
                                             matchRRspan.className = `match-rr-pp-win`;
                                             matchRRspan.setAttribute("id", "match-rr-id-"+ count);
-                                            matchStanding.appendChild(document.createTextNode(data.data.teams.blue.rounds_won + " : " + data.data.teams.blue.rounds_lost));
                                         }
+                                        matchStanding.appendChild(document.createTextNode("SURRENDER"));
+                                    } else {
+                                        matchStanding.className = "match-result-lost-favmatch";
+                                        if(matchmode == "Competitive") {
+                                            matchRRspan.className = `match-rr-pp-lose`;
+                                            matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                        }
+                                        matchStanding.appendChild(document.createTextNode("SURRENDER"));
                                     }
                                 } else {
-                                    if(data.data.teams.blue.rounds_won == data.data.teams.blue.rounds_lost) {
-                                        matchStanding.className = "match-result-draw-favmatch";
-                                        matchRRspan.className = `match-rr-pp-draw`;
-                                        matchRRspan.setAttribute("id", "match-rr-id-"+ count);
-                                        matchStanding.appendChild(document.createTextNode(data.data.teams.blue.rounds_won + " : " + data.data.teams.blue.rounds_lost));
-                                    } else {
-                                        if(data.data.teams.red.has_won == false) {
-                                            matchStanding.className = "match-result-lost-favmatch";
-                                            matchRRspan.className = `match-rr-pp-lose`;
-                                            matchRRspan.setAttribute("id", "match-rr-id-"+ count);
-                                            matchStanding.appendChild(document.createTextNode(data.data.teams.red.rounds_won + " : " + data.data.teams.red.rounds_lost));
+                                    if(data.data.players.all_players[playerCount].team == "Blue") {
+                                        if(data.data.teams.blue.rounds_won == data.data.teams.blue.rounds_lots) {
+                                            matchStanding.className = "match-result-draw-favmatch";
+                                            if(matchmode == "Competitive") {
+                                                matchRRspan.className = `match-rr-pp-draw`;
+                                                matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                            }
+                                            matchStanding.appendChild(document.createTextNode(data.data.teams.blue.rounds_won + " : " + data.data.teams.blue.rounds_lots));
                                         } else {
-                                            matchStanding.className = "match-result-won-favmatch";
-                                            matchRRspan.className = `match-rr-pp-win`;
-                                            matchRRspan.setAttribute("id", "match-rr-id-"+ count);
-                                            matchStanding.appendChild(document.createTextNode(data.data.teams.red.rounds_won + " : " + data.data.teams.red.rounds_lost));
+                                            if(data.data.teams.blue.has_won == false) {
+                                                matchStanding.className = "match-result-lost-favmatch";
+                                                if(matchmode == "Competitive") {
+                                                    matchRRspan.className = `match-rr-pp-lose`;
+                                                    matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                }
+                                                matchStanding.appendChild(document.createTextNode(data.data.teams.blue.rounds_won + " : " + data.data.teams.blue.rounds_lots));
+                                            } else {
+                                                matchStanding.className = "match-result-won-favmatch";
+                                                if(matchmode == "Competitive") {
+                                                    matchRRspan.className = `match-rr-pp-win`;
+                                                    matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                }
+                                                matchStanding.appendChild(document.createTextNode(data.data.teams.blue.rounds_won + " : " + data.data.teams.blue.rounds_lots));
+                                            }
+                                        }
+                                    } else {
+                                        if(data.data.teams.blue.rounds_won == data.data.teams.blue.rounds_lots) {
+                                            matchStanding.className = "match-result-draw-favmatch";
+                                            if(matchmode == "Competitive") {
+                                                matchRRspan.className = `match-rr-pp-draw`;
+                                                matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                            }
+                                            matchStanding.appendChild(document.createTextNode(data.data.teams.blue.rounds_won + " : " + data.data.teams.blue.rounds_lots));
+                                        } else {
+                                            if(data.data.teams.red.has_won == false) {
+                                                matchStanding.className = "match-result-lost-favmatch";
+                                                if(matchmode == "Competitive") {
+                                                    matchRRspan.className = `match-rr-pp-lose`;
+                                                    matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                }
+                                                matchStanding.appendChild(document.createTextNode(data.data.teams.red.rounds_won + " : " + data.data.teams.red.rounds_lots));
+                                            } else {
+                                                matchStanding.className = "match-result-won-favmatch";
+                                                if(matchmode == "Competitive") {
+                                                    matchRRspan.className = `match-rr-pp-win`;
+                                                    matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                }
+                                                matchStanding.appendChild(document.createTextNode(data.data.teams.red.rounds_won + " : " + data.data.teams.red.rounds_lots));
+                                            }
                                         }
                                     }
                                 }
@@ -229,7 +259,7 @@ $(document).ready(() => {
                                     var matchRRspan = document.createElement("span");
                                 }
     
-                                playedAgent.src = data.data.players.all_players[playerCount].assets.agent.small;
+                                playedAgent.src = `assets/img/${data.data.players.all_players[playerCount].character}.png`;
             
                                 var matchKDA = document.createElement("span");
                                 matchKDA.className = "match-kda";
@@ -242,49 +272,79 @@ $(document).ready(() => {
                                 matchStanding.appendChild(result)
                                 if(data.data.teams.red == null) {
                                     if(data.data.players.all_players[playerCount].stats.kills == 40) {
-                                        matchStanding.className = "match-result-won-favmatch";
+                                        matchStanding.className = "match-result-won";
                                         matchStanding.appendChild(document.createTextNode("WIN"));
                                     } else {
-                                        matchStanding.className = "match-result-lost-favmatch";
+                                        matchStanding.className = "match-result-lost";
                                         matchStanding.appendChild(document.createTextNode("LOSE"));
                                     }
                                 } else {
-                                    if(data.data.players.all_players[playerCount].team == "Blue") {
-                                        if(data.data.teams.blue.rounds_won == data.data.teams.blue.rounds_lost) {
-                                            matchStanding.className = "match-result-draw-favmatch";
-                                            matchRRspan.className = `match-rr-pp-draw`;
-                                            matchRRspan.setAttribute("id", "match-rr-id-"+ count);
-                                            matchStanding.appendChild(document.createTextNode(data.data.teams.blue.rounds_won + " : " + data.data.teams.blue.rounds_lost));
-                                        } else {
-                                            if(data.data.teams.blue.has_won == false) {
-                                                matchStanding.className = "match-result-lost-favmatch";
-                                                matchRRspan.className = `match-rr-pp-lose`;
-                                                matchRRspan.setAttribute("id", "match-rr-id-"+ count);
-                                                matchStanding.appendChild(document.createTextNode(data.data.teams.blue.rounds_won + " : " + data.data.teams.blue.rounds_lost));
-                                            } else {
-                                                matchStanding.className = "match-result-won-favmatch";
+                                    if(data.data.rounds[data.data.rounds.length -1].end_type == "Surrendered") {
+                                        if(data.data.players.all_players[playerCount].team == data.data.rounds[data.data.rounds.length -1].winning_team) {
+                                            matchStanding.className = "match-result-won-favmatch";
+                                            if(matchmode == "Competitive") {
                                                 matchRRspan.className = `match-rr-pp-win`;
                                                 matchRRspan.setAttribute("id", "match-rr-id-"+ count);
-                                                matchStanding.appendChild(document.createTextNode(data.data.teams.blue.rounds_won + " : " + data.data.teams.blue.rounds_lost));
                                             }
+                                            matchStanding.appendChild(document.createTextNode("SURRENDER"));
+                                        } else {
+                                            matchStanding.className = "match-result-lost-favmatch";
+                                            if(matchmode == "Competitive") {
+                                                matchRRspan.className = `match-rr-pp-lose`;
+                                                matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                            }
+                                            matchStanding.appendChild(document.createTextNode("SURRENDER"));
                                         }
                                     } else {
-                                        if(data.data.teams.blue.rounds_won == data.data.teams.blue.rounds_lost) {
-                                            matchStanding.className = "match-result-draw-favmatch";
-                                            matchRRspan.className = `match-rr-pp-draw`;
-                                            matchRRspan.setAttribute("id", "match-rr-id-"+ count);
-                                            matchStanding.appendChild(document.createTextNode(data.data.teams.blue.rounds_won + " : " + data.data.teams.blue.rounds_lost));
-                                        } else {
-                                            if(data.data.teams.red.has_won == false) {
-                                                matchStanding.className = "match-result-lost-favmatch";
-                                                matchRRspan.className = `match-rr-pp-lose`;
-                                                matchRRspan.setAttribute("id", "match-rr-id-"+ count);
-                                                matchStanding.appendChild(document.createTextNode(data.data.teams.red.rounds_won + " : " + data.data.teams.red.rounds_lost));
+                                        if(data.data.players.all_players[playerCount].team == "Blue") {
+                                            if(data.data.teams.blue.rounds_won == data.data.teams.blue.rounds_lots) {
+                                                matchStanding.className = "match-result-draw-favmatch";
+                                                if(matchmode == "Competitive") {
+                                                    matchRRspan.className = `match-rr-pp-draw`;
+                                                    matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                }
+                                                matchStanding.appendChild(document.createTextNode(data.data.teams.blue.rounds_won + " : " + data.data.teams.blue.rounds_lots));
                                             } else {
-                                                matchStanding.className = "match-result-won-favmatch";
-                                                matchRRspan.className = `match-rr-pp-win`;
-                                                matchRRspan.setAttribute("id", "match-rr-id-"+ count);
-                                                matchStanding.appendChild(document.createTextNode(data.data.teams.red.rounds_won + " : " + data.data.teams.red.rounds_lost));
+                                                if(data.data.teams.blue.has_won == false) {
+                                                    matchStanding.className = "match-result-lost-favmatch";
+                                                    if(matchmode == "Competitive") {
+                                                        matchRRspan.className = `match-rr-pp-lose`;
+                                                        matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                    }
+                                                    matchStanding.appendChild(document.createTextNode(data.data.teams.blue.rounds_won + " : " + data.data.teams.blue.rounds_lots));
+                                                } else {
+                                                    matchStanding.className = "match-result-won-favmatch";
+                                                    if(matchmode == "Competitive") {
+                                                        matchRRspan.className = `match-rr-pp-win`;
+                                                        matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                    }
+                                                    matchStanding.appendChild(document.createTextNode(data.data.teams.blue.rounds_won + " : " + data.data.teams.blue.rounds_lots));
+                                                }
+                                            }
+                                        } else {
+                                            if(data.data.teams.blue.rounds_won == data.data.teams.blue.rounds_lots) {
+                                                matchStanding.className = "match-result-draw-favmatch";
+                                                if(matchmode == "Competitive") {
+                                                    matchRRspan.className = `match-rr-pp-draw`;
+                                                    matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                }
+                                                matchStanding.appendChild(document.createTextNode(data.data.teams.blue.rounds_won + " : " + data.data.teams.blue.rounds_lots));
+                                            } else {
+                                                if(data.data.teams.red.has_won == false) {
+                                                    matchStanding.className = "match-result-lost-favmatch";
+                                                    if(matchmode == "Competitive") {
+                                                        matchRRspan.className = `match-rr-pp-lose`;
+                                                        matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                    }
+                                                    matchStanding.appendChild(document.createTextNode(data.data.teams.red.rounds_won + " : " + data.data.teams.red.rounds_lots));
+                                                } else {
+                                                    matchStanding.className = "match-result-won-favmatch";
+                                                    if(matchmode == "Competitive") {
+                                                        matchRRspan.className = `match-rr-pp-win`;
+                                                        matchRRspan.setAttribute("id", "match-rr-id-"+ count);
+                                                    }
+                                                    matchStanding.appendChild(document.createTextNode(data.data.teams.red.rounds_won + " : " + data.data.teams.red.rounds_lots));
+                                                }
                                             }
                                         }
                                     }

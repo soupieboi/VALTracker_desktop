@@ -129,6 +129,17 @@ $(document).ready(() => {
             }
         }, 500);
     });
+    $('#settings').on("click", function(){
+        leaveFade();
+        toggle();
+        setTimeout(function() {
+            if(directoryName == "CollectablePages") {
+                window.location.href = "../settings.html";
+            } else {
+                window.location.href = "settings.html";
+            }
+        }, 500);
+    });
     $('.Classic').on("click", function(){
         leaveFade();
         setTimeout(function() {

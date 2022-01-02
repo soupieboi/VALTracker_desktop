@@ -6,6 +6,13 @@ function loadMatchView(matchID, page) {
     sessionStorage.setItem("matchID", matchID)
     sessionStorage.setItem("player_name", playerName);
     sessionStorage.setItem("player_tag", playerTag);
-    sessionStorage.setItem("last_page", page);
+    var path = page.split("/").pop();
+    console.log(path);
+    if(path == "fakeLoadingIndex.html") {
+        var redirectPath = "index.html"
+    } else {
+        var redirectPath = page
+    }
+    sessionStorage.setItem("last_page", redirectPath);
     window.location.href = "./matchView.html"
 }

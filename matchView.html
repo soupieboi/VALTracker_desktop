@@ -30,7 +30,7 @@
       <div id="drag-region">
         <div id="window-title">
           <img class="titlebar-img" src="./icons/VALTracker_logo.ico">
-          <span>VALTracker Alpha V0.8.13</span>
+          <span>VALTracker Alpha V0.8.14</span>
         </div>
         <div id="window-controls">
 
@@ -73,6 +73,7 @@
         <li id="leads" class="navslide-li"><span class="" id="projects-nav">Leaderboards</span></li>
         <li id="lft" class="navslide-li"><span class="" id="contact-nav">LFT</span></li>-->
         </ul>
+        <li id="settings" class="navslide-li" style="list-style-type: none;"><span><i class="fas fa-user-cog"></i> Settings</span></li>
     </div>
 
     <div class="app" id="main-matchview">
@@ -85,9 +86,9 @@
         <div id="toggle"></div>
       </div>
       <nav class="matchview-nav">
-        <span class="matchview-navitem active">Player Overview</span>
-        <!--<span class="matchview-navitem">Scoreboard</span>
-        <span class="matchview-navitem">Timeline</span>-->
+        <span class="matchview-navitem active" id="player-overview">Player Overview</span>
+        <span class="matchview-navitem" id="match-scoreboard">Scoreboard</span>
+        <!--<span class="matchview-navitem">Timeline</span>-->
       </nav>
       <div class="matchview-wrapper-1">
         <div class="matchview-header">
@@ -133,6 +134,55 @@
           <span class="matchview-player-bodyshotpercent">Bodyshot%: <span class="insertBodyshotPercent"></span></span>
           <span class="matchview-player-legshotpercent">Legshot%: <span class="insertLegshotPercent"></span></span>
         </div>
+      </div>
+      <div class="matchview-wrapper-2" id="scoreboard-wrapper">
+        <table class="scoreboard">
+          <tbody id="test-scoreboard">
+            <tr class="scoreboard-header">
+              <td class="header-td-nonclick">Agent</td>
+              <td class="header-td-nonclick">Name</td>
+              <td class="header-td active">K/D/A</td>
+              <td class="header-td">Plants/Defuses</td>
+              <td class="header-td">Firstbloods</td>
+              <td class="header-td">Dmg/Round</td>
+            </tr>
+            <tr>
+              <td>
+                <hr style="opacity: 0;">
+              </td>
+            </tr>
+            <tr id="player-0">
+              <td id="lastElement-0" style="display: none;"></td>
+            </tr>
+            <tr id="player-1">
+              <td id="lastElement-1" style="display: none;"></td>
+            </tr>
+            <tr id="player-2">
+              <td id="lastElement-2" style="display: none;"></td>
+            </tr>
+            <tr id="player-3">
+              <td id="lastElement-3" style="display: none;"></td>
+            </tr>
+            <tr id="player-4">
+              <td id="lastElement-4" style="display: none;"></td>
+            </tr>
+            <tr id="player-5">
+              <td id="lastElement-5" style="display: none;"></td>
+            </tr>
+            <tr id="player-6">
+              <td id="lastElement-6" style="display: none;"></td>
+            </tr>
+            <tr id="player-7">
+              <td id="lastElement-7" style="display: none;"></td>
+            </tr>
+            <tr id="player-8">
+              <td id="lastElement-8" style="display: none;"></td>
+            </tr>
+            <tr id="player-9">
+              <td id="lastElement-9" style="display: none;"></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
@@ -185,5 +235,6 @@
 
     <script type="application/javascript" src="assets/js/redirects.js"></script>
     <script type="application/javascript" src="assets/js/matchView/loadMatchData.js"></script>
+    <script type="application/javascript" src="assets/js/matchView/changeTabs.js"></script>
   </body>
 </html>

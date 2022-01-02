@@ -76,7 +76,7 @@ $(document).ready(function() {
                             $('.matchview-result-span').append("LOSS");
                         }
                         $('#team1-result').append(data.data.teams.blue.rounds_won)
-                        $('#team2-result').append(data.data.teams.blue.rounds_lost)
+                        $('#team2-result').append(data.data.teams.blue.rounds_lots)
                     } else if(data.data.players.all_players[count].team == "Red") {
                         $('#team1-result').addClass("matchview-red-standing")
                         $('#team2-result').addClass("matchview-blue-standing")
@@ -86,7 +86,7 @@ $(document).ready(function() {
                             $('.matchview-result-span').append("LOSS");
                         }
                         $('#team1-result').append(data.data.teams.red.rounds_won)
-                        $('#team2-result').append(data.data.teams.red.rounds_lost)
+                        $('#team2-result').append(data.data.teams.red.rounds_lots)
                     }
                     $('.matchview-agent').attr("src", data.data.players.all_players[count].assets.agent.small)
                     agentUUID_url = data.data.players.all_players[count].assets.agent.small
@@ -101,12 +101,18 @@ $(document).ready(function() {
                 }
             }
             $.ajax({
-                url: `https://valorant-api.com/v1/agents/${agentUUID}`,
+                url: `https://valorant-api.com/v1/agents`,
                 type: 'get',
                 success: function(data2, jqXHR) {
-                    for(var iconCount = 0; iconCount < data2.data.abilities.length; iconCount++) {
-                        $(`.matchview-abilityicon-${iconCount}`).attr("src", data2.data.abilities[iconCount].displayIcon)
-                        $(`.matchview-abilityname-${iconCount}`).append(data2.data.abilities[iconCount].displayName + ": ")
+                    for(var count = 0; count < data.data.length; count++) {
+                        if(data.data[count].uuid == agentUUID) {
+                            for(var iconCount = 0; iconCount < data2.data.abilities.length; iconCount++) {
+                                $(`.matchview-abilityicon-${iconCount}`).attr("src", data2.data.abilities[iconCount].displayIcon)
+                                $(`.matchview-abilityname-${iconCount}`).append(data2.data.abilities[iconCount].displayName + ": ")
+                            }
+                        } else {
+                            continue;
+                        }
                     }
                     $('.insertFBsHere').append(totalFBs)
                     var totalShotsHit = headshot_before + bodyshot_before + legshot_before
@@ -117,6 +123,114 @@ $(document).ready(function() {
                     $('.insertBodyshotPercent').append(bodyshotPercent + "%")
                     $('.insertLegshotPercent').append(legshotPercent + "%")
                     $('.matchview-playername').append(playerName)
+                    for(var playercount = 0; playercount < data.data.players.all_players.length; playercount++) {
+
+                        var tr = document.createElement("tr")
+
+                        var playerAgent = document.createElement("td")
+                        playerAgent.className = "played_agent";
+                        var playerAgent_img = document.createElement("img");
+
+                        agentUUID_url = data.data.players.all_players[playercount].assets.agent.small
+                        var path2 = agentUUID_url.substring(agentUUID_url.indexOf('/'), agentUUID_url.lastIndexOf('/'));
+                        var agentUUID = path2.split("/").pop();
+
+                        for(var count = 0; count < data2.data.length; count++) {
+                            if(data2.data[count].uuid == agentUUID) {
+                                playerAgent_img.className = "played_agent_img";
+                                playerAgent_img.src = data2.data[count].displayIcon
+                            } else {
+                                continue;
+                            }
+                        }
+                        playerAgent.appendChild(playerAgent_img)
+
+                        var player_name = document.createElement("td");
+                        player_name.className = "display_name"
+                        if(data.data.players.all_players[playercount].team == "Red") {
+                            player_name.setAttribute("style", "color: #ff0044")
+                        } else {
+                            player_name.setAttribute("style", "color: #00ffd5")
+                        }
+                        var player_tagspan = document.createElement("span");
+                        player_tagspan.className = "playertag_grey"
+                        player_tagspan.textContent = "#" + data.data.players.all_players[playercount].tag
+                        player_name.textContent = data.data.players.all_players[playercount].name
+                        player_name.appendChild(player_tagspan)
+
+                        var player_kda = document.createElement("td");
+                        player_kda.className = "player-kda";
+                        player_kda.appendChild(document.createTextNode(data.data.players.all_players[playercount].stats.kills + "/" + data.data.players.all_players[playercount].stats.deaths + "/" + data.data.players.all_players[playercount].stats.assists))
+                        
+                        var playerName = data.data.players.all_players[playercount].name
+                        var playerTag = data.data.players.all_players[playercount].tag
+
+                        var totalPlants = 0;
+                        var totalDefuses = 0;
+                        
+                        for(var count = 0; count < data.data.rounds.length; count++) {
+                            if(data.data.rounds[count].bomb_planted == false) {
+                                continue;
+                            } else {
+                                if(data.data.rounds[count].plant_events.planted_by.display_name == playerName + "#" + playerTag) {
+                                    totalPlants++;
+                                }
+                                if(data.data.rounds[count].bomb_defused == false) {
+                                    continue;
+                                } else if(data.data.rounds[count].defuse_events.defused_by.display_name == playerName + "#" + playerTag) {
+                                    totalDefuses++;
+                                }
+                            }
+                        }
+                    
+                        var player_d_f = document.createElement("td");
+                        player_d_f.className = "player_plants_defuses";
+                        player_d_f.appendChild(document.createTextNode(totalPlants +  "/" + totalDefuses))
+                        
+                        var player_fbs = document.createElement("td");
+                        player_fbs.className = "player_firstbloods";
+                        
+                        var totalPlayerFBs = 0;
+
+                        for(var count = 0; count < data.data.rounds.length; count++) { //Für jede runde Neu
+                            var killerArray = [] //Neuer Array
+                            var killtimeArray = [] //Neuer Array
+                            for(var count2 = 0; count2 < data.data.rounds[count].player_stats.length; count2++) { // Für Jeden spieler
+                                for(var count3 = 0; count3 < data.data.rounds[count].player_stats[count2].kill_events.length; count3++) { //Für jeden Kill
+                                    killerArray.push(data.data.rounds[count].player_stats[count2].kill_events[count3].killer_display_name + " " + data.data.rounds[count].player_stats[count2].kill_events[count3].kill_time_in_round)
+                                    killtimeArray.push(data.data.rounds[count].player_stats[count2].kill_events[count3].kill_time_in_round)
+                                }
+                            }
+                            for(var count2 = 0; count2 < killerArray.length; count2++) {
+                                var killerArrayObj = killerArray[count2];
+                                var killerArrayTime = killerArrayObj.split(" ").pop();
+                                if(killerArrayTime == Math.min(...killtimeArray)) {
+                                    var firstBloodKiller = killerArrayObj.substring(0, killerArrayObj.lastIndexOf(' '))
+                                    if(firstBloodKiller == playerName + "#" + playerTag) {
+                                        totalPlayerFBs++;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        player_fbs.appendChild(document.createTextNode(totalPlayerFBs))
+
+                        var player_dmg_round = document.createElement("td");
+                        player_dmg_round.className = "player_dmgperround";
+                        var dmgperround = Math.round(data.data.players.all_players[playercount].damage_made / data.data.rounds.length);
+                        player_dmg_round.appendChild(document.createTextNode(dmgperround))
+                        tr.appendChild(playerAgent);
+                        tr.appendChild(player_name);
+                        tr.appendChild(player_kda);
+                        tr.appendChild(player_d_f);
+                        tr.appendChild(player_fbs);
+                        tr.appendChild(player_dmg_round);
+                        
+                        var wrapper = document.getElementById("test-scoreboard");
+                        var nextElement = document.getElementById("lastElement");
+                        wrapper.insertBefore(tr, nextElement);
+                    }
                 }
             })
         }

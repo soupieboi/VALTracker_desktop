@@ -7,7 +7,7 @@
     <script>window.$ = window.jQuery = require('jquery');</script>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/global.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/global.css">
 
     <script src="https://kit.fontawesome.com/0fb7a47199.js" crossorigin="anonymous"></script>
   </head>
@@ -29,22 +29,22 @@
     <header id="titlebar">
       <div id="drag-region">
         <div id="window-title">
-          <img class="titlebar-img" src="../icons/VALTracker_logo.ico">
+          <img class="titlebar-img" src="./icons/VALTracker_logo.ico">
           <span>VALTracker Alpha V0.8.14</span>
         </div>
         <div id="window-controls">
 
           <div class="button" id="min-button">
-            <img class="icon" srcset="../icons/min-w-10.png 1x, ../icons/min-w-12.png 1.25x, ../icons/min-w-15.png 1.5x, ../icons/min-w-15.png 1.75x, ../icons/min-w-20.png 2x, ../icons/min-w-20.png 2.25x, ../icons/min-w-24.png 2.5x, ../icons/min-w-30.png 3x, ../icons/min-w-30.png 3.5x" draggable="false" />
+            <img class="icon" srcset="icons/min-w-10.png 1x, icons/min-w-12.png 1.25x, icons/min-w-15.png 1.5x, icons/min-w-15.png 1.75x, icons/min-w-20.png 2x, icons/min-w-20.png 2.25x, icons/min-w-24.png 2.5x, icons/min-w-30.png 3x, icons/min-w-30.png 3.5x" draggable="false" />
           </div>
           <div class="button" id="max-button">
-            <img class="icon" srcset="../icons/max-w-10.png 1x, ../icons/max-w-12.png 1.25x, ../icons/max-w-15.png 1.5x, icons/max-w-15.png 1.75x, ../icons/max-w-20.png 2x, ../icons/max-w-20.png 2.25x, ../icons/max-w-24.png 2.5x, ../icons/max-w-30.png 3x, ../icons/max-w-30.png 3.5x" draggable="false" />
+            <img class="icon" srcset="icons/max-w-10.png 1x, icons/max-w-12.png 1.25x, icons/max-w-15.png 1.5x, icons/max-w-15.png 1.75x, icons/max-w-20.png 2x, icons/max-w-20.png 2.25x, icons/max-w-24.png 2.5x, icons/max-w-30.png 3x, icons/max-w-30.png 3.5x" draggable="false" />
           </div>
           <div class="button" id="restore-button">
-            <img class="icon" srcset="../icons/restore-w-10.png 1x, ../icons/restore-w-12.png 1.25x, ../icons/restore-w-15.png 1.5x, ../icons/restore-w-15.png 1.75x, ../icons/restore-w-20.png 2x, ../icons/restore-w-20.png 2.25x, ../icons/restore-w-24.png 2.5x, ../icons/restore-w-30.png 3x, ../icons/restore-w-30.png 3.5x" draggable="false" />
+            <img class="icon" srcset="icons/restore-w-10.png 1x, icons/restore-w-12.png 1.25x, icons/restore-w-15.png 1.5x, icons/restore-w-15.png 1.75x, icons/restore-w-20.png 2x, icons/restore-w-20.png 2.25x, icons/restore-w-24.png 2.5x, icons/restore-w-30.png 3x, icons/restore-w-30.png 3.5x" draggable="false" />
           </div>
           <div class="button" id="close-button">
-            <img class="icon" srcset="../icons/close-w-10.png 1x, ../icons/close-w-12.png 1.25x, ../icons/close-w-15.png 1.5x, ../icons/close-w-15.png 1.75x, ../icons/close-w-20.png 2x, ../icons/close-w-20.png 2.25x, ../icons/close-w-24.png 2.5x, ../icons/close-w-30.png 3x, ../icons/close-w-30.png 3.5x" draggable="false" />
+            <img class="icon" srcset="icons/close-w-10.png 1x, icons/close-w-12.png 1.25x, icons/close-w-15.png 1.5x, icons/close-w-15.png 1.75x, icons/close-w-20.png 2x, icons/close-w-20.png 2.25x, icons/close-w-24.png 2.5x, icons/close-w-30.png 3x, icons/close-w-30.png 3.5x" draggable="false" />
           </div>
 
         </div>
@@ -64,7 +64,6 @@
         <div class="content">
           <li class="collectables-sub" id="collects-sub-bundles">Bundles</li>
           <li class="collectables-sub" id="collects-sub-skins">Skins</li>
-          <li class="collectables-sub color" id="currentSkinsPage">Bulldog</li>
           <li class="collectables-sub" id="collects-sub-buddys">Buddys</li>
           <!--<li class="collectables-sub" id="collects-sub-bps">Battlepasses</li>
           <li class="collectables-sub" id="collects-sub-search">Search</li>-->
@@ -73,32 +72,29 @@
         <li id="m-n-l" class="navslide-li"><span class="" id="tools-nav">Maps & Lineups</span></li>
         <li id="leads" class="navslide-li"><span class="" id="projects-nav">Leaderboards</span></li>
         <li id="lft" class="navslide-li"><span class="" id="contact-nav">LFT</span></li>-->
-        </ul>
-        <li id="settings" class="navslide-li" style="list-style-type: none;"><span><i class="fas fa-user-cog"></i> Settings</span></li>
-      <li id="settings" class="navslide-li" style="list-style-type: none;"><span><i class="fas fa-user-cog"></i> Settings</span></li>
+      </ul>
+      <li id="settings" class="navslide-li color" style="list-style-type: none;"><span><i class="fas fa-user-cog"></i> Settings</span></li>
     </div>
-
     <div class="app" id="main-collection">
       <div class="pageheader-div">
-        <div class="weapon-info">
-          <h1 class="pageheader" id="pageheader">All Bulldog Skins</h1>
-          <span class="pageheader-skincount">Total Skincount for this Weapon: <span class="pageheader-skincount-nr"></span></span>
-        </div>
-        <div class="search-input-wrapper">
-          <input type="text" class="search-input" id="search-input" maxlength="35" placeholder="Search" onkeyup="itemSearch()">
-          <i class="fas fa-search"></i>
-        </div>
+        <h1 class="pageheader" id="pageheader">Settings</h1>
       </div>
-      <div class="skin-page-default-img-wrapper">
-        <img class="skin-page-default-img">
-      </div>
-      <div class="collectable-skins-wrapper" id="skins-handler">
-        <hr id="pageBottom" style="display: none;">
+      <div class="settings-wrapper">
+        <div class="userdata-settings">
+          <h2>User Data Settings</h2>
+          <p>This data is used on your Homepage to display your newest Matches, Stats and greeting you.</p>
+        </div>
+        <input type="text" class="settings-username-input" id="settings-username-input">
+        <span style="font-size: 1.8em; position: relative; top: 0.2rem;">#</span>
+        <input type="text" class="settings-usertag-input" id="settings-usertag-input" maxlength="5">
+        <button style="margin-left: 1rem;" id="change-userdata-button">Change</button>
+        <br>
+        <span id="replace-textspan"></span>
       </div>
     </div>
 
     <script>
-      require('../renderer.js')
+      require('./renderer.js')
     </script>
     <script>
       window.onload = function() {
@@ -111,7 +107,7 @@
       }
       // Listen for messages
       const { ipcRenderer } = require('electron');
-      ipcRenderer.on('message', function(event, text) {
+        ipcRenderer.on('message', function(event, text) {
         console.log(text);
       })
       //Update downloaded
@@ -129,7 +125,6 @@
       //Update downloading
       $('.download-bar').css("display", "block");
       ipcRenderer.on('download-percent', function(event, value) {
-        
         $('.download-banner').css("display", "block");
         document.getElementById("download-bar").value = value
       })
@@ -144,9 +139,8 @@
       })
     </script>
 
-    <script type="application/javascript" src="../assets/js/navslideToggle.js"></script>
-    <script type="application/javascript" src="../assets/js/skins/loadWeapons.js"></script>
-    <script type="application/javascript" src="../assets/js/skins/itemSearch.js"></script>
-    <script type="application/javascript" src="../assets/js/redirects.js"></script>
+    <script type="application/javascript" src="assets/js/settings_scripts/changeUserData.js"></script>
+    <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
+    <script type="application/javascript" src="assets/js/redirects.js"></script>
   </body>
 </html>
