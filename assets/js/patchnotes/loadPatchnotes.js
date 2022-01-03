@@ -3,7 +3,7 @@ const showdown  = require('showdown');
 const converter = new showdown.Converter();
 
 $(document).ready(() => {
-    fs.readFile('PATCHNOTES.md', 'utf8', (err, data) => {
+    fs.readFile('PATCHNOTES.txt', 'utf8', (err, data) => {
         var html = converter.makeHtml(data);
         $('#patchnotes-wrapper').append(html)
     });
