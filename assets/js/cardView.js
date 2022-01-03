@@ -1,6 +1,10 @@
 $(document).ready(() => {
     var path = sessionStorage.getItem("imgLink");
     var path2 = path.substring(path.indexOf('/') + 37, path.lastIndexOf('/'));
+    var lastPage = sessionStorage.getItem("last_page")
+    $('#backToLastPage').on("click", function() {
+        window.location.href = lastPage
+    })
     $.ajax({
         dataType: "json",
         url: `https://valorant-api.com/v1/playercards/${path2}`,

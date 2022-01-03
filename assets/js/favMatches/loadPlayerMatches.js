@@ -16,6 +16,7 @@ $(document).ready(() => {
             $('.loading-icon').fadeTo(150, 0)
             setTimeout(function() {
                 $('.loading-icon').css("display", "none");
+                $('.loading-layer').css("display", "none");
                 $('.loading-layer-fallback').css("opacity", "0");
                 $('.loading-layer-fallback').css("display", "block");
                 $('.loading-layer-fallback').fadeTo(150, 1)
@@ -212,14 +213,14 @@ $(document).ready(() => {
 
                     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                } else { //Folder but no Match found
+                } else { //Downloaded Match not found
                     $.ajax({
                         dataType: "json",
                         url: `https://api.henrikdev.xyz/valorant/v2/match/${matchID}`,
                         type: 'get',
                         async: false,
                         success: function(APIdata, xhr) {
-                            console.log("NO MATCH FOUND, DOWNLOADING DATA")
+                            console.log("DOWNLOADED MATCH NOT FOUND, DOWNLOADING DATA")
                             fs.writeFileSync(checkedPath, JSON.stringify(APIdata));
                             window.location.href = ""
                         }
@@ -227,23 +228,19 @@ $(document).ready(() => {
                 }
             } else { //No folder found
                 fs.mkdirSync(checkedFolder)
-                $.ajax({
-                    dataType: "json",
-                    url: `https://api.henrikdev.xyz/valorant/v2/match/${matchID}`,
-                    type: 'get',
-                    async: false,
-                    success: function(APIdata, xhr) {
-                        console.log("NO FOLDER FOUND, CREATING FOLDER AND DOWNLOADING DATA")
-                        fs.writeFileSync(checkedPath, JSON.stringify(APIdata));
-                        window.location.href = ""
-                    }
-                });
+                console.log("NO FOLDER FOUND, CREATING FOLDER AND DOWNLOADING DATA")
+                fs.writeFileSync(checkedPath, JSON.stringify(APIdata));
+                window.location.href = ""
             }
         }
     }
     fs.readdir(process.env.APPDATA + `/VALTracker/settings/favouriteMatches`, (err, files) => {
         if(err) {
             console.log(err);
+            fs.mkdirSync(checkedFolder)
+            console.log("NO FOLDER FOUND, CREATING FOLDER")
+            fs.writeFileSync(checkedPath, JSON.stringify(APIdata));
+            window.location.href = ""
         } else {
             files.forEach(file => {
                 if(!matchIDarray.includes(path.parse(file).name)) {

@@ -1,7 +1,7 @@
 {
   "name": "valtracker",
   "productName": "VALTracker",
-  "version": "0.8.18-alpha",
+  "version": "0.8.19-alpha",
   "description": "A free Desktop app to look up your VALORANT Statistics and Ingame Collectables.",
   "main": "main.js",
   "scripts": {
@@ -24,7 +24,7 @@
       "uninstallDisplayName": "VALTracker",
       "license": "license.txt",
       "oneClick": false,
-      "allowToChangeInstallationDirectory": false
+      "allowToChangeInstallationDirectory": true
     },
     "publish": [
       {
@@ -32,8 +32,7 @@
         "owner": "SpiritLetsPlays",
         "repo": "VALTracker_src"
       }
-    ],
-    "files": "!./settings"
+    ]
   },
   "author": "Spirit",
   "repository": "https://github.com/spiritletsplays/valtracker",
@@ -51,6 +50,7 @@
     "electron-is-dev": "^2.0.0",
     "electron-log": "^4.4.3",
     "electron-updater": "^4.6.1",
+    "fs-browsers": "^1.1.1",
     "hubdown": "^2.3.2",
     "jquery": ">=3.5.0",
     "showdown": "^1.9.1",

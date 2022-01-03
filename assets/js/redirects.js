@@ -18,7 +18,7 @@ var directoryName = path2.split("/").pop();
 function cardRedirect(event, event2, event3) {
     sessionStorage.setItem("cardName", event)
     sessionStorage.setItem("imgLink", event2)
-    sessionStorage.setItem("lastPage", event3)
+    sessionStorage.setItem("last_page", event3)
     leaveFade();
     setTimeout(function() {
         if(directoryName == "CollectablePages") {
@@ -30,6 +30,7 @@ function cardRedirect(event, event2, event3) {
 }
 
 $('.player-card-img').on("click", function(){
+    sessionStorage.setItem("last_page", window.location.href)
     leaveFade();
     setTimeout(function() {
         if(directoryName == "CollectablePages") {
