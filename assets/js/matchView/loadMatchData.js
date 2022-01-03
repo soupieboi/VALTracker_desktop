@@ -76,7 +76,7 @@ $(document).ready(function() {
                             $('.matchview-result-span').append("LOSS");
                         }
                         $('#team1-result').append(data.data.teams.blue.rounds_won)
-                        $('#team2-result').append(data.data.teams.blue.rounds_lots)
+                        $('#team2-result').append(data.data.teams.blue.rounds_lost)
                     } else if(data.data.players.all_players[count].team == "Red") {
                         $('#team1-result').addClass("matchview-red-standing")
                         $('#team2-result').addClass("matchview-blue-standing")
@@ -86,7 +86,7 @@ $(document).ready(function() {
                             $('.matchview-result-span').append("LOSS");
                         }
                         $('#team1-result').append(data.data.teams.red.rounds_won)
-                        $('#team2-result').append(data.data.teams.red.rounds_lots)
+                        $('#team2-result').append(data.data.teams.red.rounds_lost)
                     }
                     $('.matchview-agent').attr("src", data.data.players.all_players[count].assets.agent.small)
                     agentUUID_url = data.data.players.all_players[count].assets.agent.small
