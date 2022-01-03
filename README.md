@@ -4,7 +4,7 @@
 
 # VALTracker
 
-![GitHub all releases](https://img.shields.io/github/downloads/spiritletsplays/valtracker_src/total?color=%23ac6dff&label=Downloads)
+![GitHub all releases](https://img.shields.io/github/downloads/spiritletsplays/valtracker_src/total?color=%23ac6dff&label=Downloads) ![GitHub](https://img.shields.io/github/license/spiritletsplays/valtracker_src?label=License)
 
 A completely free Stats Tracker/Lineup Library/Gameinfo Client for VALORANT
 
