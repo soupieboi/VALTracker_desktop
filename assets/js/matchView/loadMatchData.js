@@ -91,7 +91,8 @@ $(document).ready(function() {
                     $('.matchview-agent').attr("src", data.data.players.all_players[count].assets.agent.small)
                     agentUUID_url = data.data.players.all_players[count].assets.agent.small
                     var path2 = agentUUID_url.substring(agentUUID_url.indexOf('/'), agentUUID_url.lastIndexOf('/'));
-                    var agentUUID = path2.split("/").pop();
+                    agentUUID = path2.split("/").pop();
+                    sessionStorage.setItem("agentUUID", agentUUID)
                     $(`.ability-c-count`).append(data.data.players.all_players[count].ability_casts.c_cast);
                     $(`.ability-q-count`).append(data.data.players.all_players[count].ability_casts.q_cast);
                     $(`.ability-e-count`).append(data.data.players.all_players[count].ability_casts.e_cast);
@@ -104,11 +105,12 @@ $(document).ready(function() {
                 url: `https://valorant-api.com/v1/agents`,
                 type: 'get',
                 success: function(data2, jqXHR) {
-                    for(var count = 0; count < data.data.length; count++) {
-                        if(data.data[count].uuid == agentUUID) {
-                            for(var iconCount = 0; iconCount < data2.data.abilities.length; iconCount++) {
-                                $(`.matchview-abilityicon-${iconCount}`).attr("src", data2.data.abilities[iconCount].displayIcon)
-                                $(`.matchview-abilityname-${iconCount}`).append(data2.data.abilities[iconCount].displayName + ": ")
+                    var agentUUID = sessionStorage.getItem("agentUUID")
+                    for(var count = 0; count < data2.data.length; count++) {
+                        if(data2.data[count].uuid == agentUUID) {
+                            for(var iconCount = 0; iconCount < data2.data[count].abilities.length; iconCount++) {
+                                $(`.matchview-abilityicon-${iconCount}`).attr("src", data2.data[count].abilities[iconCount].displayIcon)
+                                $(`.matchview-abilityname-${iconCount}`).append(data2.data[count].abilities[iconCount].displayName + ": ")
                             }
                         } else {
                             continue;
@@ -177,7 +179,7 @@ $(document).ready(function() {
                                 }
                                 if(data.data.rounds[count].bomb_defused == false) {
                                     continue;
-                                } else if(data.data.rounds[count].defuse_events.defused_by.display_name == playerName + "#" + playerTag) {
+                                } else if(data.data.rounds[count].defuse_events.defuse_location.display_name == playerName + "#" + playerTag) {
                                     totalDefuses++;
                                 }
                             }

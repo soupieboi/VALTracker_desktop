@@ -118,6 +118,17 @@ $(document).ready(() => {
             }
         }, 500);
     });
+    $('#patchnotes').on("click", function(){
+        leaveFade();
+        toggle();
+        setTimeout(function() {
+            if(directoryName == "CollectablePages") {
+                window.location.href = "../patchnotes.html";
+            } else {
+                window.location.href = "patchnotes.html";
+            }
+        }, 500);
+    });
     $('#collects-sub-buddys').on("click", function(){
         leaveFade();
         toggle();

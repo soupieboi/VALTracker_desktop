@@ -26,10 +26,24 @@ function showSlides(n) {
 }
 
 const fs = require("fs")
-let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/userData.json');
-let dataToRead = JSON.parse(rawdata);
 
-var playerName = dataToRead.playerName
+var usernameSettingsFile = process.env.APPDATA + '/VALTracker/settings/home/displayedUsername.json'
+if(fs.existsSync(usernameSettingsFile)) {
+    let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/home/displayedUsername.json');
+    let dataToRead = JSON.parse(rawdata);
+    if(dataToRead.displayedUserName == "") {
+        let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/userData.json');
+        let dataToRead = JSON.parse(rawdata);
+        var playerName = dataToRead.playerName
+    } else {
+        var playerName = dataToRead.displayedUserName
+    }
+} else {
+    let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/userData.json');
+    let dataToRead = JSON.parse(rawdata);
+    var playerName = dataToRead.playerName
+}
+
 var welcome;  
 var date = new Date();  
 var hour = date.getHours();  

@@ -45,10 +45,6 @@ p {
   background: rgb(194, 194, 194);
 }
 
-ul {
-  list-style-type: none;
-}
-
 /*Links*/
 
 a:link {
@@ -601,6 +597,7 @@ button:hover {
 
 .navslide-ul-container {
   padding-left: 0.5rem;
+  list-style-type: none;
 }
 
 .content {
@@ -633,7 +630,7 @@ button:hover {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
-  font-size: 1.8rem !important;
+  font-size: 1.6rem !important;
   color: rgba(255,255,255,.5);
   position: relative;
   text-decoration: none;
@@ -664,7 +661,7 @@ button:hover {
 
 .collectables-sub {
   position: relative;
-  font-size: 1.35em !important;
+  font-size: 1.1em !important;
   font-weight: 300;
   margin-left: 1rem;
   color: rgba(255,255,255,.5);
@@ -2948,6 +2945,41 @@ select:focus::-ms-value {
 .settings-usertag-input:focus {
   padding-bottom: 7px;
   border-width: 3px;
+  border-image: linear-gradient(to right, #c80043, #6f00ff); 
+  border-image-slice: 1;
+}
+
+.settings-home-username-input {
+  text-align: left;
+  width: 20%;
+  border: 0;
+  border-bottom: 3px solid #9b9b9b;
+  outline: 0;
+  font-size: 1.3rem;
+  color: #fff;
+  padding: 7px 0;
+  background: transparent;
+  -webkit-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+}
+
+.settings-home-username-input:focus {
+  padding-bottom: 7px;
+  border-width: 3px;
   border-image: linear-gradient(to right, #c80043, #6f00ff);
   border-image-slice: 1;
+}
+
+#patchnotes {
+  position: absolute;
+  bottom: 4rem;
+  left: 1rem;
+  cursor: pointer;
+}
+
+#patchnotes-wrapper {
+  margin-top: 2%;
+  margin-left: 5%;
 }

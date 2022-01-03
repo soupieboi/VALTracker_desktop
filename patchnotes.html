@@ -73,35 +73,12 @@
         <li id="leads" class="navslide-li"><span class="" id="projects-nav">Leaderboards</span></li>
         <li id="lft" class="navslide-li"><span class="" id="contact-nav">LFT</span></li>-->
       </ul>
-      <li id="patchnotes" class="navslide-li" style="list-style-type: none;"><span>Patchnotes</span></li>
-      <li id="settings" class="navslide-li color" style="list-style-type: none;"><span><i class="fas fa-user-cog"></i> Settings</span></li>
+      <li id="patchnotes" class="navslide-li color" style="list-style-type: none;"><span>Patchnotes</span></li>
+      <li id="settings" class="navslide-li" style="list-style-type: none;"><span><i class="fas fa-user-cog"></i> Settings</span></li>
     </div>
     <div class="app" id="main-collection">
-      <div class="pageheader-div">
-        <h1 class="pageheader" id="pageheader">Settings</h1>
-      </div>
-      <div class="settings-wrapper">
-        <div class="userdata-settings">
-          <h2>User Data Settings</h2>
-          <p style="width: 40%;">This data is used on your Homepage to display your newest Matches, Stats and greeting you. It is only stored on your PC.</p>
-        </div>
-        <input type="text" class="settings-username-input" id="settings-username-input">
-        <span style="font-size: 1.8em; position: relative; top: 0.2rem;">#</span>
-        <input type="text" class="settings-usertag-input" id="settings-usertag-input" maxlength="5">
-        <button style="margin-left: 1rem;" id="change-userdata-button">Change</button>
-        <br>
-        <span id="replace-textspan"></span>
-
-        <div class="home-username-settings">
-          <h2>User Data Settings</h2>
-          <p style="width: 40%;">If you want the app to greet you with a different Name, you can type it in here. If this is empty, it will default to your VALORANT Username. This data is only stored on your PC.</p>
-        </div>
-        <input type="text" class="settings-home-username-input" id="settings-home-username-input">
-        <button style="margin-left: 1rem;" id="change-home-username-button">Change</button>
-        <button style="margin-left: 1rem;" id="reset-home-username-button">Reset</button>
-        <br>
-        <span id="replace-textspan-2"></span>
-      </div>
+      <h1 class="pageheader" id="patchnotes-pageheader"></h1>
+      <div id="patchnotes-wrapper"></div>
     </div>
 
     <script>
@@ -150,8 +127,7 @@
       })
     </script>
 
-    <script type="application/javascript" src="assets/js/settings_scripts/changeUserData.js"></script>
-    <script type="application/javascript" src="assets/js/settings_scripts/changeUserDisplayName.js"></script>
+    <script type="application/javascript" src="assets/js/patchnotes/loadPatchnotes.js"></script>
     <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
     <script type="application/javascript" src="assets/js/redirects.js"></script>
   </body>
