@@ -2,6 +2,7 @@
   <img width="500px" src="icons/VALTracker_Logo.png">
 </p>
 # VALTracker
+
 ![GitHub all releases](https://img.shields.io/github/downloads/spiritletsplays/valtracker_src/total?color=%23ac6dff&label=Downloads)
 
 A completely free Stats Tracker/Lineup Library/Gameinfo Client for VALORANT
