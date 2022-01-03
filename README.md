@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="500px" src="icons/VALTracker_Logo.png">
+  <img width="230px" src="icons/VALTracker_Logo.png">
 </p>
 
 # VALTracker
