@@ -1,7 +1,7 @@
 {
   "name": "valtracker",
   "productName": "VALTracker",
-  "version": "0.8.16-alpha",
+  "version": "0.8.17-alpha",
   "description": "A free Desktop app to look up your VALORANT Statistics and Ingame Collectables.",
   "main": "main.js",
   "scripts": {
@@ -53,6 +53,7 @@
     "electron-updater": "^4.6.1",
     "hubdown": "^2.3.2",
     "jquery": ">=3.5.0",
+    "showdown": "^1.9.1",
     "update-electron-app": "^2.0.1"
   }
 }
