@@ -1,8 +1,7 @@
 ### New Features
 
 - I've looked at this cool card for hours now, because leaving takes more than 1 click!
-
-  - The Card view now has it's own "X" at the Top Right to bring you back to whereever you were before.
+    - The Card view now has it's own "X" at the Top Right to bring you back to whereever you were before.
 
 ### Bugfixes
 
