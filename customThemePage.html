@@ -76,72 +76,67 @@
       <li id="patchnotes" class="navslide-li" style="list-style-type: none;"><span>Patchnotes</span></li>
       <li id="settings" class="navslide-li color" style="list-style-type: none;"><span><i class="fas fa-user-cog"></i> Settings</span></li>
     </div>
-    <div class="app" id="main-collection">
+    <div class="app" id="main-collection" style="height: auto; margin-bottom: 5rem;">
       <div class="pageheader-div">
-        <h1 class="pageheader" id="pageheader">Settings</h1>
+        <h1 class="pageheader" id="pageheader">Custom Theme</h1>
       </div>
-      <div class="settings-wrapper">
-        <div class="userdata-settings">
-          <h2>User Data Settings</h2>
-          <p style="width: 40%; color: rgba(255, 255, 255, 0.4);">This data is used on your Homepage to display your newest Matches, Stats and greeting you. It is only stored on your PC.</p>
+      <div class="settings-wrapper" style="margin-top: 2%;">
+        <h2>Gradiant</h2>
+        <p style="width: 40%; color: rgba(255, 255, 255, 0.4);">Used for the Navslide and Text Inputs. Just select 2 Colors, the App will do the rest.</p>
+        <div class="preview-flexdiv">
+          <div>
+            <span>Color 1</span><br>
+            <input type="color" style="margin-bottom: 1rem;" class="custom-color-1-gradiant" id="select_1"><br>
+            <span>Color 2</span><br>
+            <input type="color" style="margin-bottom: 1rem;" class="custom-color-2-gradiant" id="select_2">
+          </div>
+          <div class="gradiant-preview" style="margin-left: 5rem; position: relative; top: -0.5rem;">
+            <h2>Select for Preview</h2>
+            <input class="form__field" style="width: 100%;">
+          </div>
         </div>
-        <input type="text" class="settings-username-input" id="settings-username-input">
-        <span style="font-size: 1.8em; position: relative; top: 0.2rem;">#</span>
-        <input type="text" class="settings-usertag-input" id="settings-usertag-input" maxlength="5">
-        <button style="margin-left: 1rem;" id="change-userdata-button">Change</button>
-        <br>
-        <span id="replace-textspan"></span>
 
-        <div class="home-username-settings">
-          <h2>Displayed Username</h2>
-          <p style="width: 40%; color: rgba(255, 255, 255, 0.4);">If you want the app to greet you with a different Name, you can type it in here. If this is empty, it will default to your VALORANT Username. This data is only stored on your PC.</p>
+        <h2>Button color</h2>
+        <p style="width: 40%; color: rgba(255, 255, 255, 0.4);">Used for the Color of all Buttons.</p>
+        <div class="preview-flexdiv">
+          <div>
+            <span>Button Color</span><br>
+            <input type="color" style="margin-bottom: 1rem;" class="button-color" id="select_3"><br>
+            <span>Hover Color</span><br>
+            <input type="color" style="margin-bottom: 1rem;" class="button-hover-color" id="select_4"><br>
+            <span>Neon Effect Color</span><br>
+            <input type="color" style="margin-bottom: 1rem;" class="button-neon-effect" id="select_5"><br>
+            <span>Text Color</span><br>
+            <input type="color" style="margin-bottom: 1rem;" class="button-textcolor" id="select_6"><br>
+          </div>
+          <div class="gradiant-preview" style="margin-left: 5rem; position: relative; top: -1rem;">
+            <h2>Preview</h2>
+            <button>Preview</button>
+          </div>
         </div>
-        <input type="text" class="settings-home-username-input" id="settings-home-username-input">
-        <button style="margin-left: 1rem;" id="change-home-username-button">Change</button>
-        <button style="margin-left: 1rem;" id="reset-home-username-button">Reset</button>
-        <br>
-        <span id="replace-textspan-2"></span>
 
-        <div class="home-username-settings">
-          <h2>Color Theme</h2>
-          <p style="width: 40%; color: rgba(255, 255, 255, 0.4);">If you want to change the App's color Gradiant and Sublementary colors to another preset, you can do that here! The app will reload after changing a Theme.</p>
+        <h2>App color</h2>
+        <div class="preview-flexdiv">
+          <div>
+            <p style="width: 40%; color: rgba(255, 255, 255, 0.4);">The Base color is the Normal Background. Sub Color 1 is used for Cards and Sub Color 2 is used for Cards in Cards.</p>
+            <span>Base Color</span><br>
+            <input type="color" style="margin-bottom: 1rem;" class="app-color-1" id="select_7"><br>
+            <span>Sub Color 1</span><br>
+            <input type="color" style="margin-bottom: 1rem;" class="app-subcolor-1" id="select_8"><br>
+            <span>Sub Color 2</span><br>
+            <input type="color" style="margin-bottom: 1rem;" class="app-subcolor-2" id="select_9"><br>
+            <span>Font Color</span><br>
+            <input type="color" style="margin-bottom: 1rem;" class="app-fontcolor" id="select_10"><br>
+          </div>
+          <div class="gradiant-preview" style="left: -41rem; position: relative; top: 6rem;">
+            <div class="subcolor-palette-preview-1" style="width: 4rem; height: 4rem; border: 1px solid grey;"></div>
+            <div class="subcolor-palette-preview-2" style="width: 4rem; height: 4rem; border: 1px solid grey; margin-top: 1rem;"></div>
+          </div>
         </div>
-        <select id="selected-color-theme" name="color-theme">
-          <option value="Default" selected>Default</option>
-          <option value="" disabled>-- AGENTS --</option>
-          <option value="Brimstone">Brimstone</option>
-          <option value="Phoenix">Phoenix</option>
-          <option value="Sage">Sage</option>
-          <option value="Sova">Sova</option>
-          <option value="Viper">Viper</option>
-          <option value="Cypher">Cypher</option>
-          <option value="Reyna">Reyna</option>
-          <option value="Killjoy">Killjoy</option>
-          <option value="Breach">Breach</option>
-          <option value="Omen">Omen</option>
-          <option value="Jett">Jett</option>
-          <option value="Raze">Raze</option>
-          <option value="Skye">Skye</option>
-          <option value="Yoru">Yoru</option>
-          <option value="Astra">Astra</option>
-          <option value="KayO">KayO</option>
-          <option value="Chamber">Chamber</option>
-          <option value="Neon">Neon</option>
-          <option value="" disabled>-- CUSTOM THEMES --</option>
-          <option style="display: none;" id="themes-bottom"></option>
-        </select>
-        <button style="margin-left: 1rem;" id="reset-colortheme-button">Reset</button>
-        <br>
-        <span id="replace-textspan-3"></span>
-
-        <div class="home-username-settings">
-          <h2>Custom Color Theme</h2>
-          <p style="width: 40%; color: rgba(255, 255, 255, 0.4);">You dont like the preset themes? Make your own theme here!</p>
-        </div>
-        <a href="customThemePage.html"><button id="make-custom-theme-button">Make a custom Theme</button></a>
-        <button id="open-custom-theme-folder-button" style="margin-left: 1rem; margin-bottom: 5rem;">Open Save File folder</button>
-        <br>
-        <span id="replace-textspan-3"></span>
+        <h2>Save and enter a Name</h2>
+        <input type="text" class="form__field" id="colortheme-name" placeholder="Enter a Name">
+        <button id="save-colortheme" style="margin-bottom: 10rem;">Save</button>
+        <span id="replace-text" style="margin-left: 5rem;"></span>
       </div>
     </div>
 
@@ -191,9 +186,7 @@
       })
     </script>
 
-    <script type="application/javascript" src="assets/js/settings_scripts/changeUserData.js"></script>
-    <script type="application/javascript" src="assets/js/settings_scripts/changeUserDisplayName.js"></script>
-    <script type="application/javascript" src="assets/js/settings_scripts/changeColorTheme.js"></script>
+    <script type="application/javascript" src="assets/js/settings_scripts/custom_colors/customColorTheme.js"></script>
     <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
     <script type="application/javascript" src="assets/js/redirects.js"></script>
     <script type="application/javascript" src="assets/js/loadColorThemes.js"></script>

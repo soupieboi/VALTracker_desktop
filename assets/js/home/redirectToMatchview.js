@@ -7,7 +7,6 @@ function loadMatchView(matchID, page) {
     sessionStorage.setItem("player_name", playerName);
     sessionStorage.setItem("player_tag", playerTag);
     var path = page.split("/").pop();
-    console.log(path);
     if(path == "fakeLoadingIndex.html") {
         var redirectPath = "index.html"
     } else {

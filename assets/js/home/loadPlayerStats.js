@@ -96,6 +96,27 @@ $(document).ready(() => {
                             $('.loading-div-home').css("display", "none")
                         }, 1000)
                     }
+                }, 
+                error: function(){
+                    var path = window.location.pathname;
+                    var page = path.split("/").pop();
+                    if(page == "fakeLoadingIndex.html") {
+                        setTimeout(function() {
+                            $('.loading-div-home').fadeTo(950, 0)
+                            $('#sec').css("opacity", "0")
+                            $('#sec').css("display", "block")
+                            $('#sec').fadeTo(950, 1)
+                            setTimeout(function() {
+                                $('.loading-div-home').css("display", "none")
+                            }, 1000)
+                        }, 1000)
+                    } else {
+                        $('#sec').css("opacity", "1")
+                        $('#sec').css("display", "block")
+                        setTimeout(function() {
+                            $('.loading-div-home').css("display", "none")
+                        }, 1000)
+                    }
                 }
             })
         } else {

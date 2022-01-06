@@ -1,12 +1,12 @@
 ### New Features
 
-- Now that I though about it, that 40k isn't so cool after all.
-    - The Favourite Matches Page now includes a Star next to the Matches. If clicked, it will open up a card where you can check which Match will get deleted.
-
-- Yo, I don't really like Red!
-    - You can now change the Appearance of VALTracker on the settings page! For now there's only color themes for every Agent, but soon you'll be able to make your own themes!
+- F*ck the Preset's they're boring!
+    - You can now make your own Themes for VALTracker! The editor can be found in the settings. Files are easy to share, so make a theme for your Grandma and give it to her on her Birthday! (Or just make one for your Team or Friends.)
 
 ### Bugfixes
 
-- The Navbar Slide Icon and Rank of a User in the Home menu now no longer take half a century to load in.
-- If the player played Competitive in the last 5 matches, changing the Matches in a players profile to "All matches" failed.
+- If the API request fails, the Navbar Icon will now still load.
+
+### Update on increased Loading Times and Infinite Loading screens
+
+- The API we are currently using is having trouble keeping up with the demand, as it is a public 3rd party API. We are working on getting our hands on an official API Key for the official API, but this might take a while. If you want to stay updated, your our [Discord](https://discord.gg/aJfQ4yHysG)!

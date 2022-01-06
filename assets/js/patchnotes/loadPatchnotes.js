@@ -18,7 +18,6 @@ $(document).ready(() => {
         url: `https://raw.githubusercontent.com/SpiritLetsPlays/VALTracker_src/main/PATCHNOTES.md`,
         type: 'get',
         success: function(data, xhr) {
-            console.log(data)
             var html = converter.makeHtml(data);
             $('#patchnotes-wrapper').append(html);
         }

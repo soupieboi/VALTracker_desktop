@@ -1,5 +1,4 @@
 function loadRemovePromt(matchID, matchToRemove, matchAgentImg, matchKDA, matchResult) {
-    console.log(matchToRemove)
     let matchResultPatched = matchResult.replace("RESULT", "");
     $('.remove-fav-promt-wrapper').css("opacity", "0")
     $('.remove-fav-promt-wrapper').css("display", "flex")
