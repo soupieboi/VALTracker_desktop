@@ -10,4 +10,3 @@
 
 - The Navbar Slide Icon and Rank of a User in the Home menu now no longer take half a century to load in.
 - If the player played Competitive in the last 5 matches, changing the Matches in a players profile to "All matches" failed.
-- Typo in Settings
