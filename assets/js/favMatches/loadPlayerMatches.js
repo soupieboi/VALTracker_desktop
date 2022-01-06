@@ -199,6 +199,11 @@ $(document).ready(() => {
                         Matchcontainer.appendChild(matchRRwrapper);
                     }
                     Matchcontainer.appendChild(matchMap);
+                    var favStarIcon = document.createElement("i")
+                    favStarIcon.classList.add("fas", "fa-star",)
+                    favStarIcon.setAttribute("id", "favStarFavs")
+                    favStarIcon.setAttribute("onclick", "loadRemovePromt(this.parentElement.firstChild.textContent, this.parentElement, this.parentElement.children[1].src, this.parentElement.children[3].textContent, this.parentElement.children[4].textContent); event.stopPropagation();");
+                    Matchcontainer.appendChild(favStarIcon)
                     
                     var wrapper = document.getElementById("loading-layer");
                     var nextElement = document.getElementById("lastElement");

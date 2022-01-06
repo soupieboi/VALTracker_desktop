@@ -1,12 +1,12 @@
 {
   "name": "valtracker",
   "productName": "VALTracker",
-  "version": "0.8.19-alpha",
+  "version": "0.8.20-alpha",
   "description": "A free Desktop app to look up your VALORANT Statistics and Ingame Collectables.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder",
+    "build": "electron-builder --win",
     "pack": "electron-builder --dir",
     "publish": "electron-builder --win -p always"
   },
@@ -16,11 +16,11 @@
       "target": [
         "nsis"
       ],
-      "icon": "icons/VALTracker_logo.ico"
+      "icon": "iconss/VALTracker_Logo_default.ico"
     },
     "nsis": {
-      "installerIcon": "icons/VALTracker_logo.ico",
-      "uninstallerIcon": "icons/VALTracker_logo.ico",
+      "installerIcon": "iconss/VALTracker_Logo_default.ico",
+      "uninstallerIcon": "iconss/VALTracker_Logo_default.ico",
       "uninstallDisplayName": "VALTracker",
       "license": "license.txt",
       "oneClick": false,
@@ -35,11 +35,11 @@
     ]
   },
   "author": "Spirit",
-  "repository": "https://github.com/spiritletsplays/valtracker",
+  "repository": "https://github.com/spiritletsplays/valtracker_src",
   "license": "MIT",
   "devDependencies": {
     "electron": "^11.5.0",
-    "electron-builder": "^22.10.5",
+    "electron-builder": "^22.14.5",
     "electron-squirrel-startup": "^1.0.0",
     "electron-wix-msi": "^3.2.0"
   },
@@ -53,7 +53,7 @@
     "fs-browsers": "^1.1.1",
     "hubdown": "^2.3.2",
     "jquery": ">=3.5.0",
-    "showdown": "^1.9.1",
+    "showdown": "^1.9.0",
     "update-electron-app": "^2.0.1"
   }
 }

@@ -126,6 +126,7 @@ function shiftBundleView(event, imageid, bundledescmonke, thisE) {
                      bundleWeaponFlexText.className = "largeview-bundle-weapon-info";
                   
                      var flexUl = document.createElement("ul");
+                     flexUl.className = "bundle-weapon-info-flex-ul"
                      var flexLi1 = document.createElement("li");
                      var flexLi1H2 = document.createElement("h2");
                      flexLi1H2.className = "bundle-weapon-info-gunname";

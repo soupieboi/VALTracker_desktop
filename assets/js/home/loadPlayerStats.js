@@ -54,14 +54,19 @@ $(document).ready(() => {
                         './assets/img/unranked.png',
                     ]
                     $('.user-rank-icon').attr("src", rankIcons[data.data[0].currenttier -3])
-                    for(var count = 0; count < 5; count++) {
+                    var i = 0;
+                    for(var count = 0; count < data.data.length; count++) {
                         if(ispositive(data.data[count].mmr_change_to_last_game) == true) {
                             $(`#match-rr-id-${count}`).append("+" + data.data[count].mmr_change_to_last_game)
                         } else {
                             $(`#match-rr-id-${count}`).append(data.data[count].mmr_change_to_last_game)
                         }
+                        i++;
                     }
-                    var RR_after = data.data[0].mmr_change_to_last_game + data.data[1].mmr_change_to_last_game + data.data[2].mmr_change_to_last_game + data.data[3].mmr_change_to_last_game + data.data[4].mmr_change_to_last_game;
+                    var RR_after = 0;
+                    for(var count = 0; count < i; count++) {
+                        RR_after = RR_after + data.data[count].mmr_change_to_last_game
+                    }
                     if(ispositive(RR_after) == true) {
                         $('.home-avg-rrchange').empty()
                         $('.home-avg-rrchange').append(" +" + RR_after)
@@ -69,16 +74,28 @@ $(document).ready(() => {
                         $('.home-avg-rrchange').empty()
                         $('.home-avg-rrchange').append("" + RR_after)
                     }
-                    setTimeout(function() {
-                        $('.loading-div-home').fadeTo(950, 0)
-                        $('.user-rank-icon').fadeTo(950, 1)
-                        $('#sec').css("opacity", "0")
+                    var path = window.location.pathname;
+                    var page = path.split("/").pop();
+                    if(page == "fakeLoadingIndex.html") {
+                        setTimeout(function() {
+                            $('.loading-div-home').fadeTo(950, 0)
+                            $('.user-rank-icon').fadeTo(950, 1)
+                            $('#sec').css("opacity", "0")
+                            $('#sec').css("display", "block")
+                            $('#sec').fadeTo(950, 1)
+                            setTimeout(function() {
+                                $('.loading-div-home').css("display", "none")
+                            }, 1000)
+                        }, 1000)
+                    } else {
+                        $('#sec').css("opacity", "1")
                         $('#sec').css("display", "block")
-                        $('#sec').fadeTo(950, 1)
+                        $('.user-rank-icon').css("display", "block")
+                        $('.user-rank-icon').css("opacity", "1")
                         setTimeout(function() {
                             $('.loading-div-home').css("display", "none")
                         }, 1000)
-                    }, 1000)
+                    }
                 }
             })
         } else {

@@ -149,32 +149,36 @@
                         }
                     }
                     var topPlayerArray_sorted = [];
+                    var topPlayerArray_sorted_withKD = [];
                     for(var count = 0; count < sortedKDArray.length; count++) {
                         var sortedKDObj = sortedKDArray[count];
-                        console.log(sortedKDObj)
                         for(var count2 = 0; count2 < playerArray.length; count2++) {
                             var killerKD = playerArray[count2].split(" ").pop()
                             if(killerKD == sortedKDObj) {
                                 var topPlayer = playerArray[count2].substring(0, playerArray[count2].lastIndexOf(' '))
-                                console.log(playerArray[count2])
-                                console.log(playerArray[count2].split(" ").pop())
-                                console.log(topPlayer)
                                 topPlayerArray_sorted.push(topPlayer)
+                                topPlayerArray_sorted_withKD.push(playerArray[count2])
+                                playerArray = playerArray.filter(v => v !== playerArray[count2]);
                             } else {
                                 continue;
                             }
                         }
                     }
+                    console.log(sortedKDArray)
                     console.log(topPlayerArray_sorted)
+                    console.log(topPlayerArray_sorted_withKD)
                     var i = 0;
-                    var i2 = 0;
-                    for(var playercount = 0; playercount < data.data.players.all_players.length; playercount++) {
-                        if(data.data.players.all_players[playercount].name + "#" + data.data.players.all_players[playercount].tag == topPlayerArray_sorted[i]) {
+                    for(var playercount = 0; playercount < topPlayerArray_sorted.length; playercount++) {
+                        console.log(topPlayerArray_sorted_withKD[playercount])
+                        console.log("///////////////////////////")
+                        console.log(topPlayerArray_sorted[i])
+                        console.log("")
+                        if(topPlayerArray_sorted_withKD[playercount].includes(topPlayerArray_sorted[i])) {
 
                             var playerAgent = document.createElement("td")
                             playerAgent.className = "played_agent";
                             var playerAgent_img = document.createElement("img");
-    
+
                             agentUUID_url = data.data.players.all_players[playercount].assets.agent.small
                             var path2 = agentUUID_url.substring(agentUUID_url.indexOf('/'), agentUUID_url.lastIndexOf('/'));
                             var agentUUID = path2.split("/").pop();
@@ -221,7 +225,7 @@
                                     }
                                     if(data.data.rounds[count].bomb_defused == false) {
                                         continue;
-                                    } else if(data.data.rounds[count].defuse_events.defused_by.display_name == playerName + "#" + playerTag) {
+                                    } else if(data.data.rounds[count].defuse_events.defuse_location.display_name == playerName + "#" + playerTag) {
                                         totalDefuses++;
                                     }
                                 }
@@ -265,7 +269,7 @@
                             var dmgperround = Math.round(data.data.players.all_players[playercount].damage_made / data.data.rounds.length);
                             player_dmg_round.appendChild(document.createTextNode(dmgperround))
                             
-                            var wrapper = document.getElementById(`player-${i2}`);
+                            var wrapper = document.getElementById(`player-${i}`);
     
                             wrapper.appendChild(playerAgent);
                             wrapper.appendChild(player_name);
@@ -274,9 +278,7 @@
                             wrapper.appendChild(player_fbs);
                             wrapper.appendChild(player_dmg_round);
                             i++;
-                            i2++;
                             playercount = 0;
-                            console.log("E")
                         }
                     }
                 }
