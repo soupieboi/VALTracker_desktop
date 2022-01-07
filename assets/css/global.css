@@ -540,7 +540,7 @@ button:hover {
   height: calc(100% - 31px);
   margin-top: 31px;
   top: 0px;
-  background-color: #1F2226;
+  background-color: var(--app-color-light);
   filter: drop-shadow(0px 0px 0px #000000);
   -webkit-filter: drop-shadow(0px 0px 0px #000000);
   z-index: 999 !important;
@@ -2101,7 +2101,7 @@ select:focus::-ms-value {
   padding: 8px 12px;
   position: absolute;
   bottom: 8px;
-  width: 100%;
+  width: 95%;
   text-align: center;
   line-break: auto;
 }

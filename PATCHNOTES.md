@@ -6,7 +6,8 @@
 ### Bugfixes
 
 - If the API request fails, the Navbar Icon will now still load.
+- Fixed the Text on Slideshows being slightly decentered.
 
-### Update on increased Loading Times and Infinite Loading screens
+## Update on increased Loading Times and Infinite Loading screens
 
 - The API we are currently using is having trouble keeping up with the demand, as it is a public 3rd party API. We are working on getting our hands on an official API Key for the official API, but this might take a while. If you want to stay updated, your our [Discord](https://discord.gg/aJfQ4yHysG)!

@@ -134,8 +134,8 @@ $(document).ready(() => {
     $('.app-subcolor-1').val(colorData2.app_subcolor_1)
     $('.app-subcolor-2').val(colorData2.app_subcolor_2)
     $('.app-fontcolor').val(colorData2.global_color)
-    $('.subcolor-palette-preview-1').css("background-color", colorData2.app_subcolor_1)
-    $('.subcolor-palette-preview-2').css("background-color", colorData2.app_subcolor_2)
+    $('.subcolor-palette-preview-1').css("background-color", "var(--app-color-light)")
+    $('.subcolor-palette-preview-2').css("background-color", "var(--app-color-lightest)")
 
     $("#colortheme-name").keyup(function(event) {
         if (event.keyCode === 13) {
@@ -272,6 +272,9 @@ $(document).ready(() => {
         //Check for File already existing
         //If it doesn't, create File with Name = entered name (without spaces)
         //If it does, replace text with "You already have a Theme with this Name saved."
+    })
+    $('#back-to-settings').on("click", function() {
+        window.location.href = "settings.html"
     })
 });
 
