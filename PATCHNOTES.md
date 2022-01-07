@@ -1,6 +1,6 @@
 ### New Features
 
-- F*ck the Preset's they're boring!
+- F'ck the Preset's, they're boring!
     - You can now make your own Themes for VALTracker! The editor can be found in the settings. Files are easy to share, so make a theme for your Grandma and give it to her on her Birthday! (Or just make one for your Team or Friends.)
 
 ### Bugfixes
