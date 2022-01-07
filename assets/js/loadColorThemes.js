@@ -12,7 +12,9 @@ if(!colorFS.existsSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.js
         "button_color": "#c80043",
         "button_hover_color": "#ff0055",
         "logo_style": "default",
-        "button_color_var": "#ffffff"
+        "button_color_var": "#ffffff",
+        "global_color": "#ffffff",
+        "loadCustomTheme": false
     }
 
     colorFS.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', JSON.stringify(dataToWrite))

@@ -7,6 +7,7 @@
 
 - If the API request fails, the Navbar Icon will now still load.
 - Fixed the Text on Slideshows being slightly decentered.
+- Fixed Font being black on installing
 
 ## Update on increased Loading Times and Infinite Loading screens
 
