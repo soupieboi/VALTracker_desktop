@@ -60,6 +60,7 @@ function shiftBundleView(event, imageid, bundledescmonke, thisE) {
    var bundleInfoLi1 = document.createElement("li");
    var bundleInfoLi1Span = document.createElement("span");
    bundleInfoLi1Span.className = "bundle-cost";
+   bundleInfoLi1Span.appendChild(document.createTextNode("Cost: "))
 
    var bundleInfoLi2 = document.createElement("li");
    var bundleInfoLi2Span = document.createElement("span");
@@ -82,6 +83,7 @@ function shiftBundleView(event, imageid, bundledescmonke, thisE) {
       url: `https://valorant-api.com/v1/weapons`,
       type: 'get',
       success: function(data, jqXHR) {
+         var skinI = 0;
          for(var count = 0; count < data.data.length; count++) {
             for(var count2 = 0; count2 < data.data[count].skins.length; count2++) {
                if(
@@ -107,6 +109,13 @@ function shiftBundleView(event, imageid, bundledescmonke, thisE) {
                   || event == "Glitchpop 2.0" && data.data[count].skins[count2].themeUuid == "3737b313-45e6-4760-017f-60bc18c765dd"
                   || event == "Magepunk 2.0" && data.data[count].skins[count2].themeUuid == "df7fbc2f-4801-df74-7c08-0bb09ce3904c"
                ) {
+                  sessionStorage.setItem(`skinID-${skinI}`, data.data[count].skins[count2].levels[0].uuid)
+                  if(count == 17) {
+                     sessionStorage.setItem(`skinID-${skinI}-isMelee`, true)
+                  } else {
+                     sessionStorage.setItem(`skinID-${skinI}-isMelee`, false)
+                  }
+                  skinI++;
                   for(var count3 = 0; count3 < data.data[0].skins[0].chromas.length; count3++) {
 
                      var actualBundleWeapons = document.createElement("div");
@@ -149,6 +158,12 @@ function shiftBundleView(event, imageid, bundledescmonke, thisE) {
                         flexLi2Button.appendChild(document.createTextNode("Preview Video"));
                      }
 
+                     var flexLi3 = document.createElement("li");
+                     var flexLi3Span = document.createElement("span");
+                     flexLi3Span.className = "single-weapon-price";
+                     flexLi3Span.appendChild(document.createTextNode("Cost: "))
+                     flexLi3.appendChild(flexLi3Span)
+
                      var bundlePromoVid;
 
                      if (data.data[count].skins[count2].chromas[count3].streamedVideo == !null){
@@ -171,6 +186,7 @@ function shiftBundleView(event, imageid, bundledescmonke, thisE) {
                      bundleWeaponFlexText.appendChild(flexUl);
                   
                      flexUl.appendChild(flexLi1);
+                     flexUl.appendChild(flexLi3);
                      flexUl.appendChild(flexLi2);
                   
                      flexLi1.appendChild(flexLi1H2);
@@ -274,6 +290,42 @@ function shiftBundleView(event, imageid, bundledescmonke, thisE) {
          cardGrid.insertBefore(bundleColorOptions, hr);
          cardGrid.insertBefore(bundleinfoFlex, bundleColorOptions);
          cardGrid.insertBefore(largeviewBundleName, bundleinfoFlex);
+
+         $.ajax({
+            url: `https://api.henrikdev.xyz/valorant/v1/store-offers`,
+            type: 'get',
+            success: function(data, jqXHR) {
+               var i = 0;
+               var totalCost = 0;
+               for(var count = 0; count < data.data.Offers.length; count++) {
+                  if(data.data.Offers[count].Rewards[0].ItemID == sessionStorage.getItem(`skinID-${i}`)) {
+                     if(!data.data.Offers[count].Rewards[0].ItemID) {
+                        console.log("E")
+                     }
+                     if(data.data.Offers[count].Cost[Object.keys(data.data.Offers[count].Cost)[0]] == undefined) {
+                     } else {
+                        document.getElementsByClassName("single-weapon-price")[i].appendChild(document.createTextNode(data.data.Offers[count].Cost[Object.keys(data.data.Offers[count].Cost)[0]]))
+                        if(sessionStorage.getItem(`skinID-${i}-isMelee`) == "false") {
+                           totalCost = totalCost + data.data.Offers[count].Cost[Object.keys(data.data.Offers[count].Cost)[0]]
+                        }
+                        console.log(data.data.Offers[count].Rewards[0].ItemID)
+                        i++;
+                        count = 0;
+                     }
+                  }
+               }
+               if(totalCost == 0) {
+                  bundleInfoLi1Span.appendChild(document.createTextNode("Bundle no longer being sold."))
+                  bundleInfoLi1Span.id = "price-disabled"
+                  for(var count = 0; count < document.getElementsByClassName("single-weapon-price").length; count++) {
+                     document.getElementsByClassName("single-weapon-price")[count].appendChild(document.createTextNode("No longer being sold"))
+                     document.getElementsByClassName("single-weapon-price")[count].setAttribute("id", "price-disabled")
+                  }
+               } else {
+                  bundleInfoLi1Span.appendChild(document.createTextNode(totalCost))
+               }
+            }
+         });
          
       },
    });

@@ -1,3 +1,4 @@
+var ipc = require('electron').ipcRenderer;
 const path = require('path')
 var select = document.getElementById('selected-color-theme');
 
@@ -49,6 +50,8 @@ $('#reset-colortheme-button').on("click", function() {
     var dataToWriteDown = JSON.stringify(dataToWrite)
 
     fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+
+    ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_default.png`)
     window.location.href = ""
 })
 
@@ -75,6 +78,8 @@ select.addEventListener('change', function() {
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+
+            ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
             break;
         case "Brimstone":
@@ -97,6 +102,8 @@ select.addEventListener('change', function() {
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+
+            ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
             break;
         case "Phoenix":
@@ -119,6 +126,8 @@ select.addEventListener('change', function() {
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+
+            ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
             break;
         case "Sage":
@@ -141,6 +150,8 @@ select.addEventListener('change', function() {
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+
+            ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
             break;
         case "Sova":
@@ -163,6 +174,8 @@ select.addEventListener('change', function() {
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+
+            ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
             break;
         case "Viper":
@@ -185,6 +198,8 @@ select.addEventListener('change', function() {
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+
+            ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
             break;
         case "Cypher":
@@ -207,6 +222,8 @@ select.addEventListener('change', function() {
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+
+            ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
             break;
         case "Reyna":
@@ -229,6 +246,8 @@ select.addEventListener('change', function() {
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+
+            ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
             break;
         case "Killjoy":
@@ -251,6 +270,8 @@ select.addEventListener('change', function() {
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+
+            ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
             break;
         case "Breach":
@@ -273,6 +294,8 @@ select.addEventListener('change', function() {
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+
+            ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
             break;
         case "Omen":
@@ -295,6 +318,8 @@ select.addEventListener('change', function() {
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+
+            ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
             break;
         case "Jett":
@@ -317,6 +342,8 @@ select.addEventListener('change', function() {
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+
+            ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
             break;
         case "Raze":
@@ -339,6 +366,8 @@ select.addEventListener('change', function() {
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+
+            ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
             break;
         case "Skye":
@@ -361,6 +390,8 @@ select.addEventListener('change', function() {
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+
+            ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
             break;
         case "Yoru":
@@ -383,6 +414,8 @@ select.addEventListener('change', function() {
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+
+            ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
             break;
         case "Astra":
@@ -405,6 +438,8 @@ select.addEventListener('change', function() {
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+
+            ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
             break;
         case "KayO":
@@ -427,6 +462,8 @@ select.addEventListener('change', function() {
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+
+            ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
             break;
         case "Chamber":
@@ -449,6 +486,8 @@ select.addEventListener('change', function() {
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+
+            ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
             break;
         case "Neon":
@@ -471,6 +510,8 @@ select.addEventListener('change', function() {
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+
+            ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
             break;
         case "custom-theme":
@@ -481,6 +522,8 @@ select.addEventListener('change', function() {
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+    
+            ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_default.png`)
             window.location.href = ""
             break;
     }
@@ -514,6 +557,7 @@ $(document).ready(() => {
                     $(select).val("custom-theme-used")
                 }
             }
+            $('#edit-custom-theme-button').css("display", "inline-block");
         } else {
             let word = colorData.logo_style;
             let titleCase = word[0].toUpperCase() + word.substr(1);

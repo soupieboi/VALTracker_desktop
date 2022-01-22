@@ -1,4 +1,3 @@
-const { shell } = require('electron')
 function redirectInDefaultBrowser(id, url) {
     var str = url;
     var midStr = str.split('https://').pop();

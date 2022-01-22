@@ -1,4 +1,6 @@
+const ipc = require('electron').ipcRenderer;
 window.onload = function() {
+  ipc.send('changeDiscordRP', `playersearch_acitivity`)
 
   const replaceText = (text) => {
     const element = document.getElementById("search-output");

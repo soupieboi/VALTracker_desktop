@@ -11,6 +11,27 @@ function toggle(){
     sec.classList.toggle('active');
 }
 
+var { shell } = require('electron')
+function openInDefaultBrowser(href) {
+    shell.openExternal(href);
+}
+
+$('.fab.fa-discord').on("click", function() {
+    openInDefaultBrowser("https://discord.gg/aJfQ4yHysG")
+})
+
+$('.fab.fa-twitter').on("click", function() {
+    openInDefaultBrowser("https://twitter.com/VALTracker_gg")
+})
+
+$('.fab.fa-github').on("click", function() {
+    openInDefaultBrowser("https://github.com/SpiritLetsPlays/VALTracker_src")
+})
+
+$('.fas.fa-globe').on("click", function() {
+    openInDefaultBrowser("https://valtracker.gg")
+})
+
 var pathvar = document.location.pathname;
 var path2 = pathvar.substring(pathvar.indexOf('/'), pathvar.lastIndexOf('/'));
 var directoryName = path2.split("/").pop();

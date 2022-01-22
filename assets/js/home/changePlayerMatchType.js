@@ -125,21 +125,21 @@ $(document).ready(() => {
                                             matchStanding.appendChild(document.createTextNode("LOSE"));
                                         }
                                     } else {
-                                        if(data3.data[count].rounds[data3.data[count].rounds.length -1].end_type == "Surrendered") {
+                                        if(data3.data[count].rounds[data3.data[count].rounds.length -1].end_type == "SRNDRed") {
                                             if(data3.data[count].players.all_players[playerCount].team == data3.data[count].rounds[data3.data[count].rounds.length -1].winning_team) {
                                                 matchStanding.className = "match-result-won";
                                                 if(matchmode == "Competitive") {
                                                     matchRRspan.className = `match-rr-home-win`;
                                                     matchRRspan.setAttribute("id", "match-rr-id-"+ count);
                                                 }
-                                                matchStanding.appendChild(document.createTextNode("SURRENDER"));
+                                                matchStanding.appendChild(document.createTextNode("SRNDR"));
                                             } else {
                                                 matchStanding.className = "match-result-lost";
                                                 if(matchmode == "Competitive") {
                                                     matchRRspan.className = `match-rr-home-lose`;
                                                     matchRRspan.setAttribute("id", "match-rr-id-"+ count);
                                                 }
-                                                matchStanding.appendChild(document.createTextNode("SURRENDER"));
+                                                matchStanding.appendChild(document.createTextNode("SRNDR"));
                                             }
                                         } else {
                                             if(data3.data[count].players.all_players[playerCount].team == "Blue") {
@@ -279,7 +279,7 @@ $(document).ready(() => {
                 
                         $.ajax({
                             dataType: "json",
-                            url: `https://api.henrikdev.xyz/valorant/v1/mmr-history/eu/${playerName}/${playerTag}`,
+                            url: `https://api.henrikdev.xyz/valorant/v1/mmr-history/${playerRegion}/${playerName}/${playerTag}`,
                             type: 'get',
                             success: function(data, xhr) {
                                 function ispositive(n){
@@ -437,21 +437,21 @@ $(document).ready(() => {
                                             matchStanding.appendChild(document.createTextNode("LOSE"));
                                         }
                                     } else {
-                                        if(data3.data[count].rounds[data3.data[count].rounds.length -1].end_type == "Surrendered") {
+                                        if(data3.data[count].rounds[data3.data[count].rounds.length -1].end_type == "SRNDRed") {
                                             if(data3.data[count].players.all_players[playerCount].team == data3.data[count].rounds[data3.data[count].rounds.length -1].winning_team) {
                                                 matchStanding.className = "match-result-won";
                                                 if(matchmode == "Competitive") {
                                                     matchRRspan.className = `match-rr-home-win`;
                                                     matchRRspan.setAttribute("id", "match-rr-id-"+ count);
                                                 }
-                                                matchStanding.appendChild(document.createTextNode("SURRENDER"));
+                                                matchStanding.appendChild(document.createTextNode("SRNDR"));
                                             } else {
                                                 matchStanding.className = "match-result-lost";
                                                 if(matchmode == "Competitive") {
                                                     matchRRspan.className = `match-rr-home-lose`;
                                                     matchRRspan.setAttribute("id", "match-rr-id-"+ count);
                                                 }
-                                                matchStanding.appendChild(document.createTextNode("SURRENDER"));
+                                                matchStanding.appendChild(document.createTextNode("SRNDR"));
                                             }
                                         } else {
                                             if(data3.data[count].players.all_players[playerCount].team == "Blue") {
@@ -592,7 +592,7 @@ $(document).ready(() => {
                 
                         $.ajax({
                             dataType: "json",
-                            url: `https://api.henrikdev.xyz/valorant/v1/mmr-history/eu/${playerName}/${playerTag}`,
+                            url: `https://api.henrikdev.xyz/valorant/v1/mmr-history/${playerRegion}/${playerName}/${playerTag}`,
                             type: 'get',
                             success: function(data, xhr) {
                                 function ispositive(n){
@@ -643,7 +643,7 @@ $(document).ready(() => {
                                     $('.loading-icon').css("display", "none");
                                     $('.loading-layer').css("opacity", "0");
                                     $('.loading-layer').css("display", "block");
-                                    $('.loading-layer').fadeTo(150, 1)
+                                    $('.loading-layer').fadeTo(150, 1);
                                 }, 200)
                             }
                         })

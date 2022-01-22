@@ -1,9 +1,11 @@
 const fs = require('fs')
+var ipc = require('electron').ipcRenderer;
 const replaceText = (text) => {
     const element = document.getElementById("replace-textspan");
     if (element) element.innerText = text
 }
 $(document).ready(() => {
+    ipc.send('changeDiscordRP', `settings_activity`)
     let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/userData.json');
     let dataToRead = JSON.parse(rawdata);
     $('#settings-username-input').val(dataToRead.playerName);

@@ -1,5 +1,7 @@
 const path = require('path');
+const ipc = require('electron').ipcRenderer;
 $(document).ready(() => {
+    ipc.send('changeDiscordRP', `favmatches_activity`)
     let rawuserdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/userData.json');
     let userdataToRead = JSON.parse(rawuserdata);
 
@@ -106,21 +108,21 @@ $(document).ready(() => {
                                     matchStanding.appendChild(document.createTextNode("LOSE"));
                                 }
                             } else {
-                                if(data.data.rounds[data.data.rounds.length -1].end_type == "Surrendered") {
+                                if(data.data.rounds[data.data.rounds.length -1].end_type == "SRNDRed") {
                                     if(data.data.players.all_players[playerCount].team == data.data.rounds[data.data.rounds.length -1].winning_team) {
                                         matchStanding.className = "match-result-won-favmatch";
                                         if(matchmode == "Competitive") {
                                             matchRRspan.className = `match-rr-pp-win`;
                                             matchRRspan.setAttribute("id", "match-rr-id-"+ count);
                                         }
-                                        matchStanding.appendChild(document.createTextNode("SURRENDER"));
+                                        matchStanding.appendChild(document.createTextNode("SRNDR"));
                                     } else {
                                         matchStanding.className = "match-result-lost-favmatch";
                                         if(matchmode == "Competitive") {
                                             matchRRspan.className = `match-rr-pp-lose`;
                                             matchRRspan.setAttribute("id", "match-rr-id-"+ count);
                                         }
-                                        matchStanding.appendChild(document.createTextNode("SURRENDER"));
+                                        matchStanding.appendChild(document.createTextNode("SRNDR"));
                                     }
                                 } else {
                                     if(data.data.players.all_players[playerCount].team == "Blue") {

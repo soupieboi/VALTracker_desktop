@@ -1,8 +1,329 @@
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, dialog} = require('electron');
+const ipc = require('electron').ipcMain
 const path = require('path');
 const { autoUpdater } = require("electron-updater");
 const log = require('electron-log');
 const fs = require('fs');
+const RPC = require('discord-rpc');
+
+const discordClient = new RPC.Client({transport: "ipc"});
+
+const starting_activity = {
+    details: "Starting VALTracker...",
+    assets: {
+        large_image: "valtracker_logo",
+        large_text: "VALTracker.gg",
+        //small_image: "",
+        //small_text: "",
+    },
+    buttons: [
+        {
+            "label": "Open in VALTracker",
+            "url": "valtracker-ptcl://open"
+        },
+        {
+            "label": "Download VALTracker",
+            "url": "https://valtracker.gg"
+        }
+    ],
+    timestamps: {start: Date.now()},
+    instance: true
+}
+
+const hub_activity = {
+    details: "Browsing Hub",
+    assets: {
+        large_image: "valtracker_logo",
+        large_text: "VALTracker.gg",
+        small_image: "user-home",
+        small_text: "User Hub",
+    },
+    buttons: [
+        {
+            "label": "Open in VALTracker",
+            "url": "valtracker-ptcl://open"
+        },
+        {
+            "label": "Download VALTracker",
+            "url": "https://valtracker.gg"
+        }
+    ],
+    timestamps: {start: Date.now()},
+    instance: true
+}
+
+const skins_activity = {
+    details: "Browsing Skins",
+    assets: {
+        large_image: "valtracker_logo",
+        large_text: "VALTracker.gg",
+        small_image: "gun",
+        small_text: "Browsing Skins",
+    },
+    buttons: [
+        {
+            "label": "Open in VALTracker",
+            "url": "valtracker-ptcl://open"
+        },
+        {
+            "label": "Download VALTracker",
+            "url": "https://valtracker.gg"
+        }
+    ],
+    timestamps: {start: Date.now()},
+    instance: true
+}
+
+const bundles_activity = {
+    details: "Browsing Bundles",
+    assets: {
+        large_image: "valtracker_logo",
+        large_text: "VALTracker.gg",
+        small_image: "gun",
+        small_text: "Browsing Bundles",
+    },
+    buttons: [
+        {
+            "label": "Open in VALTracker",
+            "url": "valtracker-ptcl://open"
+        },
+        {
+            "label": "Download VALTracker",
+            "url": "https://valtracker.gg"
+        }
+    ],
+    timestamps: {start: Date.now()},
+    instance: true
+}
+
+const pprofile_acitivity = {
+    details: "Browsing a player's profile",
+    assets: {
+        large_image: "valtracker_logo",
+        large_text: "VALTracker.gg",
+        small_image: "user-profile",
+        small_text: "Browsing a player's profile",
+    },
+    buttons: [
+        {
+            "label": "Open in VALTracker",
+            "url": "valtracker-ptcl://open"
+        },
+        {
+            "label": "Download VALTracker",
+            "url": "https://valtracker.gg"
+        }
+    ],
+    timestamps: {start: Date.now()},
+    instance: true
+}
+
+const favmatches_acitivity = {
+    details: "Browsing favourite matches",
+    assets: {
+        large_image: "valtracker_logo",
+        large_text: "VALTracker.gg",
+        small_image: "user-home",
+        small_text: "Browsing favourite matches",
+    },
+    buttons: [
+        {
+            "label": "Open in VALTracker",
+            "url": "valtracker-ptcl://open"
+        },
+        {
+            "label": "Download VALTracker",
+            "url": "https://valtracker.gg"
+        }
+    ],
+    timestamps: {start: Date.now()},
+    instance: true
+}
+
+const playersearch_acitivity = {
+    details: "Searching for a player",
+    assets: {
+        large_image: "valtracker_logo",
+        large_text: "VALTracker.gg",
+        small_image: "search",
+        small_text: "Searching for a player",
+    },
+    buttons: [
+        {
+            "label": "Open in VALTracker",
+            "url": "valtracker-ptcl://open"
+        },
+        {
+            "label": "Download VALTracker",
+            "url": "https://valtracker.gg"
+        }
+    ],
+    timestamps: {start: Date.now()},
+    instance: true
+}
+
+const settings_acitivity = {
+    details: "Editing settings",
+    assets: {
+        large_image: "valtracker_logo",
+        large_text: "VALTracker.gg",
+        small_image: "settings",
+        small_text: "Editing settings",
+    },
+    buttons: [
+        {
+            "label": "Open in VALTracker",
+            "url": "valtracker-ptcl://open"
+        },
+        {
+            "label": "Download VALTracker",
+            "url": "https://valtracker.gg"
+        }
+    ],
+    timestamps: {start: Date.now()},
+    instance: true
+}
+
+const patchnotes_acitivity = {
+    details: "Browsing the patchnotes",
+    assets: {
+        large_image: "valtracker_logo",
+        large_text: "VALTracker.gg",
+        small_image: "patchnotes",
+        small_text: "Browsing patchnotes",
+    },
+    buttons: [
+        {
+            "label": "Open in VALTracker",
+            "url": "valtracker-ptcl://open"
+        },
+        {
+            "label": "Download VALTracker",
+            "url": "https://valtracker.gg"
+        }
+    ],
+    timestamps: {start: Date.now()},
+    instance: true
+}
+
+const anonymous_activity = {
+    details: "Browsing VALTracker",
+    assets: {
+        large_image: "valtracker_logo",
+        large_text: "VALTracker.gg",
+        //small_image: "",
+        //small_text: "",
+    },
+    buttons: [
+        {
+            "label": "Open VALTracker",
+            "url": "valtracker-ptcl://open"
+        },
+        {
+            "label": "Download VALTracker",
+            "url": "https://valtracker.gg"
+        }
+    ],
+    timestamps: {start: Date.now()},
+    instance: true
+}
+
+discordClient.on("ready", () => {
+    let onLoadData2 = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/onLoad.json')
+    let loadData2 = JSON.parse(onLoadData2)
+    if(loadData2.hasDiscordRPenabled == true) {
+        discordClient.request("SET_ACTIVITY", {pid: process.pid, activity: starting_activity});
+        console.log("Discord RPC started.")
+    }
+    else if(loadData2.hasDiscordRPenabled == "anonymous") {
+        discordClient.request("SET_ACTIVITY", {pid: process.pid, activity: anonymous_activity});
+        console.log("Discord RPC started.")
+    } else if(loadData2.hasDiscordRPenabled == false) {
+        console.log("Discord RPC not enabled.")
+    }
+})
+
+ipc.on('changeDiscordRP', function(event, arg) {
+    let onLoadData3 = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/onLoad.json')
+    let loadData3 = JSON.parse(onLoadData3)
+    if(loadData3.hasDiscordRPenabled == true) {
+        switch(arg) {
+            case "hub_activity":
+                discordClient.request("SET_ACTIVITY", {pid: process.pid, activity: hub_activity});
+                break;
+            case "skins_activity":
+                discordClient.request("SET_ACTIVITY", {pid: process.pid, activity: skins_activity});
+                break;
+            case "bundle_acitivity":
+                discordClient.request("SET_ACTIVITY", {pid: process.pid, activity: bundles_activity});
+                break;
+            case "pprofile_acitivity":
+                discordClient.request("SET_ACTIVITY", {pid: process.pid, activity: pprofile_acitivity});
+                break;
+            case "favmatches_activity":
+                discordClient.request("SET_ACTIVITY", {pid: process.pid, activity: favmatches_acitivity});
+                break;
+            case "playersearch_acitivity":
+                discordClient.request("SET_ACTIVITY", {pid: process.pid, activity: playersearch_acitivity});
+                break;
+            case "settings_activity":
+                discordClient.request("SET_ACTIVITY", {pid: process.pid, activity: settings_acitivity});
+                break;
+            case "patchnotes_activity":
+                discordClient.request("SET_ACTIVITY", {pid: process.pid, activity: patchnotes_acitivity});
+                break;
+        }
+    }
+    else if(loadData3.hasDiscordRPenabled == "anonymous") {
+        discordClient.request("SET_ACTIVITY", {pid: process.pid, activity: anonymous_activity});
+    }
+});
+
+discordClient.login({ clientId: "933753504558903406" })
+
+if(process.defaultApp) {
+    if(process.argv.length >= 2) {
+        app.setAsDefaultProtocolClient('valtracker-ptcl', process.execPath, [path.resolve(process.argv[1])])
+    }
+} else {
+    app.setAsDefaultProtocolClient('valtracker-ptcl')
+}
+
+const gotTheLock = app.requestSingleInstanceLock()
+
+if(!gotTheLock) {
+    app.quit()
+} else {
+    app.on('second-instance', (event, CommandLine, workingDirectory) => {
+        if(mainWindow) {
+            if(mainWindow.isMinimized()) mainWindow.restore()
+            mainWindow.focus()
+        }
+    })
+}
+
+app.on('open-url', (event, url) => {
+    dialog.showErrorBox('Welcome Back', `You arrived from: ${url}`)
+})
+
+const client = require('https');
+
+function downloadImage(url, filepath) {
+    return new Promise((resolve, reject) => {
+        client.get(url, (res) => {
+            if (res.statusCode === 200) {
+                res.pipe(fs.createWriteStream(filepath))
+                    .on('error', reject)
+                    .once('close', () => resolve(filepath));
+            } else {
+                // Consume response data to free up memory
+                res.resume();
+                reject(new Error(`Request Failed With a Status Code: ${res.statusCode}`));
+
+            }
+        });
+    });
+}
 
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
@@ -118,7 +439,8 @@ function createWindow () {
             } else { // Create Files and load setup
                 fs.mkdirSync(checkedFolder2);
                 let onLoadFile = { 
-                    hasFinishedSetupSequence: false
+                    hasFinishedSetupSequence: false,
+                    hasDiscordRPenabled: true
                 };
                  
                 let data = JSON.stringify(onLoadFile);
@@ -145,7 +467,8 @@ function createWindow () {
             fs.mkdirSync(checkedFolder1 + '/settings');
             fs.mkdirSync(checkedFolder2);
             let onLoadFile = { 
-                hasFinishedSetupSequence: false
+                hasFinishedSetupSequence: false,
+                hasDiscordRPenabled: true
             };
              
             let data = JSON.stringify(onLoadFile);
@@ -173,7 +496,8 @@ function createWindow () {
         fs.mkdirSync(checkedFolder1 + '/settings');
         fs.mkdirSync(checkedFolder2);
         let onLoadFile = { 
-            hasFinishedSetupSequence: false
+            hasFinishedSetupSequence: false,
+            hasDiscordRPenabled: true
         };
          
         let data = JSON.stringify(onLoadFile);
@@ -196,10 +520,44 @@ function createWindow () {
         fs.writeFileSync(checkedFolder1 + '/settings/home/preferredMatchFilter.json', data3);
         mainWindow.loadFile('./setupSequence/index.html'); 
     }
+
+    let rawColorData = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json');
+    let colorData = JSON.parse(rawColorData);
     
-    mainWindow.on('closed', () => {
-        mainWindow = null;
-    });
+    const folderToCheck = process.env.APPDATA + "/VALTracker/img"
+    if(!fs.existsSync(folderToCheck)) {
+        fs.mkdirSync(folderToCheck);
+    }
+    
+    if(colorData.logo_style == undefined) {
+        if(!fs.existsSync(process.env.APPDATA + `/VALTracker/img/VALTracker_Logo_default.png`)) {
+            console.log("NO FILE FOUND, DOWNLOADING IMAGE")
+            downloadImage(`https://valtracker.gg/app_img/iconss/VALTracker_Logo_default.png`, process.env.APPDATA + `/VALTracker/img/VALTracker_Logo_default.png`)
+        }
+    
+        var iconInterval = setInterval(changeIcon, 100)
+    
+        function changeIcon() {
+            if(fs.existsSync(process.env.APPDATA + `/VALTracker/img/VALTracker_Logo_default.png`)) {
+                mainWindow.setIcon(process.env.APPDATA + `/VALTracker/img/VALTracker_Logo_default.png`)
+                clearInterval(iconInterval);
+            }
+        }
+    } else {
+        if(!fs.existsSync(process.env.APPDATA + `/VALTracker/img/VALTracker_Logo_${colorData.logo_style}.png`)) {
+            console.log("NO FILE FOUND, DOWNLOADING IMAGE")
+            downloadImage(`https://valtracker.gg/app_img/iconss/VALTracker_Logo_${colorData.logo_style}.png`, process.env.APPDATA + `/VALTracker/img/VALTracker_Logo_${colorData.logo_style}.png`)
+        }
+    
+        var iconInterval = setInterval(changeIcon, 100)
+    
+        function changeIcon() {
+            if(fs.existsSync(process.env.APPDATA + `/VALTracker/img/VALTracker_Logo_${colorData.logo_style}.png`)) {
+                mainWindow.setIcon(process.env.APPDATA + `/VALTracker/img/VALTracker_Logo_${colorData.logo_style}.png`)
+                clearInterval(iconInterval);
+            }
+        }
+    }
     
     mainWindow.on('closed', () => {
         mainWindow = null;
@@ -209,6 +567,14 @@ function createWindow () {
 app.on('ready', function() {
     createWindow();
     autoUpdater.checkForUpdates();
+
+    let onLoadData = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/onLoad.json')
+    let loadData = JSON.parse(onLoadData)
+    if(loadData.hasDiscordRPenabled == undefined) {
+        loadData.hasDiscordRPenabled = true;
+        var dataToWriteDown = JSON.stringify(loadData)
+        fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/onLoad.json', dataToWriteDown)
+    }
 });
 
 function sendStatusToWindow(text) {
@@ -255,5 +621,32 @@ app.on('window-all-closed', function () {
 app.on('activate', function () {
     if (mainWindow === null) {
         createWindow();
+    }
+});
+
+ipc.on('changeTrayIcon', function(event, arg) {
+    var filename = arg.substring(arg.lastIndexOf('/')+1);
+    var hasFoundFile = false;
+    fs.readdir(process.env.APPDATA + "/VALTracker/img", (err, files) => {
+        files.forEach(file => {
+            if(filename == file) {
+                console.log(file)
+                hasFoundFile = true;
+                mainWindow.setIcon(process.env.APPDATA + `/VALTracker/img/${filename}`)
+            }
+        });
+        if(hasFoundFile !== true) {
+            console.log("NO FILE FOUND, DOWNLOADING IMAGE")
+            downloadImage(`https://valtracker.gg/app_img/iconss/${filename}`, process.env.APPDATA + `/VALTracker/img/${filename}`)
+        }
+    });
+
+    var iconInterval = setInterval(changeIcon, 100)
+
+    function changeIcon() {
+        if(fs.existsSync(process.env.APPDATA + `/VALTracker/img/${filename}`)) {
+            mainWindow.setIcon(process.env.APPDATA + `/VALTracker/img/${filename}`)
+            clearInterval(iconInterval);
+        }
     }
 });

@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="assets/css/global.css">
 
-    <script type="application/javascript" src="assets/js/loadBundles.js" defer></script>
     <script src="https://kit.fontawesome.com/0fb7a47199.js" crossorigin="anonymous"></script>
   </head>
   <div class="update-banner" style="display: none;">
@@ -64,8 +63,7 @@
         <li id="collects" class="collapsible"><span class="" id="collectables-nav"> Collectables</span></li>
         <div class="content">
           <li class="collectables-sub" id="collects-sub-bundles">Bundles</li>
-          <li class="collectables-sub" id="collects-sub-skins">Skins</li>
-          <li class="collectables-sub color" id="collects-sub-buddys">Buddys</li>
+          <li class="collectables-sub color" id="collects-sub-skins">Skins</li>
           <!--<li class="collectables-sub" id="collects-sub-bps">Battlepasses</li>
           <li class="collectables-sub" id="collects-sub-search">Search</li>-->
         </div>  
@@ -73,16 +71,39 @@
         <li id="m-n-l" class="navslide-li"><span class="" id="tools-nav">Maps & Lineups</span></li>
         <li id="leads" class="navslide-li"><span class="" id="projects-nav">Leaderboards</span></li>
         <li id="lft" class="navslide-li"><span class="" id="contact-nav">LFT</span></li>-->
-        </ul>
-        <li id="patchnotes" class="navslide-li" style="list-style-type: none;"><span>Patchnotes</span></li>
+      </ul>
+      <li id="patchnotes" class="navslide-li" style="list-style-type: none;"><span>Patchnotes</span></li>
       <li id="settings" class="navslide-li" style="list-style-type: none;"><span><i class="fas fa-user-cog"></i> Settings</span></li>
+      <hr style="position: absolute; bottom: 2.9rem; left: 1rem; width: 10rem; background: linear-gradient(to right, var(--gradient-left),  var(--gradient-right)); height: 2px; border: none; box-shadow: var(--box-shadow);">
+      <li id="socials" class="navslide-li" style="list-style-type: none;"><span id="socials-span"><i class="fab fa-discord" id="socials-i" style="margin-right: 1rem;"></i><i class="fab fa-twitter" id="socials-i" style="margin-right: 1rem;"></i><i class="fab fa-github" id="socials-i" style="margin-right: 1rem;"></i><i class="fas fa-globe"></i></a></li>
     </div>
 
     <div class="app" id="main-collection">
-      <h1 class="pageheader" id="pageheader">All Buddys</h1>
-      <div class="massgrid">
-        <div class="row" id="cardGrid-buddys">
-          <!---->
+      <div class="header-relative-div-largeview" id="backToLastPage">
+        <div id="toggle"></div>
+      </div>
+      <div class="pageheader-div">
+        <h1 class="pageheader" id="pageheader"></h1>
+      </div>
+      <div class="skin-info">
+        <ul style="list-style-type: none;">
+          <li class="flex-li"><span class="skin-price vp" id="skin-vpprice"></span><img src="assets/img/vp_icon.png" class="currency-icon-small"></li>
+          <li class="flex-li"><span class="skin-price radianite" id="skin-radprice"></span><img src="assets/img/radianite_icon.png" class="currency-icon-small"></li>
+        </ul>
+      </div>
+      <div class="level-options">
+        <h1>Skin Levels</h1>
+        <ul class="level-options-ul" id="levels-wrapper" style="list-style-type: none;">
+          <li id="last-element" style="display: none;"></li>
+        </ul>
+      </div>
+      <div class="weapon-image-wrapper">
+        <img class="weapon-image" src="assets/img/classic.png" draggable="false" onclick="changeSkinColor(this.id)">
+      </div>
+      <div class="singleview-colors">
+        <h1 style="margin-bottom: 1rem;">Color Options</h1>
+        <div class="singleview-swatch-wrapper" id="swatch-handler">
+          <img id="last-swatch" style="display: none;">
         </div>
       </div>
     </div>
@@ -119,7 +140,6 @@
       //Update downloading
       $('.download-bar').css("display", "block");
       ipcRenderer.on('download-percent', function(event, value) {
-        
         $('.download-banner').css("display", "block");
         document.getElementById("download-bar").value = value
       })
@@ -134,10 +154,9 @@
       })
     </script>
 
-    <script type="application/javascript" src="assets/js/loadBuddys.js"></script>
+    <script type="application/javascript" src="assets/js/skins/skinView.js"></script>
     <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
     <script type="application/javascript" src="assets/js/redirects.js"></script>
     <script type="application/javascript" src="assets/js/loadColorThemes.js"></script>
-    <script type="application/javascript" src="assets/js/searchBuddys.js"></script>
   </body>
 </html>

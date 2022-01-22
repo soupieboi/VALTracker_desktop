@@ -31,6 +31,6 @@ function makeCallAndBuildElements() {
 $(document).ready(() => {
     makeCallAndBuildElements();
     $('#backToLastPage').on("click", function() {
-        window.location.href = lastPage
+        window.location.href = "playersearch.html"
     })
 });

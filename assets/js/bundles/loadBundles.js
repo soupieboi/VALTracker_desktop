@@ -1,5 +1,6 @@
 var ApiCall_BundleTitle;
 var ApiCall_ImageSource;
+const ipc = require('electron').ipcRenderer;
 
 function makeCallAndBuildElements() {
    $.ajax({
@@ -128,4 +129,5 @@ $(document).ready(() => {
    $(".app").css("transform", "scale(1)")
    sessionStorage.removeItem("chroma")
    makeCallAndBuildElements();
+   ipc.send('changeDiscordRP', `bundle_acitivity`)
 });

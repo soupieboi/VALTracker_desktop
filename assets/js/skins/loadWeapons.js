@@ -1,3 +1,12 @@
+function redirectToSkinView(imageLinkForID) {
+   console.log(imageLinkForID)
+   var id = imageLinkForID.split("/")[4]
+   sessionStorage.setItem("skinID", id)
+   sessionStorage.setItem("last_page", window.location.href)
+   window.location.href = "../skinView.html"
+}
+
+const ipc = require('electron').ipcRenderer;
 function makeCallAndBuildElements() {
    var path = window.location.pathname;
    var page = path.split("/").pop();
@@ -127,7 +136,7 @@ function makeCallAndBuildElements() {
    
                      var skinHandler = document.createElement("div");
                      skinHandler.className = "skin-wrapper";
-                     //skinHandler.setAttribute("onclick", "toggleSkinInfo(this.children[1].textContent)")
+                     skinHandler.setAttribute("onclick", "redirectToSkinView(this.children[0].src)")
    
                      var skinimg = document.createElement("img");
                      skinimg.className = "single-skin-img";
@@ -180,5 +189,6 @@ function makeCallAndBuildElements() {
 }
 
 $(document).ready(() => {
+   ipc.send('changeDiscordRP', `skins_activity`)
    makeCallAndBuildElements();
 })

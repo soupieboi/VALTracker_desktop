@@ -1,4 +1,4 @@
-const colorFS = require('fs')
+const colorFS = require('fs');
 
 if(!colorFS.existsSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json')) {
     var dataToWrite = {
@@ -51,7 +51,7 @@ if(colorData.loadCustomTheme == true) {
     
     var page = pathvar.split("/").pop();
     if(page == "fakeLoadingIndex.html") {
-        $('.home-loading-img').attr("src", "./iconss/VALTracker_Logo.png")
+        $('.home-loading-img').attr("src", "./iconss/VALTracker_Logo_default.png")
     }
     
     if(directoryName == "CollectablePages") {
@@ -84,7 +84,7 @@ if(colorData.loadCustomTheme == true) {
     var page = pathvar.split("/").pop();
     if(page == "fakeLoadingIndex.html") {
         if(colorData.logo_style == "default" || colorData.logo_style == undefined) {
-            $('.home-loading-img').attr("src", "./iconss/VALTracker_Logo.png")
+            $('.home-loading-img').attr("src", "./iconss/VALTracker_Logo_default.png")
         } else {
             $('.home-loading-img').attr("id", "custom-img")
             $('.home-loading-img').attr("src", `./iconss/VALTracker_Logo_${colorData.logo_style}.png`)

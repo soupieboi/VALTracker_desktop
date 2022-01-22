@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="assets/css/global.css">
 
-    <script type="application/javascript" src="assets/js/loadBundles.js" defer></script>
     <script src="https://kit.fontawesome.com/0fb7a47199.js" crossorigin="anonymous"></script>
   </head>
   <div class="update-banner" style="display: none;">
@@ -60,12 +59,11 @@
         <li id="home" class="navslide-li"><span class="" id="home-nav">Home</span></li>
         <li id="favs" class="navslide-li"><span class="" id="favs-nav">Favourite Matches</span></li>
         <li id="psearch" class="navslide-li"><span class="" id="search-nav">Playersearch</span></li>
-        <!--<li id="profile" class="navslide-li color"><span class="" id="profile-nav">Your Profile</span></li>-->
+        <!--<li id="profile" class="navslide-li"><span class="" id="profile-nav">Your Profile</span></li>-->
         <li id="collects" class="collapsible"><span class="" id="collectables-nav"> Collectables</span></li>
         <div class="content">
           <li class="collectables-sub" id="collects-sub-bundles">Bundles</li>
           <li class="collectables-sub" id="collects-sub-skins">Skins</li>
-          <li class="collectables-sub" id="collects-sub-buddys">Buddys</li>
           <!--<li class="collectables-sub" id="collects-sub-bps">Battlepasses</li>
           <li class="collectables-sub" id="collects-sub-search">Search</li>-->
         </div>  
@@ -73,14 +71,72 @@
         <li id="m-n-l" class="navslide-li"><span class="" id="tools-nav">Maps & Lineups</span></li>
         <li id="leads" class="navslide-li"><span class="" id="projects-nav">Leaderboards</span></li>
         <li id="lft" class="navslide-li"><span class="" id="contact-nav">LFT</span></li>-->
-        </ul>
-        <li id="patchnotes" class="navslide-li" style="list-style-type: none;"><span>Patchnotes</span></li>
-      <li id="settings" class="navslide-li" style="list-style-type: none;"><span><i class="fas fa-user-cog"></i> Settings</span></li>
+      </ul>
+      <li id="patchnotes" class="navslide-li" style="list-style-type: none;"><span>Patchnotes</span></li>
+      <li id="settings" class="navslide-li color" style="list-style-type: none;"><span><i class="fas fa-user-cog"></i> Settings</span></li>
+      <hr style="position: absolute; bottom: 2.9rem; left: 1rem; width: 10rem; background: linear-gradient(to right, var(--gradient-left),  var(--gradient-right)); height: 2px; border: none; box-shadow: var(--box-shadow);">
+      <li id="socials" class="navslide-li" style="list-style-type: none;"><span id="socials-span"><i class="fab fa-discord" id="socials-i" style="margin-right: 1rem;"></i><i class="fab fa-twitter" id="socials-i" style="margin-right: 1rem;"></i><i class="fab fa-github" id="socials-i" style="margin-right: 1rem;"></i><i class="fas fa-globe"></i></a></li>
     </div>
+    <div class="app" id="main-collection" style="height: auto; margin-bottom: 5rem;">
+      <div class="pageheader-div">
+        <h1 class="pageheader" id="pageheader">Custom Theme</h1>
+      </div>
+      <div class="settings-wrapper" style="margin-top: 2%;">
+        <h2>Gradiant</h2>
+        <p style="width: 40%; color: rgba(255, 255, 255, 0.4);">Used for the Navslide and Text Inputs. Just select 2 Colors, the App will do the rest.</p>
+        <div class="preview-flexdiv">
+          <div>
+            <span>Color 1</span><br>
+            <input type="color" style="margin-bottom: 1rem;" class="custom-color-1-gradiant" id="select_1"><br>
+            <span>Color 2</span><br>
+            <input type="color" style="margin-bottom: 1rem;" class="custom-color-2-gradiant" id="select_2">
+          </div>
+          <div class="gradiant-preview" style="margin-left: 5rem; position: relative; top: -0.5rem;">
+            <h2>Select for Preview</h2>
+            <input class="form__field" style="width: 100%;">
+          </div>
+        </div>
 
-    <div class="app" id="main">
-      <div class="wrapper">
-        Haha monke
+        <h2>Button color</h2>
+        <p style="width: 40%; color: rgba(255, 255, 255, 0.4);">Used for the Color of all Buttons.</p>
+        <div class="preview-flexdiv">
+          <div>
+            <span>Button Color</span><br>
+            <input type="color" style="margin-bottom: 1rem;" class="button-color" id="select_3"><br>
+            <span>Hover Color</span><br>
+            <input type="color" style="margin-bottom: 1rem;" class="button-hover-color" id="select_4"><br>
+            <span>Neon Effect Color</span><br>
+            <input type="color" style="margin-bottom: 1rem;" class="button-neon-effect" id="select_5"><br>
+            <span>Text Color</span><br>
+            <input type="color" style="margin-bottom: 1rem;" class="button-textcolor" id="select_6"><br>
+          </div>
+          <div class="gradiant-preview" style="margin-left: 5rem; position: relative; top: -1rem;">
+            <h2>Preview</h2>
+            <button>Preview</button>
+          </div>
+        </div>
+
+        <h2>App color</h2>
+        <div class="preview-flexdiv">
+          <div>
+            <p style="width: 40%; color: rgba(255, 255, 255, 0.4);">The Base color is the Normal Background. Sub Color 1 is used for Cards and the Nevslide and Sub Color 2 is used for Cards in Cards.</p>
+            <span>Base Color</span><br>
+            <input type="color" style="margin-bottom: 1rem;" class="app-color-1" id="select_7"><br>
+            <span>Sub Color 1</span><br>
+            <input type="color" style="margin-bottom: 1rem;" class="app-subcolor-1" id="select_8"><br>
+            <span>Sub Color 2</span><br>
+            <input type="color" style="margin-bottom: 1rem;" class="app-subcolor-2" id="select_9"><br>
+            <span>Font Color</span><br>
+            <input type="color" style="margin-bottom: 1rem;" class="app-fontcolor" id="select_10"><br>
+          </div>
+          <div class="gradiant-preview" style="left: -41rem; position: relative; top: 6rem;">
+            <div class="subcolor-palette-preview-1" style="width: 4rem; height: 4rem; border: 1px solid grey;"></div>
+            <div class="subcolor-palette-preview-2" style="width: 4rem; height: 4rem; border: 1px solid grey; margin-top: 1rem;"></div>
+          </div>
+        </div>
+        <button id="save-colortheme" style="margin-bottom: 10rem;">Save Changes</button>
+        <button id="back-to-settings" style="margin-bottom: 10rem;">Abort Changes</button>
+        <span id="replace-text" style="margin-left: 5rem;"></span>
       </div>
     </div>
 
@@ -98,7 +154,7 @@
       }
       // Listen for messages
       const { ipcRenderer } = require('electron');
-      ipcRenderer.on('message', function(event, text) {
+        ipcRenderer.on('message', function(event, text) {
         console.log(text);
       })
       //Update downloaded
@@ -116,7 +172,6 @@
       //Update downloading
       $('.download-bar').css("display", "block");
       ipcRenderer.on('download-percent', function(event, value) {
-        
         $('.download-banner').css("display", "block");
         document.getElementById("download-bar").value = value
       })
@@ -131,6 +186,8 @@
       })
     </script>
 
+    <script type="application/javascript" src="assets/js/settings_scripts/custom_colors/editCustomTheme.js"></script>
+    <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
     <script type="application/javascript" src="assets/js/redirects.js"></script>
     <script type="application/javascript" src="assets/js/loadColorThemes.js"></script>
   </body>

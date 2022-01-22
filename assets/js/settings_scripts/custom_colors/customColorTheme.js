@@ -171,7 +171,6 @@ $(document).ready(() => {
                 var fixedThemeName = customThemeName.replace(/\s/g, '-')
 
                 var themeAlreadyFound = false;
-                var themeCount = 0;
                 colorFS2.readdir(process.env.APPDATA + "/VALTracker/settings/customThemes", (err, files) => {
                     files.forEach(file => {
                         if(fixedThemeName + ".json" == file) {
@@ -179,7 +178,6 @@ $(document).ready(() => {
                             console.log("ERROR")
                             replaceText("You already have a Theme with this Name.")
                         }
-                        themeCount++;
                     });
                 });
 
@@ -226,7 +224,6 @@ $(document).ready(() => {
                 var fixedThemeName = customThemeName.replace(/\s/g, '-')
 
                 var themeAlreadyFound = false;
-                var themeCount = 0;
                 colorFS2.readdir(process.env.APPDATA + "/VALTracker/settings/customThemes", (err, files) => {
                     files.forEach(file => {
                         if(fixedThemeName + ".json" == file) {
@@ -234,7 +231,6 @@ $(document).ready(() => {
                             console.log("ERROR")
                             replaceText("You already have a Theme with this Name.")
                         }
-                        themeCount++;
                     });
                 });
 
@@ -260,7 +256,6 @@ $(document).ready(() => {
                     var dataToWrite2 = {
                         "loadCustomTheme": true,
                         "customThemeName": fixedThemeName.toLowerCase(),
-                        "themeCount": themeCount
                     }
                 
                     colorFS2.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', JSON.stringify(dataToWrite2))
@@ -268,10 +263,6 @@ $(document).ready(() => {
                 }
             }
         }
-        //if(!colorFS2.existsSync()
-        //Check for File already existing
-        //If it doesn't, create File with Name = entered name (without spaces)
-        //If it does, replace text with "You already have a Theme with this Name saved."
     })
     $('#back-to-settings').on("click", function() {
         window.location.href = "settings.html"

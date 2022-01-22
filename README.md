@@ -1,4 +1,4 @@
-<p align="center"><img width="230px" src="iconss/VALTracker_Logo.png"></p> 
+<p align="center"><img width="230px" src="iconss/VALTracker_Logo_default.png"></p> 
 
 # VALTracker
 

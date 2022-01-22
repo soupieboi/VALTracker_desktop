@@ -1,8 +1,10 @@
 const fs = require('fs')
 const showdown  = require('showdown');
 const converter = new showdown.Converter();
+const ipc = require('electron').ipcRenderer;
 
 $(document).ready(() => {
+    ipc.send('changeDiscordRP', `patchnotes_activity`)
     var pathvar = document.location.pathname;
     var path2 = pathvar.substring(pathvar.indexOf('/'), pathvar.lastIndexOf('/'));
     var directoryName = path2.split("/").pop();
