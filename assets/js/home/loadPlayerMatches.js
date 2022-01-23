@@ -1,10 +1,10 @@
 const ipc = require('electron').ipcRenderer;
 $(document).ready(() => {
     setTimeout(function() {
-        let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/userData.json');
+        let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/userData.json');
         let dataToRead = JSON.parse(rawdata);
 
-        let rawdata2 = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/home/preferredMatchFilter.json');
+        let rawdata2 = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/home/preferredMatchFilter.json');
         let dataToRead2 = JSON.parse(rawdata2);
 
         var playerName = dataToRead.playerName
@@ -227,7 +227,7 @@ $(document).ready(() => {
                     $('.home-avg-bodyshots').append(" " + Math.floor((bodyshots_after / totalShotsHit) * 100) + "%")
                     $('.home-avg-legshots').append(" " + Math.floor((legshots_after / totalShotsHit) * 100) + "%")
 
-                    var checkedPath1 = process.env.APPDATA + '/VALTracker/settings/favourites.json'
+                    var checkedPath1 = process.env.APPDATA + '/VALTracker/user_data/favourites.json'
                     if(fs.existsSync(checkedPath1)) {
                         var rawdata = fs.readFileSync(checkedPath1);
                         var dataToRead = JSON.parse(rawdata);
@@ -483,7 +483,7 @@ $(document).ready(() => {
                     $('.home-avg-bodyshots').append(" " + Math.floor((bodyshots_after / totalShotsHit) * 100) + "%")
                     $('.home-avg-legshots').append(" " + Math.floor((legshots_after / totalShotsHit) * 100) + "%")
 
-                    var checkedPath1 = process.env.APPDATA + '/VALTracker/settings/favourites.json'
+                    var checkedPath1 = process.env.APPDATA + '/VALTracker/user_data/favourites.json'
                     if(fs.existsSync(checkedPath1)) {
                         var rawdata = fs.readFileSync(checkedPath1);
                         var dataToRead = JSON.parse(rawdata);

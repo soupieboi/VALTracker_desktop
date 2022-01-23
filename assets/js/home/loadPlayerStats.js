@@ -1,9 +1,8 @@
 $(document).ready(() => {
-    console.log(navigator.userAgent),
     navigator.__defineGetter__('appName', function () {
         return "VALTracker-Desktop"
     });
-    let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/userData.json');
+    let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/userData.json');
     let dataToRead = JSON.parse(rawdata);
 
     var playerName = dataToRead.playerName

@@ -1,5 +1,4 @@
 function redirectToSkinView(imageLinkForID) {
-   console.log(imageLinkForID)
    var id = imageLinkForID.split("/")[4]
    sessionStorage.setItem("skinID", id)
    sessionStorage.setItem("last_page", window.location.href)
@@ -122,67 +121,87 @@ function makeCallAndBuildElements() {
          url: `https://valorant-api.com/v1/weapons`,
          type: 'get',
          success: function(data, jqXHR) {
-            for(var count = 0; count < data.data.length; count++) {
-               var PageName = document.getElementById('pageheader').textContent;
-               var weapon = PageName.split(" ")
-               if(data.data[count].displayName == weapon[1]) {
-                  $('.skin-page-default-img').attr("src", data.data[count].displayIcon)
-                  $('.single-skin-img').attr("src", data.data[count].displayIcon)
-                  $('.pageheader-skincount-nr').append(data.data[count].skins.length)
-                  for(var count2 = 0; count2 < data.data[count].skins.length; count2++) {
-                     if(data.data[count].skins[count2].displayName.includes("Standard") || data.data[count].skins[count2].displayName == "Melee" || data.data[count].skins[count2].displayName == "Luxe") {
-                        continue;
-                     }
-   
-                     var skinHandler = document.createElement("div");
-                     skinHandler.className = "skin-wrapper";
-                     skinHandler.setAttribute("onclick", "redirectToSkinView(this.children[0].src)")
-   
-                     var skinimg = document.createElement("img");
-                     skinimg.className = "single-skin-img";
-                     if(data.data[count].skins[count2].displayName == "Luxe Knife") {
-                        skinimg.setAttribute("src", data.data[count].skins[count2].chromas[0].fullRender);
-                     } else {
-                        if(!data.data[count].skins[count2].displayIcon) {
-                           skinimg.setAttribute("src", data.data[count].skins[count2].chromas[0].fullRender);
-                        } else {
-                           skinimg.setAttribute("src", data.data[count].skins[count2].displayIcon);
+            $.ajax({
+               url: `https://api.henrikdev.xyz/valorant/v1/store-offers`,
+               type: 'get',
+               success: function(data2, jqXHR) {
+                  for(var count = 0; count < data.data.length; count++) {
+                     var PageName = document.getElementById('pageheader').textContent;
+                     var weapon = PageName.split(" ")
+                     if(data.data[count].displayName == weapon[1]) {
+                        $('.skin-page-default-img').attr("src", data.data[count].displayIcon)
+                        $('.single-skin-img').attr("src", data.data[count].displayIcon)
+                        $('.pageheader-skincount-nr').append(data.data[count].skins.length)
+                        for(var count2 = 0; count2 < data.data[count].skins.length; count2++) {
+                           if(data.data[count].skins[count2].displayName.includes("Standard") || data.data[count].skins[count2].displayName == "Melee" || data.data[count].skins[count2].displayName == "Luxe") {
+                              continue;
+                           }
+         
+                           var skinHandler = document.createElement("div");
+                           skinHandler.className = "skin-wrapper";
+                           skinHandler.setAttribute("onclick", "redirectToSkinView(this.children[0].src)")
+         
+                           var skinimg = document.createElement("img");
+                           skinimg.className = "single-skin-img";
+                           if(data.data[count].skins[count2].displayName == "Luxe Knife") {
+                              skinimg.setAttribute("src", data.data[count].skins[count2].chromas[0].fullRender);
+                           } else {
+                              if(!data.data[count].skins[count2].displayIcon) {
+                                 skinimg.setAttribute("src", data.data[count].skins[count2].chromas[0].fullRender);
+                              } else {
+                                 skinimg.setAttribute("src", data.data[count].skins[count2].displayIcon);
+                              }
+                           } 
+         
+                           var skinName = document.createElement("span");
+                           skinName.className = "skin-name";
+                           skinName.appendChild(document.createTextNode(data.data[count].skins[count2].displayName))
+                           skinName.setAttribute("id", "itemName");
+         
+                           var skinPriceWrapper = document.createElement("div");
+                           skinPriceWrapper.className = "skin-price-wrapper"
+
+                           var skinPrice = document.createElement("span");
+                           skinPrice.className = "skin-price";
+
+                           for(var count3 = 0; count3 < data2.data.Offers.length; count3++) {
+                              if(data2.data.Offers[count3].Rewards[0].ItemID == data.data[count].skins[count2].levels[0].uuid) {
+                                 skinPrice.appendChild(document.createTextNode(data2.data.Offers[count3].Cost[Object.keys(data2.data.Offers[count3].Cost)[0]]))
+                              }
+                           }
+
+                           if(skinPrice.textContent !== "") {
+                              var skinPriceImg = document.createElement("img");
+                              skinPriceImg.className = "skin-price-img"
+                              skinPriceImg.src = '../assets/img/vp_icon.png'
+
+                              skinPriceWrapper.appendChild(skinPrice)
+                              skinPriceWrapper.appendChild(skinPriceImg)
+                           } else {
+                              skinPrice.classList.add('disabled')
+
+                              var skinPriceImg = document.createElement("img");
+                              skinPriceImg.className = "skin-price-img"
+                              skinPriceImg.src = '../assets/img/vp_icon.png'
+
+                              skinPrice.textContent = "-"
+
+                              skinPriceWrapper.appendChild(skinPrice)
+                              skinPriceWrapper.appendChild(skinPriceImg)
+                           }
+         
+                           skinHandler.appendChild(skinimg);
+                           skinHandler.appendChild(skinName);
+                           skinHandler.appendChild(skinPriceWrapper);
+                  
+                           var wrapper = document.getElementById("skins-handler");
+                           var nextElement = document.getElementById("pageBottom");
+                           wrapper.insertBefore(skinHandler, nextElement);
                         }
-                     } 
-   
-                     var skinName = document.createElement("span");
-                     skinName.className = "skin-name";
-                     skinName.appendChild(document.createTextNode(data.data[count].skins[count2].displayName))
-                     skinName.setAttribute("id", "itemName");
-                     var skinColorCount = document.createElement("span");
-                     if(data.data[count].skins[count2].chromas.length == 1 || data.data[count].skins[count2].chromas.length == 0) {
-                        skinColorCount.className = "skin-color-options-grey";
-                        skinColorCount.appendChild(document.createTextNode("Color Options: None"))
-                     } else {
-                        skinColorCount.className = "skin-color-options";
-                        skinColorCount.appendChild(document.createTextNode("Color Options: " + data.data[count].skins[count2].chromas.length))
                      }
-   
-                     var skinLevelCount = document.createElement("span");
-                     if(data.data[count].skins[count2].chromas.length == 1 || data.data[count].skins[count2].chromas.length == 0) {
-                        skinLevelCount.className = "skin-levels-grey";
-                        skinLevelCount.appendChild(document.createTextNode("Skin Levels: None"))
-                     } else {
-                        skinLevelCount.className = "skin-levels";
-                        skinLevelCount.appendChild(document.createTextNode("Skin Levels: " + data.data[count].skins[count2].levels.length))
-                     }
-   
-                     skinHandler.appendChild(skinimg);
-                     skinHandler.appendChild(skinName);
-                     skinHandler.appendChild(skinColorCount);
-                     skinHandler.appendChild(skinLevelCount);
-            
-                     var wrapper = document.getElementById("skins-handler");
-                     var nextElement = document.getElementById("pageBottom");
-                     wrapper.insertBefore(skinHandler, nextElement);
                   }
                }
-            }
+            });
          }
       });
    }
@@ -191,4 +210,7 @@ function makeCallAndBuildElements() {
 $(document).ready(() => {
    ipc.send('changeDiscordRP', `skins_activity`)
    makeCallAndBuildElements();
+   $('#backToLastPage').on("click", function() {
+      window.location.href = "../weaponskins.html"
+   });
 })

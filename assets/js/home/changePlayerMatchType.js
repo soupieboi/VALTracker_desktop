@@ -1,13 +1,13 @@
 $(document).ready(() => {
     setTimeout(function() {
-        let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/userData.json');
+        let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/userData.json');
         let dataToRead = JSON.parse(rawdata);
 
         var playerName = dataToRead.playerName
         var playerTag = dataToRead.playerTag
         var playerRegion = dataToRead.playerRegion
         
-        let rawdata2 = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/home/preferredMatchFilter.json');
+        let rawdata2 = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/home/preferredMatchFilter.json');
         let dataToRead2 = JSON.parse(rawdata2);
         
         var filterData = dataToRead2.preferredMatchFilter
@@ -275,7 +275,7 @@ $(document).ready(() => {
                         };
                          
                         let data1 = JSON.stringify(finishedData);
-                        fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/home/preferredMatchFilter.json', data1);
+                        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/home/preferredMatchFilter.json', data1);
                 
                         $.ajax({
                             dataType: "json",
@@ -301,7 +301,7 @@ $(document).ready(() => {
                                     }
                                 }
 
-                                var checkedPath1 = process.env.APPDATA + '/VALTracker/settings/favourites.json'
+                                var checkedPath1 = process.env.APPDATA + '/VALTracker/user_data/favourites.json'
                                 if(fs.existsSync(checkedPath1)) {
                                     var rawdata = fs.readFileSync(checkedPath1);
                                     var dataToRead = JSON.parse(rawdata);
@@ -588,7 +588,7 @@ $(document).ready(() => {
                         };
                          
                         let data1 = JSON.stringify(finishedData);
-                        fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/home/preferredMatchFilter.json', data1);
+                        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/home/preferredMatchFilter.json', data1);
                 
                         $.ajax({
                             dataType: "json",
@@ -614,7 +614,7 @@ $(document).ready(() => {
                                     }
                                 }
 
-                                var checkedPath1 = process.env.APPDATA + '/VALTracker/settings/favourites.json'
+                                var checkedPath1 = process.env.APPDATA + '/VALTracker/user_data/favourites.json'
                                 if(fs.existsSync(checkedPath1)) {
                                     var rawdata = fs.readFileSync(checkedPath1);
                                     var dataToRead = JSON.parse(rawdata);

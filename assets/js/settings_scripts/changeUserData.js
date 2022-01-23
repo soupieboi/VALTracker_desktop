@@ -6,7 +6,7 @@ const replaceText = (text) => {
 }
 $(document).ready(() => {
     ipc.send('changeDiscordRP', `settings_activity`)
-    let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/userData.json');
+    let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/userData.json');
     let dataToRead = JSON.parse(rawdata);
     $('#settings-username-input').val(dataToRead.playerName);
     $('#settings-usertag-input').val(dataToRead.playerTag);
@@ -23,7 +23,7 @@ $(document).ready(() => {
                 dataToRead.playerRegion = data.data.region
 
                 let dataToWrite = JSON.stringify(dataToRead);
-                fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/userData.json', dataToWrite);
+                fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/userData.json', dataToWrite);
                 replaceText('Settings Changed!');
                 $('#settings-username-input').val(data.data.name);
                 $('#settings-usertag-input').val(data.data.tag);

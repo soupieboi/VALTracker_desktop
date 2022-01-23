@@ -140,6 +140,17 @@ $(document).ready(() => {
             }
         }, 500);
     });
+    $('#wishlist').on("click", function(){
+        leaveFade();
+        toggle();
+        setTimeout(function() {
+            if(directoryName == "CollectablePages") {
+                window.location.href = "../wishlist.html";
+            } else {
+                window.location.href = "wishlist.html";
+            }
+        }, 500);
+    });
     $('#patchnotes').on("click", function(){
         leaveFade();
         toggle();

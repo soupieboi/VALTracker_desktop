@@ -1,5 +1,5 @@
 $(document).ready(() => {
-    let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/home/preferredMatchFilter.json');
+    let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/home/preferredMatchFilter.json');
     let dataToRead = JSON.parse(rawdata);
     $("#selected-matchtype").val(dataToRead.preferredMatchFilter);
     setTimeout(function() {

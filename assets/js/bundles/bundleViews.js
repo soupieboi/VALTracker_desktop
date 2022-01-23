@@ -300,7 +300,6 @@ function shiftBundleView(event, imageid, bundledescmonke, thisE) {
                for(var count = 0; count < data.data.Offers.length; count++) {
                   if(data.data.Offers[count].Rewards[0].ItemID == sessionStorage.getItem(`skinID-${i}`)) {
                      if(!data.data.Offers[count].Rewards[0].ItemID) {
-                        console.log("E")
                      }
                      if(data.data.Offers[count].Cost[Object.keys(data.data.Offers[count].Cost)[0]] == undefined) {
                      } else {
@@ -308,7 +307,6 @@ function shiftBundleView(event, imageid, bundledescmonke, thisE) {
                         if(sessionStorage.getItem(`skinID-${i}-isMelee`) == "false") {
                            totalCost = totalCost + data.data.Offers[count].Cost[Object.keys(data.data.Offers[count].Cost)[0]]
                         }
-                        console.log(data.data.Offers[count].Rewards[0].ItemID)
                         i++;
                         count = 0;
                      }

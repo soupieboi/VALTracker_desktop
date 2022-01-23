@@ -1,15 +1,15 @@
 const colorFS2 = require('fs')
 
-let rawColorDataPre = colorFS2.readFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json');
+let rawColorDataPre = colorFS2.readFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json');
 let colorDataPre = JSON.parse(rawColorDataPre);
 
 var colorData2;
 
 if(colorDataPre.loadCustomTheme == true) {
-    let rawColorData3 = colorFS2.readFileSync(process.env.APPDATA + `/VALTracker/settings/customThemes/${colorDataPre.customThemeName}.json`);
+    let rawColorData3 = colorFS2.readFileSync(process.env.APPDATA + `/VALTracker/user_data/customThemes/${colorDataPre.customThemeName}.json`);
     colorData2 = JSON.parse(rawColorData3);
 } else {
-    let rawColorData2 = colorFS2.readFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json');
+    let rawColorData2 = colorFS2.readFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json');
     colorData2 = JSON.parse(rawColorData2);
 }
 
@@ -153,8 +153,8 @@ $(document).ready(() => {
             replaceText("Please enter a Name.")
         } else {
             replaceText("")
-            if(!colorFS2.existsSync(process.env.APPDATA + "/VALTracker/settings/customThemes")) {
-                colorFS2.mkdirSync(process.env.APPDATA + "/VALTracker/settings/customThemes")
+            if(!colorFS2.existsSync(process.env.APPDATA + "/VALTracker/user_data/customThemes")) {
+                colorFS2.mkdirSync(process.env.APPDATA + "/VALTracker/user_data/customThemes")
 
                 var newLeftGradient = select1.value;
                 var newRightGradient = select2.value;
@@ -171,7 +171,7 @@ $(document).ready(() => {
                 var fixedThemeName = customThemeName.replace(/\s/g, '-')
 
                 var themeAlreadyFound = false;
-                colorFS2.readdir(process.env.APPDATA + "/VALTracker/settings/customThemes", (err, files) => {
+                colorFS2.readdir(process.env.APPDATA + "/VALTracker/user_data/customThemes", (err, files) => {
                     files.forEach(file => {
                         if(fixedThemeName + ".json" == file) {
                             themeAlreadyFound = true;
@@ -198,14 +198,14 @@ $(document).ready(() => {
                     }
                 
                     var dataToWriteDown = JSON.stringify(dataToWrite)
-                    colorFS2.writeFileSync(process.env.APPDATA + `/VALTracker/settings/customThemes/${fixedThemeName.toLowerCase()}.json`, dataToWriteDown)
+                    colorFS2.writeFileSync(process.env.APPDATA + `/VALTracker/user_data/customThemes/${fixedThemeName.toLowerCase()}.json`, dataToWriteDown)
 
                     var dataToWrite2 = {
                         "loadCustomTheme": true,
                         "customThemeName": fixedThemeName.toLowerCase()
                     }
                 
-                    colorFS2.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', JSON.stringify(dataToWrite2))
+                    colorFS2.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', JSON.stringify(dataToWrite2))
                     window.location.href = "settings.html"
                 }
             } else {
@@ -224,7 +224,7 @@ $(document).ready(() => {
                 var fixedThemeName = customThemeName.replace(/\s/g, '-')
 
                 var themeAlreadyFound = false;
-                colorFS2.readdir(process.env.APPDATA + "/VALTracker/settings/customThemes", (err, files) => {
+                colorFS2.readdir(process.env.APPDATA + "/VALTracker/user_data/customThemes", (err, files) => {
                     files.forEach(file => {
                         if(fixedThemeName + ".json" == file) {
                             themeAlreadyFound = true;
@@ -251,14 +251,14 @@ $(document).ready(() => {
                     }
                 
                     var dataToWriteDown = JSON.stringify(dataToWrite)
-                    colorFS2.writeFileSync(process.env.APPDATA + `/VALTracker/settings/customThemes/${fixedThemeName.toLowerCase()}.json`, dataToWriteDown)
+                    colorFS2.writeFileSync(process.env.APPDATA + `/VALTracker/user_data/customThemes/${fixedThemeName.toLowerCase()}.json`, dataToWriteDown)
 
                     var dataToWrite2 = {
                         "loadCustomTheme": true,
                         "customThemeName": fixedThemeName.toLowerCase(),
                     }
                 
-                    colorFS2.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', JSON.stringify(dataToWrite2))
+                    colorFS2.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', JSON.stringify(dataToWrite2))
                     window.location.href = "settings.html"
                 }
             }

@@ -8,7 +8,7 @@ const replaceText3 = (text) => {
 }
 
 //JSON check + colors writen
-if(!fs.existsSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json')) {
+if(!fs.existsSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json')) {
     var dataToWrite = {
         "app_color": "#12171d",
         "app_subcolor_1": "#1b222b",
@@ -24,9 +24,8 @@ if(!fs.existsSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json'))
         "global_color": "#ffffff",
         "loadCustomTheme": false
     }
-    console.log(dataToWrite)
 
-    fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', JSON.stringify(dataToWrite))
+    fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', JSON.stringify(dataToWrite))
 }
 
 $('#reset-colortheme-button').on("click", function() {
@@ -49,7 +48,7 @@ $('#reset-colortheme-button').on("click", function() {
 
     var dataToWriteDown = JSON.stringify(dataToWrite)
 
-    fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+    fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
 
     ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_default.png`)
     window.location.href = ""
@@ -77,7 +76,7 @@ select.addEventListener('change', function() {
         
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
 
             ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
@@ -101,7 +100,7 @@ select.addEventListener('change', function() {
         
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
 
             ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
@@ -125,7 +124,7 @@ select.addEventListener('change', function() {
         
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
 
             ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
@@ -149,7 +148,7 @@ select.addEventListener('change', function() {
         
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
 
             ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
@@ -173,7 +172,7 @@ select.addEventListener('change', function() {
         
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
 
             ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
@@ -197,7 +196,7 @@ select.addEventListener('change', function() {
         
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
 
             ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
@@ -221,7 +220,7 @@ select.addEventListener('change', function() {
         
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
 
             ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
@@ -245,7 +244,7 @@ select.addEventListener('change', function() {
         
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
 
             ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
@@ -269,7 +268,7 @@ select.addEventListener('change', function() {
         
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
 
             ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
@@ -293,7 +292,7 @@ select.addEventListener('change', function() {
         
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
 
             ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
@@ -317,7 +316,7 @@ select.addEventListener('change', function() {
         
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
 
             ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
@@ -341,7 +340,7 @@ select.addEventListener('change', function() {
         
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
 
             ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
@@ -365,7 +364,7 @@ select.addEventListener('change', function() {
         
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
 
             ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
@@ -389,7 +388,7 @@ select.addEventListener('change', function() {
         
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
 
             ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
@@ -413,7 +412,7 @@ select.addEventListener('change', function() {
         
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
 
             ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
@@ -437,7 +436,7 @@ select.addEventListener('change', function() {
         
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
 
             ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
@@ -461,7 +460,7 @@ select.addEventListener('change', function() {
         
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
 
             ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
@@ -485,7 +484,7 @@ select.addEventListener('change', function() {
         
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
 
             ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
@@ -509,7 +508,7 @@ select.addEventListener('change', function() {
         
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
 
             ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_${dataToWrite.logo_style}.png`)
             window.location.href = ""
@@ -521,7 +520,7 @@ select.addEventListener('change', function() {
             }
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', dataToWriteDown)
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', dataToWriteDown)
     
             ipc.send('changeTrayIcon', `./iconss/VALTracker_Logo_default.png`)
             window.location.href = ""
@@ -530,11 +529,11 @@ select.addEventListener('change', function() {
 });
 
 $(document).ready(() => {
-    let rawColorData = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json');
+    let rawColorData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json');
     let colorData = JSON.parse(rawColorData);
 
     var i = 0;
-    fs.readdir(process.env.APPDATA + "/VALTracker/settings/customThemes", (err, files) => {
+    fs.readdir(process.env.APPDATA + "/VALTracker/user_data/customThemes", (err, files) => {
         files.forEach(file => {
             var option = document.createElement("option")
             option.appendChild(document.createTextNode(path.parse(file).name))
@@ -567,6 +566,6 @@ $(document).ready(() => {
 
     const { shell } = require('electron').remote
     $('#open-custom-theme-folder-button').on("click", function() {
-        shell.openPath(process.env.APPDATA + "/VALTracker/settings/customThemes")
+        shell.openPath(process.env.APPDATA + "/VALTracker/user_data/customThemes")
     })
 })

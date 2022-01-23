@@ -1,5 +1,3 @@
-console.log(sessionStorage.getItem("skinID"))
-
 var lastPage = sessionStorage.getItem("last_page");
 $('#backToLastPage').on("click", function() {
     window.location.href = lastPage

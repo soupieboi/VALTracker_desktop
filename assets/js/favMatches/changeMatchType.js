@@ -1,11 +1,11 @@
 const fs = require('fs');
 $(document).ready(() => {
     setTimeout(function() {
-        let rawuserdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/userData.json');
+        let rawuserdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/userData.json');
         let userdataToRead = JSON.parse(rawuserdata);
         var playerName = userdataToRead.playerName
         var playerTag = userdataToRead.playerTag
-        let favrawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/favourites.json');
+        let favrawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/favourites.json');
         let dataToRead = JSON.parse(favrawdata);
         $("#selected-matchtype").change(function(){
             document.querySelectorAll('.match-wrapper').forEach(e => e.remove());
@@ -13,7 +13,7 @@ $(document).ready(() => {
             if(filterType == "") {
                 for(var count = 0; count < dataToRead.favourites.length; count++) {
                     var matchID = dataToRead.favourites[count].MatchID
-                    let rawmatchdata = fs.readFileSync(process.env.APPDATA + `/VALTracker/settings/favouriteMatches/${matchID}.json`);
+                    let rawmatchdata = fs.readFileSync(process.env.APPDATA + `/VALTracker/user_data/favouriteMatches/${matchID}.json`);
                     const data = JSON.parse(rawmatchdata);
 
                     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -204,7 +204,7 @@ $(document).ready(() => {
             } else {
                 for(var count = 0; count < dataToRead.favourites.length; count++) {
                     var matchID = dataToRead.favourites[count].MatchID
-                    let rawmatchdata = fs.readFileSync(process.env.APPDATA + `/VALTracker/settings/favouriteMatches/${matchID}.json`);
+                    let rawmatchdata = fs.readFileSync(process.env.APPDATA + `/VALTracker/user_data/favouriteMatches/${matchID}.json`);
                     const data = JSON.parse(rawmatchdata);
                     if(data.data.metadata.mode.toLowerCase() == filterType) {
 

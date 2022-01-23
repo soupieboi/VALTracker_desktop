@@ -229,22 +229,19 @@ const anonymous_activity = {
 }
 
 discordClient.on("ready", () => {
-    let onLoadData2 = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/onLoad.json')
+    let onLoadData2 = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/onLoad.json')
     let loadData2 = JSON.parse(onLoadData2)
     if(loadData2.hasDiscordRPenabled == true) {
         discordClient.request("SET_ACTIVITY", {pid: process.pid, activity: starting_activity});
-        console.log("Discord RPC started.")
     }
     else if(loadData2.hasDiscordRPenabled == "anonymous") {
         discordClient.request("SET_ACTIVITY", {pid: process.pid, activity: anonymous_activity});
-        console.log("Discord RPC started.")
     } else if(loadData2.hasDiscordRPenabled == false) {
-        console.log("Discord RPC not enabled.")
     }
 })
 
 ipc.on('changeDiscordRP', function(event, arg) {
-    let onLoadData3 = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/onLoad.json')
+    let onLoadData3 = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/onLoad.json')
     let loadData3 = JSON.parse(onLoadData3)
     if(loadData3.hasDiscordRPenabled == true) {
         switch(arg) {
@@ -348,20 +345,23 @@ function createWindow () {
     });
 
     var checkedFolder1 = app.getPath('userData') // '/settings'
-    var checkedFolder2 = checkedFolder1 + '/settings/home' // '/settings'
+    var checkedFolder2 = checkedFolder1 + '/user_data/home' // '/settings'
 
     if (fs.existsSync(checkedFolder1)) { // Check for user data folder
-        if(fs.existsSync(checkedFolder1 + '/settings')) { // Check for Settings Folder
+        if(fs.existsSync(checkedFolder1 + '/settings')) {
+            fs.renameSync(checkedFolder1 + '/settings', checkedFolder1 + '/user_data')
+        }
+        if(fs.existsSync(checkedFolder1 + '/user_data')) { // Check for Settings Folder
             if(fs.existsSync(checkedFolder2)) { //Check for Home Folder in Settings folder
-                var checkedPath1 = checkedFolder1 + '/settings/onLoad.json' //Var for onLoad.json
-                var checkedPath2 = checkedFolder1 + '/settings/userData.json' //Var for userData.json
-                var checkedPath3 = checkedFolder1 + '/settings/home/preferredMatchFilter.json' //Var for Home Match Filter json
+                var checkedPath1 = checkedFolder1 + '/user_data/onLoad.json' //Var for onLoad.json
+                var checkedPath2 = checkedFolder1 + '/user_data/userData.json' //Var for userData.json
+                var checkedPath3 = checkedFolder1 + '/user_data/home/preferredMatchFilter.json' //Var for Home Match Filter json
                 if(fs.existsSync(checkedPath1) && fs.existsSync(checkedPath2) && fs.existsSync(checkedPath3)) { // Check for 3 Base Files
-                    let rawdata = fs.readFileSync(checkedFolder1 + '/settings/onLoad.json');
+                    let rawdata = fs.readFileSync(checkedFolder1 + '/user_data/onLoad.json');
                     let data = JSON.parse(rawdata);
                     if(data.hasFinishedSetupSequence == false) { //If Base Files exist and onLoad returns false, load setup
-                        var checkedFolder3 = checkedFolder1 + '/settings/playersearch' // '/playersearch folder'
-                        var checkedPath4 = checkedFolder1 + '/settings/playersearch/preferredMatchFilter.json' //Preference File
+                        var checkedFolder3 = checkedFolder1 + '/user_data/playersearch' // '/playersearch folder'
+                        var checkedPath4 = checkedFolder1 + '/user_data/playersearch/preferredMatchFilter.json' //Preference File
                         if(fs.existsSync(checkedFolder3)) { //check for folder
                             if(fs.existsSync(checkedPath4)) { //check for file
                                 mainWindow.loadFile('./setupSequence/index.html'); //load window
@@ -385,8 +385,8 @@ function createWindow () {
                             mainWindow.loadFile('./setupSequence/index.html'); //Load Setup
                         }
                     } else {
-                        var checkedFolder3 = checkedFolder1 + '/settings/playersearch' // '/playersearch folder'
-                        var checkedPath4 = checkedFolder1 + '/settings/playersearch/preferredMatchFilter.json' //Preference File
+                        var checkedFolder3 = checkedFolder1 + '/user_data/playersearch' // '/playersearch folder'
+                        var checkedPath4 = checkedFolder1 + '/user_data/playersearch/preferredMatchFilter.json' //Preference File
                         if(fs.existsSync(checkedFolder3)) { //check for folder
                             if(fs.existsSync(checkedPath4)) { //check for file
                                 log.info('YEP');
@@ -417,7 +417,7 @@ function createWindow () {
                     };
                      
                     let data = JSON.stringify(onLoadFile);
-                    fs.writeFileSync(checkedFolder1 + '/settings/onLoad.json', data);
+                    fs.writeFileSync(checkedFolder1 + '/user_data/onLoad.json', data);
             
                     let userData = {
                         givenPlayerName: "",
@@ -426,14 +426,14 @@ function createWindow () {
                     };
                      
                     let data2 = JSON.stringify(userData);
-                    fs.writeFileSync(checkedFolder1 + '/settings/userData.json', data2);
+                    fs.writeFileSync(checkedFolder1 + '/user_data/userData.json', data2);
             
                     let matchData = {
                         preferredMatchFilter: ""
                     };
                      
                     let data3 = JSON.stringify(matchData);
-                    fs.writeFileSync(checkedFolder1 + '/settings/home/preferredMatchFilter.json', data3);
+                    fs.writeFileSync(checkedFolder1 + '/user_data/home/preferredMatchFilter.json', data3);
                     mainWindow.loadFile('./setupSequence/index.html'); 
                 }
             } else { // Create Files and load setup
@@ -444,7 +444,7 @@ function createWindow () {
                 };
                  
                 let data = JSON.stringify(onLoadFile);
-                fs.writeFileSync(checkedFolder1 + '/settings/onLoad.json', data);
+                fs.writeFileSync(checkedFolder1 + '/user_data/onLoad.json', data);
         
                 let userData = {
                     givenPlayerName: "",
@@ -453,18 +453,18 @@ function createWindow () {
                 };
                  
                 let data2 = JSON.stringify(userData);
-                fs.writeFileSync(checkedFolder1 + '/settings/userData.json', data2);
+                fs.writeFileSync(checkedFolder1 + '/user_data/userData.json', data2);
         
                 let matchData = {
                     preferredMatchFilter: ""
                 };
                  
                 let data3 = JSON.stringify(matchData);
-                fs.writeFileSync(checkedFolder1 + '/settings/home/preferredMatchFilter.json', data3);
+                fs.writeFileSync(checkedFolder1 + '/user_data/home/preferredMatchFilter.json', data3);
                 mainWindow.loadFile('./setupSequence/index.html'); 
             }
         } else { // Create Files and load setup
-            fs.mkdirSync(checkedFolder1 + '/settings');
+            fs.mkdirSync(checkedFolder1 + '/user_data');
             fs.mkdirSync(checkedFolder2);
             let onLoadFile = { 
                 hasFinishedSetupSequence: false,
@@ -472,7 +472,7 @@ function createWindow () {
             };
              
             let data = JSON.stringify(onLoadFile);
-            fs.writeFileSync(checkedFolder1 + '/settings/onLoad.json', data);
+            fs.writeFileSync(checkedFolder1 + '/user_data/onLoad.json', data);
     
             let userData = {
                 givenPlayerName: "",
@@ -481,19 +481,19 @@ function createWindow () {
             };
              
             let data2 = JSON.stringify(userData);
-            fs.writeFileSync(checkedFolder1 + '/settings/userData.json', data2);
+            fs.writeFileSync(checkedFolder1 + '/user_data/userData.json', data2);
         
             let matchData = {
                 preferredMatchFilter: ""
             };
              
             let data3 = JSON.stringify(matchData);
-            fs.writeFileSync(checkedFolder1 + '/settings/home/preferredMatchFilter.json', data3);
+            fs.writeFileSync(checkedFolder1 + '/user_data/home/preferredMatchFilter.json', data3);
             mainWindow.loadFile('./setupSequence/index.html'); 
         }
     } else { // Create Files and load setup
         fs.mkdirSync(checkedFolder1);
-        fs.mkdirSync(checkedFolder1 + '/settings');
+        fs.mkdirSync(checkedFolder1 + '/user_data');
         fs.mkdirSync(checkedFolder2);
         let onLoadFile = { 
             hasFinishedSetupSequence: false,
@@ -501,7 +501,7 @@ function createWindow () {
         };
          
         let data = JSON.stringify(onLoadFile);
-        fs.writeFileSync(checkedFolder1 + '/settings/onLoad.json', data);
+        fs.writeFileSync(checkedFolder1 + '/user_data/onLoad.json', data);
 
         let userData = {
             givenPlayerName: "",
@@ -510,18 +510,18 @@ function createWindow () {
         };
          
         let data2 = JSON.stringify(userData);
-        fs.writeFileSync(checkedFolder1 + '/settings/userData.json', data2);
+        fs.writeFileSync(checkedFolder1 + '/user_data/userData.json', data2);
         
         let matchData = {
             preferredMatchFilter: ""
         };
          
         let data3 = JSON.stringify(matchData);
-        fs.writeFileSync(checkedFolder1 + '/settings/home/preferredMatchFilter.json', data3);
+        fs.writeFileSync(checkedFolder1 + '/user_data/home/preferredMatchFilter.json', data3);
         mainWindow.loadFile('./setupSequence/index.html'); 
     }
 
-    let rawColorData = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json');
+    let rawColorData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json');
     let colorData = JSON.parse(rawColorData);
     
     const folderToCheck = process.env.APPDATA + "/VALTracker/img"
@@ -531,7 +531,6 @@ function createWindow () {
     
     if(colorData.logo_style == undefined) {
         if(!fs.existsSync(process.env.APPDATA + `/VALTracker/img/VALTracker_Logo_default.png`)) {
-            console.log("NO FILE FOUND, DOWNLOADING IMAGE")
             downloadImage(`https://valtracker.gg/app_img/iconss/VALTracker_Logo_default.png`, process.env.APPDATA + `/VALTracker/img/VALTracker_Logo_default.png`)
         }
     
@@ -545,7 +544,6 @@ function createWindow () {
         }
     } else {
         if(!fs.existsSync(process.env.APPDATA + `/VALTracker/img/VALTracker_Logo_${colorData.logo_style}.png`)) {
-            console.log("NO FILE FOUND, DOWNLOADING IMAGE")
             downloadImage(`https://valtracker.gg/app_img/iconss/VALTracker_Logo_${colorData.logo_style}.png`, process.env.APPDATA + `/VALTracker/img/VALTracker_Logo_${colorData.logo_style}.png`)
         }
     
@@ -568,12 +566,12 @@ app.on('ready', function() {
     createWindow();
     autoUpdater.checkForUpdates();
 
-    let onLoadData = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/onLoad.json')
+    let onLoadData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/onLoad.json')
     let loadData = JSON.parse(onLoadData)
     if(loadData.hasDiscordRPenabled == undefined) {
         loadData.hasDiscordRPenabled = true;
         var dataToWriteDown = JSON.stringify(loadData)
-        fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/onLoad.json', dataToWriteDown)
+        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/onLoad.json', dataToWriteDown)
     }
 });
 
@@ -630,13 +628,11 @@ ipc.on('changeTrayIcon', function(event, arg) {
     fs.readdir(process.env.APPDATA + "/VALTracker/img", (err, files) => {
         files.forEach(file => {
             if(filename == file) {
-                console.log(file)
                 hasFoundFile = true;
                 mainWindow.setIcon(process.env.APPDATA + `/VALTracker/img/${filename}`)
             }
         });
         if(hasFoundFile !== true) {
-            console.log("NO FILE FOUND, DOWNLOADING IMAGE")
             downloadImage(`https://valtracker.gg/app_img/iconss/${filename}`, process.env.APPDATA + `/VALTracker/img/${filename}`)
         }
     });

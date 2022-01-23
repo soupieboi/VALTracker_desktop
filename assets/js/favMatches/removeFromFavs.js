@@ -20,7 +20,7 @@ function loadRemovePromt(matchID, matchToRemove, matchAgentImg, matchKDA, matchR
         }, 200)
     })
     $('.delete-favmatch-button').on("click", function() {
-        var checkedPath1 = process.env.APPDATA + '/VALTracker/settings/favourites.json'
+        var checkedPath1 = process.env.APPDATA + '/VALTracker/user_data/favourites.json'
         let rawdata = fs.readFileSync(checkedPath1);
         let dataToRead = JSON.parse(rawdata);
         
@@ -43,5 +43,9 @@ function loadRemovePromt(matchID, matchToRemove, matchAgentImg, matchKDA, matchR
         }
         $(matchToRemove).remove()
         fs.writeFileSync(checkedPath1, JSON.stringify(newArrToPush));
+        $('.remove-fav-promt-wrapper').fadeTo(150, 0)
+        setTimeout(function() {
+            $('.remove-fav-promt-wrapper').css("display", "none")
+        }, 200)
     })
 }

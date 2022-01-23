@@ -511,6 +511,7 @@ button:hover {
   width: 100%;
   height: 2px;
   background: #ffffff;
+  box-shadow: var(--box-shadow);
 }
 
 #toggle::after {
@@ -520,6 +521,7 @@ button:hover {
   width: 100%;
   height: 2px;
   background: #ffffff;
+  box-shadow: var(--box-shadow);
 }
 
 .header-relative-div {
@@ -589,6 +591,7 @@ button:hover {
   -webkit-transform: translate(-50%, -50%) rotate(45deg);
       -ms-transform: translate(-50%, -50%) rotate(45deg);
           transform: translate(-50%, -50%) rotate(45deg);
+  box-shadow: var(--box-shadow);
 }
 
 .header-relative-div.active #toggle::after {
@@ -597,6 +600,7 @@ button:hover {
   -webkit-transform: translate(-50%, -50%) rotate(-45deg);
       -ms-transform: translate(-50%, -50%) rotate(-45deg);
           transform: translate(-50%, -50%) rotate(-45deg);
+  box-shadow: var(--box-shadow);
 }
 
 .navslide-li {
@@ -1184,8 +1188,7 @@ video:focus {
   -webkit-transform: translate(-50%, -50%) rotate(-45deg);
       -ms-transform: translate(-50%, -50%) rotate(-45deg);
           transform: translate(-50%, -50%) rotate(-45deg);
-  border-color: #bc0233;
-  color: #bc0233;
+  box-shadow: var(--box-shadow);
 }
 
 .header-relative-div-largeview #toggle::before {
@@ -1194,8 +1197,7 @@ video:focus {
   -webkit-transform: translate(-50%, -50%) rotate(45deg);
       -ms-transform: translate(-50%, -50%) rotate(45deg);
           transform: translate(-50%, -50%) rotate(45deg);
-  border-color: #bc0233;
-  color: #bc0233;
+  box-shadow: var(--box-shadow);
 }
 
 .hiddenBundleDesc {
@@ -1220,6 +1222,7 @@ video:focus {
   -webkit-transform: translate(-50%, -50%) rotate(-45deg);
       -ms-transform: translate(-50%, -50%) rotate(-45deg);
           transform: translate(-50%, -50%) rotate(-45deg);
+  box-shadow: var(--box-shadow);
 }
 
 .header-relative-div-video #toggle::before {
@@ -1229,6 +1232,7 @@ video:focus {
   -webkit-transform: translate(-50%, -50%) rotate(45deg);
       -ms-transform: translate(-50%, -50%) rotate(45deg);
           transform: translate(-50%, -50%) rotate(45deg);
+  box-shadow: var(--box-shadow);
 }
 
 #largeview-bundleweapon-preview-link-hidden {
@@ -1677,12 +1681,10 @@ video:focus {
 }
 
 .skin-color-options {
-  margin-left: auto !important;
   color: #ffa2bb;
 }
 
 .skin-color-options-grey {
-  margin-left: auto !important;
   color: #7c7c7c;
 }
 
@@ -3368,6 +3370,32 @@ select:focus::-ms-value {
 }
 
 .skin-price.vp.disabled {
+  color: #ff0062;
+  text-shadow:
+  0 0 2.5px rgba(255, 0, 98, 0.7),
+  0 0 5px rgba(255, 0, 98, 0.7),
+  0 0 15px rgba(255, 0, 98, 0.7);
+}
+
+.skin-price-wrapper {
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  width: 15rem;
+  align-items: center;
+}
+
+.skin-price-img {
+  width: 15%;
+  height: 15%;
+  margin-left: 0.5rem;
+}
+
+.skin-price {
+  margin-left: auto !important;
+}
+
+.skin-price.disabled {
   color: #ff0062;
   text-shadow:
   0 0 2.5px rgba(255, 0, 98, 0.7),

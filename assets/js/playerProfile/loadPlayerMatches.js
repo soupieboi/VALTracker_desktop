@@ -1,6 +1,6 @@
 const ipc = require('electron').ipcRenderer;
 $(document).ready(() => {
-    let rawdata2 = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/playersearch/preferredMatchFilter.json');
+    let rawdata2 = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/playersearch/preferredMatchFilter.json');
     let dataToRead2 = JSON.parse(rawdata2);
     $("#selected-matchtype").val(dataToRead2.preferredMatchFilter);
 

@@ -1,6 +1,6 @@
 function saveToFavs(matchID, thisStar) {
     if(thisStar.id == '' || thisStar.id == null) {
-        var checkedPath1 = process.env.APPDATA + '/VALTracker/settings/favourites.json'
+        var checkedPath1 = process.env.APPDATA + '/VALTracker/user_data/favourites.json'
         let rawdata = fs.readFileSync(checkedPath1);
         let dataToRead = JSON.parse(rawdata);
 
@@ -28,7 +28,7 @@ function saveToFavs(matchID, thisStar) {
         }
         fs.writeFileSync(checkedPath1, JSON.stringify(dataToRead));
     } else {
-        var checkedPath1 = process.env.APPDATA + '/VALTracker/settings/favourites.json'
+        var checkedPath1 = process.env.APPDATA + '/VALTracker/user_data/favourites.json'
         let rawdata = fs.readFileSync(checkedPath1);
         let dataToRead = JSON.parse(rawdata);
 

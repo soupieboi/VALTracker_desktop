@@ -14,7 +14,6 @@ function makeCallAndBuildElements() {
             $('.player-pageheader').append(data.data.name + "#" + data.data.tag);
             $('.player-card-img').attr("src", data.data.card.small);
             $('.player-card-img').attr("onclick", `cardRedirect(this, this.src, window.location.href)`);
-            //console.log("Card: " + data.data.card.small);
             $('.last-updated').append("Last updated: " + data.data.last_update);
             $('.player-account-level').append("Account Level: " + data.data.account_level);
             $('#player-region-span').append("Region: " + playerRegion.toUpperCase());

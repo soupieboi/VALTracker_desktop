@@ -1,15 +1,15 @@
 const colorFS2 = require('fs')
 
-let rawColorDataPre = colorFS2.readFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json');
+let rawColorDataPre = colorFS2.readFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json');
 let colorDataPre = JSON.parse(rawColorDataPre);
 
 var colorData2;
 
 if(colorDataPre.loadCustomTheme == true) {
-    let rawColorData3 = colorFS2.readFileSync(process.env.APPDATA + `/VALTracker/settings/customThemes/${colorDataPre.customThemeName}.json`);
+    let rawColorData3 = colorFS2.readFileSync(process.env.APPDATA + `/VALTracker/user_data/customThemes/${colorDataPre.customThemeName}.json`);
     colorData2 = JSON.parse(rawColorData3);
 } else {
-    let rawColorData2 = colorFS2.readFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json');
+    let rawColorData2 = colorFS2.readFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json');
     colorData2 = JSON.parse(rawColorData2);
 }
 
@@ -161,7 +161,7 @@ $(document).ready(() => {
         var newSubColor2 = select9.value;
         var newFontColor = select10.value;
 
-        let colorDataToRead = colorFS.readFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json');
+        let colorDataToRead = colorFS.readFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json');
         let colorDataToEdit = JSON.parse(colorDataToRead);
 
         var dataToWrite = {
@@ -180,7 +180,7 @@ $(document).ready(() => {
         }
     
         var dataToWriteDown = JSON.stringify(dataToWrite)
-        colorFS2.writeFileSync(process.env.APPDATA + `/VALTracker/settings/customThemes/${colorDataToEdit.customThemeName}.json`, dataToWriteDown)
+        colorFS2.writeFileSync(process.env.APPDATA + `/VALTracker/user_data/customThemes/${colorDataToEdit.customThemeName}.json`, dataToWriteDown)
 
         window.location.href = "settings.html"
     })

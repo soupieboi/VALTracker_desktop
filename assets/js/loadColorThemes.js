@@ -1,6 +1,6 @@
 const colorFS = require('fs');
 
-if(!colorFS.existsSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json')) {
+if(!colorFS.existsSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json')) {
     var dataToWrite = {
         "app_color": "#12171d",
         "app_subcolor_1": "#1b222b",
@@ -17,16 +17,16 @@ if(!colorFS.existsSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.js
         "loadCustomTheme": false
     }
 
-    colorFS.writeFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json', JSON.stringify(dataToWrite))
+    colorFS.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', JSON.stringify(dataToWrite))
 }
 
-let rawColorData = colorFS.readFileSync(process.env.APPDATA + '/VALTracker/settings/colorTheme.json');
+let rawColorData = colorFS.readFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json');
 let colorData = JSON.parse(rawColorData);
 
 let root = document.documentElement;
 
 if(colorData.loadCustomTheme == true) {
-    let newRawColorData = colorFS.readFileSync(process.env.APPDATA + `/VALTracker/settings/customThemes/${colorData.customThemeName}.json`);
+    let newRawColorData = colorFS.readFileSync(process.env.APPDATA + `/VALTracker/user_data/customThemes/${colorData.customThemeName}.json`);
     let newColorData = JSON.parse(newRawColorData);
     root.style.setProperty('--app-color', newColorData.app_color);
     root.style.setProperty('--app-color-light', newColorData.app_subcolor_1);

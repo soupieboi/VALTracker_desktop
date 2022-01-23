@@ -2,12 +2,22 @@ const path = require('path');
 const ipc = require('electron').ipcRenderer;
 $(document).ready(() => {
     ipc.send('changeDiscordRP', `favmatches_activity`)
-    let rawuserdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/userData.json');
+    let rawuserdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/userData.json');
     let userdataToRead = JSON.parse(rawuserdata);
 
     var playerName = userdataToRead.playerName
     var playerTag = userdataToRead.playerTag
-    let favrawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/favourites.json');
+    let favrawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/favourites.json');
+    var buffer = Buffer.from(favrawdata)
+    if(buffer.length == 0) {
+        var newArrToPush = {
+            "favourites": [{
+    
+            }]
+        };
+        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/favourites.json', JSON.stringify(newArrToPush))
+        window.location.href = ""
+    }
     let dataToRead = JSON.parse(favrawdata);
 
     var matchIDarray = [];
@@ -25,13 +35,21 @@ $(document).ready(() => {
             }, 200)
         } else { //saved match found
             if(dataToRead.favourites[count].MatchID == undefined) {
+                $('.loading-icon').fadeTo(150, 0)
+                setTimeout(function() {
+                    $('.loading-icon').css("display", "none");
+                    $('.loading-layer').css("display", "none");
+                    $('.loading-layer-fallback').css("opacity", "0");
+                    $('.loading-layer-fallback').css("display", "block");
+                    $('.loading-layer-fallback').fadeTo(150, 1)
+                }, 200)
                 continue;
             }
-            var checkedFolder = process.env.APPDATA + `/VALTracker/settings/favouriteMatches` 
+            var checkedFolder = process.env.APPDATA + `/VALTracker/user_data/favouriteMatches` 
             if(fs.existsSync(checkedFolder)) { //Check for folder of saved match data
-                var checkedPath = process.env.APPDATA + `/VALTracker/settings/favouriteMatches/${matchID}.json`
+                var checkedPath = process.env.APPDATA + `/VALTracker/user_data/favouriteMatches/${matchID}.json`
                 if(fs.existsSync(checkedPath)) { //check for downloaded match data of current match
-                    let rawmatchdata = fs.readFileSync(process.env.APPDATA + `/VALTracker/settings/favouriteMatches/${matchID}.json`);
+                    let rawmatchdata = fs.readFileSync(process.env.APPDATA + `/VALTracker/user_data/favouriteMatches/${matchID}.json`);
                     const data = JSON.parse(rawmatchdata);
 
                     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -241,7 +259,7 @@ $(document).ready(() => {
             }
         }
     }
-    fs.readdir(process.env.APPDATA + `/VALTracker/settings/favouriteMatches`, (err, files) => {
+    fs.readdir(process.env.APPDATA + `/VALTracker/user_data/favouriteMatches`, (err, files) => {
         if(err) {
             console.log(err);
             fs.mkdirSync(checkedFolder)
@@ -251,7 +269,7 @@ $(document).ready(() => {
         } else {
             files.forEach(file => {
                 if(!matchIDarray.includes(path.parse(file).name)) {
-                    const deleteFile = process.env.APPDATA + `/VALTracker/settings/favouriteMatches/` + file
+                    const deleteFile = process.env.APPDATA + `/VALTracker/user_data/favouriteMatches/` + file
                     fs.unlink(deleteFile, (err) => {
                         if (err) {
                             console.log(err);

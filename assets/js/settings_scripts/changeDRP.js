@@ -4,10 +4,9 @@ const replaceText5 = (text) => {
     if (element5) element5.innerText = text
 }
 $(document).ready(() => {
-    var loadFile = process.env.APPDATA + '/VALTracker/settings/onLoad.json'
+    var loadFile = process.env.APPDATA + '/VALTracker/user_data/onLoad.json'
     let rawdata = fs.readFileSync(loadFile);
     let dataToRead = JSON.parse(rawdata);
-    console.log(dataToRead.hasDiscordRPenabled)
     if(typeof dataToRead.hasDiscordRPenabled === 'string') {
         $('#discord-rp-option').val(dataToRead.hasDiscordRPenabled);
     } else {

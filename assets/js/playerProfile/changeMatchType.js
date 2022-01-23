@@ -6,7 +6,7 @@ $(document).ready(() => {
         var playerTag = sessionStorage.getItem("player_tag");
         var playerRegion = sessionStorage.getItem("player_region");
         
-        let rawdata2 = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/home/preferredMatchFilter.json');
+        let rawdata2 = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/home/preferredMatchFilter.json');
         let dataToRead2 = JSON.parse(rawdata2);
         
         var filterData = dataToRead2.preferredMatchFilter
@@ -205,7 +205,7 @@ $(document).ready(() => {
                         };
                          
                         let data1 = JSON.stringify(finishedData);
-                        fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/playersearch/preferredMatchFilter.json', data1);
+                        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/playersearch/preferredMatchFilter.json', data1);
                     }
                 });
             } else {
@@ -413,7 +413,7 @@ $(document).ready(() => {
                         };
                          
                         let data1 = JSON.stringify(finishedData);
-                        fs.writeFileSync(process.env.APPDATA + '/VALTracker/settings/playersearch/preferredMatchFilter.json', data1);
+                        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/playersearch/preferredMatchFilter.json', data1);
                     }
                 });
             }

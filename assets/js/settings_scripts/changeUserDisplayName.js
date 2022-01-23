@@ -3,7 +3,7 @@ const replaceText2 = (text) => {
     if (element2) element2.innerText = text
 }
 $(document).ready(() => {
-    var usernameSettingsFile = process.env.APPDATA + '/VALTracker/settings/home/displayedUsername.json'
+    var usernameSettingsFile = process.env.APPDATA + '/VALTracker/user_data/home/displayedUsername.json'
     if(!fs.existsSync(usernameSettingsFile)) {
         let newUserName = {
             displayedUserName: ""
@@ -13,7 +13,7 @@ $(document).ready(() => {
         fs.writeFileSync(usernameSettingsFile, dataToWrite); //Create File
     }
     
-    let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/settings/home/displayedUsername.json');
+    let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/home/displayedUsername.json');
     let dataToRead = JSON.parse(rawdata);
     $('#settings-home-username-input').val(dataToRead.displayedUserName);
     $('#change-home-username-button').on("click", function() {
