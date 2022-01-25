@@ -5,6 +5,7 @@
         
         <!--Put new features in an unordered list right here-->
         - This is a new feature!
+        
         - This is another feature!
         
     </div>
@@ -16,6 +17,7 @@
        
        <!--Put new fixes in an unordered list right here-->
        - This is a bugfix.
+       
        - This is another bugfix.
        
    </div>
