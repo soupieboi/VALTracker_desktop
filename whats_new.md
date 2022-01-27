@@ -3,5 +3,3 @@
 - Added cards that pop up whenever ann API call fails. 
 ///
 - If a user hasn't played any matches at all yet, their page will now still load instead of being stuck in infinite loading.
-- Test 2
-- Test 3
