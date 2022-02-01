@@ -10,7 +10,7 @@ A completely free Stats Tracker/Gameinfo Client for VALORANT
 - Match History
     - Every Gamemode that has an API is supported here.
     - Click on Match provides information about the Match like Kills, Rounds etc.
-    - 
+
 - Info on all Collectables in the Game
 
 - Save Matches as Favourites to review them anytime
