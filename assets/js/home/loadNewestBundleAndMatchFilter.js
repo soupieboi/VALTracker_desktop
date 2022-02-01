@@ -39,8 +39,14 @@ $(document).ready(() => {
                                 }, 1000)
                             }
                         }
+                    }, 
+                    error: function(jqXHR) {
+                        createErrorCard(this.url, jqXHR.status);
                     }
                 });
+            },
+            error: function(jqXHR) {
+                createErrorCard(this.url, jqXHR.status);
             }
         });
     }, 0)

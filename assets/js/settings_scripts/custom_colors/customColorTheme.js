@@ -154,7 +154,6 @@ $(document).ready(() => {
         } else {
             replaceText("")
             if(!colorFS2.existsSync(process.env.APPDATA + "/VALTracker/user_data/customThemes")) {
-                colorFS2.mkdirSync(process.env.APPDATA + "/VALTracker/user_data/customThemes")
 
                 var newLeftGradient = select1.value;
                 var newRightGradient = select2.value;
@@ -171,7 +170,7 @@ $(document).ready(() => {
                 var fixedThemeName = customThemeName.replace(/\s/g, '-')
 
                 var themeAlreadyFound = false;
-                colorFS2.readdir(process.env.APPDATA + "/VALTracker/user_data/customThemes", (err, files) => {
+                colorFS2.readdirSync(process.env.APPDATA + "/VALTracker/user_data/customThemes", (err, files) => {
                     files.forEach(file => {
                         if(fixedThemeName + ".json" == file) {
                             themeAlreadyFound = true;
@@ -224,7 +223,7 @@ $(document).ready(() => {
                 var fixedThemeName = customThemeName.replace(/\s/g, '-')
 
                 var themeAlreadyFound = false;
-                colorFS2.readdir(process.env.APPDATA + "/VALTracker/user_data/customThemes", (err, files) => {
+                colorFS2.readdirSync(process.env.APPDATA + "/VALTracker/user_data/customThemes", (err, files) => {
                     files.forEach(file => {
                         if(fixedThemeName + ".json" == file) {
                             themeAlreadyFound = true;

@@ -101,7 +101,13 @@ $.ajax({
                         $('.weapon-image').attr("src", data.data.chromas[newStr].displayIcon);
                     }
                 })
+            },
+            error: function(jqXHR) {
+                createErrorCard(this.url, jqXHR.status);
             }
         });
+    },
+    error: function(jqXHR) {
+        createErrorCard(this.url, jqXHR.status);
     }
 })

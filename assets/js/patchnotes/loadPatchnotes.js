@@ -22,6 +22,9 @@ $(document).ready(() => {
         success: function(data, xhr) {
             var html = converter.makeHtml(data);
             $('#patchnotes-wrapper').append(html);
+        },
+        error: function(jqXHR) {
+            createErrorCard(this.url, jqXHR.status);
         }
     });
 });

@@ -233,8 +233,14 @@ $(document).ready(function() {
                         var nextElement = document.getElementById("lastElement");
                         wrapper.insertBefore(tr, nextElement);
                     }
+                },
+                error: function(jqXHR) {
+                    createErrorCard(this.url, jqXHR.status);
                 }
             })
+        },
+        error: function(jqXHR) {
+            createErrorCard(this.url, jqXHR.status);
         }
     })
 })

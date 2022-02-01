@@ -140,14 +140,14 @@ $(document).ready(() => {
             }
         }, 500);
     });
-    $('#wishlist').on("click", function(){
+    $('#3d').on("click", function(){
         leaveFade();
         toggle();
         setTimeout(function() {
             if(directoryName == "CollectablePages") {
-                window.location.href = "../wishlist.html";
+                window.location.href = "../3d.html";
             } else {
-                window.location.href = "wishlist.html";
+                window.location.href = "3d.html";
             }
         }, 500);
     });

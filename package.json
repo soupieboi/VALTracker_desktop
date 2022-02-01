@@ -1,7 +1,7 @@
 {
   "name": "valtracker",
   "productName": "VALTracker",
-  "version": "0.8.23-alpha",
+  "version": "0.8.24-alpha",
   "description": "A free Desktop app to look up your VALORANT Statistics and Ingame Collectables.",
   "main": "main.js",
   "scripts": {
@@ -24,7 +24,7 @@
       "uninstallDisplayName": "VALTracker",
       "license": "license.txt",
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": false
     },
     "publish": [
       {
@@ -57,7 +57,10 @@
     "jimp": "^0.16.1",
     "jimp-gradient": "^1.0.1",
     "jquery": ">=3.5.0",
+    "moment-timezone": "^0.5.34",
     "showdown": "^1.9.0",
+    "three": "^0.137.5",
+    "three-fbx-loader": "^1.0.3",
     "update-electron-app": "^2.0.1"
   }
 }

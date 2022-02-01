@@ -332,8 +332,14 @@ $(document).ready(() => {
                                     $('.loading-layer').css("display", "block");
                                     $('.loading-layer').fadeTo(150, 1)
                                 }, 200)
+                            },
+                            error: function(jqXHR) {
+                                createErrorCard(this.url, jqXHR.status);
                             }
                         })
+                    },
+                    error: function(jqXHR) {
+                        createErrorCard(this.url, jqXHR.status);
                     }
                 });
             } else {
@@ -645,8 +651,14 @@ $(document).ready(() => {
                                     $('.loading-layer').css("display", "block");
                                     $('.loading-layer').fadeTo(150, 1);
                                 }, 200)
+                            },
+                            error: function(jqXHR) {
+                                createErrorCard(this.url, jqXHR.status);
                             }
                         })
+                    },
+                    error: function(jqXHR) {
+                        createErrorCard(this.url, jqXHR.status);
                     }
                 });
             }

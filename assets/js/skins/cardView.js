@@ -14,6 +14,9 @@ $(document).ready(() => {
             $('.small-img').attr("src", data.data.smallArt);
             $('.wide-img').attr("src", data.data.wideArt);
             $('.large-img').attr("src", data.data.largeArt);
+        },
+        error: function(jqXHR) {
+            createErrorCard(this.url, jqXHR.status);
         }
     });
 });

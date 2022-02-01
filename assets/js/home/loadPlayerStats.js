@@ -164,6 +164,7 @@ $(document).ready(() => {
                             $('.loading-div-home').css("display", "none")
                         }, 1000)
                     }
+                    createErrorCard(this.url, jqXHR.status);
                 }
             })
         } else {

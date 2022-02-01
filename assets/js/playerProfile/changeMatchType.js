@@ -206,6 +206,9 @@ $(document).ready(() => {
                          
                         let data1 = JSON.stringify(finishedData);
                         fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/playersearch/preferredMatchFilter.json', data1);
+                    },
+                    error: function(jqXHR) {
+                        createErrorCard(this.url, jqXHR.status);
                     }
                 });
             } else {
@@ -405,6 +408,9 @@ $(document).ready(() => {
                                         $(`#match-rr-id-${count}`).append(data2.data[count].mmr_change_to_last_game)
                                     }
                                 }
+                            },
+                            error: function(jqXHR) {
+                                createErrorCard(this.url, jqXHR.status);
                             }
                         })
                         
@@ -414,6 +420,9 @@ $(document).ready(() => {
                          
                         let data1 = JSON.stringify(finishedData);
                         fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/playersearch/preferredMatchFilter.json', data1);
+                    },
+                    error: function(jqXHR) {
+                        createErrorCard(this.url, jqXHR.status);
                     }
                 });
             }

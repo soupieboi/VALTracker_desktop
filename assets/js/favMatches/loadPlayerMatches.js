@@ -248,6 +248,9 @@ $(document).ready(() => {
                             console.log("DOWNLOADED MATCH NOT FOUND, DOWNLOADING DATA")
                             fs.writeFileSync(checkedPath, JSON.stringify(APIdata));
                             window.location.href = ""
+                        },
+                        error: function(jqXHR) {
+                            createErrorCard(this.url, jqXHR.status);
                         }
                     });
                 }

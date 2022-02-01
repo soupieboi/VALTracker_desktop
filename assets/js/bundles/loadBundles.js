@@ -87,7 +87,7 @@ function makeCallAndBuildElements() {
          }
       },
       error: function(jqXHR) {
-         //get the status code
+         createErrorCard(this.url, jqXHR.status);
          if (jqXHR.status == 400) {
             replaceText('400, Bad Request');
          }

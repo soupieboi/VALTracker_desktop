@@ -346,6 +346,39 @@ function createWindow () {
 
     var checkedFolder1 = app.getPath('userData') // '/settings'
     var checkedFolder2 = checkedFolder1 + '/user_data/home' // '/settings'
+    if(!fs.existsSync(checkedFolder1 + '/user_data')) {
+        fs.mkdirSync(checkedFolder1 + '/user_data');
+        fs.mkdirSync(checkedFolder2);
+        let onLoadFile = { 
+            hasFinishedSetupSequence: false,
+            hasDiscordRPenabled: true,
+            hasReadLatestPatchnotes: false,
+        };
+         
+        let data = JSON.stringify(onLoadFile);
+        fs.writeFileSync(checkedFolder1 + '/user_data/onLoad.json', data);
+
+        let userData = {
+            givenPlayerName: "",
+            givenPlayerTag: "",
+            foundPlayerUUID: ""
+        };
+         
+        let data2 = JSON.stringify(userData);
+        fs.writeFileSync(checkedFolder1 + '/user_data/userData.json', data2);
+        
+        let matchData = {
+            preferredMatchFilter: ""
+        };
+         
+        let data3 = JSON.stringify(matchData);
+        fs.writeFileSync(checkedFolder1 + '/user_data/home/preferredMatchFilter.json', data3);
+        mainWindow.loadFile('./setupSequence/index.html'); 
+    }
+
+    if(!fs.existsSync(process.env.APPDATA + "/VALTracker/user_data/customThemes")) {
+        fs.mkdirSync(process.env.APPDATA + "/VALTracker/user_data/customThemes")
+    }
 
     if (fs.existsSync(checkedFolder1)) { // Check for user data folder
         if(fs.existsSync(checkedFolder1 + '/settings')) {
@@ -519,6 +552,26 @@ function createWindow () {
         let data3 = JSON.stringify(matchData);
         fs.writeFileSync(checkedFolder1 + '/user_data/home/preferredMatchFilter.json', data3);
         mainWindow.loadFile('./setupSequence/index.html'); 
+    }
+
+    if(!fs.existsSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json')) {
+        var dataToWrite = {
+            "app_color": "#12171d",
+            "app_subcolor_1": "#1b222b",
+            "app_subcolor_2": "#242e3a",
+            "gradient_left": "#c80043",
+            "gradient_right": "#6f00ff",
+            "box_shadow": "0 0 2.5px rgba(255, 0, 67, 0.7), 0 0 10px rgba(255, 0, 67, 0.7), 0 0 30px rgba(255, 0, 67, 0.7)",
+            "text_shadow": "0 0 5px rgba(255, 0, 67, 0.6), 0 0 20px rgba(255, 0, 67, 0.6), 0 0 60px rgba(255, 0, 67, 0.6)",
+            "button_color": "#c80043",
+            "button_hover_color": "#ff0055",
+            "logo_style": "default",
+            "button_color_var": "#ffffff",
+            "global_color": "#ffffff",
+            "loadCustomTheme": false
+        }
+    
+        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', JSON.stringify(dataToWrite))
     }
 
     let rawColorData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json');

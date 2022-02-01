@@ -88,7 +88,7 @@ $(document).ready(() => {
             
                                     matchRRwrapper.appendChild(matchRRimg)
         
-                                    var matchRRspan = document.createElement("span");
+                                    var matchRRspan = document.createElement("span"); 
                                 }
 
                                 playedAgent.src = data3.data[count].players.all_players[playerCount].assets.agent.small;
@@ -259,6 +259,9 @@ $(document).ready(() => {
                         $('.loading-layer').fadeTo(150, 1)
                         ipc.send('changeDiscordRP', `hub_activity`)
                     }, 200)
+                },
+                error: function(jqXHR) {
+                    createErrorCard(this.url, jqXHR.status);
                 }
             });
         } else {
@@ -515,6 +518,9 @@ $(document).ready(() => {
                         $('.loading-layer').fadeTo(150, 1)
                         ipc.send('changeDiscordRP', `hub_activity`)
                     }, 200)
+                },
+                error: function(jqXHR) {
+                    createErrorCard(this.url, jqXHR.status);
                 }
             });
         }

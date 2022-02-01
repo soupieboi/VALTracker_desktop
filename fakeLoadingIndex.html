@@ -81,6 +81,32 @@
       <img class="home-loading-img">
       <i class="fas fa-circle-notch fa-spin fa-4x" id="home-loading-circle"></i>
     </div>
+    <div class="whats-new-wrapper">
+      <div class="whats-new-card" id="whats-new-card">
+        <div class="card-relative-div-largeview" id="markPatchnotesAsRead">
+          <div id="toggle"></div>
+        </div>
+        <div class="whats-new-card-header">
+          <span style="margin-bottom: 0.1rem; font-weight: bold; font-size: 1.2em;">VALTRACKER HAS BEEN UPDATED!</span>
+          <p style="color: grey; margin-top: 0;" id="version-num">Version </p>
+        </div>
+        <div class="whats-new-content" id="card-ul-wrapper">
+          <div class="whats-new-content-header">
+            <span style="margin-bottom: 0.1rem; font-weight: bold; font-size: 1.2em;">WHAT'S NEW?</span>
+            <hr id="whats-new-content-header-hr">
+          </div>
+        </div>
+        <div class="whats-new-fixes" id="card-ul-wrapper">
+          <div class="whats-new-content-header">
+            <span style="margin-bottom: 0.1rem; font-weight: bold; font-size: 1.2em;">BUGFIXES</span>
+            <hr id="whats-new-fixes-header-hr">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="error-code-mention-wrapper" id="insertErrorCodes">
+      <hr id="lastErrorElement" style="display: none;">
+    </div>
     <div class="app" id="main-home">
       <div class="pageheader-home">
         <h1 class="user-greetings"></h1>
@@ -200,16 +226,25 @@
         document.getElementById("download-bar").value = value
       })
       $('.update-relative-div').on("click", function() {
+        let rawLoadData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/onLoad.json');
+        let loadData = JSON.parse(rawLoadData);
+        loadData.hasReadLatestPatchnotes = false;
+        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/onLoad.json', JSON.stringify(loadData))
         $('.update-banner').css("display", "none");
       })
       $('#noti-close-button').on("click", function() {
-        window.close()
+        let rawLoadData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/onLoad.json');
+        let loadData = JSON.parse(rawLoadData);
+        loadData.hasReadLatestPatchnotes = false;
+        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/onLoad.json', JSON.stringify(loadData))
+        window.close();
       })
       $('.download-relative-div').on("click", function() {
         $('.download-banner').css("display", "none");
       })
     </script>
 
+    <script type="application/javascript" src="assets/js/home/whatsNew.js"></script>
     <script type="application/javascript" src="assets/js/home/newsSlideAndUserGreeting.js"></script>
     <script type="application/javascript" src="assets/js/home/loadPlayerMatches.js"></script>
     <script type="application/javascript" src="assets/js/home/loadWebsiteNews.js"></script>
@@ -220,6 +255,7 @@
     <script type="application/javascript" src="assets/js/saveToFavs.js"></script>
     <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
     <script type="application/javascript" src="assets/js/redirects.js"></script>
+    <script type="application/javascript" src="assets/js/errorCardHandler.js"></script>
     <script type="application/javascript" src="assets/js/loadColorThemes.js"></script>
   </body>
 </html>

@@ -77,6 +77,32 @@
       <hr style="position: absolute; bottom: 2.9rem; left: 1rem; width: 10rem; background: linear-gradient(to right, var(--gradient-left),  var(--gradient-right)); height: 2px; border: none; box-shadow: var(--box-shadow);">
       <li id="socials" class="navslide-li" style="list-style-type: none;"><span id="socials-span"><i class="fab fa-discord" id="socials-i" style="margin-right: 1rem;"></i><i class="fab fa-twitter" id="socials-i" style="margin-right: 1rem;"></i><i class="fab fa-github" id="socials-i" style="margin-right: 1rem;"></i><i class="fas fa-globe"></i></a></li>
     </div>
+    <div class="whats-new-wrapper">
+      <div class="whats-new-card" id="whats-new-card">
+        <div class="card-relative-div-largeview" id="markPatchnotesAsRead">
+          <div id="toggle"></div>
+        </div>
+        <div class="whats-new-card-header">
+          <span style="margin-bottom: 0.1rem; font-weight: bold; font-size: 1.2em;">VALTRACKER HAS BEEN UPDATED!</span>
+          <p style="color: grey; margin-top: 0;" id="version-num">Version </p>
+        </div>
+        <div class="whats-new-content" id="card-ul-wrapper">
+          <div class="whats-new-content-header">
+            <span style="margin-bottom: 0.1rem; font-weight: bold; font-size: 1.2em;">WHAT'S NEW?</span>
+            <hr id="whats-new-content-header-hr">
+          </div>
+        </div>
+        <div class="whats-new-fixes" id="card-ul-wrapper">
+          <div class="whats-new-content-header">
+            <span style="margin-bottom: 0.1rem; font-weight: bold; font-size: 1.2em;">BUGFIXES</span>
+            <hr id="whats-new-fixes-header-hr">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="error-code-mention-wrapper" id="insertErrorCodes">
+      <hr id="lastErrorElement" style="display: none;">
+    </div>
     <div class="app" id="main-home">
       <div class="pageheader-home">
         <h1 class="user-greetings"></h1>
@@ -196,9 +222,17 @@
         document.getElementById("download-bar").value = value
       })
       $('.update-relative-div').on("click", function() {
+        let rawLoadData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/onLoad.json');
+        let loadData = JSON.parse(rawLoadData);
+        loadData.hasReadLatestPatchnotes = false;
+        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/onLoad.json', JSON.stringify(loadData))
         $('.update-banner').css("display", "none");
       })
       $('#noti-close-button').on("click", function() {
+        let rawLoadData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/onLoad.json');
+        let loadData = JSON.parse(rawLoadData);
+        loadData.hasReadLatestPatchnotes = false;
+        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/onLoad.json', JSON.stringify(loadData))
         window.close()
       })
       $('.download-relative-div').on("click", function() {
@@ -206,6 +240,7 @@
       })
     </script>
 
+    <script type="application/javascript" src="assets/js/home/whatsNew.js"></script>
     <script type="application/javascript" src="assets/js/home/newsSlideAndUserGreeting.js"></script>
     <script type="application/javascript" src="assets/js/home/loadPlayerMatches.js"></script>
     <script type="application/javascript" src="assets/js/home/loadWebsiteNews.js"></script>
@@ -216,6 +251,7 @@
     <script type="application/javascript" src="assets/js/saveToFavs.js"></script>
     <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
     <script type="application/javascript" src="assets/js/redirects.js"></script>
+    <script type="application/javascript" src="assets/js/errorCardHandler.js"></script>
     <script type="application/javascript" src="assets/js/loadColorThemes.js"></script>
   </body>
 </html>

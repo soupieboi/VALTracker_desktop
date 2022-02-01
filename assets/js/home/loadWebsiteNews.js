@@ -2,7 +2,7 @@ function redirectInDefaultBrowser(id, url) {
     var str = url;
     var midStr = str.split('https://').pop();
     var midStr2 = "https://" + midStr;
-    finalStr = midStr2.replace(" ", "")
+    finalStr = midStr2.replace(" ", "");
     shell.openExternal(finalStr);
 }
 $(document).ready(() => {
@@ -17,6 +17,9 @@ $(document).ready(() => {
                     $(`#img-${count}`).attr("src", data.data[count].banner_url);
                     $(`#hiddenurl-${count}`).append(data.data[count].url)
                 }
+            },
+            error: function(jqXHR) {
+                createErrorCard(this.url, jqXHR.status);
             }
         });
     }, 150)

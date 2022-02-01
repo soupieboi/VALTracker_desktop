@@ -108,6 +108,7 @@ function shiftBundleView(event, imageid, bundledescmonke, thisE) {
                   || event == "Tethered Realms" && data.data[count].skins[count2].displayName == "Prosperity"
                   || event == "Glitchpop 2.0" && data.data[count].skins[count2].themeUuid == "3737b313-45e6-4760-017f-60bc18c765dd"
                   || event == "Magepunk 2.0" && data.data[count].skins[count2].themeUuid == "df7fbc2f-4801-df74-7c08-0bb09ce3904c"
+                  || event == "Tigris" && data.data[count].skins[count2].themeUuid == "70de389d-4629-3644-5694-e29230dcbd62"
                ) {
                   sessionStorage.setItem(`skinID-${skinI}`, data.data[count].skins[count2].levels[0].uuid)
                   if(count == 17) {
@@ -229,6 +230,8 @@ function shiftBundleView(event, imageid, bundledescmonke, thisE) {
          var i = 0;
          var i2 = 0;
 
+         console.log(event)
+
          for(var count = 0; count < data.data.length; count++) {
             for(var count2 = 0; count2 < data.data[count].skins.length; count2++) {
                if(
@@ -253,6 +256,7 @@ function shiftBundleView(event, imageid, bundledescmonke, thisE) {
                   || event == "Tethered Realms" && data.data[count].skins[count2].displayName == "Prosperity"
                   || event == "Glitchpop 2.0" && data.data[count].skins[count2].themeUuid == "3737b313-45e6-4760-017f-60bc18c765dd"
                   || event == "Magepunk 2.0" && data.data[count].skins[count2].themeUuid == "df7fbc2f-4801-df74-7c08-0bb09ce3904c"
+                  || event == "Tigris" && data.data[count].skins[count2].themeUuid == "70de389d-4629-3644-5694-e29230dcbd62"
                ) {
                   for(var count3 = 0; count3 < data.data[count].skins[count2].chromas.length; count3++) {
                      if(data.data[count].skins[count2].chromas[count3].swatch) {
@@ -313,19 +317,25 @@ function shiftBundleView(event, imageid, bundledescmonke, thisE) {
                   }
                }
                if(totalCost == 0) {
-                  bundleInfoLi1Span.appendChild(document.createTextNode("Bundle no longer being sold."))
+                  bundleInfoLi1Span.appendChild(document.createTextNode("Bundle not being sold."))
                   bundleInfoLi1Span.id = "price-disabled"
                   for(var count = 0; count < document.getElementsByClassName("single-weapon-price").length; count++) {
-                     document.getElementsByClassName("single-weapon-price")[count].appendChild(document.createTextNode("No longer being sold"))
+                     document.getElementsByClassName("single-weapon-price")[count].appendChild(document.createTextNode("Not being sold"))
                      document.getElementsByClassName("single-weapon-price")[count].setAttribute("id", "price-disabled")
                   }
                } else {
                   bundleInfoLi1Span.appendChild(document.createTextNode(totalCost))
                }
+            },
+            error: function(jqXHR) {
+                createErrorCard(this.url, jqXHR.status);
             }
          });
          
       },
+      error: function(jqXHR) {
+          createErrorCard(this.url, jqXHR.status);
+      }
    });
 
 //----------------------------------------------------------------------------------------------------------------

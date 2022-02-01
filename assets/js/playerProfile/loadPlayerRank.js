@@ -19,19 +19,30 @@ $(document).ready(() => {
                     './assets/img/radiant.png', 
                     './assets/img/unranked.png', 
                 ]
-                $('.player-rank').attr("src", rankIcons[data2.data[0].currenttier -3])
                 function ispositive(n){
                     return 1/(n*0)===1/0
                 }
-                for(var count = 0; count < 5; count++) {
-                    if(ispositive(data2.data[count].mmr_change_to_last_game) == true) {
-                        $(`#match-rr-id-${count}`).append("+" + data2.data[count].mmr_change_to_last_game)
-                    } else {
-                        $(`#match-rr-id-${count}`).append(data2.data[count].mmr_change_to_last_game)
+                if(data2.data[0] == undefined) {
+                    $('.player-rank').attr("src", "./assets/img/unranked.png");
+                    for(var count = 0; count < 5; count++) {
+                        $(`#match-rr-id-${count}`).append("-");
                     }
+                    $('.user-rankrating').append("0");
+                } else {
+                    $('.player-rank').attr("src", rankIcons[data2.data[0].currenttier -3])
+                    for(var count = 0; count < 5; count++) {
+                        if(ispositive(data2.data[count].mmr_change_to_last_game) == true) {
+                            $(`#match-rr-id-${count}`).append("+" + data2.data[count].mmr_change_to_last_game)
+                        } else {
+                            $(`#match-rr-id-${count}`).append(data2.data[count].mmr_change_to_last_game)
+                        }
+                    }
+                    $('.user-rankrating').append(data2.data[0].ranking_in_tier)
                 }
-                $('.user-rankrating').append(data2.data[0].ranking_in_tier)
             },
+            error: function(jqXHR) {
+                createErrorCard(this.url, jqXHR.status);
+            }
         });
     }, 1000)
 })

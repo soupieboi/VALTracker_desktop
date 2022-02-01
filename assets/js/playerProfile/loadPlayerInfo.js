@@ -24,6 +24,9 @@ function makeCallAndBuildElements() {
                 $('.insert-playername').append(data.data.name + "'s Last Matches")
             }
         },
+        error: function(jqXHR) {
+            createErrorCard(this.url, jqXHR.status);
+        }
     });
 }
 

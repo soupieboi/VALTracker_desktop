@@ -46,6 +46,31 @@ $(document).ready(() => {
             
                         for(var playerCount = 0; playerCount < data3.data[count].players.all_players.length; playerCount++) {
                             if(data3.data[count].players.all_players[playerCount].name == playerName && data3.data[count].players.all_players[playerCount].tag == playerTag) {
+
+                                if(matchmode == "Competitive") {
+                                    var matchRRwrapper = document.createElement("div");
+                                    matchRRwrapper.className = "match-rr-wrapper";
+        
+                                    var matchRRimg = document.createElement("img");
+                                    matchRRimg.className = "match-rr-img";
+                                    var rankIcons = [
+                                        './assets/img/iron_1.png', './assets/img/iron_2.png', './assets/img/iron_3.png', 
+                                        './assets/img/bronze_1.png', './assets/img/bronze_2.png', './assets/img/bronze_3.png', 
+                                        './assets/img/silver_1.png', './assets/img/silver_2.png', './assets/img/silver_3.png', 
+                                        './assets/img/gold_1.png', './assets/img/gold_2.png', './assets/img/gold_3.png', 
+                                        './assets/img/plat_1.png', './assets/img/plat_2.png', './assets/img/plat_3.png', 
+                                        './assets/img/dia_1.png', './assets/img/dia_2.png', './assets/img/dia_3.png', 
+                                        './assets/img/immortal_1.png', './assets/img/immortal_2.png', './assets/img/immortal_3.png', 
+                                        './assets/img/radiant.png',
+                                        './assets/img/unranked.png',
+                                    ]
+                                    matchRRimg.setAttribute("src", `${rankIcons[data3.data[count].players.all_players[playerCount].currenttier -3]}`)
+            
+                                    matchRRwrapper.appendChild(matchRRimg)
+        
+                                    var matchRRspan = document.createElement("span"); 
+                                }
+                                
                                 playedAgent.src = data3.data[count].players.all_players[playerCount].assets.agent.small;
             
                                 var matchKDA = document.createElement("span");
@@ -170,6 +195,18 @@ $(document).ready(() => {
                             ipc.send('changeDiscordRP', `pprofile_acitivity`)
                         }, 200)
                     }
+                                        
+                    $('.loading-icon').fadeTo(150, 0)
+                    setTimeout(function() {
+                        $('.loading-icon').css("display", "none");
+                        $('.loading-layer').css("opacity", "0");
+                        $('.loading-layer').css("display", "block");
+                        $('.loading-layer').fadeTo(150, 1)
+                        ipc.send('changeDiscordRP', `pprofile_acitivity`)
+                    }, 200)
+                },
+                error: function(jqXHR) {
+                    createErrorCard(this.url, jqXHR.status);
                 }
             });
         } else {
@@ -361,6 +398,18 @@ $(document).ready(() => {
                             ipc.send('changeDiscordRP', `pprofile_acitivity`)
                         }, 200)
                     }
+                                        
+                    $('.loading-icon').fadeTo(150, 0)
+                    setTimeout(function() {
+                        $('.loading-icon').css("display", "none");
+                        $('.loading-layer').css("opacity", "0");
+                        $('.loading-layer').css("display", "block");
+                        $('.loading-layer').fadeTo(150, 1)
+                        ipc.send('changeDiscordRP', `pprofile_acitivity`)
+                    }, 200)
+                },
+                error: function(jqXHR) {
+                    createErrorCard(this.url, jqXHR.status);
                 }
             });
         }

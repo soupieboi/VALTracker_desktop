@@ -40,8 +40,8 @@ window.onload = function() {
           url: `https://api.henrikdev.xyz/valorant/v1/account/${searchedPlayerName}/${searchedPlayerTag}`,
           type: 'get',
           success: function(data, xhr) {
-            sessionStorage.setItem("player_name", data.data.name);
-            sessionStorage.setItem("player_tag", data.data.tag);
+            sessionStorage.setItem("player_name", searchedPlayerName);
+            sessionStorage.setItem("player_tag", searchedPlayerTag);
             sessionStorage.setItem("player_region", searchedRegion);
             sessionStorage.setItem("puuid", data.data.puuid);
             var page = window.location.href;

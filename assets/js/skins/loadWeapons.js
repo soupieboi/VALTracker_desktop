@@ -42,6 +42,9 @@ function makeCallAndBuildElements() {
                var nextElement = document.getElementById("pageBottom");
                wrapper.insertBefore(skinHandler, nextElement);
             }
+         },
+         error: function(jqXHR) {
+             createErrorCard(this.url, jqXHR.status);
          }
       });
    } else if(page == "spraysPage.html") {
@@ -80,6 +83,9 @@ function makeCallAndBuildElements() {
                var nextElement = document.getElementById("pageBottom");
                wrapper.insertBefore(skinHandler, nextElement);
             }
+         },
+         error: function(jqXHR) {
+             createErrorCard(this.url, jqXHR.status);
          }
       });
    } else if(page == "titlesPage.html") {
@@ -114,6 +120,9 @@ function makeCallAndBuildElements() {
                wrapper.insertBefore(skinHandler, nextElement);
                
             }
+         },
+         error: function(jqXHR) {
+             createErrorCard(this.url, jqXHR.status);
          }
       });
    } else {
@@ -200,8 +209,14 @@ function makeCallAndBuildElements() {
                         }
                      }
                   }
+               },
+               error: function(jqXHR) {
+                   createErrorCard(this.url, jqXHR.status);
                }
             });
+         },
+         error: function(jqXHR) {
+             createErrorCard(this.url, jqXHR.status);
          }
       });
    }

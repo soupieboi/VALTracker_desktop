@@ -38,6 +38,9 @@ function showPromoVid(event, id, weaponNums) {
                 video.setAttribute("src", data.data[parseInt(slug1)].skins[parseInt(slug2)].levels[data.data[parseInt(slug1)].skins[parseInt(slug2)].levels.length -1].streamedVideo);
             }
             //video.setAttribute("src", event)
+        },
+        error: function(jqXHR) {
+            createErrorCard(this.url, jqXHR.status);
         }
     })
 }

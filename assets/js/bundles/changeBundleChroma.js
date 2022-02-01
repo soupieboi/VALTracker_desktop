@@ -19,6 +19,9 @@ function changeBundleChroma(id, src) {
                 document.getElementById(list[i].id).setAttribute("src", data.data[parseInt(slug1)].skins[parseInt(slug2)].chromas[id-1].fullRender)
                 var chroma = id;
             }
+        },
+        error: function(jqXHR) {
+            createErrorCard(this.url, jqXHR.status);
         }
     })
 }
