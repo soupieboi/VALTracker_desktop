@@ -1,5 +1,5 @@
 ///
-- Added a card that pops up after an update, showing the newest features and fixes! *(Yes, this one.)*#
+- Added a card that pops up after an update, showing the newest features and fixes! *(Yes, this one.)*
 
 - Added cards that pop up whenever ann API call fails. 
 ///
