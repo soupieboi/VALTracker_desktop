@@ -2997,10 +2997,6 @@ select:focus::-ms-value {
   display: contents;
 }
 
-.scoreboard-header td:not(.header-td-nonclick) {
-  cursor: pointer;
-}
-
 .played_agent_img {
   width: 40%;
 }
@@ -3010,11 +3006,7 @@ select:focus::-ms-value {
 }
 
 .playertag_grey {
-  color: grey;
-}
-
-.header-td.active {
-  text-decoration: underline;
+  color: rgb(185, 185, 185);
 }
 
 #settings {
@@ -3691,4 +3683,32 @@ select:focus::-ms-value {
 
 #copy-to-clip {
   width: 14rem;
+}
+
+.header-td span {
+  width: fit-content;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.header-td span.active {
+  text-decoration: underline;
+  text-shadow:
+    0 0 5px rgba(255, 255, 255, 0.7),
+    0 0 20px rgba(192, 192, 192, 0.7),
+    0 0 50px rgba(112, 112, 112, 0.7);
+}
+
+.TeamMVP {
+  text-shadow:
+    0 0 5px rgba(255, 255, 255, 0.7),
+    0 0 20px rgba(192, 192, 192, 0.7),
+    0 0 50px rgba(112, 112, 112, 0.7);
+}
+
+.MatchMVP {
+  text-shadow:
+    0 0 5px rgba(255, 251, 0, 0.7),
+    0 0 20px rgba(255, 251, 0, 0.7),
+    0 0 50px rgba(255, 251, 0, 0.7);
 }
