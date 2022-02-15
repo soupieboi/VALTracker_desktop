@@ -3,6 +3,15 @@ $('#backToLastPage').on("click", function() {
     window.location.href = lastPage
 })
 
+function hideVideo() {
+    $('.header-relative-div-largeview').css("display", "block")
+    $('.largeview-vid').css("display", "none")
+    document.getElementById('largeview-vid-element').pause();
+    setTimeout(function() {
+        $('.largeview-vid').css("background-color", "rgba(0, 0, 0, 0)")
+    }, 100)
+}
+
 $.ajax({
     url: `https://valorant-api.com/v1/weapons/skins/${sessionStorage.getItem("skinID")}`,
     type: 'get',
@@ -71,6 +80,13 @@ $.ajax({
                     $('#skin-vpprice').addClass("disabled")
                 }
 
+                if(data.data.levels[0].streamedVideo !== null) {
+                    $('#largeview-vid-element').attr('src', data.data.levels[0].streamedVideo);
+                    $('.show-skinvid').css('display', 'block');
+                } else {
+                    $('.show-skinvid').css('display', 'none');
+                }
+
                 $('.level-options-li').on("click", function() {
                     $('.active-option').removeClass("active-option")
                     $(this).addClass("active-option")
@@ -84,6 +100,12 @@ $.ajax({
                         i--;
                     }
                     $('.weapon-image').attr("src", data.data.levels[i].displayIcon);
+                    if(data.data.levels[i].streamedVideo !== null) {
+                        $('#largeview-vid-element').attr('src', data.data.levels[i].streamedVideo);
+                        $('.show-skinvid').css('display', 'block');
+                    } else {
+                        $('.show-skinvid').css('display', 'none');
+                    }
                 })
         
                 $('.singleview-swatch').on("click", function() {
@@ -100,7 +122,35 @@ $.ajax({
                     } else {
                         $('.weapon-image').attr("src", data.data.chromas[newStr].displayIcon);
                     }
-                })
+                    if(newStr == 0) {
+                        console.log(newStr)
+                        $('#largeview-vid-element').attr('src', data.data.levels[data.data.levels.length-1].streamedVideo);
+                        $('.show-skinvid').css('display', 'block');
+                    } else {
+                        if(data.data.chromas[newStr].streamedVideo !== null) {
+                            if(newStr == 0) {
+                                $('#largeview-vid-element').attr('src', data.data.levels[data.data.levels.length-1].streamedVideo);
+                            } else {
+                                $('#largeview-vid-element').attr('src', data.data.chromas[newStr].streamedVideo);
+                            }
+                            $('.show-skinvid').css('display', 'block');
+                        } else {
+                            $('.show-skinvid').css('display', 'none');
+                        }
+                    }
+                });
+
+                $('.show-skinvid').on("click", function() {
+                    var video = document.getElementById("largeview-vid-element");
+                    video.currentTime = 0;
+                    $('html, body, .bundle-largeview').css("overflow", "hidden")
+                    $('.largeview-vid').css("display", "grid")
+                    $('.header-relative-div-largeview').css("display", "none")
+                    $('.header-relative-div-video').css("opacity", "1")
+                    setTimeout(function() {
+                        $('.largeview-vid').css("background-color", "rgba(0, 0, 0, 0.5)")
+                    }, 400)
+                });
             },
             error: function(jqXHR) {
                 createErrorCard(this.url, jqXHR.status);
@@ -110,4 +160,4 @@ $.ajax({
     error: function(jqXHR) {
         createErrorCard(this.url, jqXHR.status);
     }
-})
+});

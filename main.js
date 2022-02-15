@@ -5,6 +5,9 @@ const { autoUpdater } = require("electron-updater");
 const log = require('electron-log');
 const fs = require('fs');
 const RPC = require('discord-rpc');
+const { session } = require('electron')
+const { Agent } = require('https');
+const axios = require('axios').default;
 
 const discordClient = new RPC.Client({transport: "ipc"});
 
@@ -18,12 +21,12 @@ const starting_activity = {
     },
     buttons: [
         {
-            "label": "Open in VALTracker",
-            "url": "valtracker-ptcl://open"
-        },
-        {
             "label": "Download VALTracker",
             "url": "https://valtracker.gg"
+        },
+        {
+            "label": "Join the Discord",
+            "url": "https://discord.gg/aJfQ4yHysG"
         }
     ],
     timestamps: {start: Date.now()},
@@ -40,12 +43,12 @@ const hub_activity = {
     },
     buttons: [
         {
-            "label": "Open in VALTracker",
-            "url": "valtracker-ptcl://open"
-        },
-        {
             "label": "Download VALTracker",
             "url": "https://valtracker.gg"
+        },
+        {
+            "label": "Join the Discord",
+            "url": "https://discord.gg/aJfQ4yHysG"
         }
     ],
     timestamps: {start: Date.now()},
@@ -62,12 +65,12 @@ const skins_activity = {
     },
     buttons: [
         {
-            "label": "Open in VALTracker",
-            "url": "valtracker-ptcl://open"
-        },
-        {
             "label": "Download VALTracker",
             "url": "https://valtracker.gg"
+        },
+        {
+            "label": "Join the Discord",
+            "url": "https://discord.gg/aJfQ4yHysG"
         }
     ],
     timestamps: {start: Date.now()},
@@ -84,12 +87,12 @@ const bundles_activity = {
     },
     buttons: [
         {
-            "label": "Open in VALTracker",
-            "url": "valtracker-ptcl://open"
-        },
-        {
             "label": "Download VALTracker",
             "url": "https://valtracker.gg"
+        },
+        {
+            "label": "Join the Discord",
+            "url": "https://discord.gg/aJfQ4yHysG"
         }
     ],
     timestamps: {start: Date.now()},
@@ -106,12 +109,12 @@ const pprofile_acitivity = {
     },
     buttons: [
         {
-            "label": "Open in VALTracker",
-            "url": "valtracker-ptcl://open"
-        },
-        {
             "label": "Download VALTracker",
             "url": "https://valtracker.gg"
+        },
+        {
+            "label": "Join the Discord",
+            "url": "https://discord.gg/aJfQ4yHysG"
         }
     ],
     timestamps: {start: Date.now()},
@@ -128,12 +131,12 @@ const favmatches_acitivity = {
     },
     buttons: [
         {
-            "label": "Open in VALTracker",
-            "url": "valtracker-ptcl://open"
-        },
-        {
             "label": "Download VALTracker",
             "url": "https://valtracker.gg"
+        },
+        {
+            "label": "Join the Discord",
+            "url": "https://discord.gg/aJfQ4yHysG"
         }
     ],
     timestamps: {start: Date.now()},
@@ -150,12 +153,12 @@ const playersearch_acitivity = {
     },
     buttons: [
         {
-            "label": "Open in VALTracker",
-            "url": "valtracker-ptcl://open"
-        },
-        {
             "label": "Download VALTracker",
             "url": "https://valtracker.gg"
+        },
+        {
+            "label": "Join the Discord",
+            "url": "https://discord.gg/aJfQ4yHysG"
         }
     ],
     timestamps: {start: Date.now()},
@@ -172,12 +175,12 @@ const settings_acitivity = {
     },
     buttons: [
         {
-            "label": "Open in VALTracker",
-            "url": "valtracker-ptcl://open"
-        },
-        {
             "label": "Download VALTracker",
             "url": "https://valtracker.gg"
+        },
+        {
+            "label": "Join the Discord",
+            "url": "https://discord.gg/aJfQ4yHysG"
         }
     ],
     timestamps: {start: Date.now()},
@@ -194,12 +197,12 @@ const patchnotes_acitivity = {
     },
     buttons: [
         {
-            "label": "Open in VALTracker",
-            "url": "valtracker-ptcl://open"
-        },
-        {
             "label": "Download VALTracker",
             "url": "https://valtracker.gg"
+        },
+        {
+            "label": "Join the Discord",
+            "url": "https://discord.gg/aJfQ4yHysG"
         }
     ],
     timestamps: {start: Date.now()},
@@ -341,6 +344,7 @@ function createWindow () {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: true,
             enableRemoteModule: true,
+            contextIsolation: false,
         }
     });
 
@@ -422,7 +426,6 @@ function createWindow () {
                         var checkedPath4 = checkedFolder1 + '/user_data/playersearch/preferredMatchFilter.json' //Preference File
                         if(fs.existsSync(checkedFolder3)) { //check for folder
                             if(fs.existsSync(checkedPath4)) { //check for file
-                                log.info('YEP');
                                 mainWindow.loadFile('./fakeLoadingIndex.html'); //load window
                             } else {
                                 let matchFilterData = { 
@@ -609,16 +612,21 @@ function createWindow () {
             }
         }
     }
+
+    process.env.MAIN_WINDOW_ID = mainWindow.id;
     
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
 }
 
-app.on('ready', function() {
-    createWindow();
-    autoUpdater.checkForUpdates();
+var updateCheck;
 
+app.on('ready', async function() {
+    createWindow();
+    updateCheck = setInterval(function() {
+        autoUpdater.checkForUpdates();
+    }, 1800000)
     let onLoadData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/onLoad.json')
     let loadData = JSON.parse(onLoadData)
     if(loadData.hasDiscordRPenabled == undefined) {
@@ -640,6 +648,7 @@ autoUpdater.on('checking-for-update', () => {
 autoUpdater.on('update-available', (info) => {
     sendStatusToWindow('Update available.');
     mainWindow.webContents.send('update-available');
+    window.clearInterval(updateCheck);
 })
 
 autoUpdater.on('update-not-available', (info) => {
@@ -699,3 +708,121 @@ ipc.on('changeTrayIcon', function(event, arg) {
         }
     }
 });
+
+ipc.on('setCookies', function(event, arg) {
+    log.info(arg)
+    session.defaultSession.cookies.get({})
+    .then((cookies) => {
+        cookies.forEach(cookie => {
+            if(cookie.name == "tdid") {
+                event.sender.send('tdid', cookie.value)
+            }
+        })
+    }).catch((error) => {
+        log.info(error)
+    })
+})
+
+var value;
+var expDate;
+
+ipc.on('getSSIDCookie', async function(event, arg) {
+    var rawData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/cookies.json')
+    var data = JSON.parse(rawData)
+    for(var i = 0; i < data.length; i++) {
+        if(data[i].name == "ssid") {
+            value = data[i].value;
+            expDate = data[i].expirationDate;
+            event.sender.send('ssid', data[i].value + " // " + data[i].expirationDate)
+        }
+    }
+})
+var newTokenData;
+var cycleRunning = false;
+function getTokenDataFromURL(url)
+{
+    try
+    {
+        const searchParams = new URLSearchParams((new URL(url)).hash.slice(1));
+        return {
+            accessToken: searchParams.get('access_token'),
+            expiresIn: searchParams.get('expires_in'),
+            id_token: searchParams.get('id_token'),
+        };
+    }
+    catch(err)
+    {
+        throw new Error(err);
+    }
+}
+ipc.on('startReauthCycle', async function (event, arg) {
+    async function reauthCycle() {
+        var rawCookies = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/cookies.json');
+        var bakedCookies = JSON.parse(rawCookies);
+    
+        var ssid;
+    
+        var jsontype = typeof bakedCookies[0] === "string";
+    
+        //check if json is object or array
+    
+        if(jsontype == true) {
+            for(var i = 0; i < bakedCookies.length; i++) {
+                if(bakedCookies[i].includes("ssid=")) {
+                    //console.log(bakedCookies[i])
+                    ssid = bakedCookies[i]
+                }
+            }
+        } else {
+            for(var i = 0; i < bakedCookies.length; i++) {
+                if(bakedCookies[i].name == "ssid") {
+                    //console.log(bakedCookies)
+                    ssid = `ssid=${bakedCookies[i].value}; Domain=${bakedCookies[i].domain}; Path=${bakedCookies[i].path}; hostOnly=${bakedCookies[i].hostOnly}; secure=${bakedCookies[i].secure}; httpOnly=${bakedCookies[i].httpOnly}; session=${bakedCookies[i].session}; sameSite=${bakedCookies[i].sameSite};`
+                }
+            }
+        }
+    
+        const ciphers = [
+            'TLS_CHACHA20_POLY1305_SHA256',
+            'TLS_AES_128_GCM_SHA256',
+            'TLS_AES_256_GCM_SHA384',
+            'TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256'
+        ];
+    
+        const agent = new Agent({ ciphers: ciphers.join(':'), honorCipherOrder: true, minVersion: 'TLSv1.2' });
+    
+        const access_tokens = await axios.post('https://auth.riotgames.com/api/v1/authorization', {
+            client_id: "play-valorant-web-prod",
+            nonce: 1,
+            redirect_uri: "https://playvalorant.com/opt_in",
+            response_type: "token id_token",
+            scope: "account openid"
+        }, { 
+            headers: {
+                Cookie: ssid,
+                'User-Agent': 'RiotClient/43.0.1.4195386.4190634 rso-auth (Windows; 10;;Professional, x64)'
+            },
+            httpsAgent: agent
+        });
+    
+        //console.log(access_tokens.headers['set-cookie'])
+        //console.log(access_tokens.data.response)
+        //console.log(access_tokens)
+        if(access_tokens.data.response == undefined) {
+            event.sender.send('reauthFail')
+        } else {
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/cookies.json', JSON.stringify(access_tokens.headers['set-cookie']))
+            //const newSSID = access_tokens.headers['set-cookie']
+            event.sender.send('reauthSuccess', access_tokens.data.response.parameters.uri)
+            newTokenData = getTokenDataFromURL(access_tokens.data.response.parameters.uri);
+            return newTokenData
+        }
+    };
+    const newURI = await reauthCycle();
+    console.log(newURI)
+    if(cycleRunning == false) {
+        setInterval(reauthCycle, (newTokenData.expiresIn - 300) * 1000)
+        console.log("CYCLE STARTED")
+        cycleRunning = true;
+    }
+})

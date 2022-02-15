@@ -85,6 +85,17 @@ $(document).ready(() => {
             }
         }, 500);
     });
+    $('#store').on("click", function(){
+        leaveFade();
+        toggle();
+        setTimeout(function() {
+            if(directoryName == "CollectablePages") {
+                window.location.href = "../playerStore.html";
+            } else {
+                window.location.href = "playerStore.html";
+            }
+        }, 500);
+    });
     $('#favs').on("click", function(){
         leaveFade();
         toggle();
