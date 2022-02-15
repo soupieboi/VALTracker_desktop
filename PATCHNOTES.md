@@ -8,5 +8,12 @@
 
 - Edited the Discord RP buttons.
 
+- Added Riot Logins.
+
+- Added a page for your Personal Store and Night Market.
+
 ## __Bugfixes__
 
+- Fixed the Bundle Timer in the Hub to display the right time.
+
+- Fixed the Patchnotes notification after an update not being spaced correctly.

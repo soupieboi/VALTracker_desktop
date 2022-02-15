@@ -3585,7 +3585,7 @@ select:focus::-ms-value {
   font-size: 1em;
 }
 
-#card-ul-wrapper ul li::before {
+#card-ul-wrapper ul li p::before {
   content: "- ";
 }
 

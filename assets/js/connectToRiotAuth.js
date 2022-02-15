@@ -209,6 +209,13 @@ $(document).ready(() => {
                     authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/current_shop.json', JSON.stringify(shopData))
                     console.log(shopData)
 
+                    var pathvar = document.location.pathname;
+                    var page = pathvar.split("/").pop();
+
+                    if(page == "index.html" || page == "fakeLoadingIndex.html") {
+                        $(".featured-bundle-time-left").append(shopData.FeaturedBundle.BundleRemainingDurationInSeconds)
+                    }
+
                     Date.prototype.addSeconds = function(seconds) {
                         var copiedDate = new Date(this.getTime());
                         return new Date(copiedDate.getTime() + seconds * 1000);
