@@ -17,7 +17,7 @@ function switchToStore() {
 $('.reveal-item-button').on("click", function() {
     var censorbanner = this.parentElement;
     $(censorbanner).addClass('revealing')
-    $(censorbanner).css("background-color", "white");
+    $(censorbanner).css("background-color", "rgba(150, 150, 150, 1)");
     setTimeout(function() {
         $(censorbanner).fadeTo(100, 0);
         $(censorbanner).removeClass('revealing')

@@ -103,6 +103,23 @@ async function getWallet() {
     })).json());
 }
 
+async function getInventory() {
+    return (await (await this.fetch('https://pd.' + region + '.a.pvp.net/store/v1/entitlements/' + puuid, {
+        method: 'GET',
+        headers: {
+            'X-Riot-Entitlements-JWT': entitlement_token,
+            'Authorization': 'Bearer ' + bearer,
+            'Content-Type': 'application/json',
+            'User-Agent': ''
+        },
+    })).json());
+}
+
+async function checkForBoughtSkins() {
+    const inventoryData = await getInventory()
+    return inventoryData
+}
+
 function getTokenDataFromURL(url)
 {
     try
@@ -161,6 +178,7 @@ $(document).ready(() => {
                     success: function(data2, xhr) {
                         for(var i = 0; i < nightmarket.length; i++) { //Array
                             console.log(nightmarket[i])
+                            $(`.night-market-offer.${i+1}`).attr('id', nightmarket[i].Offer.OfferID)
                             for(var i2 = 0; i2 < data2.data.length; i2++) { //Weapon Type
                                 for(var i3 = 0; i3 < data2.data[i2].skins.length; i3++) { //Weapon Skins
                                     if(data2.data[i2].skins[i3].levels[0].uuid == nightmarket[i].Offer.OfferID) {
@@ -211,6 +229,7 @@ $(document).ready(() => {
                         type: 'get',
                         success: function(data2, xhr) {
                             for(var i = 0; i < dailyShop.length; i++) { //Array
+                                $(`.single-item.${i+1}`).attr('id', dailyShop[i])
                                 for(var i2 = 0; i2 < data2.data.length; i2++) { //Weapon Type
                                     for(var i3 = 0; i3 < data2.data[i2].skins.length; i3++) { //Weapon Skins
                                         if(data2.data[i2].skins[i3].levels[0].uuid == dailyShop[i]) {
@@ -345,6 +364,7 @@ $(document).ready(() => {
                             success: function(data2, xhr) {
                                 for(var i = 0; i < nightmarket.length; i++) { //Array
                                     console.log(nightmarket[i])
+                                    $(`.night-market-offer.${i+1}`).attr('id', nightmarket[i].Offer.OfferID)
                                     for(var i2 = 0; i2 < data2.data.length; i2++) { //Weapon Type
                                         for(var i3 = 0; i3 < data2.data[i2].skins.length; i3++) { //Weapon Skins
                                             if(data2.data[i2].skins[i3].levels[0].uuid == nightmarket[i].Offer.OfferID) {
@@ -395,6 +415,7 @@ $(document).ready(() => {
                                 type: 'get',
                                 success: function(data2, xhr) {
                                     for(var i = 0; i < dailyShop.length; i++) { //Array
+                                        $(`.single-item.${i+1}`).attr('id', dailyShop[i])
                                         for(var i2 = 0; i2 < data2.data.length; i2++) { //Weapon Type
                                             for(var i3 = 0; i3 < data2.data[i2].skins.length; i3++) { //Weapon Skins
                                                 if(data2.data[i2].skins[i3].levels[0].uuid == dailyShop[i]) {
@@ -478,6 +499,43 @@ $(document).ready(() => {
                     }, 1000)
                 });
             })
+        }
+        const inventoryData = await checkForBoughtSkins();
+        console.log(inventoryData.EntitlementsByTypes)
+        var storeIDs = [];
+        var nightmarketIDs = [];
+        var storeOffers = document.getElementsByClassName("single-item");
+        var nightmarketOffers = document.getElementsByClassName("night-market-offer");
+
+        for (let item of storeOffers) {
+            storeIDs.push(item.id);
+        }
+
+        for (let item of nightmarketOffers) {
+            nightmarketIDs.push(item.id);
+        }
+        console.log(storeIDs)
+        console.log(nightmarketIDs)
+
+        for(var i = 0; i < inventoryData.EntitlementsByTypes.length; i++) {
+            if(inventoryData.EntitlementsByTypes[i].ItemTypeID == "e7c63390-eda7-46e0-bb7a-a6abdacd2433") {
+                for(var i2 = 0; i2 < inventoryData.EntitlementsByTypes[i].Entitlements.length; i2++) {
+                    if(storeIDs.includes(inventoryData.EntitlementsByTypes[i].Entitlements[i2].ItemID)) {
+                        for (let item of storeOffers) {
+                            if(item.id == inventoryData.EntitlementsByTypes[i].Entitlements[i2].ItemID) {
+                                item.classList.add('sold');
+                            }
+                        }
+                    }
+                    if(nightmarketIDs.includes(inventoryData.EntitlementsByTypes[i].Entitlements[i2].ItemID)) {
+                        for (let item of nightmarketOffers) {
+                            if(item.id == inventoryData.EntitlementsByTypes[i].Entitlements[i2].ItemID) {
+                                item.classList.add('sold');
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
     getShop();

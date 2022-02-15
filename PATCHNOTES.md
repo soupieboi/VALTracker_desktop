@@ -17,3 +17,5 @@
 - Fixed the Bundle Timer in the Hub to display the right time.
 
 - Fixed the Patchnotes notification after an update not being spaced correctly.
+
+- Fixes Single Skin views after an API Endpoint seems to be depreciated now.
