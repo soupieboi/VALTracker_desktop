@@ -30,12 +30,12 @@
       {
         "provider": "github",
         "owner": "SpiritLetsPlays",
-        "repo": "VALTracker_src"
+        "repo": "VALTracker_desktop"
       }
     ]
   },
   "author": "Spirit",
-  "repository": "https://github.com/spiritletsplays/valtracker_src",
+  "repository": "https://github.com/spiritletsplays/VALTracker_desktop",
   "license": "MIT",
   "devDependencies": {
     "electron": "^11.5.0",
