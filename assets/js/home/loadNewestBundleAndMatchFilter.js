@@ -34,6 +34,7 @@ $(document).ready(() => {
                                         return dDisplay + hDisplay + mDisplay + sDisplay; 
                                     }
                                     setInterval(function() {
+                                        $('.featured-bundle-time-left').fadeTo(400, 1)
                                         secondsRemaining--;
                                         $('.featured-bundle-time-left').empty()
                                         $('.featured-bundle-time-left').append(secondsToHms(secondsRemaining -1) + " remaining")
