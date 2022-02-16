@@ -1,7 +1,7 @@
 ## __New Features__
 
 - HOW DO I SEE THE STORE WITHOUT OPENING THIS SH!@%Y GAME 
-    - Added Riot Logins. Riot logins will be required to use the app from now on. No Login data will be sent to any servers but riot's, as it opens in a seperate window. This allows you to see your Store AND Night Marktet in the app!
+    - Added Riot Logins. Riot logins will be required to use the app from now on. No Login data will be sent to any servers but riot's, as it opens in a seperate window. This allows you to see your Store AND Night Market in the app!
 
 - I like how this Vandal Skin looks, but I can't see the Video!
     - The view for single skins now includes a video to see the skin's preview video.
