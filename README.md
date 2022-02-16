@@ -2,9 +2,11 @@
 
 # VALTracker
 
-![GitHub all releases](https://img.shields.io/github/downloads/spiritletsplays/valtracker_src/total?color=%23ac6dff&label=Downloads) ![GitHub](https://img.shields.io/github/license/spiritletsplays/valtracker_src?label=License) [![Discord](https://img.shields.io/discord/927898163094900777?color=%235865F2&label=Our%20Discord)](https://discord.gg/aJfQ4yHysG)
+![GitHub](https://img.shields.io/github/license/spiritletsplays/valtracker_src?label=License) [![Discord](https://img.shields.io/discord/927898163094900777?color=%235865F2&label=Our%20Discord)](https://discord.gg/aJfQ4yHysG)
 
-A completely free Stats Tracker/Gameinfo Client for VALORANT
+A completely free Stats Tracker/Gameinfo Client for VALORANT.
+
+Download [here](https://valtracker.gg/)
 
 ## Features:
 - Match History

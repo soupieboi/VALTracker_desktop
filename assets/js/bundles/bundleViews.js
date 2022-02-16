@@ -110,6 +110,7 @@ function shiftBundleView(event, imageid, bundledescmonke, thisE) {
                   || event == "Magepunk 2.0" && data.data[count].skins[count2].themeUuid == "df7fbc2f-4801-df74-7c08-0bb09ce3904c"
                   || event == "Tigris" && data.data[count].skins[count2].themeUuid == "70de389d-4629-3644-5694-e29230dcbd62"
                   || event == "Undercity" && data.data[count].skins[count2].themeUuid == "6923b479-4b54-28b6-a70c-dbbb318145ad"
+                  || event == "Undercity" && data.data[count].skins[count2].themeUuid == "6923b479-4b54-28b6-a70c-dbbb318145ad" 
                ) {
                   sessionStorage.setItem(`skinID-${skinI}`, data.data[count].skins[count2].levels[0].uuid)
                   if(count == 17) {
