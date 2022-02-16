@@ -1,10 +1,15 @@
 ///
-- Added a card that pops up after an update, showing the newest features and fixes! *(Yes, this one.)*
+- Added Riot Logins. (Required to use the app) Logging in will allow you to see your **Personal Store** in-app! *Logins use Riot's official service.*
 
-- Added cards that pop up whenever ann API call fails. 
+- The App now checks for new Updates every 30 minutes.
+
+- Added Match and Team MVPs to Match Tiles.
 ///
-- If a user hasn't played any matches at all yet, their page will now still load instead of being stuck in infinite loading.
+- Fixed the Bundle Timer in the Hub to display the right time.
 
-- A players page will no longer load infinitely if the match filter is set to "All Matches" and the user has played a competitive match in the last 5 games.
+- Fixed the Patchnotes notification after an update not being spaced correctly.
 
-- The Tigris "Hu Else" Melee will now show up in the bundle view again.
+- Fixes Single Skin views after an API Endpoint seems to be depreciated now.
+  
+**HAVE FUN USING VALTRACKER**
+*~ Spirit, Developer of VALTracker.gg*
