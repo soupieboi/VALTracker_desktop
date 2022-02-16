@@ -57,6 +57,7 @@
     <div class="navslide">
       <ul class="navslide-ul-container">
         <li id="home" class="navslide-li"><span class="" id="home-nav">Home</span></li>
+        <li id="store" class="navslide-li"><span class="" id="store-nav">Your Store</span></li>
         <li id="favs" class="navslide-li"><span class="" id="favs-nav">Favourite Matches</span></li>
         <li id="psearch" class="navslide-li"><span class="" id="search-nav">Playersearch</span></li>
         <!--<li id="profile" class="navslide-li"><span class="" id="profile-nav">Your Profile</span></li>-->
@@ -108,6 +109,14 @@
         <div class="singleview-swatch-wrapper" id="swatch-handler">
           <img id="last-swatch" style="display: none;">
         </div>
+        <br>
+        <button class="show-skinvid">Show Video</button>
+      </div>
+      <div class="largeview-vid" id="promo-vid-div">
+        <div class="header-relative-div-video" id="sec" onclick="hideVideo()" style="opacity: 0;">
+          <div id="toggle"></div>
+        </div>
+        <video controls onloadstart="this.volume=0.25" class="skinview-weapon-video" src="" id="largeview-vid-element"></video>
       </div>
     </div>
 

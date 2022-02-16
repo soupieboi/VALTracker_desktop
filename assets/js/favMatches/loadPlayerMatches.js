@@ -111,6 +111,52 @@ $(document).ready(() => {
                             var matchKDA = document.createElement("span");
                             matchKDA.className = "match-kda";
                             matchKDA.appendChild(document.createTextNode("KDA: " + data.data.players.all_players[playerCount].stats.kills + "/" + data.data.players.all_players[playerCount].stats.deaths + "/" + data.data.players.all_players[playerCount].stats.assists))
+                            var scoreArray = [];
+                            var playerArray = [];
+                            for(var pcount = 0; pcount < data.data.players.all_players.length; pcount++) {
+                                scoreArray.push(data.data.players.all_players[pcount].stats.score)
+                                playerArray.push(data.data.players.all_players[pcount].name + "#" + data.data.players.all_players[pcount].tag)
+                            }
+                            var highestScore = Math.max(...scoreArray)
+                            for(var arrcount = 0; arrcount < scoreArray.length; arrcount++) {
+                                if(scoreArray[arrcount] == highestScore) {
+                                    break;
+                                }
+                            }
+                            if(playerArray[arrcount] == playerName + "#" + playerTag) {
+                                matchKDA.classList.add("MatchMVP")
+                            } else {
+                                for(var psearch = 0; psearch < data.data.players.all_players.length; psearch++) {
+                                    if(data.data.players.all_players[psearch].name + "#" + data.data.players.all_players[psearch].tag == playerName + "#" + playerTag) {
+                                        console.log("FOUND EM")
+                                        break;
+                                    }
+                                }
+                                console.log(data.data.players.all_players[psearch].team)
+                                var teamScoreArray = [];
+                                var teamPlayerArray = [];
+                                if(data.data.players.all_players[psearch].team == "Blue") {
+                                    for(var pcount = 0; pcount < data.data.players.red.length; pcount++) {
+                                        teamScoreArray.push(data.data.players.red[pcount].stats.score)
+                                        teamPlayerArray.push(data.data.players.red[pcount].name + "#" + data.data.players.red[pcount].tag)
+                                    }
+                                } else {
+                                    for(var pcount = 0; pcount < data.data.players.red.length; pcount++) {
+                                        teamScoreArray.push(data.data.players.red[pcount].stats.score)
+                                        teamPlayerArray.push(data.data.players.red[pcount].name + "#" + data.data.players.red[pcount].tag)
+                                    }
+                                }
+                                var highestScore = Math.max(...teamScoreArray)
+                                console.log(highestScore)
+                                for(var arrcount = 0; arrcount < teamScoreArray.length; arrcount++) {
+                                    if(teamScoreArray[arrcount] == highestScore) {
+                                        break;
+                                    }
+                                }
+                                if(teamPlayerArray[arrcount] == playerName + "#" + playerTag) {
+                                    matchKDA.classList.add("TeamMVP")
+                                }
+                            }
         
                             var matchStanding = document.createElement("div");
                             var result = document.createElement("span");
@@ -257,7 +303,6 @@ $(document).ready(() => {
             } else { //No folder found
                 fs.mkdirSync(checkedFolder)
                 console.log("NO FOLDER FOUND, CREATING FOLDER AND DOWNLOADING DATA")
-                fs.writeFileSync(checkedPath, JSON.stringify(APIdata));
                 window.location.href = ""
             }
         }

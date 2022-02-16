@@ -56,8 +56,8 @@
     </div>
     <div class="navslide">
       <ul class="navslide-ul-container">
-        <li id="home" class="navslide-li color"><span class="" id="home-nav">Home</span></li>
-        <li id="store" class="navslide-li"><span class="" id="store-nav">Your Store</span></li>
+        <li id="home" class="navslide-li"><span class="" id="home-nav">Home</span></li>
+        <li id="store" class="navslide-li color"><span class="" id="store-nav">Your Store</span></li>
         <li id="favs" class="navslide-li"><span class="" id="favs-nav">Favourite Matches</span></li>
         <li id="psearch" class="navslide-li"><span class="" id="search-nav">Playersearch</span></li>
         <!--<li id="profile" class="navslide-li"><span class="" id="profile-nav">Your Profile</span></li>-->
@@ -78,109 +78,121 @@
       <hr style="position: absolute; bottom: 2.9rem; left: 1rem; width: 10rem; background: linear-gradient(to right, var(--gradient-left),  var(--gradient-right)); height: 2px; border: none; box-shadow: var(--box-shadow);">
       <li id="socials" class="navslide-li" style="list-style-type: none;"><span id="socials-span"><i class="fab fa-discord" id="socials-i" style="margin-right: 1rem;"></i><i class="fab fa-twitter" id="socials-i" style="margin-right: 1rem;"></i><i class="fab fa-github" id="socials-i" style="margin-right: 1rem;"></i><i class="fas fa-globe"></i></a></li>
     </div>
-    <div class="whats-new-wrapper">
-      <div class="whats-new-card" id="whats-new-card">
-        <div class="card-relative-div-largeview" id="markPatchnotesAsRead">
-          <div id="toggle"></div>
-        </div>
-        <div class="whats-new-card-header">
-          <span style="margin-bottom: 0.1rem; font-weight: bold; font-size: 1.2em;">VALTRACKER HAS BEEN UPDATED!</span>
-          <p style="color: grey; margin-top: 0;" id="version-num">Version </p>
-        </div>
-        <div class="whats-new-content" id="card-ul-wrapper">
-          <div class="whats-new-content-header">
-            <span style="margin-bottom: 0.1rem; font-weight: bold; font-size: 1.2em;">WHAT'S NEW?</span>
-            <hr id="whats-new-content-header-hr">
-          </div>
-        </div>
-        <div class="whats-new-fixes" id="card-ul-wrapper">
-          <div class="whats-new-content-header">
-            <span style="margin-bottom: 0.1rem; font-weight: bold; font-size: 1.2em;">BUGFIXES</span>
-            <hr id="whats-new-fixes-header-hr">
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="error-code-mention-wrapper" id="insertErrorCodes">
       <hr id="lastErrorElement" style="display: none;">
     </div>
-    <div class="app" id="main-home">
-      <div class="pageheader-home">
-        <h1 class="user-greetings"></h1>
-        <hr class="rotated-sep-home">
-        <img class="user-rank-icon" src="assets/img/unranked.png">
-        <span class="user-rr-wrapper">RR: <span class="user-rankrating"></span></span>
+    <div class="app" id="main-home" style="margin-left: 0;">
+      <div class="store-wrapper">
+        <div class="store-featured-bundle-wrapper">
+          <div class="featured-bundle-image-wrapper">
+            <h1 class="featured-bundle-header" style="margin-bottom: 0;">Featured Bundle - </h1>
+            <span class="featured-bundle-time-left grey"></span>
+            <img class="store-bundle-image" style="border-radius: 4px; border: 1px solid grey;" src="">
+            <span class="featured-bundle-price">Price: <span class="insert-bundle-price">7100</span><img style="height: 2rem; margin-left: 0.4rem; top: 6px; position: relative;" src="assets/img/vp_icon.png"></span>
+          </div>
+          <div class="tiles-wrapper">
+            <div class="wallet-balance-wrapper">
+              <h1>Your Wallet</h1>
+              <span><img style="height: 2rem; margin-right: 0.4rem; top: 10px; position: relative;" src="assets/img/vp_icon.png"> <span class="wallet-vp"></span></span>
+              <br>
+              <span><img style="height: 2rem; margin-right: 0.4rem; top: 10px; position: relative;" src="assets/img/radianite_icon.png"> <span class="wallet-rp"></span></span>
+            </div>
+            <div class="night-market-wrapper">
+              <h1 style="margin-bottom: 1rem;">NIGHT MARKET</h1>
+              <span class="nightmarket-time-left grey"></span>
+            </div>
+          </div>
+        </div>
+        <h1 class="single-items-header">Daily Offers</h1>
+        <span class="single-skins-time-left grey"></span>
+        <div class="single-items-wrapper">
+          <div class="single-item 1">
+            <span class="single-item-name"></span>
+            <div class="single-item-image-wrapper">
+              <img class="single-item-weapon" src="">
+            </div>
+            <span class="single-item-price-wrapper"><span class="single-item-price"></span><img class="single-item-price-icon" src="assets/img/vp_icon.png"></span>
+          </div>
+          <div class="single-item 2">
+            <span class="single-item-name"></span>
+            <div class="single-item-image-wrapper">
+              <img class="single-item-weapon" src="">
+            </div>
+            <span class="single-item-price-wrapper"><span class="single-item-price"></span><img class="single-item-price-icon" src="assets/img/vp_icon.png"></span>
+          </div>
+          <div class="single-item 3">
+            <span class="single-item-name"></span>
+            <div class="single-item-image-wrapper">
+              <img class="single-item-weapon" src="">
+            </div>
+            <span class="single-item-price-wrapper"><span class="single-item-price"></span><img class="single-item-price-icon" src="assets/img/vp_icon.png"></span>
+          </div>
+          <div class="single-item 4">
+            <span class="single-item-name"></span>
+            <div class="single-item-image-wrapper">
+              <img class="single-item-weapon" src="">
+            </div>
+            <span class="single-item-price-wrapper"><span class="single-item-price"></span><img class="single-item-price-icon" src="assets/img/vp_icon.png"></span>
+          </div>
+        </div>
       </div>
-      <div class="home-main">
-        <div class="News">
-          <div class="slideshow-container">
-            <h2 style="margin: 0; text-decoration: underline;">Newsfeed</h2>
-            <div class="mySlides fade">
-              <div class="redirect-to-article" id="link-0" onclick="redirectInDefaultBrowser(this.id, this.textContent)">
-                <img src="" style="width:100%; border-radius: 4px;" class="slide-img" id="img-0">
-                <div class="text" id="text-0"></div>
-                <span style="display: none;" id="hiddenurl-0"></span>
-              </div>
-            </div>
-            <div class="mySlides fade">
-              <div class="redirect-to-article" id="link-1" onclick="redirectInDefaultBrowser(this.id, this.textContent)">
-                <img src="" style="width:100%; border-radius: 4px;" class="slide-img" id="img-1">
-                <div class="text" id="text-1"></div>
-                <span style="display: none;" id="hiddenurl-1"></span>
-              </div>
-            </div>
-            <div class="mySlides fade">
-              <div class="redirect-to-article" id="link-2" onclick="redirectInDefaultBrowser(this.id, this.textContent)">
-                <img src="" style="width:100%; border-radius: 4px;" class="slide-img" id="img-2">
-                <div class="text" id="text-2"></div>
-                <span style="display: none;" id="hiddenurl-2"></span>
-              </div>
-            </div>
-            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1)">&#10095;</a>
-          </div>
+      <div class="nightmarket-wrapper">
+        <div class="header-relative-div-largeview" id="sec" onclick="switchToStore()" style="opacity: 1;">
+          <div id="toggle"></div>
         </div>
-        <div class="Match-Stats">
-          <div class="home-upper-right">
-            <h2 style="margin: 0; text-decoration: underline;" id="home-stats-header">Stats of your last 5 Matches</h2>
-            <ul class="last-5-matches-info">
-              <li>AVG KDA:<span class="home-avg-kda"></span></li>
-              <li>AVG Score:<span class="home-avg-score"></span></li>
-              <li>AVG Dmg/Round:<span class="home-avg-dmg_match"></span></li>
-              <br>
-              <li>Headshot Percentage:<span class="home-avg-headshots"></span></li>
-              <li>Bodyshot Percentage:<span class="home-avg-bodyshots"></span></li>
-              <li>Legshot Percentage:<span class="home-avg-legshots"></span></li>
-              <br>
-              <li>RR Change: <span class="home-avg-rrchange"></span></li>
-            </ul>
-          </div>
+
+        <div class="night-market-header">
+          <h1>Your Night Market</h1>
         </div>
-        <div class="Last-Matches">
-          <div class="match-header-home">
-            <h2 style="margin: 0; text-decoration: underline;">Your Last Matches</h2>
-            <span>Filter:</span>
-            <select id="selected-matchtype" name="matchtype">
-              <option value="" selected>All Matches</option>
-              <option value="competitive">Competitive</option>
-              <option value="unrated">Unrated</option>
-              <option value="deathmatch">Deathmatch</option>
-              <option value="spikerush">Spike Rush</option>
-              <option value="escalation">Escalation</option>
-              <option value="replication">Replication</option>
-            </select>
-          </div>
-          <div id="last-matches">
-            <hr id="lastElement" style="display: none;">
-          </div>
-        </div>
-        <div class="Featured-Bundle">
-          <div class="home-lower-right">
-            <h2 style="margin: 0; text-decoration: underline;">Featured Bundle</h2>
-            <div class="featured-bundle-wrapper">
-              <img class="featured-bundle-img">
-              <span class="featured-bundle-title"></span>
-              <br><span class="featured-bundle-time-left"></span>
+        <div class="night-market-offers-wrapper">
+          <div class="night-market-offers">
+            <div class="night-market-offer 1 notSeenYet">
+              <div class="reveal-item-wrapper"><button class="reveal-item-button">Reveal Item</button></div>
+              <span class="single-item-name"></span>
+              <div class="nw-image-wrapper">
+                <img class="nm-weapon" src="">
+              </div>
+              <span class="nm-price-wrapper"><span class="nm-price"></span><img class="single-item-price-icon" src="assets/img/vp_icon.png"></span>
+            </div>
+            <div class="night-market-offer 2">
+              <div class="reveal-item-wrapper"><button class="reveal-item-button">Reveal Item</button></div>
+              <span class="single-item-name"></span>
+              <div class="nw-image-wrapper">
+                <img class="nm-weapon" src="">
+              </div>
+              <span class="nm-price-wrapper"><span class="nm-price"></span><img class="single-item-price-icon" src="assets/img/vp_icon.png"></span>
+            </div>
+            <div class="night-market-offer 3">
+              <div class="reveal-item-wrapper"><button class="reveal-item-button">Reveal Item</button></div>
+              <span class="single-item-name"></span>
+              <div class="nw-image-wrapper">
+                <img class="nm-weapon" src="">
+              </div>
+              <span class="nm-price-wrapper"><span class="nm-price"></span><img class="single-item-price-icon" src="assets/img/vp_icon.png"></span>
+            </div>
+            <div class="night-market-offer 4">
+              <div class="reveal-item-wrapper"><button class="reveal-item-button">Reveal Item</button></div>
+              <span class="single-item-name"></span>
+              <div class="nw-image-wrapper">
+                <img class="nm-weapon" src="">
+              </div>
+              <span class="nm-price-wrapper"><span class="nm-price"></span><img class="single-item-price-icon" src="assets/img/vp_icon.png"></span>
+            </div>
+            <div class="night-market-offer 5">
+              <div class="reveal-item-wrapper"><button class="reveal-item-button">Reveal Item</button></div>
+              <span class="single-item-name"></span>
+              <div class="nw-image-wrapper">
+                <img class="nm-weapon" src="">
+              </div>
+              <span class="nm-price-wrapper"><span class="nm-price"></span><img class="single-item-price-icon" src="assets/img/vp_icon.png"></span>
+            </div>
+            <div class="night-market-offer 6">
+              <div class="reveal-item-wrapper"><button class="reveal-item-button">Reveal Item</button></div>
+              <span class="single-item-name"></span>
+              <div class="nw-image-wrapper">
+                <img class="nm-weapon" src="">
+              </div>
+              <span class="nm-price-wrapper"><span class="nm-price"></span><img class="single-item-price-icon" src="assets/img/vp_icon.png"></span>
             </div>
           </div>
         </div>
@@ -241,15 +253,9 @@
       })
     </script>
 
-    <script type="application/javascript" src="assets/js/home/whatsNew.js"></script>
-    <script type="application/javascript" src="assets/js/home/newsSlideAndUserGreeting.js"></script>
-    <script type="application/javascript" src="assets/js/home/loadPlayerMatches.js"></script>
-    <script type="application/javascript" src="assets/js/home/loadWebsiteNews.js"></script>
-    <script type="application/javascript" src="assets/js/home/loadNewestBundleAndMatchFilter.js"></script>
-    <script type="application/javascript" src="assets/js/home/loadPlayerStats.js"></script>
-    <script type="application/javascript" src="assets/js/home/changePlayerMatchType.js"></script>
-    <script type="application/javascript" src="assets/js/home/redirectToMatchview.js"></script>
-    <script type="application/javascript" src="assets/js/connectToRiotAuth.js"></script>
+    <script type="application/javascript" src="assets/js/playerstore/fetchPlayerStore.js"></script>
+    <script type="application/javascript" src="assets/js/playerstore/loadNightMarket.js"></script>
+    <script type="application/javascript" src="assets/js/playerstore/redirectToSkinview.js"></script>
     <script type="application/javascript" src="assets/js/saveToFavs.js"></script>
     <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
     <script type="application/javascript" src="assets/js/redirects.js"></script>

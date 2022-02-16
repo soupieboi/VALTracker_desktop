@@ -232,6 +232,27 @@ $(document).ready(function() {
                         var wrapper = document.getElementById("test-scoreboard");
                         var nextElement = document.getElementById("lastElement");
                         wrapper.insertBefore(tr, nextElement);
+
+                        var scoreArray = [];
+                        var playerArray = [];
+                        for(var pcount = 0; pcount < data.data.players.all_players.length; pcount++) {
+                            scoreArray.push(data.data.players.all_players[pcount].stats.score)
+                            playerArray.push(data.data.players.all_players[pcount].name + "#" + data.data.players.all_players[pcount].tag)
+                        }
+                        var highestScore = Math.max(...scoreArray)
+                        for(var arrcount = 0; arrcount < scoreArray.length; arrcount++) {
+                            if(scoreArray[arrcount] == highestScore) {
+                                break;
+                            }
+                        }
+                        var table = document.getElementById("scoreboard-table");
+                        var rows = table.rows
+                        for(var i = 2; i < table.rows.length; i++) {
+                            var playerName = rows[i].children[1].textContent
+                            if(playerArray[arrcount] == rows[i].children[1].textContent) {
+                                rows[i].children[1].classList.add("MatchMVP")
+                            }
+                        }
                     }
                 },
                 error: function(jqXHR) {

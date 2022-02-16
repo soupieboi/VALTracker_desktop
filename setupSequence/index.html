@@ -54,45 +54,16 @@
     <div class="setup-wrapper" style="opacity: 0;">
       <h1>VALTracker Setup</h1>
       <div class="setup-text-wrapper">
-        <span>Hey, Welcome to VALTracker!<br>Lets get your Player Name and Tag, shall we? Don't worry, this will only be stored on your PC.</span>
+        <span>Hey, Welcome to VALTracker!<br>Log in with your Riot Account by clicking this Button.</span>
       </div>
       <div class="input-wrapper">
         <div class="search-wrapper">
           <span id="version"></span>
           <div>
-            <input id="playerNameSearch" type="text" class="form__field" maxlength="21" placeholder="Spirit#6996" name="playerSearch"></input>
-            <br>
-            <select id="selected-region" name="regions">
-              <option value="eu" selected>EU</option>
-              <option value="na">NA/LATAM/BR</option>
-              <option value="ap">AP</option>
-              <option value="kr">KR</option>
-            </select>
-            <button id="playerNameSearchButton" class="btn">Search</button>
-            <i class="fas fa-circle-notch fa-spin fa-2x" id="playersearch-loading-circle"></i>
+            <button id="openRiotLogin" class="btn">Open Riot Login Window</button>
           </div>
-          <div id="search-output"></div>
+          <div id="search-output" style="margin-top: 2rem;"></div>
         </div>
-      </div>
-    </div>
-
-    <div class="setup-wrapper-2" style="opacity: 0; display: none;">
-      <h1>Player found!</h1>
-      <div class="setup-text-wrapper">
-        <span>Is this you?</span>
-        <div class="playerprofile-data-header-setup">
-          <img class="player-card-img-setup">
-          <div class="playerprofile-pageheader-div-home">
-            <h1 class="player-pageheader" id="playername-header"></h1>
-            <span class="player-region" id="player-region-span"></span>
-            <span class="player-account-level"></span>
-          </div>
-          <span class="last-updated"></span>
-        </div>
-      </div>
-      <div class="setup-buttons">
-        <button class="setup-button-back">No, go back please</button>
-        <button class="setup-button-next">Yes, this is me</button>
       </div>
     </div>
     

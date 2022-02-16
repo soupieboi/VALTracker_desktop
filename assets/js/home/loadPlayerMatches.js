@@ -96,6 +96,52 @@ $(document).ready(() => {
                                 var matchKDA = document.createElement("span");
                                 matchKDA.className = "match-kda-home";
                                 matchKDA.appendChild(document.createTextNode("KDA: " + data3.data[count].players.all_players[playerCount].stats.kills + "/" + data3.data[count].players.all_players[playerCount].stats.deaths + "/" + data3.data[count].players.all_players[playerCount].stats.assists))
+                                var scoreArray = [];
+                                var playerArray = [];
+                                for(var pcount = 0; pcount < data3.data[count].players.all_players.length; pcount++) {
+                                    scoreArray.push(data3.data[count].players.all_players[pcount].stats.score)
+                                    playerArray.push(data3.data[count].players.all_players[pcount].name + "#" + data3.data[count].players.all_players[pcount].tag)
+                                }
+                                var highestScore = Math.max(...scoreArray)
+                                for(var arrcount = 0; arrcount < scoreArray.length; arrcount++) {
+                                    if(scoreArray[arrcount] == highestScore) {
+                                        break;
+                                    }
+                                }
+                                if(playerArray[arrcount] == playerName + "#" + playerTag) {
+                                    matchKDA.classList.add("MatchMVP")
+                                } else {
+                                    for(var psearch = 0; psearch < data3.data[count].players.all_players.length; psearch++) {
+                                        if(data3.data[count].players.all_players[psearch].name + "#" + data3.data[count].players.all_players[psearch].tag == playerName + "#" + playerTag) {
+                                            console.log("FOUND EM")
+                                            break;
+                                        }
+                                    }
+                                    console.log(data3.data[count].players.all_players[psearch].team)
+                                    var teamScoreArray = [];
+                                    var teamPlayerArray = [];
+                                    if(data3.data[count].players.all_players[psearch].team == "Blue") {
+                                        for(var pcount = 0; pcount < data3.data[count].players.red.length; pcount++) {
+                                            teamScoreArray.push(data3.data[count].players.red[pcount].stats.score)
+                                            teamPlayerArray.push(data3.data[count].players.red[pcount].name + "#" + data3.data[count].players.red[pcount].tag)
+                                        }
+                                    } else {
+                                        for(var pcount = 0; pcount < data3.data[count].players.red.length; pcount++) {
+                                            teamScoreArray.push(data3.data[count].players.red[pcount].stats.score)
+                                            teamPlayerArray.push(data3.data[count].players.red[pcount].name + "#" + data3.data[count].players.red[pcount].tag)
+                                        }
+                                    }
+                                    var highestScore = Math.max(...teamScoreArray)
+                                    console.log(highestScore)
+                                    for(var arrcount = 0; arrcount < teamScoreArray.length; arrcount++) {
+                                        if(teamScoreArray[arrcount] == highestScore) {
+                                            break;
+                                        }
+                                    }
+                                    if(teamPlayerArray[arrcount] == playerName + "#" + playerTag) {
+                                        matchKDA.classList.add("TeamMVP")
+                                    }
+                                }
             
                                 var matchStanding = document.createElement("div");
                                 var result = document.createElement("span");
@@ -353,7 +399,50 @@ $(document).ready(() => {
                                 var matchKDA = document.createElement("span");
                                 matchKDA.className = "match-kda-home";
                                 matchKDA.appendChild(document.createTextNode("KDA: " + data3.data[count].players.all_players[playerCount].stats.kills + "/" + data3.data[count].players.all_players[playerCount].stats.deaths + "/" + data3.data[count].players.all_players[playerCount].stats.assists))
-            
+                                var scoreArray = [];
+                                var playerArray = [];
+                                for(var pcount = 0; pcount < data3.data[count].players.all_players.length; pcount++) {
+                                    scoreArray.push(data3.data[count].players.all_players[pcount].stats.score)
+                                    playerArray.push(data3.data[count].players.all_players[pcount].name + "#" + data3.data[count].players.all_players[pcount].tag)
+                                }
+                                var highestScore = Math.max(...scoreArray)
+                                for(var arrcount = 0; arrcount < scoreArray.length; arrcount++) {
+                                    if(scoreArray[arrcount] == highestScore) {
+                                        break;
+                                    }
+                                }
+                                if(playerArray[arrcount] == playerName + "#" + playerTag) {
+                                    matchKDA.classList.add("MatchMVP")
+                                } else {
+                                    for(var psearch = 0; psearch < data3.data[count].players.all_players.length; psearch++) {
+                                        if(data3.data[count].players.all_players[psearch].name + "#" + data3.data[count].players.all_players[psearch].tag == playerName + "#" + playerTag) {
+                                            break;
+                                        }
+                                    }
+                                    var teamScoreArray = [];
+                                    var teamPlayerArray = [];
+                                    if(data3.data[count].players.all_players[psearch].team == "Blue") {
+                                        for(var pcount = 0; pcount < data3.data[count].players.red.length; pcount++) {
+                                            teamScoreArray.push(data3.data[count].players.red[pcount].stats.score)
+                                            teamPlayerArray.push(data3.data[count].players.red[pcount].name + "#" + data3.data[count].players.red[pcount].tag)
+                                        }
+                                    } else {
+                                        for(var pcount = 0; pcount < data3.data[count].players.red.length; pcount++) {
+                                            teamScoreArray.push(data3.data[count].players.red[pcount].stats.score)
+                                            teamPlayerArray.push(data3.data[count].players.red[pcount].name + "#" + data3.data[count].players.red[pcount].tag)
+                                        }
+                                    }
+                                    var highestScore = Math.max(...teamScoreArray)
+                                    for(var arrcount = 0; arrcount < teamScoreArray.length; arrcount++) {
+                                        if(teamScoreArray[arrcount] == highestScore) {
+                                            break;
+                                        }
+                                    }
+                                    if(teamPlayerArray[arrcount] == playerName + "#" + playerTag) {
+                                        matchKDA.classList.add("TeamMVP")
+                                    }
+                                }
+
                                 var matchStanding = document.createElement("div");
                                 var result = document.createElement("span");
                                 result.className = "result-header"
