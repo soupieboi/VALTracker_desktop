@@ -86,17 +86,6 @@
         <h1 class="pageheader" id="pageheader">Settings</h1>
       </div>
       <div class="settings-wrapper">
-        <div class="userdata-settings">
-          <h2>User Data Settings</h2>
-          <p style="width: 40%; color: rgba(255, 255, 255, 0.4);">This data is used on your Homepage to display your newest Matches, Stats and greeting you. It is only stored on your PC.</p>
-        </div>
-        <input type="text" class="settings-username-input" id="settings-username-input">
-        <span style="font-size: 1.8em; position: relative; top: 0.2rem;">#</span>
-        <input type="text" class="settings-usertag-input" id="settings-usertag-input" maxlength="5">
-        <button style="margin-left: 1rem;" id="change-userdata-button">Change</button>
-        <br>
-        <span id="replace-textspan"></span>
-
         <div class="home-username-settings">
           <h2>Displayed Username</h2>
           <p style="width: 40%; color: rgba(255, 255, 255, 0.4);">If you want the app to greet you with a different Name, you can type it in here. If this is empty, it will default to your VALORANT Username. This data is only stored on your PC.</p>
@@ -129,7 +118,7 @@
           <option value="Skye">Skye</option>
           <option value="Yoru">Yoru</option>
           <option value="Astra">Astra</option>
-          <option value="KayO">KayO</option>
+          <option value="Kayo">Kay/O</option>
           <option value="Chamber">Chamber</option>
           <option value="Neon">Neon</option>
           <option value="" disabled>-- CUSTOM THEMES --</option>
@@ -161,6 +150,15 @@
           <option value="false">Off</option>
         </select>
         <span id="replace-textspan-5" style="display: block; margin-bottom: 1rem; margin-top: 0.5rem;"></span>
+        <br>
+
+        <div class="riot-acc-settings">
+          <h2>Riot Account Settings</h2>
+          <p style="width: 40%; color: rgba(255, 255, 255, 0.4);">Log out of your account here, disable log-ins all together or log in again.</p>
+        </div>
+        <button id="log-out-button">Log out</button>
+        <button id="log-in-button">Log in</button>
+        <span id="replace-textspan-6" style="display: block; margin-bottom: 1rem; margin-top: 0.5rem;"></span>
         <br>
       </div>
     </div>
@@ -211,8 +209,8 @@
       })
     </script>
 
-    <script type="application/javascript" src="assets/js/settings_scripts/changeUserData.js"></script>
     <script type="application/javascript" src="assets/js/settings_scripts/changeUserDisplayName.js"></script>
+    <script type="application/javascript" src="assets/js/settings_scripts/riotAccManagement.js"></script>
     <script type="application/javascript" src="assets/js/settings_scripts/changeColorTheme.js"></script>
     <script type="application/javascript" src="assets/js/settings_scripts/changeDRP.js"></script>
     <script type="application/javascript" src="assets/js/navslideToggle.js"></script>

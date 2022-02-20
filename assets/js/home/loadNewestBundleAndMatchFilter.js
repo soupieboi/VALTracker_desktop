@@ -1,5 +1,5 @@
 $(document).ready(() => {
-    let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/home/preferredMatchFilter.json');
+    let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/home_settings/settings.json');
     let dataToRead = JSON.parse(rawdata);
     $("#selected-matchtype").val(dataToRead.preferredMatchFilter);
     setTimeout(function() {
@@ -18,12 +18,19 @@ $(document).ready(() => {
                         for(var count = 0; count < data2.data.length; count++) {
                             if(data2.data[count].uuid == bUUID) {
                                 $('.featured-bundle-title').append(data2.data[count].displayName);
+                                let rawdata2 = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/user_creds.json');
+                                let dataToRead2 = JSON.parse(rawdata2);
                                 setTimeout(function() {
-                                    var secondsRemaining = $(".featured-bundle-time-left").text();
+                                    if(dataToRead2.usesRiotAccount == true || dataToRead2.usesRiotAccount == undefined) {
+                                        var secondsRemaining = $(".featured-bundle-time-left").text();
+                                        console.log(secondsRemaining)
+                                    } else {
+                                        var secondsRemaining = data.data.FeaturedBundle.Bundle.DurationRemainingInSeconds;
+                                    }
                                     function secondsToHms(n) {
                                         n = Number(n);
                                         var d = Math.floor(n / 86400);
-                                        var h = Math.floor(n / 14400);
+                                        var h = Math.floor((n - d * 86400) / 3600);
                                         var m = Math.floor(n % 3600 / 60);
                                         var s = Math.floor(n % 3600 % 60);
                                     
@@ -39,7 +46,7 @@ $(document).ready(() => {
                                         $('.featured-bundle-time-left').empty()
                                         $('.featured-bundle-time-left').append(secondsToHms(secondsRemaining -1) + " remaining")
                                     }, 1000)
-                                }, 2000)
+                                }, 2500)
                             }
                         }
                     }, 

@@ -25,11 +25,10 @@ function showPromoVid(event, id, weaponNums) {
         success: function(data, jqXHR) {
             const str = weaponNums;
             
-            const slug1 = str.substring(str.indexOf('-') + 1); // 01-2020var x = '/Controller/Action?id=11112&value=4444';
+            const slug1 = str.substring(str.indexOf('-') + 1);
             remove_after = slug1.indexOf('-');
-            var result =  slug1.substring(0, remove_after);
                 
-            const slug2 = str.split('-').pop(); // 2020
+            const slug2 = str.split('-').pop();
             if(data.data[parseInt(slug1)].skins[parseInt(slug2)].chromas[chroma].streamedVideo) {
                 video.setAttribute("src", data.data[parseInt(slug1)].skins[parseInt(slug2)].chromas[chroma].streamedVideo);
             } else if(data.data[parseInt(slug1)].skins[parseInt(slug2)].levels[data.data[parseInt(slug1)].skins[parseInt(slug2)].levels.length -1].streamedVideo) {
@@ -37,7 +36,6 @@ function showPromoVid(event, id, weaponNums) {
             } else {
                 video.setAttribute("src", data.data[parseInt(slug1)].skins[parseInt(slug2)].levels[data.data[parseInt(slug1)].skins[parseInt(slug2)].levels.length -1].streamedVideo);
             }
-            //video.setAttribute("src", event)
         },
         error: function(jqXHR) {
             createErrorCard(this.url, jqXHR.status);
@@ -54,5 +52,3 @@ function hideVideo() {
         $('.largeview-vid').css("background-color", "rgba(0, 0, 0, 0)")
     }, 100)
 }
-
-//document.getElementById('largeview-vid-element').setAttribute()

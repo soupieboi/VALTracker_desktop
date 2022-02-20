@@ -1,5 +1,0 @@
-1. Check if token has expired yet
-2. If no, continue
-3. if yes, check for ssid cookie and reauth with ssid in the main process
-4. If it works, set new token as cookie
-5. if it doesnt, load login

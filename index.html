@@ -223,17 +223,17 @@
         document.getElementById("download-bar").value = value
       })
       $('.update-relative-div').on("click", function() {
-        let rawLoadData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/onLoad.json');
+        let rawLoadData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/load_files/on_load.json');
         let loadData = JSON.parse(rawLoadData);
         loadData.hasReadLatestPatchnotes = false;
-        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/onLoad.json', JSON.stringify(loadData))
+        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/load_files/on_load.json', JSON.stringify(loadData))
         $('.update-banner').css("display", "none");
       })
       $('#noti-close-button').on("click", function() {
-        let rawLoadData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/onLoad.json');
+        let rawLoadData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/load_files/on_load.json');
         let loadData = JSON.parse(rawLoadData);
         loadData.hasReadLatestPatchnotes = false;
-        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/onLoad.json', JSON.stringify(loadData))
+        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/load_files/on_load.json', JSON.stringify(loadData))
         window.close()
       })
       $('.download-relative-div').on("click", function() {

@@ -4042,6 +4042,24 @@ select:focus::-ms-value {
   pointer-events: none;
 }
 
+.single-item.sold {
+  overflow: hidden;
+}
+
+.single-item.sold::before {
+  cursor: not-allowed;
+  content: "";
+  color: #ff0000;
+  position: absolute;
+  width: 24.9%;
+  height: 99%;
+  background-color: rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  border-radius: 4px;
+  z-index: 2;
+  pointer-events: none;
+}
+
 .night-market-offer:hover .nm-weapon {
   filter: drop-shadow(5px 20px 5px #000000);
 }

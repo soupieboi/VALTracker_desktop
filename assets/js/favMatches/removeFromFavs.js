@@ -28,7 +28,7 @@ function loadRemovePromt(matchID, matchToRemove, matchAgentImg, matchKDA, matchR
     })
 
     $('.delete-favmatch-button').on("click", function() {
-        var checkedPath1 = process.env.APPDATA + '/VALTracker/user_data/favourites.json'
+        var checkedPath1 = process.env.APPDATA + '/VALTracker/user_data/favourite_matches/matches.json'
         let rawdata = fs.readFileSync(checkedPath1);
         let dataToRead = JSON.parse(rawdata);
         

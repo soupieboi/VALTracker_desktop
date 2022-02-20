@@ -22,19 +22,23 @@ function showSlides(n) {
 
 const fs = require("fs")
 
-var usernameSettingsFile = process.env.APPDATA + '/VALTracker/user_data/home/displayedUsername.json'
+var usernameSettingsFile = process.env.APPDATA + '/VALTracker/user_data/home_settings/settings.json'
 if(fs.existsSync(usernameSettingsFile)) {
-    let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/home/displayedUsername.json');
+    let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/home_settings/settings.json');
     let dataToRead = JSON.parse(rawdata);
     if(dataToRead.displayedUserName == "") {
-        let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/userData.json');
+        let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/user_creds.json');
         let dataToRead = JSON.parse(rawdata);
         var playerName = dataToRead.playerName
-    } else {
-        var playerName = dataToRead.displayedUserName
+    } else if(dataToRead.displayedUserName == undefined) {
+        let rawdata2 = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/user_creds.json');
+        let dataToRead2 = JSON.parse(rawdata2);
+        var playerName = dataToRead2.playerName
+        dataToRead.displayedUserName = "";
+        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/home_settings/settings.json', JSON.stringify(dataToRead));
     }
 } else {
-    let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/userData.json');
+    let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/user_creds.json');
     let dataToRead = JSON.parse(rawdata);
     var playerName = dataToRead.playerName
 }

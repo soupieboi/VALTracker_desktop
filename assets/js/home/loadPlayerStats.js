@@ -2,7 +2,7 @@ $(document).ready(() => {
     navigator.__defineGetter__('appName', function () {
         return "VALTracker-Desktop"
     });
-    let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/userData.json');
+    let rawdata = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/user_creds.json');
     let dataToRead = JSON.parse(rawdata);
 
     var playerName = dataToRead.playerName
@@ -43,14 +43,7 @@ $(document).ready(() => {
                 dataType: "json",
                 url: `https://api.henrikdev.xyz/valorant/v1/mmr-history/${playerRegion}/${playerName}/${playerTag}`,
                 type: 'get',
-                /*headers: {
-                    'client': 'VALTracker_Desktop',
-                    'authentication_id': authCodeParsed.verification_key
-                },*/
                 success: function(data, xhr) {
-                    //console.log(this.headers)
-                    //console.log(this.headers.client)
-                    //console.log(this.headers.authentication_id)
                     if(data.data == null || data.name == null) {
                         $('.user-rank-icon').attr("src", "./assets/img/unranked.png")
                         $('.user-rankrating').append("0")

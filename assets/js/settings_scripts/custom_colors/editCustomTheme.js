@@ -1,15 +1,15 @@
 const colorFS2 = require('fs')
 
-let rawColorDataPre = colorFS2.readFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json');
+let rawColorDataPre = colorFS2.readFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json');
 let colorDataPre = JSON.parse(rawColorDataPre);
 
 var colorData2;
 
 if(colorDataPre.loadCustomTheme == true) {
-    let rawColorData3 = colorFS2.readFileSync(process.env.APPDATA + `/VALTracker/user_data/customThemes/${colorDataPre.customThemeName}.json`);
+    let rawColorData3 = colorFS2.readFileSync(process.env.APPDATA + `/VALTracker/user_data/themes/custom_themes/${colorDataPre.customThemeName}.json`);
     colorData2 = JSON.parse(rawColorData3);
 } else {
-    let rawColorData2 = colorFS2.readFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json');
+    let rawColorData2 = colorFS2.readFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json');
     colorData2 = JSON.parse(rawColorData2);
 }
 
@@ -161,7 +161,7 @@ $(document).ready(() => {
         var newSubColor2 = select9.value;
         var newFontColor = select10.value;
 
-        let colorDataToRead = colorFS.readFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json');
+        let colorDataToRead = colorFS.readFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json');
         let colorDataToEdit = JSON.parse(colorDataToRead);
 
         var dataToWrite = {
@@ -174,13 +174,13 @@ $(document).ready(() => {
             "text_shadow": `0 0 2.5px rgba(${newNeonEffectRGB[0]}, ${newNeonEffectRGB[1]}, ${newNeonEffectRGB[2]}, 0.6), 0 0 10px rgba(${newNeonEffectRGB[0]}, ${newNeonEffectRGB[1]}, ${newNeonEffectRGB[2]}, 0.6), 0 0 30px rgba(${newNeonEffectRGB[0]}, ${newNeonEffectRGB[1]}, ${newNeonEffectRGB[2]}, 0.6)`,
             "button_color": newButtonColor,
             "button_hover_color": newButtonHoverColor,
-            "logo_style": "default",
+            "logo_style": "normal",
             "button_color_var": newButtonTextColor,
             "global_color": newFontColor
         }
     
         var dataToWriteDown = JSON.stringify(dataToWrite)
-        colorFS2.writeFileSync(process.env.APPDATA + `/VALTracker/user_data/customThemes/${colorDataToEdit.customThemeName}.json`, dataToWriteDown)
+        colorFS2.writeFileSync(process.env.APPDATA + `/VALTracker/user_data/themes/custom_themes/${colorDataToEdit.customThemeName}.json`, dataToWriteDown)
 
         window.location.href = "settings.html"
     })

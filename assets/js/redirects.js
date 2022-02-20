@@ -1,3 +1,5 @@
+const redfs = require('fs')
+
 function loadFade() {
     $('.app').fadeTo(150, 1);
 }
@@ -73,6 +75,11 @@ $('.card-wrapper').on("click", function(){
 });
 
 $(document).ready(() => {
+    const loginCheck = redfs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/user_creds.json')
+    const check = JSON.parse(loginCheck);
+    if(check.usesRiotAccount == false) {
+        $('#store').css("display", "none")
+    } 
     loadFade();
     $('#home').on("click", function(){
         leaveFade();

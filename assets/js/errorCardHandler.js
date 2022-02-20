@@ -191,10 +191,3 @@ function createErrorCard(called_api, error_code) {
         }, 1000);
     });
 }
-
-/*
-TO DO:
-1. click events fertig (copy to clip)
-2. Error code switch
-3. Animations für ALLE Cards (Patch Notes + Error closes)
-*/

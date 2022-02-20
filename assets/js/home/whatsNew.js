@@ -2,12 +2,12 @@ const showdown  = require('showdown');
 const converter = new showdown.Converter();
 
 $(document).ready(() => {
-    let rawLoadData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/onLoad.json');
+    let rawLoadData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/load_files/on_load.json');
     let loadData = JSON.parse(rawLoadData);
 
     if(loadData.hasReadLatestPatchnotes == undefined) {
         loadData.hasReadLatestPatchnotes = false;
-        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/onLoad.json', JSON.stringify(loadData))
+        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/load_files/on_load.json', JSON.stringify(loadData))
     }
     if(loadData.hasReadLatestPatchnotes == false) {
         var pjson = require('./package.json');
@@ -36,7 +36,7 @@ $(document).ready(() => {
     }
     $('#markPatchnotesAsRead').on("click", function() {
         loadData.hasReadLatestPatchnotes = true;
-        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/onLoad.json', JSON.stringify(loadData))
+        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/load_files/on_load.json', JSON.stringify(loadData))
         $('.whats-new-card').fadeTo(100, 0)
         $('.whats-new-card').css("transform", "scale(0.8)");
         $('.whats-new-wrapper').fadeTo(150, 0)

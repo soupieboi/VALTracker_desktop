@@ -22,11 +22,11 @@ $(document).ready(function() {
             var legshot_before = 0;
             var totalFBs = 0;
             
-            for(var count = 0; count < data.data.rounds.length; count++) { //Für jede runde Neu
-                var killerArray = [] //Neuer Array
-                var killtimeArray = [] //Neuer Array
-                for(var count2 = 0; count2 < data.data.rounds[count].player_stats.length; count2++) { // Für Jeden spieler
-                    for(var count3 = 0; count3 < data.data.rounds[count].player_stats[count2].kill_events.length; count3++) { //Für jeden Kill
+            for(var count = 0; count < data.data.rounds.length; count++) { // For each round
+                var killerArray = [] // new Array
+                var killtimeArray = [] // new Array
+                for(var count2 = 0; count2 < data.data.rounds[count].player_stats.length; count2++) { // Loop for all players
+                    for(var count3 = 0; count3 < data.data.rounds[count].player_stats[count2].kill_events.length; count3++) { // for each kill
                         killerArray.push(data.data.rounds[count].player_stats[count2].kill_events[count3].killer_display_name + " " + data.data.rounds[count].player_stats[count2].kill_events[count3].kill_time_in_round)
                         killtimeArray.push(data.data.rounds[count].player_stats[count2].kill_events[count3].kill_time_in_round)
                     }
@@ -194,11 +194,11 @@ $(document).ready(function() {
                         
                         var totalPlayerFBs = 0;
 
-                        for(var count = 0; count < data.data.rounds.length; count++) { //Für jede runde Neu
-                            var killerArray = [] //Neuer Array
-                            var killtimeArray = [] //Neuer Array
-                            for(var count2 = 0; count2 < data.data.rounds[count].player_stats.length; count2++) { // Für Jeden spieler
-                                for(var count3 = 0; count3 < data.data.rounds[count].player_stats[count2].kill_events.length; count3++) { //Für jeden Kill
+                        for(var count = 0; count < data.data.rounds.length; count++) {
+                            var killerArray = []
+                            var killtimeArray = []
+                            for(var count2 = 0; count2 < data.data.rounds[count].player_stats.length; count2++) {
+                                for(var count3 = 0; count3 < data.data.rounds[count].player_stats[count2].kill_events.length; count3++) {
                                     killerArray.push(data.data.rounds[count].player_stats[count2].kill_events[count3].killer_display_name + " " + data.data.rounds[count].player_stats[count2].kill_events[count3].kill_time_in_round)
                                     killtimeArray.push(data.data.rounds[count].player_stats[count2].kill_events[count3].kill_time_in_round)
                                 }

@@ -62,8 +62,8 @@ async function showSignIn()
                         }
                         console.log(JSON.parse(JSON.stringify(riotcookie)))
                     })
-                    authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/cookies.json', JSON.stringify(riotcookies))
-                    authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/tokenData.json', JSON.stringify(tokenData))
+                    authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/riot_games_data/cookies.json', JSON.stringify(riotcookies))
+                    authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/riot_games_data/token_data.json', JSON.stringify(tokenData))
                 });
             }
         });
@@ -128,157 +128,163 @@ async function getShopData() {
 }
 
 $(document).ready(() => {
-    var tryagain = setInterval(function() {
-        clearInterval(tryagain)
-        if(sessionStorage.getItem('afterReload')) {
-            if(!authfs.existsSync(process.env.APPDATA + '/VALTracker/user_data/current_shop.json')) {
-                var emptyShopFile = {
-                    "empty": true
+    const loginCheck = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/user_creds.json')
+    const check = JSON.parse(loginCheck);
+    if(check.usesRiotAccount == true || check.usesRiotAccount == undefined) {
+        var tryagain = setInterval(function() {
+            clearInterval(tryagain)
+            if(sessionStorage.getItem('afterReload')) {
+                if(!authfs.existsSync(process.env.APPDATA + '/VALTracker/user_data/shop_data/current_shop.json')) {
+                    var emptyShopFile = {
+                        "empty": true
+                    }
+                    authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/shop_data/current_shop.json', JSON.stringify(emptyShopFile));
                 }
-                authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/current_shop.json', JSON.stringify(emptyShopFile));
-            }
-
-            async function checkData() {
-                var rawOldTokenData = authfs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/tokenData.json');
-                oldTokenData = JSON.parse(rawOldTokenData)
-                console.log(oldTokenData)
     
-                bearer = oldTokenData.accessToken;
-                id_token = oldTokenData.id_token;
-                    
-                puuid = await getPlayerUUID();
-                entitlement_token = await getEntitlement();
-                if(typeof entitlement_token === "string") {
-                    var reagiondata = await getXMPPRegion();
-                    console.log(reagiondata)
-                    region = reagiondata.affinities.live
-                    
-                    var shopData = await getShopData();
-                    authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/current_shop.json', JSON.stringify(shopData))
-                    console.log(shopData)
-
-                    var pathvar = document.location.pathname;
-                    var page = pathvar.split("/").pop();
-
-                    if(page == "index.html" || page == "fakeLoadingIndex.html") {
-                        $(".featured-bundle-time-left").append(shopData.FeaturedBundle.BundleRemainingDurationInSeconds)
-                        $('.featured-bundle-time-left').css("opacity", "0");
-                    }
-
-                    Date.prototype.addSeconds = function(seconds) {
-                        var copiedDate = new Date(this.getTime());
-                        return new Date(copiedDate.getTime() + seconds * 1000);
-                    }
-                    
-                    var dateData = {
-                        lastCkeckedDate: new Date().getTime(),
-                        willLastFor: new Date().addSeconds(shopData.SkinsPanelLayout.SingleItemOffersRemainingDurationInSeconds)
-                    }
-
-                    authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/last_checked_date.json', JSON.stringify(dateData))
-                } else {
-                    function reauth() {
-                        riotIPC.send('startReauthCycle', 'now');
-                    }
-                    
-                    reauth();
+                async function checkData() {
+                    var rawOldTokenData = authfs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/riot_games_data/token_data.json');
+                    oldTokenData = JSON.parse(rawOldTokenData)
+                    console.log(oldTokenData)
         
-                    riotIPC.on('reauthFail', async function() {
-                        const data = await showSignIn();
-                        bearer = data.tokenData.accessToken;
-                        id_token = data.tokenData.id_token;
-        
-                        riotIPC.send('setCookies', 'please')
-                        riotIPC.on('tdid', async function(event, arg) {
-                            console.log(arg)
-                            requiredCookie = "tdid=" + arg
+                    bearer = oldTokenData.accessToken;
+                    id_token = oldTokenData.id_token;
+                        
+                    puuid = await getPlayerUUID();
+                    entitlement_token = await getEntitlement();
+                    if(typeof entitlement_token === "string") {
+                        var reagiondata = await getXMPPRegion();
+                        console.log(reagiondata)
+                        region = reagiondata.affinities.live
+                        
+                        var shopData = await getShopData();
+                        authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/shop_data/current_shop.json', JSON.stringify(shopData))
+                        console.log(shopData)
+    
+                        var pathvar = document.location.pathname;
+                        var page = pathvar.split("/").pop();
+    
+                        if(page == "index.html" || page == "fakeLoadingIndex.html") {
+                            $(".featured-bundle-time-left").append(shopData.FeaturedBundle.BundleRemainingDurationInSeconds)
+                            $('.featured-bundle-time-left').css("opacity", "0");
+                        }
+    
+                        Date.prototype.addSeconds = function(seconds) {
+                            var copiedDate = new Date(this.getTime());
+                            return new Date(copiedDate.getTime() + seconds * 1000);
+                        }
+                        
+                        var dateData = {
+                            lastCkeckedDate: new Date().getTime(),
+                            willLastFor: new Date().addSeconds(shopData.SkinsPanelLayout.SingleItemOffersRemainingDurationInSeconds)
+                        }
+    
+                        authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/shop_data/last_checked_date.json', JSON.stringify(dateData))
+                    } else {
+                        function reauth() {
+                            riotIPC.send('startReauthCycle', 'now');
+                        }
+                        
+                        reauth();
             
-                            puuid = await getPlayerUUID();
-                            console.log(puuid);
+                        riotIPC.on('reauthFail', async function() {
+                            const data = await showSignIn();
+                            bearer = data.tokenData.accessToken;
+                            id_token = data.tokenData.id_token;
             
-                            entitlement_token = await getEntitlement();
+                            riotIPC.send('setCookies', 'please')
+                            riotIPC.on('tdid', async function(event, arg) {
+                                console.log(arg)
+                                requiredCookie = "tdid=" + arg
+                
+                                puuid = await getPlayerUUID();
+                                console.log(puuid);
+                
+                                entitlement_token = await getEntitlement();
+                
+                                var reagiondata = await getXMPPRegion();
+                                console.log(reagiondata)
+                                region = reagiondata.affinities.live
+                                
+                                var shopData = await getShopData();
+                                authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/shop_data/current_shop.json', JSON.stringify(shopData))
+                                console.log(shopData)
             
-                            var reagiondata = await getXMPPRegion();
-                            console.log(reagiondata)
-                            region = reagiondata.affinities.live
-                            
-                            var shopData = await getShopData();
-                            authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/current_shop.json', JSON.stringify(shopData))
-                            console.log(shopData)
-        
-                            var pathvar = document.location.pathname;
-                            var page = pathvar.split("/").pop();
-        
-                            if(page == "index.html" || page == "fakeLoadingIndex.html") {
-                                $(".featured-bundle-time-left").append(shopData.FeaturedBundle.BundleRemainingDurationInSeconds)
-                                $('.featured-bundle-time-left').css("opacity", "0");
-                            }
-        
-                            Date.prototype.addSeconds = function(seconds) {
-                                var copiedDate = new Date(this.getTime());
-                                return new Date(copiedDate.getTime() + seconds * 1000);
-                            }
-                            
-                            var dateData = {
-                                lastCkeckedDate: new Date().getTime(),
-                                willLastFor: new Date().addSeconds(shopData.SkinsPanelLayout.SingleItemOffersRemainingDurationInSeconds)
-                            }
-        
-                            authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/last_checked_date.json', JSON.stringify(dateData))
+                                var pathvar = document.location.pathname;
+                                var page = pathvar.split("/").pop();
+            
+                                if(page == "index.html" || page == "fakeLoadingIndex.html") {
+                                    $(".featured-bundle-time-left").append(shopData.FeaturedBundle.BundleRemainingDurationInSeconds)
+                                    $('.featured-bundle-time-left').css("opacity", "0");
+                                }
+            
+                                Date.prototype.addSeconds = function(seconds) {
+                                    var copiedDate = new Date(this.getTime());
+                                    return new Date(copiedDate.getTime() + seconds * 1000);
+                                }
+                                
+                                var dateData = {
+                                    lastCkeckedDate: new Date().getTime(),
+                                    willLastFor: new Date().addSeconds(shopData.SkinsPanelLayout.SingleItemOffersRemainingDurationInSeconds)
+                                }
+            
+                                authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/shop_data/last_checked_date.json', JSON.stringify(dateData))
+                            });
                         });
-                    });
-        
-                    riotIPC.on('reauthSuccess', async function(event, arg) {
-                        console.log(arg)
-                        const tokenData = getTokenDataFromURL(arg)
-                        console.log(tokenData.expiresIn)
-                        authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/tokenData.json', JSON.stringify(tokenData))
-        
-                        bearer = tokenData.accessToken;
-                        id_token = tokenData.id_token;
-        
-                        riotIPC.send('setCookies', 'please')
-                        riotIPC.on('tdid', async function(event, arg) {
+            
+                        riotIPC.on('reauthSuccess', async function(event, arg) {
                             console.log(arg)
-                            requiredCookie = "tdid=" + arg
+                            const tokenData = getTokenDataFromURL(arg)
+                            console.log(tokenData.expiresIn)
+                            authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/riot_games_data/token_data.json', JSON.stringify(tokenData))
             
-                            puuid = await getPlayerUUID();
-                            console.log(puuid);
+                            bearer = tokenData.accessToken;
+                            id_token = tokenData.id_token;
             
-                            entitlement_token = await getEntitlement();
+                            riotIPC.send('setCookies', 'please')
+                            riotIPC.on('tdid', async function(event, arg) {
+                                console.log(arg)
+                                requiredCookie = "tdid=" + arg
+                
+                                puuid = await getPlayerUUID();
+                                console.log(puuid);
+                
+                                entitlement_token = await getEntitlement();
+                
+                                var reagiondata = await getXMPPRegion();
+                                console.log(reagiondata)
+                                region = reagiondata.affinities.live
+                                
+                                var shopData = await getShopData();
+                                authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/shop_data/current_shop.json', JSON.stringify(shopData))
+                                console.log(shopData)
             
-                            var reagiondata = await getXMPPRegion();
-                            console.log(reagiondata)
-                            region = reagiondata.affinities.live
-                            
-                            var shopData = await getShopData();
-                            authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/current_shop.json', JSON.stringify(shopData))
-                            console.log(shopData)
-        
-                            var pathvar = document.location.pathname;
-                            var page = pathvar.split("/").pop();
-        
-                            if(page == "index.html" || page == "fakeLoadingIndex.html") {
-                                $(".featured-bundle-time-left").append(shopData.FeaturedBundle.BundleRemainingDurationInSeconds)
-                                $('.featured-bundle-time-left').css("opacity", "0");
-                            }
-        
-                            Date.prototype.addSeconds = function(seconds) {
-                                var copiedDate = new Date(this.getTime());
-                                return new Date(copiedDate.getTime() + seconds * 1000);
-                            }
-                            
-                            var dateData = {
-                                lastCkeckedDate: new Date().getTime(),
-                                willLastFor: new Date().addSeconds(shopData.SkinsPanelLayout.SingleItemOffersRemainingDurationInSeconds)
-                            }
-        
-                            authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/last_checked_date.json', JSON.stringify(dateData))
-                        });
-                    })
+                                var pathvar = document.location.pathname;
+                                var page = pathvar.split("/").pop();
+            
+                                if(page == "index.html" || page == "fakeLoadingIndex.html") {
+                                    $(".featured-bundle-time-left").append(shopData.FeaturedBundle.BundleRemainingDurationInSeconds)
+                                    $('.featured-bundle-time-left').css("opacity", "0");
+                                }
+            
+                                Date.prototype.addSeconds = function(seconds) {
+                                    var copiedDate = new Date(this.getTime());
+                                    return new Date(copiedDate.getTime() + seconds * 1000);
+                                }
+                                
+                                var dateData = {
+                                    lastCkeckedDate: new Date().getTime(),
+                                    willLastFor: new Date().addSeconds(shopData.SkinsPanelLayout.SingleItemOffersRemainingDurationInSeconds)
+                                }
+            
+                                authfs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/shop_data/last_checked_date.json', JSON.stringify(dateData))
+                            });
+                        })
+                    }
                 }
+                checkData();
             }
-            checkData();
-        }
-    }, 1000)
+        }, 1000)
+    } else {
+        $('#store').css("display", "none")
+    }
 })

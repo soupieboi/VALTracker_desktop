@@ -3,7 +3,7 @@ const riotIPC = require('electron').ipcRenderer
 function bundleTimeToHMS(n) {
     n = Number(n);
     var d = Math.floor(n / 86400);
-    var h = Math.floor(n / 14400);
+    var h = Math.floor((n - d * 86400) / 3600);
     var m = Math.floor(n % 3600 / 60);
     var s = Math.floor(n % 3600 % 60);
 
@@ -29,7 +29,7 @@ function singleSkinsToHMS(n) {
 function nightMarketTimeToDHMS(n) {
     n = Number(n);
     var d = Math.floor(n / 86400);
-    var h = Math.floor(n / 58600);
+    var h = Math.floor((n - d * 86400) / 3600);
     var m = Math.floor(n % 3600 / 60);
     var s = Math.floor(n % 3600 % 60);
 
@@ -139,7 +139,7 @@ function getTokenDataFromURL(url)
 
 $(document).ready(() => {
     async function getShop(){
-        const rawTokenData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/tokenData.json')
+        const rawTokenData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/riot_games_data/token_data.json')
         const tokenData = JSON.parse(rawTokenData)
 
         bearer = tokenData.accessToken;
@@ -154,7 +154,7 @@ $(document).ready(() => {
             region = reagiondata.affinities.live
                                 
             var shopData = await getShopData();
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/current_shop.json', JSON.stringify(shopData))
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/shop_data/current_shop.json', JSON.stringify(shopData))
             console.log(shopData)
 
             var walletData = await getWallet();
@@ -273,7 +273,7 @@ $(document).ready(() => {
                 lastCkeckedDate: new Date().getTime(),
                 willLastFor: new Date().addSeconds(singleOfferSecondsRemaining)
             }
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/last_checked_date.json', JSON.stringify(dateData))
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/shop_data/last_checked_date.json', JSON.stringify(dateData))
         
             console.log(singleOfferSecondsRemaining)
             console.log(bundleSecondsRemaining)
@@ -320,7 +320,7 @@ $(document).ready(() => {
 
             ipcRenderer.on('reauthSuccess', async function(event, arg) {
                 const tokenData = getTokenDataFromURL(arg)
-                fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/tokenData.json', JSON.stringify(tokenData))
+                fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/riot_games_data/token_data.json', JSON.stringify(tokenData))
 
                 bearer = tokenData.accessToken;
                 id_token = tokenData.id_token;
@@ -340,7 +340,7 @@ $(document).ready(() => {
                     region = reagiondata.affinities.live
                                         
                     var shopData = await getShopData();
-                    fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/current_shop.json', JSON.stringify(shopData))
+                    fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/shop_data/current_shop.json', JSON.stringify(shopData))
                     console.log(shopData)
         
                     var walletData = await getWallet();
@@ -459,7 +459,7 @@ $(document).ready(() => {
                         lastCkeckedDate: new Date().getTime(),
                         willLastFor: new Date().addSeconds(singleOfferSecondsRemaining)
                     }
-                    fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/last_checked_date.json', JSON.stringify(dateData))
+                    fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/shop_data/last_checked_date.json', JSON.stringify(dateData))
                 
                     console.log(singleOfferSecondsRemaining)
                     console.log(bundleSecondsRemaining)
