@@ -4079,3 +4079,135 @@ select:focus::-ms-value {
 .night-market-offer:hover {
   border: 1px solid var(--button-hover-color);
 }
+
+.bp-rewards-wrapper {
+  height: 80vh;
+  width: 50vw;
+  border: 1px solid white;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  border-radius: 4px;
+  overflow-y: scroll;
+}
+
+.bp-reward-card {
+  width: 10rem;
+  height: 15rem;
+  border: 1px solid white;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  border-radius: 4px;
+  margin-bottom: 0;
+  position: relative;
+}
+
+.tier-header {
+  height: 2rem;
+  width: 100%;
+  background-color: #000000;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tier-item-desc {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2rem;
+  background-color: #000000;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tier-item-desc span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: inline;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.tier-image-wrapper {
+  height: calc(100% - 4rem);
+  width: 100%;
+  background-color: var(--app-color-lightest);
+}
+
+.tier-header.free {
+  height: 2rem;
+  width: 100%;
+  background-color: #047a00;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tier-item-desc.free {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2rem;
+  background-color: #047a00;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tier-header.epilogue {
+  height: 2rem;
+  width: 100%;
+  background-color: #a58c00;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tier-item-desc.epilogue {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2rem;
+  background-color: #a58c00;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tier-image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tier-img-currency {
+  width: 74%;
+}
+
+.tier-img-weapon {
+  width: 100%;
+  margin-right: 1.5rem;
+  height: auto;
+  overflow: hidden;
+  transition: all 0.2s ease;
+  rotate: 45deg;
+  transform: rotate(45deg) scale(1.1);
+  filter: drop-shadow(0px 0px 4px #000000);
+}
+
+.hidden-img-replacement {
+  display: none;
+}
+
+.bp-reward-card.currentLevel {
+  border: 1px solid rgb(200, 255, 0);
+}

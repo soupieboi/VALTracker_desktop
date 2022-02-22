@@ -128,7 +128,7 @@ async function getShopData() {
 }
 
 $(document).ready(() => {
-    const loginCheck = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/user_creds.json')
+    const loginCheck = authfs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/user_creds.json')
     const check = JSON.parse(loginCheck);
     if(check.usesRiotAccount == true || check.usesRiotAccount == undefined) {
         var tryagain = setInterval(function() {

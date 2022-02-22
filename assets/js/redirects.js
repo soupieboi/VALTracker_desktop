@@ -158,14 +158,14 @@ $(document).ready(() => {
             }
         }, 500);
     });
-    $('#3d').on("click", function(){
+    $('#collects-sub-bp').on("click", function(){
         leaveFade();
         toggle();
         setTimeout(function() {
             if(directoryName == "CollectablePages") {
-                window.location.href = "../3d.html";
+                window.location.href = "../bpProgression.html";
             } else {
-                window.location.href = "3d.html";
+                window.location.href = "bpProgression.html";
             }
         }, 500);
     });
