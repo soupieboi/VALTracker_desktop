@@ -24,3 +24,5 @@ Download [here](https://valtracker.gg/)
 - Get Statistics on your lastest Matches
 
 - Search for others Players to view their Match history
+
+- Check own Store in-app
