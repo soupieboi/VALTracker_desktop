@@ -1,3 +1,5 @@
+const redfs = require('fs')
+
 function loadFade() {
     $('.app').fadeTo(150, 1);
 }
@@ -73,6 +75,12 @@ $('.card-wrapper').on("click", function(){
 });
 
 $(document).ready(() => {
+    const loginCheck = redfs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/user_creds.json')
+    const check = JSON.parse(loginCheck);
+    if(check.usesRiotAccount == false) {
+        $('#store').css("display", "none")
+        $('#collects-sub-bp').css("display", "none")
+    } 
     loadFade();
     $('#home').on("click", function(){
         leaveFade();
@@ -151,14 +159,14 @@ $(document).ready(() => {
             }
         }, 500);
     });
-    $('#3d').on("click", function(){
+    $('#collects-sub-bp').on("click", function(){
         leaveFade();
         toggle();
         setTimeout(function() {
             if(directoryName == "CollectablePages") {
-                window.location.href = "../3d.html";
+                window.location.href = "../bpProgression.html";
             } else {
-                window.location.href = "3d.html";
+                window.location.href = "bpProgression.html";
             }
         }, 500);
     });

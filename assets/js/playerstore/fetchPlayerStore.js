@@ -3,7 +3,7 @@ const riotIPC = require('electron').ipcRenderer
 function bundleTimeToHMS(n) {
     n = Number(n);
     var d = Math.floor(n / 86400);
-    var h = Math.floor(n / 14400);
+    var h = Math.floor((n - d * 86400) / 3600);
     var m = Math.floor(n % 3600 / 60);
     var s = Math.floor(n % 3600 % 60);
 
@@ -29,7 +29,7 @@ function singleSkinsToHMS(n) {
 function nightMarketTimeToDHMS(n) {
     n = Number(n);
     var d = Math.floor(n / 86400);
-    var h = Math.floor(n / 58600);
+    var h = Math.floor((n - d * 86400) / 3600);
     var m = Math.floor(n % 3600 / 60);
     var s = Math.floor(n % 3600 % 60);
 
@@ -139,7 +139,7 @@ function getTokenDataFromURL(url)
 
 $(document).ready(() => {
     async function getShop(){
-        const rawTokenData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/tokenData.json')
+        const rawTokenData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/riot_games_data/token_data.json')
         const tokenData = JSON.parse(rawTokenData)
 
         bearer = tokenData.accessToken;
@@ -154,7 +154,7 @@ $(document).ready(() => {
             region = reagiondata.affinities.live
                                 
             var shopData = await getShopData();
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/current_shop.json', JSON.stringify(shopData))
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/shop_data/current_shop.json', JSON.stringify(shopData))
             console.log(shopData)
 
             var walletData = await getWallet();
@@ -233,11 +233,7 @@ $(document).ready(() => {
                                 for(var i2 = 0; i2 < data2.data.length; i2++) { //Weapon Type
                                     for(var i3 = 0; i3 < data2.data[i2].skins.length; i3++) { //Weapon Skins
                                         if(data2.data[i2].skins[i3].levels[0].uuid == dailyShop[i]) {
-                                            if(data2.data[i2].skins[i3].displayName.length < 23) {
-                                                $(`.single-item.${i+1} .single-item-name`).append(data2.data[i2].skins[i3].displayName)
-                                            } else {
-                                                $(`.single-item.${i+1} .single-item-name`).append(data2.data[i2].skins[i3].displayName.slice(0, 23) + '...')
-                                            }
+                                            $(`.single-item.${i+1} .single-item-name`).append(data2.data[i2].skins[i3].displayName)
                                             $(`.single-item.${i+1} .single-item-weapon`).attr('src', data2.data[i2].skins[i3].levels[0].displayIcon)
                                         }
                                     }
@@ -273,7 +269,7 @@ $(document).ready(() => {
                 lastCkeckedDate: new Date().getTime(),
                 willLastFor: new Date().addSeconds(singleOfferSecondsRemaining)
             }
-            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/last_checked_date.json', JSON.stringify(dateData))
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/shop_data/last_checked_date.json', JSON.stringify(dateData))
         
             console.log(singleOfferSecondsRemaining)
             console.log(bundleSecondsRemaining)
@@ -307,7 +303,7 @@ $(document).ready(() => {
                     $('.nightmarket-time-left').empty()
                     $('.nightmarket-time-left').append(nightMarketTimeToDHMS(nightMarketSecondsRemaining));
                 }
-                if(singleOfferSecondsRemaining <= 0 || nightMarketSecondsRemaining <= 0 || bundleSecondsRemaining <= 0) {
+                if(singleOfferSecondsRemaining <= 0 || bundleSecondsRemaining <= 0) {
                     window.location.href = "";
                 }
             }, 1000)
@@ -320,7 +316,7 @@ $(document).ready(() => {
 
             ipcRenderer.on('reauthSuccess', async function(event, arg) {
                 const tokenData = getTokenDataFromURL(arg)
-                fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/tokenData.json', JSON.stringify(tokenData))
+                fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/riot_games_data/token_data.json', JSON.stringify(tokenData))
 
                 bearer = tokenData.accessToken;
                 id_token = tokenData.id_token;
@@ -340,7 +336,7 @@ $(document).ready(() => {
                     region = reagiondata.affinities.live
                                         
                     var shopData = await getShopData();
-                    fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/current_shop.json', JSON.stringify(shopData))
+                    fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/shop_data/current_shop.json', JSON.stringify(shopData))
                     console.log(shopData)
         
                     var walletData = await getWallet();
@@ -379,11 +375,7 @@ $(document).ready(() => {
                                                     $(`.night-market-offer.${i+1}`).addClass('notSeenYet');
                                                 }
         
-                                                if(data2.data[i2].skins[i3].displayName.length < 23) {
-                                                    $(`.night-market-offer.${i+1} .single-item-name`).append(data2.data[i2].skins[i3].displayName)
-                                                } else {
-                                                    $(`.night-market-offer.${i+1} .single-item-name`).append(data2.data[i2].skins[i3].displayName.slice(0, 23) + '...')
-                                                }
+                                                $(`.night-market-offer.${i+1} .single-item-name`).append(data2.data[i2].skins[i3].displayName)
         
                                                 $(`.night-market-offer.${i+1} .nm-weapon`).attr('src', data2.data[i2].skins[i3].levels[0].displayIcon)
         
@@ -419,11 +411,7 @@ $(document).ready(() => {
                                         for(var i2 = 0; i2 < data2.data.length; i2++) { //Weapon Type
                                             for(var i3 = 0; i3 < data2.data[i2].skins.length; i3++) { //Weapon Skins
                                                 if(data2.data[i2].skins[i3].levels[0].uuid == dailyShop[i]) {
-                                                    if(data2.data[i2].skins[i3].displayName.length < 23) {
-                                                        $(`.single-item.${i+1} .single-item-name`).append(data2.data[i2].skins[i3].displayName)
-                                                    } else {
-                                                        $(`.single-item.${i+1} .single-item-name`).append(data2.data[i2].skins[i3].displayName.slice(0, 23) + '...')
-                                                    }
+                                                    $(`.single-item.${i+1} .single-item-name`).append(data2.data[i2].skins[i3].displayName)
                                                     $(`.single-item.${i+1} .single-item-weapon`).attr('src', data2.data[i2].skins[i3].levels[0].displayIcon)
                                                 }
                                             }
@@ -459,7 +447,7 @@ $(document).ready(() => {
                         lastCkeckedDate: new Date().getTime(),
                         willLastFor: new Date().addSeconds(singleOfferSecondsRemaining)
                     }
-                    fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/last_checked_date.json', JSON.stringify(dateData))
+                    fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/shop_data/last_checked_date.json', JSON.stringify(dateData))
                 
                     console.log(singleOfferSecondsRemaining)
                     console.log(bundleSecondsRemaining)
@@ -493,7 +481,7 @@ $(document).ready(() => {
                             $('.nightmarket-time-left').empty()
                             $('.nightmarket-time-left').append(nightMarketTimeToDHMS(nightMarketSecondsRemaining));
                         }
-                        if(singleOfferSecondsRemaining <= 0 || nightMarketSecondsRemaining <= 0 || bundleSecondsRemaining <= 0) {
+                        if(singleOfferSecondsRemaining <= 0 || bundleSecondsRemaining <= 0) {
                             window.location.href = "";
                         }
                     }, 1000)

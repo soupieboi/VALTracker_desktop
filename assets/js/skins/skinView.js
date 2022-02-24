@@ -17,7 +17,8 @@ $.ajax({
     type: 'get',
     success: function(data, jqXHR) {
         for(var wcount = 0; wcount < data.data.length; wcount++) {
-            if(data.data[wcount].levels[0].uuid == sessionStorage.getItem("skinID")) {
+            console.log(data.data[wcount].uuid)
+            if(data.data[wcount].uuid == sessionStorage.getItem("skinID") || data.data[wcount].levels[0].uuid == sessionStorage.getItem("skinID") || data.data[wcount].chromas[0].uuid == sessionStorage.getItem("skinID")) {
                 $('#pageheader').append(data.data[wcount].displayName);
                 var skinuuid = data.data[wcount].levels[0].uuid
                 var dataLevels = data.data[wcount].levels

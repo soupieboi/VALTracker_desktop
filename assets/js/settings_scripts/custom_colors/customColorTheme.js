@@ -1,15 +1,15 @@
 const colorFS2 = require('fs')
 
-let rawColorDataPre = colorFS2.readFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json');
+let rawColorDataPre = colorFS2.readFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json');
 let colorDataPre = JSON.parse(rawColorDataPre);
 
 var colorData2;
 
 if(colorDataPre.loadCustomTheme == true) {
-    let rawColorData3 = colorFS2.readFileSync(process.env.APPDATA + `/VALTracker/user_data/customThemes/${colorDataPre.customThemeName}.json`);
+    let rawColorData3 = colorFS2.readFileSync(process.env.APPDATA + `/VALTracker/user_data/themes/custom_themes/${colorDataPre.customThemeName}.json`);
     colorData2 = JSON.parse(rawColorData3);
 } else {
-    let rawColorData2 = colorFS2.readFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json');
+    let rawColorData2 = colorFS2.readFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json');
     colorData2 = JSON.parse(rawColorData2);
 }
 
@@ -153,7 +153,7 @@ $(document).ready(() => {
             replaceText("Please enter a Name.")
         } else {
             replaceText("")
-            if(!colorFS2.existsSync(process.env.APPDATA + "/VALTracker/user_data/customThemes")) {
+            if(!colorFS2.existsSync(process.env.APPDATA + "/VALTracker/user_data/themes/custom_themes")) {
 
                 var newLeftGradient = select1.value;
                 var newRightGradient = select2.value;
@@ -170,7 +170,7 @@ $(document).ready(() => {
                 var fixedThemeName = customThemeName.replace(/\s/g, '-')
 
                 var themeAlreadyFound = false;
-                colorFS2.readdirSync(process.env.APPDATA + "/VALTracker/user_data/customThemes", (err, files) => {
+                colorFS2.readdirSync(process.env.APPDATA + "/VALTracker/user_data/thtmes/custom_themes", (err, files) => {
                     files.forEach(file => {
                         if(fixedThemeName + ".json" == file) {
                             themeAlreadyFound = true;
@@ -191,20 +191,20 @@ $(document).ready(() => {
                         "text_shadow": `0 0 2.5px rgba(${newNeonEffectRGB[0]}, ${newNeonEffectRGB[1]}, ${newNeonEffectRGB[2]}, 0.6), 0 0 10px rgba(${newNeonEffectRGB[0]}, ${newNeonEffectRGB[1]}, ${newNeonEffectRGB[2]}, 0.6), 0 0 30px rgba(${newNeonEffectRGB[0]}, ${newNeonEffectRGB[1]}, ${newNeonEffectRGB[2]}, 0.6)`,
                         "button_color": newButtonColor,
                         "button_hover_color": newButtonHoverColor,
-                        "logo_style": "default",
+                        "logo_style": "normal",
                         "button_color_var": newButtonTextColor,
                         "global_color": newFontColor
                     }
                 
                     var dataToWriteDown = JSON.stringify(dataToWrite)
-                    colorFS2.writeFileSync(process.env.APPDATA + `/VALTracker/user_data/customThemes/${fixedThemeName.toLowerCase()}.json`, dataToWriteDown)
+                    colorFS2.writeFileSync(process.env.APPDATA + `/VALTracker/user_data/themes/custom_themes/${fixedThemeName.toLowerCase()}.json`, dataToWriteDown)
 
                     var dataToWrite2 = {
-                        "loadCustomTheme": true,
-                        "customThemeName": fixedThemeName.toLowerCase()
+                        "isCustomTheme": true,
+                        "themeName": fixedThemeName.toLowerCase()
                     }
                 
-                    colorFS2.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', JSON.stringify(dataToWrite2))
+                    colorFS2.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', JSON.stringify(dataToWrite2))
                     window.location.href = "settings.html"
                 }
             } else {
@@ -223,7 +223,7 @@ $(document).ready(() => {
                 var fixedThemeName = customThemeName.replace(/\s/g, '-')
 
                 var themeAlreadyFound = false;
-                colorFS2.readdirSync(process.env.APPDATA + "/VALTracker/user_data/customThemes", (err, files) => {
+                colorFS2.readdirSync(process.env.APPDATA + "/VALTracker/user_data/themes/custom_themes", (err, files) => {
                     files.forEach(file => {
                         if(fixedThemeName + ".json" == file) {
                             themeAlreadyFound = true;
@@ -244,20 +244,20 @@ $(document).ready(() => {
                         "text_shadow": `0 0 2.5px rgba(${newNeonEffectRGB[0]}, ${newNeonEffectRGB[1]}, ${newNeonEffectRGB[2]}, 0.6), 0 0 10px rgba(${newNeonEffectRGB[0]}, ${newNeonEffectRGB[1]}, ${newNeonEffectRGB[2]}, 0.6), 0 0 30px rgba(${newNeonEffectRGB[0]}, ${newNeonEffectRGB[1]}, ${newNeonEffectRGB[2]}, 0.6)`,
                         "button_color": newButtonColor,
                         "button_hover_color": newButtonHoverColor,
-                        "logo_style": "default",
+                        "logo_style": "normal",
                         "button_color_var": newButtonTextColor,
                         "global_color": newFontColor
                     }
                 
                     var dataToWriteDown = JSON.stringify(dataToWrite)
-                    colorFS2.writeFileSync(process.env.APPDATA + `/VALTracker/user_data/customThemes/${fixedThemeName.toLowerCase()}.json`, dataToWriteDown)
+                    colorFS2.writeFileSync(process.env.APPDATA + `/VALTracker/user_data/themes/custom_themes/${fixedThemeName.toLowerCase()}.json`, dataToWriteDown)
 
                     var dataToWrite2 = {
-                        "loadCustomTheme": true,
-                        "customThemeName": fixedThemeName.toLowerCase(),
+                        "isCustomTheme": true,
+                        "themeName": fixedThemeName.toLowerCase(),
                     }
                 
-                    colorFS2.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/colorTheme.json', JSON.stringify(dataToWrite2))
+                    colorFS2.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', JSON.stringify(dataToWrite2))
                     window.location.href = "settings.html"
                 }
             }

@@ -6,7 +6,7 @@ $(document).ready(() => {
         var playerTag = sessionStorage.getItem("player_tag");
         var playerRegion = sessionStorage.getItem("player_region");
         
-        let rawdata2 = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/home/preferredMatchFilter.json');
+        let rawdata2 = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/home_settings/settings.json');
         let dataToRead2 = JSON.parse(rawdata2);
         
         var filterData = dataToRead2.preferredMatchFilter
@@ -205,7 +205,7 @@ $(document).ready(() => {
                         };
                          
                         let data1 = JSON.stringify(finishedData);
-                        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/playersearch/preferredMatchFilter.json', data1);
+                        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/player_profile_settings/settings.json', data1);
                     },
                     error: function(jqXHR) {
                         createErrorCard(this.url, jqXHR.status);
@@ -419,7 +419,7 @@ $(document).ready(() => {
                         };
                          
                         let data1 = JSON.stringify(finishedData);
-                        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/playersearch/preferredMatchFilter.json', data1);
+                        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/player_profile_settings/settings.json', data1);
                     },
                     error: function(jqXHR) {
                         createErrorCard(this.url, jqXHR.status);

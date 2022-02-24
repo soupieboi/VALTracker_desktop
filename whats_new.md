@@ -1,15 +1,13 @@
 ///
-- Added Riot Logins. (Required to use the app) Logging in will allow you to see your **Personal Store** in-app! *Logins use Riot's official service.*
+- Reworked the File System. *(Just looks better now and is more organized)*
 
-- The App now checks for new Updates every 30 minutes.
+- Added Riot Log outs. Logging out will disable all features that need your Riot Account to work.
 
-- Added Match and Team MVPs to Match Tiles.
+- Logins on Install are now optional
 ///
-- Fixed the Bundle Timer in the Hub to display the right time.
+- Fixed the Shop reloading constantly
 
-- Fixed the Patchnotes notification after an update not being spaced correctly.
+- A few under-the-hood improvements
 
-- Fixes Single Skin views after an API Endpoint seems to be depreciated now.
-  
-**HAVE FUN USING VALTRACKER**
+**HAVE FUN USING VALTRACKER**<br>
 *~ Spirit, Developer of VALTracker.gg*

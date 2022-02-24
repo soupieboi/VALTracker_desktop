@@ -4,7 +4,7 @@ const replaceText5 = (text) => {
     if (element5) element5.innerText = text
 }
 $(document).ready(() => {
-    var loadFile = process.env.APPDATA + '/VALTracker/user_data/onLoad.json'
+    var loadFile = process.env.APPDATA + '/VALTracker/user_data/load_files/on_load.json'
     let rawdata = fs.readFileSync(loadFile);
     let dataToRead = JSON.parse(rawdata);
     if(typeof dataToRead.hasDiscordRPenabled === 'string') {
