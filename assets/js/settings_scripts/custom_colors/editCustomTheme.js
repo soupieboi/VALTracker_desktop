@@ -5,7 +5,7 @@ let colorDataPre = JSON.parse(rawColorDataPre);
 
 var colorData2;
 
-if(colorDataPre.loadCustomTheme == true) {
+if(colorDataPre.isCustomTheme == true) {
     let rawColorData3 = colorFS2.readFileSync(process.env.APPDATA + `/VALTracker/user_data/themes/custom_themes/${colorDataPre.customThemeName}.json`);
     colorData2 = JSON.parse(rawColorData3);
 } else {

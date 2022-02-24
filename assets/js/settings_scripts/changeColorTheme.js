@@ -6,19 +6,8 @@ const fs = require('fs')
 //JSON check + colors writen
 if(!fs.existsSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json')) {
     var dataToWrite = {
-        "app_color": "#12171d",
-        "app_subcolor_1": "#1b222b",
-        "app_subcolor_2": "#242e3a",
-        "gradient_left": "#c80043",
-        "gradient_right": "#6f00ff",
-        "box_shadow": "0 0 2.5px rgba(255, 0, 67, 0.7), 0 0 10px rgba(255, 0, 67, 0.7), 0 0 30px rgba(255, 0, 67, 0.7)",
-        "text_shadow": "0 0 5px rgba(255, 0, 67, 0.6), 0 0 20px rgba(255, 0, 67, 0.6), 0 0 60px rgba(255, 0, 67, 0.6)",
-        "button_color": "#c80043",
-        "button_hover_color": "#ff0055",
-        "logo_style": "normal",
-        "button_color_var": "#ffffff",
-        "global_color": "#ffffff",
-        "loadCustomTheme": false
+        "isCustomTheme": false,
+        "themeName": "normal"
     }
 
     fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', JSON.stringify(dataToWrite))
@@ -27,19 +16,8 @@ if(!fs.existsSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_them
 $('#reset-colortheme-button').on("click", function() {
     $(select).val("Default")
     var dataToWrite = {
-        "app_color": "#12171d",
-        "app_subcolor_1": "#1b222b",
-        "app_subcolor_2": "#242e3a",
-        "gradient_left": "#c80043",
-        "gradient_right": "#6f00ff",
-        "box_shadow": "0 0 2.5px rgba(255, 0, 67, 0.7), 0 0 10px rgba(255, 0, 67, 0.7), 0 0 30px rgba(255, 0, 67, 0.7)",
-        "text_shadow": "0 0 5px rgba(255, 0, 67, 0.6), 0 0 20px rgba(255, 0, 67, 0.6), 0 0 60px rgba(255, 0, 67, 0.6)",
-        "button_color": "#c80043",
-        "button_hover_color": "#ff0055",
-        "logo_style": "normal",
-        "button_color_var": "#ffffff",
-        "global_color": "#ffffff",
-        "loadCustomTheme": false
+        "isCustomTheme": false,
+        "themeName": "normal"
     }
 
     var dataToWriteDown = JSON.stringify(dataToWrite)

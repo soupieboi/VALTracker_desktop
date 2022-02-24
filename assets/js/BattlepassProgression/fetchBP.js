@@ -125,6 +125,26 @@ function getTokenDataFromURL(url)
 //Get current contract via val-api, then get current level via igA, then display all levels of the current bp with val-api, change color of current level.
 
 $(document).ready(() => {
+    var hideFreeItems = false;
+    if(!fs.existsSync(process.env.APPDATA + '/VALTracker/user_data/bp_settings')) {
+        fs.mkdirSync(process.env.APPDATA + '/VALTracker/user_data/bp_settings');
+    }
+    if(!fs.existsSync(process.env.APPDATA + '/VALTracker/user_data/bp_settings/settings.json')) {
+        const dataToWrite = {
+            showFreeItems: false,
+        }
+        fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/bp_settings/settings.json', JSON.stringify(dataToWrite))
+        hideFreeItems = true;
+    } else {
+        const dataToParse = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/bp_settings/settings.json');
+        const bpSettings = JSON.parse(dataToParse)
+        if(bpSettings.showFreeItems == true) {
+            $('input[type="checkbox"]').click();
+            console.log("E")
+        } else if(bpSettings.showFreeItems == false) {
+            hideFreeItems = true;
+        }
+    }
     async function fetchBP(){
         const rawTokenData = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/riot_games_data/token_data.json')
         const tokenData = JSON.parse(rawTokenData)
@@ -386,6 +406,7 @@ $(document).ready(() => {
                 }
             }
             console.log(bp_progression)
+            $(`.bp-reward-card.${bp_progression}`).attr("id", "currentLevel")
             $(`.bp-reward-card.${bp_progression}`).addClass("currentLevel")
         } else {
             function reauth() {
@@ -500,5 +521,29 @@ $(document).ready(() => {
             })
         }
     }
-    fetchBP();
+    async function checkBoxes() {
+        await fetchBP();
+        if(hideFreeItems == true) {
+            $('.tier-header.free').parent().css("display", "none");
+        }
+        $('#bp-cards-wrapper').animate({
+            scrollTop: $("#currentLevel").offset().top
+        }, 2000);
+    }
+    checkBoxes();
+    $('input[type="checkbox"]').click(function(){
+        const dataToParse = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/bp_settings/settings.json');
+        const bpSettings = JSON.parse(dataToParse)
+        if($(this).prop("checked") == true && $(this).attr("id") == "showFreeTier"){
+            $('.tier-header.free').parent().css("display", "block")
+            console.log("Checkbox is checked.");
+            bpSettings.showFreeItems = true;
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/bp_settings/settings.json', JSON.stringify(bpSettings));
+        }
+        else if($(this).prop("checked") == false && $(this).attr("id") == "showFreeTier"){
+            $('.tier-header.free').parent().css("display", "none")
+            bpSettings.showFreeItems = false;
+            fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/bp_settings/settings.json', JSON.stringify(bpSettings));
+        }
+    });
 })

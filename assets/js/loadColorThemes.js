@@ -2,7 +2,7 @@ const colorFS = require('fs');
 
 if(!colorFS.existsSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json')) {
     var dataToWrite = {
-        "loadCustomTheme": false,
+        "isCustomTheme": false,
         "themeName": "normal"
     }
 
@@ -49,6 +49,7 @@ if(colorData.isCustomTheme == true) {
         logo_top.setAttribute("src", `./iconss/VALTracker_Logo_default.ico`);
     }
 } else {
+    console.log(colorFS.existsSync(process.env.APPDATA + `/VALTracker/user_data/themes/preset_themes/${colorData.themeName}.json`))
     let newRawColorData = colorFS.readFileSync(process.env.APPDATA + `/VALTracker/user_data/themes/preset_themes/${colorData.themeName}.json`);
     let newColorData = JSON.parse(newRawColorData);
     root.style.setProperty('--app-color', newColorData.app_color);

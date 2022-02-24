@@ -79,6 +79,7 @@ $(document).ready(() => {
     const check = JSON.parse(loginCheck);
     if(check.usesRiotAccount == false) {
         $('#store').css("display", "none")
+        $('#collects-sub-bp').css("display", "none")
     } 
     loadFade();
     $('#home').on("click", function(){

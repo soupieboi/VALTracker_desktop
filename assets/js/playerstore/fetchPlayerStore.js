@@ -233,11 +233,7 @@ $(document).ready(() => {
                                 for(var i2 = 0; i2 < data2.data.length; i2++) { //Weapon Type
                                     for(var i3 = 0; i3 < data2.data[i2].skins.length; i3++) { //Weapon Skins
                                         if(data2.data[i2].skins[i3].levels[0].uuid == dailyShop[i]) {
-                                            if(data2.data[i2].skins[i3].displayName.length < 23) {
-                                                $(`.single-item.${i+1} .single-item-name`).append(data2.data[i2].skins[i3].displayName)
-                                            } else {
-                                                $(`.single-item.${i+1} .single-item-name`).append(data2.data[i2].skins[i3].displayName.slice(0, 23) + '...')
-                                            }
+                                            $(`.single-item.${i+1} .single-item-name`).append(data2.data[i2].skins[i3].displayName)
                                             $(`.single-item.${i+1} .single-item-weapon`).attr('src', data2.data[i2].skins[i3].levels[0].displayIcon)
                                         }
                                     }
@@ -307,7 +303,7 @@ $(document).ready(() => {
                     $('.nightmarket-time-left').empty()
                     $('.nightmarket-time-left').append(nightMarketTimeToDHMS(nightMarketSecondsRemaining));
                 }
-                if(singleOfferSecondsRemaining <= 0 || nightMarketSecondsRemaining <= 0 || bundleSecondsRemaining <= 0) {
+                if(singleOfferSecondsRemaining <= 0 || bundleSecondsRemaining <= 0) {
                     window.location.href = "";
                 }
             }, 1000)
@@ -379,11 +375,7 @@ $(document).ready(() => {
                                                     $(`.night-market-offer.${i+1}`).addClass('notSeenYet');
                                                 }
         
-                                                if(data2.data[i2].skins[i3].displayName.length < 23) {
-                                                    $(`.night-market-offer.${i+1} .single-item-name`).append(data2.data[i2].skins[i3].displayName)
-                                                } else {
-                                                    $(`.night-market-offer.${i+1} .single-item-name`).append(data2.data[i2].skins[i3].displayName.slice(0, 23) + '...')
-                                                }
+                                                $(`.night-market-offer.${i+1} .single-item-name`).append(data2.data[i2].skins[i3].displayName)
         
                                                 $(`.night-market-offer.${i+1} .nm-weapon`).attr('src', data2.data[i2].skins[i3].levels[0].displayIcon)
         
@@ -419,11 +411,7 @@ $(document).ready(() => {
                                         for(var i2 = 0; i2 < data2.data.length; i2++) { //Weapon Type
                                             for(var i3 = 0; i3 < data2.data[i2].skins.length; i3++) { //Weapon Skins
                                                 if(data2.data[i2].skins[i3].levels[0].uuid == dailyShop[i]) {
-                                                    if(data2.data[i2].skins[i3].displayName.length < 23) {
-                                                        $(`.single-item.${i+1} .single-item-name`).append(data2.data[i2].skins[i3].displayName)
-                                                    } else {
-                                                        $(`.single-item.${i+1} .single-item-name`).append(data2.data[i2].skins[i3].displayName.slice(0, 23) + '...')
-                                                    }
+                                                    $(`.single-item.${i+1} .single-item-name`).append(data2.data[i2].skins[i3].displayName)
                                                     $(`.single-item.${i+1} .single-item-weapon`).attr('src', data2.data[i2].skins[i3].levels[0].displayIcon)
                                                 }
                                             }
@@ -493,7 +481,7 @@ $(document).ready(() => {
                             $('.nightmarket-time-left').empty()
                             $('.nightmarket-time-left').append(nightMarketTimeToDHMS(nightMarketSecondsRemaining));
                         }
-                        if(singleOfferSecondsRemaining <= 0 || nightMarketSecondsRemaining <= 0 || bundleSecondsRemaining <= 0) {
+                        if(singleOfferSecondsRemaining <= 0 || bundleSecondsRemaining <= 0) {
                             window.location.href = "";
                         }
                     }, 1000)

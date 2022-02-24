@@ -11,7 +11,6 @@ const normal = {
     "logo_style": "default",
     "button_color_var": "#ffffff",
     "global_color": "#ffffff",
-    "loadCustomTheme": false
 }
 const brimstone = {
     "app_color": "#12171d",
@@ -26,7 +25,6 @@ const brimstone = {
     "logo_style": "brimstone",
     "button_color_var": "#ffffff",
     "global_color": "#ffffff",
-    "loadCustomTheme": false
 }
 const phoenix = {
     "app_color": "#12171d",
@@ -41,7 +39,6 @@ const phoenix = {
     "logo_style": "phoenix",
     "button_color_var": "#ffffff",
     "global_color": "#ffffff",
-    "loadCustomTheme": false
 }
 const sage = {
     "app_color": "#12171d",
@@ -56,7 +53,6 @@ const sage = {
     "logo_style": "sage",
     "button_color_var": "#ffffff",
     "global_color": "#ffffff",
-    "loadCustomTheme": false
 }
 const sova = {
     "app_color": "#12171d",
@@ -71,7 +67,6 @@ const sova = {
     "logo_style": "sova",
     "button_color_var": "#ffffff",
     "global_color": "#ffffff",
-    "loadCustomTheme": false
 }
 const viper = {
     "app_color": "#12171d",
@@ -86,7 +81,6 @@ const viper = {
     "logo_style": "viper",
     "button_color_var": "#ffffff",
     "global_color": "#ffffff",
-    "loadCustomTheme": false
 }
 const cypher = {
     "app_color": "#12171d",
@@ -101,7 +95,6 @@ const cypher = {
     "logo_style": "cypher",
     "button_color_var": "#000000",
     "global_color": "#ffffff",
-    "loadCustomTheme": false
 }
 const reyna = {
     "app_color": "#12171d",
@@ -116,7 +109,6 @@ const reyna = {
     "logo_style": "reyna",
     "button_color_var": "#ffffff",
     "global_color": "#ffffff",
-    "loadCustomTheme": false
 }
 const killjoy = {
     "app_color": "#12171d",
@@ -131,7 +123,6 @@ const killjoy = {
     "logo_style": "killjoy",
     "button_color_var": "#000000",
     "global_color": "#ffffff",
-    "loadCustomTheme": false
 }
 const breach = {
     "app_color": "#12171d",
@@ -146,7 +137,6 @@ const breach = {
     "logo_style": "breach",
     "button_color_var": "#ffffff",
     "global_color": "#ffffff",
-    "loadCustomTheme": false
 }
 const omen = {
     "app_color": "#12171d",
@@ -161,7 +151,6 @@ const omen = {
     "logo_style": "omen",
     "button_color_var": "#ffffff",
     "global_color": "#ffffff",
-    "loadCustomTheme": false
 }
 const jett = {
     "app_color": "#12171d",
@@ -176,7 +165,6 @@ const jett = {
     "logo_style": "jett",
     "button_color_var": "#000000",
     "global_color": "#ffffff",
-    "loadCustomTheme": false
 }
 const raze = {
     "app_color": "#12171d",
@@ -191,7 +179,6 @@ const raze = {
     "logo_style": "raze",
     "button_color_var": "#ffffff",
     "global_color": "#ffffff",
-    "loadCustomTheme": false
 }
 const skye = {
     "app_color": "#12171d",
@@ -206,7 +193,6 @@ const skye = {
     "logo_style": "skye",
     "button_color_var": "#ffffff",
     "global_color": "#ffffff",
-    "loadCustomTheme": false
 }
 const yoru = {
     "app_color": "#12171d",
@@ -221,7 +207,6 @@ const yoru = {
     "logo_style": "yoru",
     "button_color_var": "#ffffff",
     "global_color": "#ffffff",
-    "loadCustomTheme": false
 }
 const astra = {
     "app_color": "#12171d",
@@ -236,7 +221,6 @@ const astra = {
     "logo_style": "astra",
     "button_color_var": "#ffffff",
     "global_color": "#ffffff",
-    "loadCustomTheme": false
 }
 const kayo = {
     "app_color": "#12171d",
@@ -251,7 +235,6 @@ const kayo = {
     "logo_style": "kayo",
     "button_color_var": "#ffffff",
     "global_color": "#ffffff",
-    "loadCustomTheme": false
 }
 const chamber = {
     "app_color": "#12171d",
@@ -266,7 +249,6 @@ const chamber = {
     "logo_style": "chamber",
     "button_color_var": "#000000",
     "global_color": "#ffffff",
-    "loadCustomTheme": false
 }
 const neon = {
     "app_color": "#12171d",
@@ -281,7 +263,6 @@ const neon = {
     "logo_style": "neon",
     "button_color_var": "#000000",
     "global_color": "#ffffff",
-    "loadCustomTheme": false
 }
 
 module.exports = {

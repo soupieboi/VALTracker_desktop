@@ -286,5 +286,6 @@ $(document).ready(() => {
         }, 1000)
     } else {
         $('#store').css("display", "none")
+        $('#collects-sub-bp').css("display", "none")
     }
 })

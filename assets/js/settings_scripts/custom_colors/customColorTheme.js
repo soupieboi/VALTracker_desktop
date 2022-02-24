@@ -200,8 +200,8 @@ $(document).ready(() => {
                     colorFS2.writeFileSync(process.env.APPDATA + `/VALTracker/user_data/themes/custom_themes/${fixedThemeName.toLowerCase()}.json`, dataToWriteDown)
 
                     var dataToWrite2 = {
-                        "loadCustomTheme": true,
-                        "customThemeName": fixedThemeName.toLowerCase()
+                        "isCustomTheme": true,
+                        "themeName": fixedThemeName.toLowerCase()
                     }
                 
                     colorFS2.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', JSON.stringify(dataToWrite2))
@@ -253,8 +253,8 @@ $(document).ready(() => {
                     colorFS2.writeFileSync(process.env.APPDATA + `/VALTracker/user_data/themes/custom_themes/${fixedThemeName.toLowerCase()}.json`, dataToWriteDown)
 
                     var dataToWrite2 = {
-                        "loadCustomTheme": true,
-                        "customThemeName": fixedThemeName.toLowerCase(),
+                        "isCustomTheme": true,
+                        "themeName": fixedThemeName.toLowerCase(),
                     }
                 
                     colorFS2.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', JSON.stringify(dataToWrite2))

@@ -255,7 +255,7 @@ function moveOldFiles() {
     }
 
     if(fs.existsSync(app_data + '/user_data/home')) {
-        fs.mkdirSync(app_data + '/user_data/home_settings');
+        fs.renameSync(app_data + '/user_data/home', app_data + '/user_data/home_settings')
         fs.readdir(app_data + '/user_data/home_settings', (err, files) => {
             if(err) {
                 console.log(err);
@@ -278,12 +278,6 @@ function moveOldFiles() {
                 }
                 fs.writeFileSync(app_data + '/user_data/home_settings/settings.json', JSON.stringify(newData))
             }
-        })
-        fs.unlinkSync(app_data + '/user_data/home', (err) => {
-            if (err) {
-                console.log(err);
-            }
-            console.log('deleted');
         })
     }
 
