@@ -6,8 +6,7 @@ const starting_activity = {
         //small_image: "",
         //small_text: "",
     },
-    buttons: [
-        {
+    buttons: [{
             "label": "Download VALTracker",
             "url": "https://valtracker.gg"
         },
@@ -16,7 +15,9 @@ const starting_activity = {
             "url": "https://discord.gg/aJfQ4yHysG"
         }
     ],
-    timestamps: {start: Date.now()},
+    timestamps: {
+        start: Date.now()
+    },
     instance: true
 }
 
@@ -28,8 +29,7 @@ const hub_activity = {
         small_image: "user-home",
         small_text: "User Hub",
     },
-    buttons: [
-        {
+    buttons: [{
             "label": "Download VALTracker",
             "url": "https://valtracker.gg"
         },
@@ -38,7 +38,9 @@ const hub_activity = {
             "url": "https://discord.gg/aJfQ4yHysG"
         }
     ],
-    timestamps: {start: Date.now()},
+    timestamps: {
+        start: Date.now()
+    },
     instance: true
 }
 
@@ -50,8 +52,7 @@ const skins_activity = {
         small_image: "gun",
         small_text: "Browsing Skins",
     },
-    buttons: [
-        {
+    buttons: [{
             "label": "Download VALTracker",
             "url": "https://valtracker.gg"
         },
@@ -60,7 +61,9 @@ const skins_activity = {
             "url": "https://discord.gg/aJfQ4yHysG"
         }
     ],
-    timestamps: {start: Date.now()},
+    timestamps: {
+        start: Date.now()
+    },
     instance: true
 }
 
@@ -72,8 +75,7 @@ const bundles_activity = {
         small_image: "gun",
         small_text: "Browsing Bundles",
     },
-    buttons: [
-        {
+    buttons: [{
             "label": "Download VALTracker",
             "url": "https://valtracker.gg"
         },
@@ -82,7 +84,9 @@ const bundles_activity = {
             "url": "https://discord.gg/aJfQ4yHysG"
         }
     ],
-    timestamps: {start: Date.now()},
+    timestamps: {
+        start: Date.now()
+    },
     instance: true
 }
 
@@ -94,8 +98,7 @@ const pprofile_acitivity = {
         small_image: "user-profile",
         small_text: "Browsing a player's profile",
     },
-    buttons: [
-        {
+    buttons: [{
             "label": "Download VALTracker",
             "url": "https://valtracker.gg"
         },
@@ -104,7 +107,9 @@ const pprofile_acitivity = {
             "url": "https://discord.gg/aJfQ4yHysG"
         }
     ],
-    timestamps: {start: Date.now()},
+    timestamps: {
+        start: Date.now()
+    },
     instance: true
 }
 
@@ -116,8 +121,7 @@ const favmatches_acitivity = {
         small_image: "user-home",
         small_text: "Browsing favourite matches",
     },
-    buttons: [
-        {
+    buttons: [{
             "label": "Download VALTracker",
             "url": "https://valtracker.gg"
         },
@@ -126,7 +130,9 @@ const favmatches_acitivity = {
             "url": "https://discord.gg/aJfQ4yHysG"
         }
     ],
-    timestamps: {start: Date.now()},
+    timestamps: {
+        start: Date.now()
+    },
     instance: true
 }
 
@@ -138,8 +144,7 @@ const playersearch_acitivity = {
         small_image: "search",
         small_text: "Searching for a player",
     },
-    buttons: [
-        {
+    buttons: [{
             "label": "Download VALTracker",
             "url": "https://valtracker.gg"
         },
@@ -148,7 +153,9 @@ const playersearch_acitivity = {
             "url": "https://discord.gg/aJfQ4yHysG"
         }
     ],
-    timestamps: {start: Date.now()},
+    timestamps: {
+        start: Date.now()
+    },
     instance: true
 }
 
@@ -160,8 +167,7 @@ const settings_acitivity = {
         small_image: "settings",
         small_text: "Editing settings",
     },
-    buttons: [
-        {
+    buttons: [{
             "label": "Download VALTracker",
             "url": "https://valtracker.gg"
         },
@@ -170,7 +176,9 @@ const settings_acitivity = {
             "url": "https://discord.gg/aJfQ4yHysG"
         }
     ],
-    timestamps: {start: Date.now()},
+    timestamps: {
+        start: Date.now()
+    },
     instance: true
 }
 
@@ -182,8 +190,7 @@ const patchnotes_acitivity = {
         small_image: "patchnotes",
         small_text: "Browsing patchnotes",
     },
-    buttons: [
-        {
+    buttons: [{
             "label": "Download VALTracker",
             "url": "https://valtracker.gg"
         },
@@ -192,7 +199,9 @@ const patchnotes_acitivity = {
             "url": "https://discord.gg/aJfQ4yHysG"
         }
     ],
-    timestamps: {start: Date.now()},
+    timestamps: {
+        start: Date.now()
+    },
     instance: true
 }
 
@@ -204,8 +213,7 @@ const anonymous_activity = {
         //small_image: "",
         //small_text: "",
     },
-    buttons: [
-        {
+    buttons: [{
             "label": "Open VALTracker",
             "url": "valtracker-ptcl://open"
         },
@@ -214,7 +222,9 @@ const anonymous_activity = {
             "url": "https://valtracker.gg"
         }
     ],
-    timestamps: {start: Date.now()},
+    timestamps: {
+        start: Date.now()
+    },
     instance: true
 }
 

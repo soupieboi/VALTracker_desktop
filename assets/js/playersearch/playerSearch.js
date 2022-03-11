@@ -1,5 +1,5 @@
 const ipc = require('electron').ipcRenderer;
-window.onload = function() {
+window.onload = function () {
   ipc.send('changeDiscordRP', `playersearch_acitivity`)
 
   const replaceText = (text) => {
@@ -8,7 +8,7 @@ window.onload = function() {
   }
 
   // Execute a function when the user releases a key on the keyboard
-  $("#playerNameSearch").keyup(function(event) {
+  $("#playerNameSearch").keyup(function (event) {
     var inputValue = document.getElementById("playerNameSearch").value;
     if (event.keyCode === 13) {
       if (inputValue.indexOf('#') > -1) {
@@ -20,13 +20,13 @@ window.onload = function() {
       }
     }
   });
-  document.getElementById("playerNameSearchButton").onclick = function(event) {
+  document.getElementById("playerNameSearchButton").onclick = function (event) {
     $('#playersearch-loading-circle').css("display", "block")
     var inputValue = document.getElementById("playerNameSearch").value;
     var searchedPlayerName = inputValue.substring(0, inputValue.indexOf("#"));
     var searchedPlayerTag = inputValue.substring(inputValue.indexOf("#") + 1);
 
-    if(inputValue == "") {
+    if (inputValue == "") {
       replaceText("Search Field empty.")
       $('#playersearch-loading-circle').css("display", "none")
     } else {
@@ -39,7 +39,7 @@ window.onload = function() {
         $.ajax({
           url: `https://api.henrikdev.xyz/valorant/v1/account/${searchedPlayerName}/${searchedPlayerTag}`,
           type: 'get',
-          success: function(data, xhr) {
+          success: function (data, xhr) {
             sessionStorage.setItem("player_name", searchedPlayerName);
             sessionStorage.setItem("player_tag", searchedPlayerTag);
             sessionStorage.setItem("player_region", searchedRegion);
@@ -48,7 +48,7 @@ window.onload = function() {
             sessionStorage.setItem("last_page", page);
             window.location.href = "playerProfile.html";
           },
-          error: function(xhr) {
+          error: function (xhr) {
             //get the status code
             if (xhr.status == 400) {
               replaceText('400, Bad Request');

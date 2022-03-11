@@ -13,7 +13,7 @@ window.onbeforeunload = (event) => {
 }
 
 function handleWindowControls() {
-    
+
     document.getElementById('min-button').addEventListener("click", event => {
         win.minimize();
     });

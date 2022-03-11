@@ -4,7 +4,7 @@ function leaveToBundles() {
     $('.bundle-largeview').css('transform', 'scale(' + leaveShift + ')');
     $('.bundle-largeview').fadeTo(200, 0);
     $('.header-relative-div-largeview').fadeTo(100, 0);
-    setTimeout(function() {
+    setTimeout(function () {
         location.reload();
     }, 300)
 }

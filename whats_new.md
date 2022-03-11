@@ -1,13 +1,13 @@
 ///
-- Reworked the File System. *(Just looks better now and is more organized)*
-
-- Added Riot Log outs. Logging out will disable all features that need your Riot Account to work.
-
-- Logins on Install are now optional
+- Added theme fallbacks for non-existing themes.
 ///
-- Fixed the Shop reloading constantly
+- Fixed a bug that would prevent you from setting matches as favorites.
 
-- A few under-the-hood improvements
+- Fixed a bug that would prevent you from creating themes.
+
+- Fixed a bug that caused the app not to load your custom username correctly.
+
+- Fixed the video controls being too large.
 
 **HAVE FUN USING VALTRACKER**<br>
 *~ Spirit, Developer of VALTracker.gg*

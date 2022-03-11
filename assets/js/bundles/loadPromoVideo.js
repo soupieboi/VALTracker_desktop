@@ -1,4 +1,4 @@
-function showPromoVid(event, id, weaponNums) {
+function showPromoVid(event, id, bundleID) {
     $(".bundle-largeview").animate({
         scrollTop: 0
     }, {
@@ -10,34 +10,24 @@ function showPromoVid(event, id, weaponNums) {
     $('.largeview-vid').css("display", "grid")
     $('.header-relative-div-largeview').css("display", "none")
     $('.header-relative-div-video').css("opacity", "1")
-    setTimeout(function() {
+    setTimeout(function () {
         $('.largeview-vid').css("background-color", "rgba(0, 0, 0, 0.5)")
     }, 400)
     var chroma = sessionStorage.getItem("chroma");
-    if(chroma == null) {
+    if (chroma == null) {
         chroma = 0;
-    } else {
-        chroma = chroma-1
     }
     $.ajax({
-        url: `https://valorant-api.com/v1/weapons`,
+        url: `https://api.valtracker.gg/bundles/${bundleID}`,
         type: 'get',
-        success: function(data, jqXHR) {
-            const str = weaponNums;
-            
-            const slug1 = str.substring(str.indexOf('-') + 1);
-            remove_after = slug1.indexOf('-');
-                
-            const slug2 = str.split('-').pop();
-            if(data.data[parseInt(slug1)].skins[parseInt(slug2)].chromas[chroma].streamedVideo) {
-                video.setAttribute("src", data.data[parseInt(slug1)].skins[parseInt(slug2)].chromas[chroma].streamedVideo);
-            } else if(data.data[parseInt(slug1)].skins[parseInt(slug2)].levels[data.data[parseInt(slug1)].skins[parseInt(slug2)].levels.length -1].streamedVideo) {
-                video.setAttribute("src", data.data[parseInt(slug1)].skins[parseInt(slug2)].levels[data.data[parseInt(slug1)].skins[parseInt(slug2)].levels.length -1].streamedVideo);
+        success: function (data, jqXHR) {
+            if (data.data.weapons[id].chromas[chroma].video) {
+                video.setAttribute("src", data.data.weapons[id].chromas[chroma].video);
             } else {
-                video.setAttribute("src", data.data[parseInt(slug1)].skins[parseInt(slug2)].levels[data.data[parseInt(slug1)].skins[parseInt(slug2)].levels.length -1].streamedVideo);
+                video.setAttribute("src", data.data.weapons[id].levels[data.data.weapons[id].levels.length - 1].video);
             }
         },
-        error: function(jqXHR) {
+        error: function (jqXHR) {
             createErrorCard(this.url, jqXHR.status);
         }
     })
@@ -48,7 +38,7 @@ function hideVideo() {
     $('.header-relative-div-largeview').css("display", "block")
     $('.largeview-vid').css("display", "none")
     document.getElementById('largeview-vid-element').pause();
-    setTimeout(function() {
+    setTimeout(function () {
         $('.largeview-vid').css("background-color", "rgba(0, 0, 0, 0)")
     }, 100)
 }

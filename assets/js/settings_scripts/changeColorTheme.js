@@ -4,7 +4,7 @@ var select = document.getElementById('selected-color-theme');
 const fs = require('fs')
 
 //JSON check + colors writen
-if(!fs.existsSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json')) {
+if (!fs.existsSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json')) {
     var dataToWrite = {
         "isCustomTheme": false,
         "themeName": "normal"
@@ -13,7 +13,7 @@ if(!fs.existsSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_them
     fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', JSON.stringify(dataToWrite))
 }
 
-$('#reset-colortheme-button').on("click", function() {
+$('#reset-colortheme-button').on("click", function () {
     $(select).val("Default")
     var dataToWrite = {
         "isCustomTheme": false,
@@ -26,14 +26,14 @@ $('#reset-colortheme-button').on("click", function() {
     window.location.href = ""
 })
 
-select.addEventListener('change', function() {
+select.addEventListener('change', function () {
     switch (select.value) {
         case "Default":
             var dataToWrite = {
                 "isCustomTheme": false,
                 "themeName": "normal"
             }
-        
+
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', dataToWriteDown)
@@ -44,7 +44,7 @@ select.addEventListener('change', function() {
                 "isCustomTheme": false,
                 "themeName": select.value.toLowerCase()
             }
-        
+
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', dataToWriteDown)
@@ -56,7 +56,7 @@ select.addEventListener('change', function() {
                 "isCustomTheme": false,
                 "themeName": select.value.toLowerCase()
             }
-        
+
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', dataToWriteDown)
@@ -67,7 +67,7 @@ select.addEventListener('change', function() {
                 "isCustomTheme": false,
                 "themeName": select.value.toLowerCase()
             }
-        
+
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', dataToWriteDown)
@@ -78,7 +78,7 @@ select.addEventListener('change', function() {
                 "isCustomTheme": false,
                 "themeName": select.value.toLowerCase()
             }
-        
+
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', dataToWriteDown)
@@ -89,7 +89,7 @@ select.addEventListener('change', function() {
                 "isCustomTheme": false,
                 "themeName": select.value.toLowerCase()
             }
-        
+
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', dataToWriteDown)
@@ -100,7 +100,7 @@ select.addEventListener('change', function() {
                 "isCustomTheme": false,
                 "themeName": select.value.toLowerCase()
             }
-        
+
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', dataToWriteDown)
@@ -111,7 +111,7 @@ select.addEventListener('change', function() {
                 "isCustomTheme": false,
                 "themeName": select.value.toLowerCase()
             }
-        
+
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', dataToWriteDown)
@@ -122,7 +122,7 @@ select.addEventListener('change', function() {
                 "isCustomTheme": false,
                 "themeName": select.value.toLowerCase()
             }
-        
+
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', dataToWriteDown)
@@ -133,7 +133,7 @@ select.addEventListener('change', function() {
                 "isCustomTheme": false,
                 "themeName": select.value.toLowerCase()
             }
-        
+
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', dataToWriteDown)
@@ -144,7 +144,7 @@ select.addEventListener('change', function() {
                 "isCustomTheme": false,
                 "themeName": select.value.toLowerCase()
             }
-        
+
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', dataToWriteDown)
@@ -155,7 +155,7 @@ select.addEventListener('change', function() {
                 "isCustomTheme": false,
                 "themeName": select.value.toLowerCase()
             }
-        
+
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', dataToWriteDown)
@@ -166,7 +166,7 @@ select.addEventListener('change', function() {
                 "isCustomTheme": false,
                 "themeName": select.value.toLowerCase()
             }
-        
+
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', dataToWriteDown)
@@ -177,7 +177,7 @@ select.addEventListener('change', function() {
                 "isCustomTheme": false,
                 "themeName": select.value.toLowerCase()
             }
-        
+
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', dataToWriteDown)
@@ -188,7 +188,7 @@ select.addEventListener('change', function() {
                 "isCustomTheme": false,
                 "themeName": select.value.toLowerCase()
             }
-        
+
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', dataToWriteDown)
@@ -199,7 +199,7 @@ select.addEventListener('change', function() {
                 "isCustomTheme": false,
                 "themeName": select.value.toLowerCase()
             }
-        
+
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', dataToWriteDown)
@@ -210,7 +210,7 @@ select.addEventListener('change', function() {
                 "isCustomTheme": false,
                 "themeName": select.value.toLowerCase()
             }
-        
+
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', dataToWriteDown)
@@ -221,7 +221,7 @@ select.addEventListener('change', function() {
                 "isCustomTheme": false,
                 "themeName": select.value.toLowerCase()
             }
-        
+
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', dataToWriteDown)
@@ -232,7 +232,7 @@ select.addEventListener('change', function() {
                 "isCustomTheme": false,
                 "themeName": select.value.toLowerCase()
             }
-        
+
             var dataToWriteDown = JSON.stringify(dataToWrite)
 
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/themes/color_theme.json', dataToWriteDown)
@@ -270,10 +270,10 @@ $(document).ready(() => {
         });
     });
 
-    setTimeout(function() {
-        if(colorData.isCustomTheme == true) {
-            for(var count = 0; count < i; count++) {
-                if(document.getElementsByClassName('customThemeOption').item(count).textContent == colorData.themeName) {
+    setTimeout(function () {
+        if (colorData.isCustomTheme == true) {
+            for (var count = 0; count < i; count++) {
+                if (document.getElementsByClassName('customThemeOption').item(count).textContent == colorData.themeName) {
                     document.getElementsByClassName('customThemeOption')[count].value = "custom-theme-used"
                     $(select).val("custom-theme-used")
                 }
@@ -281,7 +281,7 @@ $(document).ready(() => {
             $('#edit-custom-theme-button').css("display", "inline-block");
         } else {
             let word = colorData.themeName;
-            if(word == "normal") {
+            if (word == "normal") {
                 word = "default"
             }
             let titleCase = word[0].toUpperCase() + word.substr(1);
@@ -289,8 +289,10 @@ $(document).ready(() => {
         }
     }, 200)
 
-    const { shell } = require('electron').remote
-    $('#open-custom-theme-folder-button').on("click", function() {
+    const {
+        shell
+    } = require('electron').remote
+    $('#open-custom-theme-folder-button').on("click", function () {
         shell.openPath(process.env.APPDATA + "/VALTracker/user_data/themes/custom_themes");
     })
 })

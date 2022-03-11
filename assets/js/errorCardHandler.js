@@ -1,4 +1,6 @@
-var { shell } = require('electron');
+var {
+    shell
+} = require('electron');
 var moment = require('moment-timezone')
 
 function createErrorCard(called_api, error_code) {
@@ -6,57 +8,57 @@ function createErrorCard(called_api, error_code) {
     var errorMeaning;
     var rateLimitError;
 
-    switch(error_code) {
+    switch (error_code) {
         case 400:
             errorMeaning = " (Bad Request)"
             break;
-        
+
         case 401:
             errorMeaning = " (Unauthorized)"
             break;
-        
+
         case 403:
             errorMeaning = " (Forbidden)"
             break;
-        
+
         case 404:
             errorMeaning = " (Not Found)"
             break;
-        
+
         case 405:
             errorMeaning = " (Not Allowed)"
             break;
-        
+
         case 408:
             errorMeaning = " (Request Timeout)"
             break;
-        
+
         case 429:
             errorMeaning = " (Rate limit exceeded,\n please try again later.)"
             rateLimitError = true;
             break;
-        
+
         case 500:
             errorMeaning = " (Internal Server Error)"
             break;
-        
+
         case 501:
             errorMeaning = " (Not Implemented)"
             break;
-        
+
         case 502:
             errorMeaning = " (Bad Gateway)"
             break;
-        
+
         case 503:
             errorMeaning = " (Service Unavailable)"
             break;
-        
+
         case 504:
             errorMeaning = " (Gateway Timeout)"
             break;
     }
-    
+
     var cardWrapper = document.createElement("div");
     cardWrapper.className = "error-code-mention-card"
 
@@ -103,16 +105,20 @@ function createErrorCard(called_api, error_code) {
     hiddenError.className = "hidden-error";
 
     const errorDate = new Date(Date.now());
-    var time = errorDate.toLocaleTimeString('en-us', {timeZone: 'Europe/Berlin'})
-    var date = errorDate.toLocaleDateString('de-de', {timeZone: 'Europe/Berlin'})
+    var time = errorDate.toLocaleTimeString('en-us', {
+        timeZone: 'Europe/Berlin'
+    })
+    var date = errorDate.toLocaleDateString('de-de', {
+        timeZone: 'Europe/Berlin'
+    })
 
-    hiddenError.textContent = 
-    "```css\n" + // Codeblock with Colors :p
-    "[///// API ERROR /////]\n" + // Header, [] Brackets for red color
-    "\nAPI: " + called_api + "\n" + // API that was being called
-    "Error Code: " + error_code + errorMeaning + "\n" + // Error code + Meaning
-    "\nTime of Error: " + date + ", " + time + // Time of Error, converted to Berlin TZ
-    "\n```"; // End of codeblock
+    hiddenError.textContent =
+        "```css\n" + // Codeblock with Colors :p
+        "[///// API ERROR /////]\n" + // Header, [] Brackets for red color
+        "\nAPI: " + called_api + "\n" + // API that was being called
+        "Error Code: " + error_code + errorMeaning + "\n" + // Error code + Meaning
+        "\nTime of Error: " + date + ", " + time + // Time of Error, converted to Berlin TZ
+        "\n```"; // End of codeblock
 
     var cardContent = document.createElement("div");
     cardContent.className = "error-code-card-content";
@@ -130,8 +136,7 @@ function createErrorCard(called_api, error_code) {
     textSpan.appendChild(discordHrefSpan);
     textSpan.appendChild(document.createTextNode(", copy the info and paste it into the #support channel for help."))
 
-    if(rateLimitError == true) {
-        console.log("E")
+    if (rateLimitError == true) {
         $(textSpan).empty();
         $(textSpan).text("Rate Limit exceeded. Please try again in 2 minutes.");
     }
@@ -165,28 +170,29 @@ function createErrorCard(called_api, error_code) {
     $(cardW).fadeTo(150, 1)
     $(cardW).css("transform", "scale(1)");
 
-    $('#discord-href').on("click", function() {
+    $('#discord-href').on("click", function () {
         shell.openExternal("https://discord.gg/aJfQ4yHysG");
     });
-    $('#reload-page').on("click", function() {
+    $('#reload-page').on("click", function () {
         window.location.href = "";
     });
-    $('#closeErrorCard').on("click", function() {
+    $('#closeErrorCard').on("click", function () {
         var card = this.parentElement.parentElement;
         $(card).fadeTo(100, 0)
         $(card).css("transform", "scale(0.8)");
-        setTimeout(function() {
+        setTimeout(function () {
             $(card).remove();
         }, 300)
     });
-    $('#copy-to-clip').on("click", function() {
+    $('#copy-to-clip').on("click", function () {
         var button = this
+
         function replaceButtonText(text) {
             $(button).text(text)
         }
         navigator.clipboard.writeText($('.hidden-error').text());
         replaceButtonText("Copied!")
-        setTimeout(function() {
+        setTimeout(function () {
             replaceButtonText("Copy info to clipboard")
         }, 1000);
     });

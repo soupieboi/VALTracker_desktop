@@ -6,19 +6,19 @@ function redirectInDefaultBrowser(id, url) {
     shell.openExternal(finalStr);
 }
 $(document).ready(() => {
-    setTimeout(function() {
+    setTimeout(function () {
         $.ajax({
             dataType: "json",
             url: `https://api.henrikdev.xyz/valorant/v1/website/en-us`,
             type: 'get',
-            success: function(data, xhr) {
-                for(var count = 0; count < 3; count++) {
+            success: function (data, xhr) {
+                for (var count = 0; count < 3; count++) {
                     $(`#text-${count}`).append(data.data[count].title);
                     $(`#img-${count}`).attr("src", data.data[count].banner_url);
                     $(`#hiddenurl-${count}`).append(data.data[count].url)
                 }
             },
-            error: function(jqXHR) {
+            error: function (jqXHR) {
                 createErrorCard(this.url, jqXHR.status);
             }
         });

@@ -1,6 +1,6 @@
 function saveToFavs(matchID, thisStar) {
-    if(thisStar.id == '' || thisStar.id == null) {
-        var checkedPath1 = process.env.APPDATA + '/VALTracker/user_data/favoruite_matches/matches.json'
+    if (thisStar.id == '' || thisStar.id == null) {
+        var checkedPath1 = process.env.APPDATA + '/VALTracker/user_data/favourite_matches/matches.json'
         let rawdata = fs.readFileSync(checkedPath1);
         let dataToRead = JSON.parse(rawdata);
 
@@ -10,8 +10,8 @@ function saveToFavs(matchID, thisStar) {
 
         var hasFoundEmtySpace = false;
 
-        for(var count = 0; count < dataToRead.favourites.length; count++) {
-            if(dataToRead.favourites[count].MatchID == undefined) {
+        for (var count = 0; count < dataToRead.favourites.length; count++) {
+            if (dataToRead.favourites[count].MatchID == undefined) {
                 dataToRead.favourites[count] = {
                     "MatchID": matchID
                 }
@@ -21,19 +21,19 @@ function saveToFavs(matchID, thisStar) {
                 continue
             }
         }
-        if(hasFoundEmtySpace == false) {
+        if (hasFoundEmtySpace == false) {
             dataToRead.favourites[dataToRead.favourites.length] = {
                 "MatchID": matchID
             }
         }
         fs.writeFileSync(checkedPath1, JSON.stringify(dataToRead));
     } else {
-        var checkedPath1 = process.env.APPDATA + '/VALTracker/user_data/favoruite_matches/matches.json'
+        var checkedPath1 = process.env.APPDATA + '/VALTracker/user_data/favourite_matches/matches.json'
         let rawdata = fs.readFileSync(checkedPath1);
         let dataToRead = JSON.parse(rawdata);
 
-        for(var count = 0; count < dataToRead.favourites.length; count++) {
-            if(dataToRead.favourites[count].MatchID == thisStar.id) {
+        for (var count = 0; count < dataToRead.favourites.length; count++) {
+            if (dataToRead.favourites[count].MatchID == thisStar.id) {
                 delete dataToRead.favourites[count]
             }
         }
@@ -42,8 +42,8 @@ function saveToFavs(matchID, thisStar) {
 
             }]
         };
-        for(var count = 0; count < dataToRead.favourites.length; count++) {
-            if(dataToRead.favourites[count] == null) {
+        for (var count = 0; count < dataToRead.favourites.length; count++) {
+            if (dataToRead.favourites[count] == null) {
                 continue
             } else {
                 newArrToPush.favourites.push(dataToRead.favourites[count])
@@ -51,14 +51,13 @@ function saveToFavs(matchID, thisStar) {
         }
 
         fs.writeFileSync(checkedPath1, JSON.stringify(newArrToPush));
-        
+
         thisStar.removeAttribute("id")
         thisStar.classList.toggle('far')
         thisStar.classList.toggle('fas')
     }
 }
 
-$(document).ready(() => {
-})
+$(document).ready(() => {})
 
 //For loop, alle objects zu neuem Arr, wenn null dann überspringen

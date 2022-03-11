@@ -15,27 +15,21 @@ var id_token;
 var requiredCookie;
 var region;
 
-function getTokenDataFromURL(url)
-{
-    try
-    {
+function getTokenDataFromURL(url) {
+    try {
         const searchParams = new URLSearchParams((new URL(url)).hash.slice(1));
         return {
             accessToken: searchParams.get('access_token'),
             expiresIn: searchParams.get('expires_in'),
             id_token: searchParams.get('id_token'),
         };
-    }
-    catch(err)
-    {
+    } catch (err) {
         throw new Error(`Bad url: "${url}"`);
     }
 }
 
-async function showSignIn()
-{
-    return new Promise((resolve, reject) =>
-    {
+async function showSignIn() {
+    return new Promise((resolve, reject) => {
         const loginWindow = new electron.remote.BrowserWindow({
             show: false,
             width: 470,
@@ -43,17 +37,16 @@ async function showSignIn()
             autoHideMenuBar: true,
         });
         let foundToken = false;
-        loginWindow.webContents.on('will-redirect', (event, url) =>
-        {
+        loginWindow.webContents.on('will-redirect', (event, url) => {
             console.log('Login window redirecting...');
-            if(!foundToken && url.startsWith('https://playvalorant.com/opt_in'))
-            {
+            if (!foundToken && url.startsWith('https://playvalorant.com/opt_in')) {
                 console.log('Redirecting to url with tokens');
                 const tokenData = getTokenDataFromURL(url);
                 foundToken = true;
-            
-                loginWindow.webContents.session.cookies.get({domain: 'auth.riotgames.com'}).then(async riotcookies =>
-                {
+
+                loginWindow.webContents.session.cookies.get({
+                    domain: 'auth.riotgames.com'
+                }).then(async riotcookies => {
                     await Promise.all(riotcookies.map(cookie => loginWindow.webContents.session.cookies.remove(`https://${cookie.domain}${cookie.path}`, cookie.name)));
                     loginWindow.destroy();
                     resolve({
@@ -61,7 +54,7 @@ async function showSignIn()
                         riotcookies,
                     });
                     riotcookies.forEach(riotcookie => {
-                        if(riotcookie.name == "ssid") {
+                        if (riotcookie.name == "ssid") {
                             cookieString = riotcookie.value
                         }
                         console.log(JSON.parse(JSON.stringify(riotcookie)))
@@ -71,12 +64,10 @@ async function showSignIn()
                 });
             }
         });
-        loginWindow.once('ready-to-show', () =>
-        {
+        loginWindow.once('ready-to-show', () => {
             loginWindow.show();
         });
-        loginWindow.on('close', () =>
-        {
+        loginWindow.on('close', () => {
             console.log('Login window was closed');
             reject('window closed');
         });
@@ -95,7 +86,7 @@ async function getPlayerUUID() {
         },
     })).json())['sub'];
 }
-    
+
 async function getEntitlement() {
     return (await (await this.fetch('https://entitlements.auth.riotgames.com/api/token/v1', {
         method: 'POST',
@@ -111,9 +102,9 @@ async function getXMPPRegion() {
     return (await (await this.fetch("https://riot-geo.pas.si.riotgames.com/pas/v1/product/valorant", {
         "method": "PUT",
         "headers": {
-          "cookie": requiredCookie,
-          "Content-Type": "application/json",
-          "Authorization": "Bearer " + bearer
+            "cookie": requiredCookie,
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + bearer
         },
         "body": `{\"id_token\":\"${id_token}\"}`
     })).json());
@@ -134,13 +125,13 @@ $(document).ready(() => {
     //Check if user is logged in, if yes, show log out button, also reverse
     const rawcookies = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/riot_games_data/cookies.json');
     const bakedCookies = JSON.parse(rawcookies);
-    if(bakedCookies[0] !== undefined) {
+    if (bakedCookies[0] !== undefined) {
         $('#log-in-button').css('display', 'none');
     } else {
         $('#log-out-button').css('display', 'none');
     }
 
-    $('#log-out-button').on("click", function() {
+    $('#log-out-button').on("click", function () {
         const rawUserConfig = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/user_creds.json');
         const userConfig = JSON.parse(rawUserConfig);
         userConfig.usesRiotAccount = false;
@@ -150,7 +141,7 @@ $(document).ready(() => {
         window.location.href = "";
     });
 
-    $('#log-out-button').on("click", function() {
+    $('#log-out-button').on("click", function () {
         const rawUserConfig = fs.readFileSync(process.env.APPDATA + '/VALTracker/user_data/user_creds.json');
         const userConfig = JSON.parse(rawUserConfig);
         userConfig.usesRiotAccount = false;
@@ -159,13 +150,13 @@ $(document).ready(() => {
         fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/riot_games_data/token_data.json', JSON.stringify({}));
         window.location.href = "";
     });
-    $('#log-in-button').on('click', async function() {
+    $('#log-in-button').on('click', async function () {
         const data = await showSignIn();
         bearer = data.tokenData.accessToken;
         id_token = data.tokenData.id_token;
 
         riotIPC.send('setCookies', 'please')
-        riotIPC.on('tdid', async function(event, arg) {
+        riotIPC.on('tdid', async function (event, arg) {
             console.log(arg)
             requiredCookie = "tdid=" + arg
 
@@ -177,16 +168,16 @@ $(document).ready(() => {
             var reagiondata = await getXMPPRegion();
             console.log(reagiondata)
             region = reagiondata.affinities.live
-            
+
             var shopData = await getShopData();
             fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/shop_data/current_shop.json', JSON.stringify(shopData))
             console.log(shopData)
 
-            Date.prototype.addSeconds = function(seconds) {
+            Date.prototype.addSeconds = function (seconds) {
                 var copiedDate = new Date(this.getTime());
                 return new Date(copiedDate.getTime() + seconds * 1000);
             }
-            
+
             var dateData = {
                 lastCkeckedDate: new Date().getTime(),
                 willLastFor: new Date().addSeconds(shopData.SkinsPanelLayout.SingleItemOffersRemainingDurationInSeconds)
@@ -197,11 +188,11 @@ $(document).ready(() => {
             $.ajax({
                 url: `https://api.henrikdev.xyz/valorant/v1/by-puuid/mmr/${region}/${puuid}`,
                 type: 'get',
-                success: function(data, xhr) {
+                success: function (data, xhr) {
                     var searchedPlayerName = data.data.name
                     var searchedPlayerTag = data.data.tag
                     var searchedRegion = region;
-            
+
                     let userData = {
                         playerName: searchedPlayerName,
                         playerTag: searchedPlayerTag,
@@ -209,12 +200,12 @@ $(document).ready(() => {
                         playerUUID: puuid,
                         usesRiotAccount: true
                     };
-                     
+
                     let data2 = JSON.stringify(userData);
                     fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/user_creds.json', data2);
                     window.location.href = ""
                 },
-                error: function(xhr) {
+                error: function (xhr) {
                     if (xhr.status == 400) {
                         replaceText6('400, Bad Request');
                     }

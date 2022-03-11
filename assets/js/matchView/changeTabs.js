@@ -1,7 +1,6 @@
 function sortTableWithFBs() {
     var table, rows, switching, i, x, y, shouldSwitch;
     table = document.getElementById("scoreboard-table");
-    console.log(table)
     switching = true;
     while (switching) {
         switching = false;
@@ -9,7 +8,6 @@ function sortTableWithFBs() {
         for (i = 2; i < (rows.length - 1); i++) {
             shouldSwitch = false;
             x = rows[i].getElementsByTagName("TD")[4];
-            console.log(rows[i].getElementsByTagName("TD"))
             y = rows[i + 1].getElementsByTagName("TD")[4];
             if (x.textContent.toLowerCase() < y.textContent.toLowerCase()) {
                 shouldSwitch = true;
@@ -22,10 +20,10 @@ function sortTableWithFBs() {
         }
     }
 }
+
 function sortTableWithKD() {
     var table, rows, switching, i, x, y, shouldSwitch;
     table = document.getElementById("scoreboard-table");
-    console.log(table)
     switching = true;
     while (switching) {
         switching = false;
@@ -47,10 +45,10 @@ function sortTableWithKD() {
         }
     }
 }
+
 function sortTableWithPlntsDefs() {
     var table, rows, switching, i, x, y, shouldSwitch;
     table = document.getElementById("scoreboard-table");
-    console.log(table)
     switching = true;
     while (switching) {
         switching = false;
@@ -72,10 +70,10 @@ function sortTableWithPlntsDefs() {
         }
     }
 }
+
 function sortTableWithDmg() {
     var table, rows, switching, i, x, y, shouldSwitch;
     table = document.getElementById("scoreboard-table");
-    console.log(table)
     switching = true;
     while (switching) {
         switching = false;
@@ -83,7 +81,6 @@ function sortTableWithDmg() {
         for (i = 2; i < (rows.length - 1); i++) {
             shouldSwitch = false;
             x = rows[i].getElementsByTagName("TD")[5];
-            console.log(rows[i].getElementsByTagName("TD"))
             y = rows[i + 1].getElementsByTagName("TD")[5];
             if (parseInt(x.textContent) < parseInt(y.textContent)) {
                 shouldSwitch = true;
@@ -98,54 +95,54 @@ function sortTableWithDmg() {
 }
 $(document).ready(() => {
     var firstLoad = true;
-    $('#match-scoreboard').on("click", function() {
+    $('#match-scoreboard').on("click", function () {
         $('.matchview-wrapper-1').fadeTo(400, 0);
         $('#player-overview').toggleClass("active");
         $('#match-scoreboard').toggleClass("active");
-        if(firstLoad == true) {
+        if (firstLoad == true) {
             sortTableWithKD();
             firstLoad = false;
         }
-        setTimeout(function() {
+        setTimeout(function () {
             $('.matchview-wrapper-1').css("display", "none");
             $('.matchview-wrapper-2').css("opacity", "0");
             $('.matchview-wrapper-2').css("display", "block");
             $('.matchview-wrapper-2').fadeTo(400, 1);
         }, 400)
     });
-    $('#player-overview').on("click", function() {
+    $('#player-overview').on("click", function () {
         $('.matchview-wrapper-2').fadeTo(400, 0);
         $('#player-overview').toggleClass("active");
         $('#match-scoreboard').toggleClass("active");
-        setTimeout(function() {
+        setTimeout(function () {
             $('.matchview-wrapper-2').css("display", "none");
             $('.matchview-wrapper-1').css("opacity", "0");
             $('.matchview-wrapper-1').css("display", "block");
             $('.matchview-wrapper-1').fadeTo(400, 1);
         }, 400)
     });
-    $('#kda').on("click", function() {
+    $('#kda').on("click", function () {
         $('#kda').addClass("active");
         $('#plnts-def').removeClass("active");
         $('#fbs').removeClass("active");
         $('#dmg').removeClass("active");
         sortTableWithKD();
     });
-    $('#plnts-def').on("click", function() {
+    $('#plnts-def').on("click", function () {
         $('#kda').removeClass("active");
         $('#plnts-def').addClass("active");
         $('#fbs').removeClass("active");
         $('#dmg').removeClass("active");
         sortTableWithPlntsDefs();
     });
-    $('#fbs').on("click", function() {
+    $('#fbs').on("click", function () {
         $('#kda').removeClass("active");
         $('#plnts-def').removeClass("active");
         $('#fbs').addClass("active");
         $('#dmg').removeClass("active");
         sortTableWithFBs();
     });
-    $('#dmg').on("click", function() {
+    $('#dmg').on("click", function () {
         $('#kda').removeClass("active");
         $('#plnts-def').removeClass("active");
         $('#fbs').removeClass("active");
