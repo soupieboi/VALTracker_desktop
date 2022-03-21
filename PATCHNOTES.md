@@ -1,21 +1,23 @@
 ## __New Features__
 
-- Added a fallback feature for themes. If a theme does not exist the app will now default to the normal theme.
+- Reworked/Finished the Match view! Now, when clicking on a match, it will show all the information properly sorted, and in addition it will also display the stats of individual rounds!
 
 ## __Bugfixes__
 
-- Fixed a bug that prevented you from setting a match as favourite.
+- Fixed a bug that showed the wrong bundle price in the store.
 
-- Fixed a bug that prevented you from creating/editing themes.
+- Fixed a visual bug that misaligned the RR gain of on a player profile.
 
-- Fixed a bug where your app would only update automatically after being opened for half an hour.
+- Fixed a bug that prevented you from going back to a players profile when viewing a math they played.
 
-- Fixed a bug that caused the app not to load your custom username correctly.
+- Fixed a bug that prevented the single skin prices from being shown when looking at a single skin.
 
-- Fixed a bug that would display an error in the console when loading the bundles page.
+- Fixed a bug that would prevent you from logging in with your Riot Account because a few files were missing. These will now properly be created on startup.
 
-- Fixed the video controls being too large.
+- Fixed a bug that prevented you from creating/editing custom themes.
 
 ## __Everything Else__
 
-- Reworked the Bundles back-end using my own API to improve networking, processing power management and melee items not showing up in new bundles.
+- Reworked the way VALTracker loads the Map images for both the Favorite Matches and the player profiles. (Switches from local images that had to be updated manually to an API call that returnes the images)
+
+- Moved all pages into their own directory because I got annoyed by the messy structure of the GitHub Repo.

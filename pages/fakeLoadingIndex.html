@@ -11,7 +11,7 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css"
     type="text/css">
-  <link rel="stylesheet" type="text/css" href="assets/css/global.css">
+  <link rel="stylesheet" type="text/css" href="../assets/css/global.css">
 
   <script src="https://kit.fontawesome.com/0fb7a47199.js" crossorigin="anonymous"></script>
 </head>
@@ -43,22 +43,22 @@
 
         <div class="button" id="min-button">
           <img class="icon"
-            srcset="iconss/min-w-10.png 1x, iconss/min-w-12.png 1.25x, iconss/min-w-15.png 1.5x, iconss/min-w-15.png 1.75x, iconss/min-w-20.png 2x, iconss/min-w-20.png 2.25x, iconss/min-w-24.png 2.5x, iconss/min-w-30.png 3x, iconss/min-w-30.png 3.5x"
+            srcset="../iconss/min-w-10.png 1x, ../iconss/min-w-12.png 1.25x, ../iconss/min-w-15.png 1.5x, ../iconss/min-w-15.png 1.75x, ../iconss/min-w-20.png 2x, ../iconss/min-w-20.png 2.25x, ../iconss/min-w-24.png 2.5x, ../iconss/min-w-30.png 3x, ../iconss/min-w-30.png 3.5x"
             draggable="false" />
         </div>
         <div class="button" id="max-button">
           <img class="icon"
-            srcset="iconss/max-w-10.png 1x, iconss/max-w-12.png 1.25x, iconss/max-w-15.png 1.5x, iconss/max-w-15.png 1.75x, iconss/max-w-20.png 2x, iconss/max-w-20.png 2.25x, iconss/max-w-24.png 2.5x, iconss/max-w-30.png 3x, iconss/max-w-30.png 3.5x"
+            srcset="../iconss/max-w-10.png 1x, ../iconss/max-w-12.png 1.25x, ../iconss/max-w-15.png 1.5x, ../iconss/max-w-15.png 1.75x, ../iconss/max-w-20.png 2x, ../iconss/max-w-20.png 2.25x, ../iconss/max-w-24.png 2.5x, ../iconss/max-w-30.png 3x, ../iconss/max-w-30.png 3.5x"
             draggable="false" />
         </div>
         <div class="button" id="restore-button">
           <img class="icon"
-            srcset="iconss/restore-w-10.png 1x, iconss/restore-w-12.png 1.25x, iconss/restore-w-15.png 1.5x, iconss/restore-w-15.png 1.75x, iconss/restore-w-20.png 2x, iconss/restore-w-20.png 2.25x, iconss/restore-w-24.png 2.5x, iconss/restore-w-30.png 3x, iconss/restore-w-30.png 3.5x"
+            srcset="../iconss/restore-w-10.png 1x, ../iconss/restore-w-12.png 1.25x, ../iconss/restore-w-15.png 1.5x, ../iconss/restore-w-15.png 1.75x, ../iconss/restore-w-20.png 2x, ../iconss/restore-w-20.png 2.25x, ../iconss/restore-w-24.png 2.5x, ../iconss/restore-w-30.png 3x, ../iconss/restore-w-30.png 3.5x"
             draggable="false" />
         </div>
         <div class="button" id="close-button">
           <img class="icon"
-            srcset="iconss/close-w-10.png 1x, iconss/close-w-12.png 1.25x, iconss/close-w-15.png 1.5x, iconss/close-w-15.png 1.75x, iconss/close-w-20.png 2x, iconss/close-w-20.png 2.25x, iconss/close-w-24.png 2.5x, iconss/close-w-30.png 3x, iconss/close-w-30.png 3.5x"
+            srcset="../iconss/close-w-10.png 1x, ../iconss/close-w-12.png 1.25x, ../iconss/close-w-15.png 1.5x, ../iconss/close-w-15.png 1.75x, ../iconss/close-w-20.png 2x, ../iconss/close-w-20.png 2.25x, ../iconss/close-w-24.png 2.5x, ../iconss/close-w-30.png 3x, ../iconss/close-w-30.png 3.5x"
             draggable="false" />
         </div>
 
@@ -97,6 +97,10 @@
           style="margin-right: 1rem;"></i><i class="fab fa-github" id="socials-i" style="margin-right: 1rem;"></i><i
           class="fas fa-globe"></i></a></li>
   </div>
+  <div class="loading-div-home">
+    <img class="home-loading-img">
+    <i class="fas fa-circle-notch fa-spin fa-4x" id="home-loading-circle"></i>
+  </div>
   <div class="whats-new-wrapper">
     <div class="whats-new-card" id="whats-new-card">
       <div class="card-relative-div-largeview" id="markPatchnotesAsRead">
@@ -127,7 +131,7 @@
     <div class="pageheader-home">
       <h1 class="user-greetings"></h1>
       <hr class="rotated-sep-home">
-      <img class="user-rank-icon" src="assets/img/unranked.png">
+      <img class="user-rank-icon" src="../assets/img/unranked.png">
       <span class="user-rr-wrapper">RR: <span class="user-rankrating"></span></span>
     </div>
     <div class="home-main">
@@ -207,7 +211,7 @@
   </div>
 
   <script>
-    require('./renderer.js')
+    require('../renderer.js')
   </script>
   <script>
     window.onload = function () {
@@ -257,27 +261,27 @@
       loadData.hasReadLatestPatchnotes = false;
       fs.writeFileSync(process.env.APPDATA + '/VALTracker/user_data/load_files/on_load.json', JSON.stringify(
         loadData))
-      window.close()
+      window.close();
     })
     $('.download-relative-div').on("click", function () {
       $('.download-banner').css("display", "none");
     })
   </script>
 
-  <script type="application/javascript" src="assets/js/home/whatsNew.js"></script>
-  <script type="application/javascript" src="assets/js/home/newsSlideAndUserGreeting.js"></script>
-  <script type="application/javascript" src="assets/js/home/loadPlayerMatches.js"></script>
-  <script type="application/javascript" src="assets/js/home/loadWebsiteNews.js"></script>
-  <script type="application/javascript" src="assets/js/home/loadNewestBundleAndMatchFilter.js"></script>
-  <script type="application/javascript" src="assets/js/home/loadPlayerStats.js"></script>
-  <script type="application/javascript" src="assets/js/home/changePlayerMatchType.js"></script>
-  <script type="application/javascript" src="assets/js/home/redirectToMatchview.js"></script>
-  <script type="application/javascript" src="assets/js/connectToRiotAuth.js"></script>
-  <script type="application/javascript" src="assets/js/saveToFavs.js"></script>
-  <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
-  <script type="application/javascript" src="assets/js/redirects.js"></script>
-  <script type="application/javascript" src="assets/js/errorCardHandler.js"></script>
-  <script type="application/javascript" src="assets/js/loadColorThemes.js"></script>
+  <script type="application/javascript" src="../assets/js/home/whatsNew.js"></script>
+  <script type="application/javascript" src="../assets/js/home/newsSlideAndUserGreeting.js"></script>
+  <script type="application/javascript" src="../assets/js/home/loadPlayerMatches.js"></script>
+  <script type="application/javascript" src="../assets/js/home/loadWebsiteNews.js"></script>
+  <script type="application/javascript" src="../assets/js/home/loadNewestBundleAndMatchFilter.js"></script>
+  <script type="application/javascript" src="../assets/js/home/loadPlayerStats.js"></script>
+  <script type="application/javascript" src="../assets/js/home/changePlayerMatchType.js"></script>
+  <script type="application/javascript" src="../assets/js/home/redirectToMatchview.js"></script>
+  <script type="application/javascript" src="../assets/js/connectToRiotAuth.js"></script>
+  <script type="application/javascript" src="../assets/js/saveToFavs.js"></script>
+  <script type="application/javascript" src="../assets/js/navslideToggle.js"></script>
+  <script type="application/javascript" src="../assets/js/redirects.js"></script>
+  <script type="application/javascript" src="../assets/js/errorCardHandler.js"></script>
+  <script type="application/javascript" src="../assets/js/loadColorThemes.js"></script>
 </body>
 
 </html>

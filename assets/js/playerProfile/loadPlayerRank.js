@@ -9,22 +9,22 @@ $(document).ready(() => {
             type: 'get',
             success: function (data2, xhr) {
                 var rankIcons = [
-                    './assets/img/iron_1.png', './assets/img/iron_2.png', './assets/img/iron_3.png',
-                    './assets/img/bronze_1.png', './assets/img/bronze_2.png', './assets/img/bronze_3.png',
-                    './assets/img/silver_1.png', './assets/img/silver_2.png', './assets/img/silver_3.png',
-                    './assets/img/gold_1.png', './assets/img/gold_2.png', './assets/img/gold_3.png',
-                    './assets/img/plat_1.png', './assets/img/plat_2.png', './assets/img/plat_3.png',
-                    './assets/img/dia_1.png', './assets/img/dia_2.png', './assets/img/dia_3.png',
-                    './assets/img/immortal_1.png', './assets/img/immortal_2.png', './assets/img/immortal_3.png',
-                    './assets/img/radiant.png',
-                    './assets/img/unranked.png',
+                    '../assets/img/iron_1.png', '../assets/img/iron_2.png', '../assets/img/iron_3.png',
+                    '../assets/img/bronze_1.png', '../assets/img/bronze_2.png', '../assets/img/bronze_3.png',
+                    '../assets/img/silver_1.png', '../assets/img/silver_2.png', '../assets/img/silver_3.png',
+                    '../assets/img/gold_1.png', '../assets/img/gold_2.png', '../assets/img/gold_3.png',
+                    '../assets/img/plat_1.png', '../assets/img/plat_2.png', '../assets/img/plat_3.png',
+                    '../assets/img/dia_1.png', '../assets/img/dia_2.png', '../assets/img/dia_3.png',
+                    '../assets/img/immortal_1.png', '../assets/img/immortal_2.png', '../assets/img/immortal_3.png',
+                    '../assets/img/radiant.png',
+                    '../assets/img/unranked.png',
                 ]
 
                 function ispositive(n) {
                     return 1 / (n * 0) === 1 / 0
                 }
                 if (data2.data[0] == undefined) {
-                    $('.player-rank').attr("src", "./assets/img/unranked.png");
+                    $('.player-rank').attr("src", "../assets/img/unranked.png");
                     for (var count = 0; count < 5; count++) {
                         $(`#match-rr-id-${count}`).append("-");
                     }

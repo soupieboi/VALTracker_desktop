@@ -26,9 +26,9 @@ $(document).ready(() => {
                         matchmodeIcon.className = "match-mode-icon-home";
                         var matchmode = data3.data[count].metadata.mode
                         if (matchmode == "Unrated" || matchmode == "Competitive" || matchmode == "Custom Game") {
-                            matchmodeIcon.setAttribute("src", "./assets/img/standard.png")
+                            matchmodeIcon.setAttribute("src", "../assets/img/standard.png")
                         } else {
-                            matchmodeIcon.setAttribute("src", `./assets/img/${matchmode.toLowerCase()}.png`)
+                            matchmodeIcon.setAttribute("src", `../assets/img/${matchmode.toLowerCase()}.png`)
                         }
 
                         var matchMap = document.createElement("span");
@@ -74,15 +74,15 @@ $(document).ready(() => {
                                     var matchRRimg = document.createElement("img");
                                     matchRRimg.className = "match-rr-img";
                                     var rankIcons = [
-                                        './assets/img/iron_1.png', './assets/img/iron_2.png', './assets/img/iron_3.png',
-                                        './assets/img/bronze_1.png', './assets/img/bronze_2.png', './assets/img/bronze_3.png',
-                                        './assets/img/silver_1.png', './assets/img/silver_2.png', './assets/img/silver_3.png',
-                                        './assets/img/gold_1.png', './assets/img/gold_2.png', './assets/img/gold_3.png',
-                                        './assets/img/plat_1.png', './assets/img/plat_2.png', './assets/img/plat_3.png',
-                                        './assets/img/dia_1.png', './assets/img/dia_2.png', './assets/img/dia_3.png',
-                                        './assets/img/immortal_1.png', './assets/img/immortal_2.png', './assets/img/immortal_3.png',
-                                        './assets/img/radiant.png',
-                                        './assets/img/unranked.png',
+                                        '../assets/img/iron_1.png', '../assets/img/iron_2.png', '../assets/img/iron_3.png',
+                                        '../assets/img/bronze_1.png', '../assets/img/bronze_2.png', '../assets/img/bronze_3.png',
+                                        '../assets/img/silver_1.png', '../assets/img/silver_2.png', '../assets/img/silver_3.png',
+                                        '../assets/img/gold_1.png', '../assets/img/gold_2.png', '../assets/img/gold_3.png',
+                                        '../assets/img/plat_1.png', '../assets/img/plat_2.png', '../assets/img/plat_3.png',
+                                        '../assets/img/dia_1.png', '../assets/img/dia_2.png', '../assets/img/dia_3.png',
+                                        '../assets/img/immortal_1.png', '../assets/img/immortal_2.png', '../assets/img/immortal_3.png',
+                                        '../assets/img/radiant.png',
+                                        '../assets/img/unranked.png',
                                     ]
                                     matchRRimg.setAttribute("src", `${rankIcons[data3.data[count].players.all_players[playerCount].currenttier -3]}`)
 
@@ -324,9 +324,9 @@ $(document).ready(() => {
                         matchmodeIcon.className = "match-mode-icon-home";
                         var matchmode = data3.data[count].metadata.mode
                         if (matchmode == "Unrated" || matchmode == "Competitive" || matchmode == "Custom Game") {
-                            matchmodeIcon.setAttribute("src", "./assets/img/standard.png")
+                            matchmodeIcon.setAttribute("src", "../assets/img/standard.png")
                         } else {
-                            matchmodeIcon.setAttribute("src", `./assets/img/${matchmode.toLowerCase()}.png`)
+                            matchmodeIcon.setAttribute("src", `../assets/img/${matchmode.toLowerCase()}.png`)
                         }
 
                         var matchMap = document.createElement("span");
@@ -374,15 +374,15 @@ $(document).ready(() => {
                                     var matchRRimg = document.createElement("img");
                                     matchRRimg.className = "match-rr-img";
                                     var rankIcons = [
-                                        './assets/img/iron_1.png', './assets/img/iron_2.png', './assets/img/iron_3.png',
-                                        './assets/img/bronze_1.png', './assets/img/bronze_2.png', './assets/img/bronze_3.png',
-                                        './assets/img/silver_1.png', './assets/img/silver_2.png', './assets/img/silver_3.png',
-                                        './assets/img/gold_1.png', './assets/img/gold_2.png', './assets/img/gold_3.png',
-                                        './assets/img/plat_1.png', './assets/img/plat_2.png', './assets/img/plat_3.png',
-                                        './assets/img/dia_1.png', './assets/img/dia_2.png', './assets/img/dia_3.png',
-                                        './assets/img/immortal_1.png', './assets/img/immortal_2.png', './assets/img/immortal_3.png',
-                                        './assets/img/radiant.png',
-                                        './assets/img/unranked.png',
+                                        '../assets/img/iron_1.png', '../assets/img/iron_2.png', '../assets/img/iron_3.png',
+                                        '../assets/img/bronze_1.png', '../assets/img/bronze_2.png', '../assets/img/bronze_3.png',
+                                        '../assets/img/silver_1.png', '../assets/img/silver_2.png', '../assets/img/silver_3.png',
+                                        '../assets/img/gold_1.png', '../assets/img/gold_2.png', '../assets/img/gold_3.png',
+                                        '../assets/img/plat_1.png', '../assets/img/plat_2.png', '../assets/img/plat_3.png',
+                                        '../assets/img/dia_1.png', '../assets/img/dia_2.png', '../assets/img/dia_3.png',
+                                        '../assets/img/immortal_1.png', '../assets/img/immortal_2.png', '../assets/img/immortal_3.png',
+                                        '../assets/img/radiant.png',
+                                        '../assets/img/unranked.png',
                                     ]
                                     matchRRimg.setAttribute("src", `${rankIcons[data3.data[count].players.all_players[playerCount].currenttier -3]}`)
 

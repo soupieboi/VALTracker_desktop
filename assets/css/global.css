@@ -5,10 +5,8 @@
   --app-color-light: #1b222b;
   --app-color-lightest: #242e3a;
 
-  --background-image: '../img/wallpaper.png'
-
-    /*DEFAULT COLORS*/
-    --gradient-left: #c80043;
+  /*DEFAULT COLORS*/
+  --gradient-left: #c80043;
   --gradient-right: #6f00ff;
 
   --button-color-var: #ffffff;
@@ -2027,15 +2025,32 @@ video:focus {
   justify-content: space-between;
 }
 
+.match-map-gradient {
+  height: 100%;
+  position: relative;
+  top: 1px;
+  z-index: 1;
+}
+
+.match-map-gradient::after {
+  content: '';
+  position: absolute;
+  left: -5px; top: 0;
+  width: 101%; height: 98%;
+  background: linear-gradient(to right, var(--app-color-light), rgba(0, 0, 0, 0.7));
+}
+
 .match-map {
   height: 98%;
   width: 24rem;
   z-index: 1 !important;
+  white-space: nowrap;
 }
 
 .match-time {
   flex-grow: 1;
   margin-left: 4rem;
+  z-index: 2;
 }
 
 .result-header {
@@ -2669,6 +2684,7 @@ select:focus::-ms-value {
 
 .match-rr-pp-win {
   position: relative;
+  align-self: center;
   color: #00ffd5;
   text-align: left;
   font-size: 1.2em;
@@ -2677,6 +2693,7 @@ select:focus::-ms-value {
 
 .match-rr-pp-draw {
   position: relative;
+  align-self: center;
   color: #fff09e;
   text-align: left;
   font-size: 1.2em;
@@ -2839,6 +2856,130 @@ select:focus::-ms-value {
 
 .matchview-wrapper-1 {
   margin-top: 2rem;
+  height: 72vh;
+}
+
+.matchview-wrapper-flex {
+  flex-direction: row;
+  display: flex;
+  height: 100%;
+}
+
+.matchview-wrapper-line-small {
+  height: 100%;
+  width: 20%;
+}
+
+.matchview-wrapper-line-large {
+  max-height: 100%;
+  height: 100%;
+  width: 60%;
+  border: 1px dashed rgb(78, 78, 78);
+  overflow: auto;
+}
+
+.matchview-rounds-header {
+  display: flex;
+  font-size: 1.2em;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  padding-left: 1rem;
+}
+
+.matchview-rounds-header div {
+  max-width: 25%;
+  width: 25%;
+}
+
+.matchview-round {
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  margin-top: 0.25rem;
+  padding-top: 0.25rem;
+}
+
+.matchview-round div {
+  max-width: 25%;
+  width: 25%;
+}
+
+.matchview-round {
+  height: 4rem !important;
+  max-height: 4rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.matchview-round:hover {
+  background-color: var(--app-color-lightest);
+}
+
+.matchview-match-info {
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.matchview-round td {
+  padding: 0;
+}
+
+.agent-image-wrapper {
+  height: 40%;
+  width: 100%;
+  display: relative;
+}
+
+.player-name-rank {
+  margin-left: 1rem;
+  font-size: 1.4em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.rank-img-small {
+  width: 15%;
+}
+
+.agent-image {
+  height: 10rem;
+  margin: 1rem;
+}
+
+.agent-ability-usage {
+  height: 60%;
+}
+
+.agent-ability-wrapper {
+  height: 25%;
+}
+
+.matchview-match-info {
+  height: 40%;
+  justify-content: center;
+  align-content: center;
+}
+
+.matchview-stats {
+  text-align: center;
+}
+
+.jett-silhouette {
+  height: 100%;
+}
+
+.agent-ability-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 1.2em;
+}
+
+.agent-ability-wrapper div {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 }
 
 .matchview-playerstats {
@@ -2855,7 +2996,7 @@ select:focus::-ms-value {
 }
 
 #matchview-abilityicon {
-  width: 4%;
+  width: 20%;
 }
 
 #matchview-abilityname {
@@ -2864,7 +3005,6 @@ select:focus::-ms-value {
 
 .matchview-nav {
   position: relative;
-  /*right: 2rem;*/
 }
 
 .matchview-blue-standing {

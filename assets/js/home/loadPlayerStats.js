@@ -39,7 +39,7 @@ $(document).ready(() => {
                 type: 'get',
                 success: function (data, xhr) {
                     if (data.data == null || data.name == null) {
-                        $('.user-rank-icon').attr("src", "./assets/img/unranked.png")
+                        $('.user-rank-icon').attr("src", "../assets/img/unranked.png")
                         $('.user-rankrating').append("0")
                         $('.home-avg-rrchange').empty()
                         $('.home-avg-rrchange').append("You haven't played any competitive matches yet!")
@@ -77,15 +77,15 @@ $(document).ready(() => {
                             return 1 / (n * 0) === 1 / 0
                         }
                         var rankIcons = [
-                            './assets/img/unranked.png',
-                            './assets/img/iron_1.png', './assets/img/iron_2.png', './assets/img/iron_3.png',
-                            './assets/img/bronze_1.png', './assets/img/bronze_2.png', './assets/img/bronze_3.png',
-                            './assets/img/silver_1.png', './assets/img/silver_2.png', './assets/img/silver_3.png',
-                            './assets/img/gold_1.png', './assets/img/gold_2.png', './assets/img/gold_3.png',
-                            './assets/img/plat_1.png', './assets/img/plat_2.png', './assets/img/plat_3.png',
-                            './assets/img/dia_1.png', './assets/img/dia_2.png', './assets/img/dia_3.png',
-                            './assets/img/immortal_1.png', './assets/img/immortal_2.png', './assets/img/immortal_3.png',
-                            './assets/img/radiant.png',
+                            '../assets/img/unranked.png',
+                            '../assets/img/iron_1.png', '../assets/img/iron_2.png', '../assets/img/iron_3.png',
+                            '../assets/img/bronze_1.png', '../assets/img/bronze_2.png', '../assets/img/bronze_3.png',
+                            '../assets/img/silver_1.png', '../assets/img/silver_2.png', '../assets/img/silver_3.png',
+                            '../assets/img/gold_1.png', '../assets/img/gold_2.png', '../assets/img/gold_3.png',
+                            '../assets/img/plat_1.png', '../assets/img/plat_2.png', '../assets/img/plat_3.png',
+                            '../assets/img/dia_1.png', '../assets/img/dia_2.png', '../assets/img/dia_3.png',
+                            '../assets/img/immortal_1.png', '../assets/img/immortal_2.png', '../assets/img/immortal_3.png',
+                            '../assets/img/radiant.png',
                         ]
                         $('.user-rank-icon').attr("src", rankIcons[data.data[0].currenttier - 3])
                         var i = 0;

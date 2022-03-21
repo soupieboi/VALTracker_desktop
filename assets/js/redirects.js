@@ -48,7 +48,7 @@ function cardRedirect(event, event2, event3) {
     leaveFade();
     setTimeout(function () {
         if (directoryName == "CollectablePages") {
-            window.location.href = "../cardView.html";
+            window.location.href = "../pages/cardView.html";
         } else {
             window.location.href = "cardView.html";
         }
@@ -60,7 +60,7 @@ $('.player-card-img').on("click", function () {
     leaveFade();
     setTimeout(function () {
         if (directoryName == "CollectablePages") {
-            window.location.href = "../cardView.html";
+            window.location.href = "../pages/cardView.html";
         } else {
             window.location.href = "cardView.html";
         }
@@ -70,7 +70,7 @@ $('.card-wrapper').on("click", function () {
     leaveFade();
     setTimeout(function () {
         if (directoryName == "CollectablePages") {
-            window.location.href = "../cardView.html";
+            window.location.href = "../pages/cardView.html";
         } else {
             window.location.href = "cardView.html";
         }
@@ -90,7 +90,7 @@ $(document).ready(() => {
         toggle();
         setTimeout(function () {
             if (directoryName == "CollectablePages") {
-                window.location.href = "../index.html";
+                window.location.href = "../pages/index.html";
             } else {
                 window.location.href = "index.html";
             }
@@ -101,7 +101,7 @@ $(document).ready(() => {
         toggle();
         setTimeout(function () {
             if (directoryName == "CollectablePages") {
-                window.location.href = "../playerStore.html";
+                window.location.href = "../pages/playerStore.html";
             } else {
                 window.location.href = "playerStore.html";
             }
@@ -112,7 +112,7 @@ $(document).ready(() => {
         toggle();
         setTimeout(function () {
             if (directoryName == "CollectablePages") {
-                window.location.href = "../favMatches.html";
+                window.location.href = "../pages/favMatches.html";
             } else {
                 window.location.href = "favMatches.html";
             }
@@ -123,7 +123,7 @@ $(document).ready(() => {
         toggle();
         setTimeout(function () {
             if (directoryName == "CollectablePages") {
-                window.location.href = "../playersearch.html";
+                window.location.href = "../pages/playersearch.html";
             } else {
                 window.location.href = "playersearch.html";
             }
@@ -134,7 +134,7 @@ $(document).ready(() => {
         toggle();
         setTimeout(function () {
             if (directoryName == "CollectablePages") {
-                window.location.href = "../profile.html";
+                window.location.href = "../pages/profile.html";
             } else {
                 window.location.href = "profile.html";
             }
@@ -145,7 +145,7 @@ $(document).ready(() => {
         toggle();
         setTimeout(function () {
             if (directoryName == "CollectablePages") {
-                window.location.href = "../bundles.html";
+                window.location.href = "../pages/bundles.html";
             } else {
                 window.location.href = "bundles.html";
             }
@@ -156,7 +156,7 @@ $(document).ready(() => {
         toggle();
         setTimeout(function () {
             if (directoryName == "CollectablePages") {
-                window.location.href = "../weaponskins.html";
+                window.location.href = "../pages/weaponskins.html";
             } else {
                 window.location.href = "weaponskins.html";
             }
@@ -167,7 +167,7 @@ $(document).ready(() => {
         toggle();
         setTimeout(function () {
             if (directoryName == "CollectablePages") {
-                window.location.href = "../bpProgression.html";
+                window.location.href = "../pages/bpProgression.html";
             } else {
                 window.location.href = "bpProgression.html";
             }
@@ -178,7 +178,7 @@ $(document).ready(() => {
         toggle();
         setTimeout(function () {
             if (directoryName == "CollectablePages") {
-                window.location.href = "../patchnotes.html";
+                window.location.href = "../pages/patchnotes.html";
             } else {
                 window.location.href = "patchnotes.html";
             }
@@ -189,7 +189,7 @@ $(document).ready(() => {
         toggle();
         setTimeout(function () {
             if (directoryName == "CollectablePages") {
-                window.location.href = "../buddys.html";
+                window.location.href = "../pages/buddys.html";
             } else {
                 window.location.href = "buddys.html";
             }
@@ -200,7 +200,7 @@ $(document).ready(() => {
         toggle();
         setTimeout(function () {
             if (directoryName == "CollectablePages") {
-                window.location.href = "../settings.html";
+                window.location.href = "../pages/settings.html";
             } else {
                 window.location.href = "settings.html";
             }
@@ -209,127 +209,127 @@ $(document).ready(() => {
     $('.Classic').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/classic.html";
+            window.location.href = "../CollectablePages/classic.html";
         }, 500);
     });
     $('.Shorty').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/shorty.html";
+            window.location.href = "../CollectablePages/shorty.html";
         }, 500);
     });
     $('.Frenzy').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/frenzy.html";
+            window.location.href = "../CollectablePages/frenzy.html";
         }, 500);
     });
     $('.Ghost').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/ghost.html";
+            window.location.href = "../CollectablePages/ghost.html";
         }, 500);
     });
     $('.Sheriff').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/sheriff.html";
+            window.location.href = "../CollectablePages/sheriff.html";
         }, 500);
     });
     $('.Stinger').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/stinger.html";
+            window.location.href = "../CollectablePages/stinger.html";
         }, 500);
     });
     $('.Spectre').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/spectre.html";
+            window.location.href = "../CollectablePages/spectre.html";
         }, 500);
     });
     $('.Bucky').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/bucky.html";
+            window.location.href = "../CollectablePages/bucky.html";
         }, 500);
     });
     $('.Judge').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/judge.html";
+            window.location.href = "../CollectablePages/judge.html";
         }, 500);
     });
     $('.Bulldog').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/bulldog.html";
+            window.location.href = "../CollectablePages/bulldog.html";
         }, 500);
     });
     $('.Guardian').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/guardian.html";
+            window.location.href = "../CollectablePages/guardian.html";
         }, 500);
     });
     $('.Phantom').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/phantom.html";
+            window.location.href = "../CollectablePages/phantom.html";
         }, 500);
     });
     $('.Vandal').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/vandal.html";
+            window.location.href = "../CollectablePages/vandal.html";
         }, 500);
     });
     $('.Marshal').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/marshal.html";
+            window.location.href = "../CollectablePages/marshal.html";
         }, 500);
     });
     $('.Operator').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/operator.html";
+            window.location.href = "../CollectablePages/operator.html";
         }, 500);
     });
     $('.Ares').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/ares.html";
+            window.location.href = "../CollectablePages/ares.html";
         }, 500);
     });
     $('.Odin').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/odin.html";
+            window.location.href = "../CollectablePages/odin.html";
         }, 500);
     });
     $('.Melee').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/melee.html";
+            window.location.href = "../CollectablePages/melee.html";
         }, 500);
     });
     $('.Card').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/cardsPage.html";
+            window.location.href = "../CollectablePages/cardsPage.html";
         }, 500);
     });
     $('.Title').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/titlesPage.html";
+            window.location.href = "../CollectablePages/titlesPage.html";
         }, 500);
     });
     $('.Spray').on("click", function () {
         leaveFade();
         setTimeout(function () {
-            window.location.href = "CollectablePages/spraysPage.html";
+            window.location.href = "../CollectablePages/spraysPage.html";
         }, 500);
     });
 });

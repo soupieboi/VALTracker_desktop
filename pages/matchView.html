@@ -11,7 +11,7 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css"
     type="text/css">
-  <link rel="stylesheet" type="text/css" href="assets/css/global.css">
+  <link rel="stylesheet" type="text/css" href="../assets/css/global.css">
 
   <script src="https://kit.fontawesome.com/0fb7a47199.js" crossorigin="anonymous"></script>
 </head>
@@ -43,22 +43,22 @@
 
         <div class="button" id="min-button">
           <img class="icon"
-            srcset="iconss/min-w-10.png 1x, iconss/min-w-12.png 1.25x, iconss/min-w-15.png 1.5x, iconss/min-w-15.png 1.75x, iconss/min-w-20.png 2x, iconss/min-w-20.png 2.25x, iconss/min-w-24.png 2.5x, iconss/min-w-30.png 3x, iconss/min-w-30.png 3.5x"
+            srcset="../iconss/min-w-10.png 1x, ../iconss/min-w-12.png 1.25x, ../iconss/min-w-15.png 1.5x, ../iconss/min-w-15.png 1.75x, ../iconss/min-w-20.png 2x, ../iconss/min-w-20.png 2.25x, ../iconss/min-w-24.png 2.5x, ../iconss/min-w-30.png 3x, ../iconss/min-w-30.png 3.5x"
             draggable="false" />
         </div>
         <div class="button" id="max-button">
           <img class="icon"
-            srcset="iconss/max-w-10.png 1x, iconss/max-w-12.png 1.25x, iconss/max-w-15.png 1.5x, iconss/max-w-15.png 1.75x, iconss/max-w-20.png 2x, iconss/max-w-20.png 2.25x, iconss/max-w-24.png 2.5x, iconss/max-w-30.png 3x, iconss/max-w-30.png 3.5x"
+            srcset="../iconss/max-w-10.png 1x, ../iconss/max-w-12.png 1.25x, ../iconss/max-w-15.png 1.5x, ../iconss/max-w-15.png 1.75x, ../iconss/max-w-20.png 2x, ../iconss/max-w-20.png 2.25x, ../iconss/max-w-24.png 2.5x, ../iconss/max-w-30.png 3x, ../iconss/max-w-30.png 3.5x"
             draggable="false" />
         </div>
         <div class="button" id="restore-button">
           <img class="icon"
-            srcset="iconss/restore-w-10.png 1x, iconss/restore-w-12.png 1.25x, iconss/restore-w-15.png 1.5x, iconss/restore-w-15.png 1.75x, iconss/restore-w-20.png 2x, iconss/restore-w-20.png 2.25x, iconss/restore-w-24.png 2.5x, iconss/restore-w-30.png 3x, iconss/restore-w-30.png 3.5x"
+            srcset="../iconss/restore-w-10.png 1x, ../iconss/restore-w-12.png 1.25x, ../iconss/restore-w-15.png 1.5x, ../iconss/restore-w-15.png 1.75x, ../iconss/restore-w-20.png 2x, ../iconss/restore-w-20.png 2.25x, ../iconss/restore-w-24.png 2.5x, ../iconss/restore-w-30.png 3x, ../iconss/restore-w-30.png 3.5x"
             draggable="false" />
         </div>
         <div class="button" id="close-button">
           <img class="icon"
-            srcset="iconss/close-w-10.png 1x, iconss/close-w-12.png 1.25x, iconss/close-w-15.png 1.5x, iconss/close-w-15.png 1.75x, iconss/close-w-20.png 2x, iconss/close-w-20.png 2.25x, iconss/close-w-24.png 2.5x, iconss/close-w-30.png 3x, iconss/close-w-30.png 3.5x"
+            srcset="../iconss/close-w-10.png 1x, ../iconss/close-w-12.png 1.25x, ../iconss/close-w-15.png 1.5x, ../iconss/close-w-15.png 1.75x, ../iconss/close-w-20.png 2x, ../iconss/close-w-20.png 2.25x, ../iconss/close-w-24.png 2.5x, ../iconss/close-w-30.png 3x, ../iconss/close-w-30.png 3.5x"
             draggable="false" />
         </div>
 
@@ -117,54 +117,70 @@
       <!--<span class="matchview-navitem">Timeline</span>-->
     </nav>
     <div class="matchview-wrapper-1">
-      <div class="matchview-header">
-        <div class="matchview-playeragent-name">
-          <img class="matchview-agent">
-          <div class="playerinfo-wrapper">
-            <span class="matchview-playername"></span>
-            <img class="matchview-playerrank-img">
+      <div class="matchview-wrapper-flex">
+        <div class="matchview-wrapper-line-small">
+          <div class="agent-image-wrapper">
+            <img class="agent-image">
+            <div class="player-name-rank">
+              <img class="rank-img-small">
+            </div>
+          </div>
+          <div class="agent-ability-usage">
+            <div class="agent-ability-wrapper">
+              <img class="matchview-abilityicon-0" id="matchview-abilityicon">
+              <div id="insertability-0"></div>
+              <span class="ability-c-count"></span>
+            </div>
+            <div class="agent-ability-wrapper">
+              <img class="matchview-abilityicon-1" id="matchview-abilityicon">
+              <div id="insertability-1"></div>
+              <span class="ability-q-count"></span>
+            </div>
+            <div class="agent-ability-wrapper">
+              <img class="matchview-abilityicon-2" id="matchview-abilityicon">
+              <div id="insertability-2"></div>
+              <span class="ability-e-count"></span>
+            </div>
+            <div class="agent-ability-wrapper">
+              <img class="matchview-abilityicon-3" id="matchview-abilityicon">
+              <div id="insertability-3"></div>
+              <span class="ability-x-count"></span>
+            </div>
           </div>
         </div>
-        <div class="matchview-subinfo">
-          <span class="matchview-matchmode"></span>
-          <span class="matchview-map">Map: <span class="insertMapName"></span></span>
-          <span class="matchview-matchstart"></span>
-          <span class="matchview-matchduration">Length: <span class="insertGameLength"></span>m</span>
+        <div class="matchview-wrapper-line-large" id="matchtiles-wrapper">
+          <div class="matchview-rounds-header">
+            <div>Round</div>
+            <div>K/D</div>
+            <div>Result</div>
+            <div>End Type</div>
+          </div>
+          <hr style="display: none;" id="lastMatchtilesEl">
+        </div>
+        <div class="matchview-wrapper-line-small right">
+          <div class="matchview-match-info">
+            <div class="matchview-matchmode"></div>
+            <div class="insertMapName"></div>
+            <div class="matchview-matchstart"></div>
+            <div class="insertGameLength"></div>
+          </div>
+          <div class="matchview-stats">
+            <span style="font-size: 1.1em; font-weight: 600; margin-bottom: 0.5rem;">Bodypart Hit Percentages</span>
+            <div style="display: flex; height: 15rem; margin-bottom: 2rem;">
+              <img src="../assets/img/Jett_Agent_Valorant_black.png" class="jett-silhouette">
+              <div style="display: flex; flex-direction: column; justify-content: space-between;">
+                <div class="insertHeadshotPercent" style="margin-top: 1rem;">Head: </div>
+                <div class="insertBodyshotPercent" style="margin-bottom: 1.5rem;">Body: </div>
+                <div class="insertLegshotPercent" style="margin-bottom: 4rem;">Legs: </div>
+              </div>
+            </div>
+            <div class="insertDmgRound">Dmg/Round: </div>
+            <div class="insertFBsHere">First Bloods: </div>
+          </div>
         </div>
       </div>
-      <!--<table>
-          <tr>
-            <td>Round</td>
-            <td>Round</td>
-            <td>Round</td>
-          </tr>
-          <tr>
-            <td>Endtype</td>
-            <td>Endtype</td>
-            <td>Endtype</td>
-          </tr>
-        </table>-->
-      <div class="matchview-playerstats">
-        <h2>Summary</h2>
-        <span class="matchview-player-kda">KDA: <span class="insertKDAhere"></span></span>
-        <span class="matchview-player-firstbloods">First Bloods: <span class="insertFBsHere"></span></span>
-        <span class="matchview-player-dmgperround">Dmg/Round: <span class="insertDmgPerRound"></span></span>
-        <span>Ability Usage:</span>
-        <ul class="matchview-player-abilitiesperround">
-          <li><img class="matchview-abilityicon-0" id="matchview-abilityicon"><span class="matchview-abilityname-0"
-              id="matchview-abilityname"></span>&nbsp<span class="ability-c-count"></span></li>
-          <li><img class="matchview-abilityicon-1" id="matchview-abilityicon"><span class="matchview-abilityname-1"
-              id="matchview-abilityname"></span>&nbsp<span class="ability-q-count"></span></li>
-          <li><img class="matchview-abilityicon-2" id="matchview-abilityicon"><span class="matchview-abilityname-2"
-              id="matchview-abilityname"></span>&nbsp<span class="ability-e-count"></span></li>
-          <li><img class="matchview-abilityicon-3" id="matchview-abilityicon"><span class="matchview-abilityname-3"
-              id="matchview-abilityname"></span>&nbsp<span class="ability-x-count"></span></li>
-        </ul>
-        <span class="matchview-player-headshotpercent">Headshot%: <span class="insertHeadshotPercent"></span></span>
-        <span class="matchview-player-bodyshotpercent">Bodyshot%: <span class="insertBodyshotPercent"></span></span>
-        <span class="matchview-player-legshotpercent">Legshot%: <span class="insertLegshotPercent"></span></span>
-      </div>
     </div>
+    <!-- Scoreboard -->
     <div class="matchview-wrapper-2" id="scoreboard-wrapper">
       <table class="scoreboard" id="scoreboard-table">
         <tbody id="test-scoreboard">
@@ -187,7 +203,7 @@
   </div>
 
   <script>
-    require('./renderer.js')
+    require('../renderer.js')
   </script>
   <script>
     window.onload = function () {
@@ -235,12 +251,12 @@
     })
   </script>
 
-  <script type="application/javascript" src="assets/js/redirects.js"></script>
-  <script type="application/javascript" src="assets/js/errorCardHandler.js"></script>
-  <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
-  <script type="application/javascript" src="assets/js/loadColorThemes.js"></script>
-  <script type="application/javascript" src="assets/js/matchView/loadMatchData.js"></script>
-  <script type="application/javascript" src="assets/js/matchView/changeTabs.js"></script>
+  <script type="application/javascript" src="../assets/js/redirects.js"></script>
+  <script type="application/javascript" src="../assets/js/errorCardHandler.js"></script>
+  <script type="application/javascript" src="../assets/js/navslideToggle.js"></script>
+  <script type="application/javascript" src="../assets/js/loadColorThemes.js"></script>
+  <script type="application/javascript" src="../assets/js/matchView/loadMatchData.js"></script>
+  <script type="application/javascript" src="../assets/js/matchView/changeTabs.js"></script>
 </body>
 
 </html>

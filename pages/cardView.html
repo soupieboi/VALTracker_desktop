@@ -11,7 +11,7 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css"
     type="text/css">
-  <link rel="stylesheet" type="text/css" href="assets/css/global.css">
+  <link rel="stylesheet" type="text/css" href="../assets/css/global.css">
 
   <script src="https://kit.fontawesome.com/0fb7a47199.js" crossorigin="anonymous"></script>
 </head>
@@ -43,22 +43,22 @@
 
         <div class="button" id="min-button">
           <img class="icon"
-            srcset="iconss/min-w-10.png 1x, iconss/min-w-12.png 1.25x, iconss/min-w-15.png 1.5x, iconss/min-w-15.png 1.75x, iconss/min-w-20.png 2x, iconss/min-w-20.png 2.25x, iconss/min-w-24.png 2.5x, iconss/min-w-30.png 3x, iconss/min-w-30.png 3.5x"
+            srcset="../iconss/min-w-10.png 1x, ../iconss/min-w-12.png 1.25x, ../iconss/min-w-15.png 1.5x, ../iconss/min-w-15.png 1.75x, ../iconss/min-w-20.png 2x, ../iconss/min-w-20.png 2.25x, ../iconss/min-w-24.png 2.5x, ../iconss/min-w-30.png 3x, ../iconss/min-w-30.png 3.5x"
             draggable="false" />
         </div>
         <div class="button" id="max-button">
           <img class="icon"
-            srcset="iconss/max-w-10.png 1x, iconss/max-w-12.png 1.25x, iconss/max-w-15.png 1.5x, iconss/max-w-15.png 1.75x, iconss/max-w-20.png 2x, iconss/max-w-20.png 2.25x, iconss/max-w-24.png 2.5x, iconss/max-w-30.png 3x, iconss/max-w-30.png 3.5x"
+            srcset="../iconss/max-w-10.png 1x, ../iconss/max-w-12.png 1.25x, ../iconss/max-w-15.png 1.5x, ../iconss/max-w-15.png 1.75x, ../iconss/max-w-20.png 2x, ../iconss/max-w-20.png 2.25x, ../iconss/max-w-24.png 2.5x, ../iconss/max-w-30.png 3x, ../iconss/max-w-30.png 3.5x"
             draggable="false" />
         </div>
         <div class="button" id="restore-button">
           <img class="icon"
-            srcset="iconss/restore-w-10.png 1x, iconss/restore-w-12.png 1.25x, iconss/restore-w-15.png 1.5x, iconss/restore-w-15.png 1.75x, iconss/restore-w-20.png 2x, iconss/restore-w-20.png 2.25x, iconss/restore-w-24.png 2.5x, iconss/restore-w-30.png 3x, iconss/restore-w-30.png 3.5x"
+            srcset="../iconss/restore-w-10.png 1x, ../iconss/restore-w-12.png 1.25x, ../iconss/restore-w-15.png 1.5x, ../iconss/restore-w-15.png 1.75x, ../iconss/restore-w-20.png 2x, ../iconss/restore-w-20.png 2.25x, ../iconss/restore-w-24.png 2.5x, ../iconss/restore-w-30.png 3x, ../iconss/restore-w-30.png 3.5x"
             draggable="false" />
         </div>
         <div class="button" id="close-button">
           <img class="icon"
-            srcset="iconss/close-w-10.png 1x, iconss/close-w-12.png 1.25x, iconss/close-w-15.png 1.5x, iconss/close-w-15.png 1.75x, iconss/close-w-20.png 2x, iconss/close-w-20.png 2.25x, iconss/close-w-24.png 2.5x, iconss/close-w-30.png 3x, iconss/close-w-30.png 3.5x"
+            srcset="../iconss/close-w-10.png 1x, ../iconss/close-w-12.png 1.25x, ../iconss/close-w-15.png 1.5x, ../iconss/close-w-15.png 1.75x, ../iconss/close-w-20.png 2x, ../iconss/close-w-20.png 2.25x, ../iconss/close-w-24.png 2.5x, ../iconss/close-w-30.png 3x, ../iconss/close-w-30.png 3.5x"
             draggable="false" />
         </div>
 
@@ -108,42 +108,26 @@
     <div class="pageheader-div">
       <h1 class="pageheader" id="pageheader"></h1>
     </div>
-    <div class="skin-info">
-      <ul style="list-style-type: none;">
-        <li class="flex-li"><span class="skin-price vp" id="skin-vpprice"></span><img src="assets/img/vp_icon.png"
-            class="currency-icon-small"></li>
-        <li class="flex-li"><span class="skin-price radianite" id="skin-radprice"></span><img
-            src="assets/img/radianite_icon.png" class="currency-icon-small"></li>
-      </ul>
-    </div>
-    <div class="level-options">
-      <h1>Skin Levels</h1>
-      <ul class="level-options-ul" id="levels-wrapper" style="list-style-type: none;">
-        <li id="last-element" style="display: none;"></li>
-      </ul>
-    </div>
-    <div class="weapon-image-wrapper">
-      <img class="weapon-image" src="assets/img/classic.png" draggable="false" onclick="changeSkinColor(this.id)">
-    </div>
-    <div class="singleview-colors">
-      <h1 style="margin-bottom: 1rem;">Color Options</h1>
-      <div class="singleview-swatch-wrapper" id="swatch-handler">
-        <img id="last-swatch" style="display: none;">
+    <div class="cardview-wrapper">
+      <div class="cards-header">
+        <div class="card small">
+          <span>Small Art</span>
+          <img class="small-img">
+        </div>
+        <div class="card wide">
+          <span>Wide Art</span>
+          <img class="wide-img">
+        </div>
+        <div class="card large">
+          <span>Large Art</span>
+          <img class="large-img">
+        </div>
       </div>
-      <br>
-      <button class="show-skinvid">Show Video</button>
-    </div>
-    <div class="largeview-vid" id="promo-vid-div">
-      <div class="header-relative-div-video" id="sec" onclick="hideVideo()" style="opacity: 0;">
-        <div id="toggle"></div>
-      </div>
-      <video controls onloadstart="this.volume=0.25" class="skinview-weapon-video" src=""
-        id="largeview-vid-element"></video>
     </div>
   </div>
 
   <script>
-    require('./renderer.js')
+    require('../renderer.js')
   </script>
   <script>
     window.onload = function () {
@@ -190,11 +174,11 @@
     })
   </script>
 
-  <script type="application/javascript" src="assets/js/skins/skinView.js"></script>
-  <script type="application/javascript" src="assets/js/navslideToggle.js"></script>
-  <script type="application/javascript" src="assets/js/redirects.js"></script>
-  <script type="application/javascript" src="assets/js/errorCardHandler.js"></script>
-  <script type="application/javascript" src="assets/js/loadColorThemes.js"></script>
+  <script type="application/javascript" src="../assets/js/skins/cardView.js"></script>
+  <script type="application/javascript" src="../assets/js/navslideToggle.js"></script>
+  <script type="application/javascript" src="../assets/js/redirects.js"></script>
+  <script type="application/javascript" src="../assets/js/errorCardHandler.js"></script>
+  <script type="application/javascript" src="../assets/js/loadColorThemes.js"></script>
 </body>
 
 </html>

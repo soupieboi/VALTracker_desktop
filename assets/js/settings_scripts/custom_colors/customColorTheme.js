@@ -9,7 +9,7 @@ if (colorDataPre.isCustomTheme == true) {
     let rawColorData3 = colorFS2.readFileSync(process.env.APPDATA + `/VALTracker/user_data/themes/custom_themes/${colorDataPre.themeName}.json`);
     colorData2 = JSON.parse(rawColorData3);
 } else {
-    let rawColorData2 = colorFS2.readFileSync(process.env.APPDATA + `/VALTracker/user_data/themes/${colorDataPre.themeName}.json`);
+    let rawColorData2 = colorFS2.readFileSync(process.env.APPDATA + `/VALTracker/user_data/themes/preset_themes/${colorDataPre.themeName}.json`);
     colorData2 = JSON.parse(rawColorData2);
 }
 
