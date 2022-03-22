@@ -1,5 +1,5 @@
 // Import required modules
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const ipc = require("electron").ipcMain;
 const path = require("path");
 const { autoUpdater } = require("electron-updater");
@@ -627,6 +627,33 @@ function createWindow() {
       contextIsolation: false,
     },
   });
+
+  mainWindow.onbeforeunload = (event) => {
+    win.removeAllListeners();
+  }
+
+  ipcMain.handle('checkWindowState', () => {
+    console.log(mainWindow.isMaximized())
+    return mainWindow.isMaximized()
+  })
+  
+  ipcMain.on('min-window', async function(event, args) {
+    mainWindow.minimize();
+  })
+  
+  ipcMain.on('max-window', async function(event, args) {
+    mainWindow.maximize();
+    event.sender.send('togglerestore', true);
+  })
+  
+  ipcMain.on('restore-window', async function(event, args) {
+    mainWindow.unmaximize();
+    event.sender.send('togglerestore', false);
+  })
+  
+  ipcMain.on('close-window', async function(event, args) {
+    mainWindow.close();
+  })
 
   app_data = app.getPath("userData");
 

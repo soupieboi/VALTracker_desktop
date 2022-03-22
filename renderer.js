@@ -1,6 +1,4 @@
-const remote = require('electron').remote;
-
-const win = remote.getCurrentWindow();
+const ipcRenderer = require('electron').ipcRenderer
 
 document.onreadystatechange = (event) => {
     if (document.readyState == "complete") {
@@ -8,34 +6,34 @@ document.onreadystatechange = (event) => {
     }
 };
 
-window.onbeforeunload = (event) => {
-    win.removeAllListeners();
-}
+async function handleWindowControls() {
 
-function handleWindowControls() {
+    var windowState = await ipcRenderer.invoke('checkWindowState')
+
+    toggleMaxRestoreButtons(windowState);
 
     document.getElementById('min-button').addEventListener("click", event => {
-        win.minimize();
+        ipcRenderer.send('min-window');
     });
 
     document.getElementById('max-button').addEventListener("click", event => {
-        win.maximize();
+        ipcRenderer.send('max-window');
     });
 
     document.getElementById('restore-button').addEventListener("click", event => {
-        win.unmaximize();
+        ipcRenderer.send('restore-window');
     });
 
     document.getElementById('close-button').addEventListener("click", event => {
-        win.close();
+        ipcRenderer.send('close-window');
     });
 
-    toggleMaxRestoreButtons();
-    win.on('maximize', toggleMaxRestoreButtons);
-    win.on('unmaximize', toggleMaxRestoreButtons);
+    ipcRenderer.on('togglerestore', function(event, args) {
+        toggleMaxRestoreButtons(args);
+    })
 
-    function toggleMaxRestoreButtons() {
-        if (win.isMaximized()) {
+    function toggleMaxRestoreButtons(isMaximized) {
+        if (isMaximized == true) {
             document.body.classList.add('maximized');
         } else {
             document.body.classList.remove('maximized');
