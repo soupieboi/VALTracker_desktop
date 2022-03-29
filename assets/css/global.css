@@ -441,22 +441,6 @@ button:hover {
   box-shadow: var(--box-shadow);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 input[type="checkbox"] {
   -webkit-appearance: none;
   appearance: none;
@@ -2335,7 +2319,7 @@ select:focus::-ms-value {
 
 .home-matchtile {
   height: 15%;
-  border: 1px solid white;
+  border: 2px solid rgba(47, 53, 77, 0.9);
   border-radius: 4px;
   display: flex;
   flex-direction: row;
@@ -4277,28 +4261,30 @@ select:focus::-ms-value {
 }
 
 .maximized .bp-rewards-wrapper {
-  height: 80vh;
+  height: 27vh;
   width: 76vw !important;
   border: 1px solid white;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
   border-radius: 4px;
-  overflow-y: scroll;
+  overflow-x: auto;
   padding-bottom: 0.5rem;
+  padding: 4px;
+  white-space: nowrap;
+  margin-top: 15rem;
 }
 
 .bp-rewards-wrapper {
-  height: 80vh;
+  height: 35vh;
   width: 66vw;
   border: 1px solid white;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
   border-radius: 4px;
-  overflow-y: scroll;
+  overflow-x: auto;
   padding-bottom: 0.5rem;
   margin: 0 auto;
+  padding: 4px;
+  white-space: nowrap;
+  margin-top: 6rem;
 }
 
 .bp-reward-card {
@@ -4350,6 +4336,7 @@ select:focus::-ms-value {
 .tier-image-wrapper {
   height: calc(100% - 4rem);
   width: 100%;
+  min-width: 10rem;
   background-color: var(--app-color-lightest);
 }
 
@@ -4445,11 +4432,11 @@ select:focus::-ms-value {
 }
 
 .bp-reward-card.currentLevel {
-  border: 1px solid rgb(200, 255, 0);
+  border: 1px solid rgba(127, 132, 160, 0.7);
   box-shadow:
-    0 0 2.5px rgba(200, 255, 0, 0.7),
-    0 0 5px rgba(200, 255, 0, 0.7),
-    0 0 10px rgba(200, 255, 0, 0.7);
+    0 0 2.5px rgba(127, 132, 160, 0.7),
+    0 0 5px rgba(127, 132, 160, 0.7),
+    0 0 10px rgba(127, 132, 160, 0.7);
 }
 
 .bp-filter-header {
